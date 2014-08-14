@@ -3,12 +3,14 @@ layout: page
 title: About
 ---
 
-Some information about you!
+
 
 ### More Information
 
-A place to include any other types of information that you'd like to include about yourself. 
+Linux enthusiast, Pythonista, Android user
 
 ### Contact me
 
-[email@domain.com](mailto:email@domain.com)
+If you want to get in touch, send [an email](mailto:raunak1001@gmail.com).
+
+[My Github profile](https://github.com/rrampage)
