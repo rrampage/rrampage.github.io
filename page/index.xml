@@ -2,15 +2,15 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Pages on A Random Walk</title>
-    <link>/page/</link>
+    <link>https://rrampage.github.io/page/</link>
     <description>Recent content in Pages on A Random Walk</description>
-    <generator>Hugo -- gohugo.io</generator><atom:link href="/page/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://rrampage.github.io/page/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>About</title>
-      <link>/page/about/</link>
+      <link>https://rrampage.github.io/page/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/page/about/</guid>
+      <guid>https://rrampage.github.io/page/about/</guid>
       <description>About This blog is about:
  the delights and frustrations of programming new things I learn/stumble across while coding interesting concepts/resources I come across trying to explain a few topics  About Site This website is powered by Github pages and hugo and uses the beautifulhugo theme.
 About Me I am a software developer (mostly backend). I blog occasionally here or crosspost to dev.to. You can reach out to me via various websites in the footer.</description>

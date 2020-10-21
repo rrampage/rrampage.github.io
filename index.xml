@@ -2,25 +2,25 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>A Random Walk</title>
-    <link>/</link>
+    <link>https://rrampage.github.io/</link>
     <description>Recent content on A Random Walk</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 03 Mar 2014 22:38:33 +0530</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 03 Mar 2014 22:38:33 +0530</lastBuildDate><atom:link href="https://rrampage.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Hello World</title>
-      <link>/2014/03/03/hello-world/</link>
+      <link>https://rrampage.github.io/2014/03/03/hello-world/</link>
       <pubDate>Mon, 03 Mar 2014 22:38:33 +0530</pubDate>
       
-      <guid>/2014/03/03/hello-world/</guid>
+      <guid>https://rrampage.github.io/2014/03/03/hello-world/</guid>
       <description>Hello World!</description>
     </item>
     
     <item>
       <title>About</title>
-      <link>/page/about/</link>
+      <link>https://rrampage.github.io/page/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/page/about/</guid>
+      <guid>https://rrampage.github.io/page/about/</guid>
       <description>About This blog is about:
  the delights and frustrations of programming new things I learn/stumble across while coding interesting concepts/resources I come across trying to explain a few topics  About Site This website is powered by Github pages and hugo and uses the beautifulhugo theme.
 About Me I am a software developer (mostly backend). I blog occasionally here or crosspost to dev.to. You can reach out to me via various websites in the footer.</description>
