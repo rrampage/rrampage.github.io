@@ -9,10 +9,10 @@
     <lastBuildDate>Sat, 04 Dec 2021 00:00:00 +0530</lastBuildDate><atom:link href="https://rrampage.github.io/tags/lua/rss.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Re-learning Lua</title>
-      <link>https://rrampage.github.io/2021/12/04/re-learning-lua/</link>
+      <link>https://rrampage.github.io/post/relearning-lua/</link>
       <pubDate>Sat, 04 Dec 2021 00:00:00 +0530</pubDate>
       
-      <guid>https://rrampage.github.io/2021/12/04/re-learning-lua/</guid>
+      <guid>https://rrampage.github.io/post/relearning-lua/</guid>
       <description>Lua - Basics for x = 0, 10, 1 do print(x) end -- for loop with range and step. step if not given is assumed to be 1 -- Tables are the soul of Lua. They double up as arrays and hashes a = {} b = {1, 2, 3} b[1] -- b[1] will return 1 as indexing for arrays is from 1 c = {[0]={123,3},[&amp;#34;a&amp;#34;]={1,2,3},v={2,6,7}} -- We can have a &amp;#34;0&amp;#34;th index by adding the 1st element as [0]=value -- Adding keys which are not valid identifiers in Lua needs to be done by wrapping key in [] -- If a key is a valid identifier, we can access using `.` e.g c.a for above code vs c[0] for k,v in pairs(c) do print(type(k)) end -- iterates through k/v in table and prints type of key Print a table as valid Lua code function printTable(tbl) -- Specify function vars as local else they become global local s = &amp;#34;{&amp;#34; local fst = true for k,v in pairs(tbl) do local tk = type(k) local tv = type(v) if not fst then s = s .</description>
       <content:encoded><![CDATA[<h2 id="lua---basics">Lua - Basics</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kr">for</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1</span> <span class="kr">do</span> <span class="n">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="kr">end</span> <span class="c1">-- for loop with range and step. step if not given is assumed to be 1</span>

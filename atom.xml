@@ -10,8 +10,8 @@
   <generator>Hugo -- gohugo.io</generator>
   <entry>
     <title type="html"><![CDATA[Re-learning Lua]]></title>
-    <link href="https://rrampage.github.io/2021/12/04/re-learning-lua/"/>
-    <id>https://rrampage.github.io/2021/12/04/re-learning-lua/</id> 
+    <link href="https://rrampage.github.io/post/relearning-lua/"/>
+    <id>https://rrampage.github.io/post/relearning-lua/</id> 
     <author>
       <name>Raunak</name>
     </author>
@@ -73,8 +73,8 @@
   </entry>
   <entry>
     <title type="html"><![CDATA[Hello World]]></title>
-    <link href="https://rrampage.github.io/2014/03/03/hello-world/"/>
-    <id>https://rrampage.github.io/2014/03/03/hello-world/</id> 
+    <link href="https://rrampage.github.io/post/hello-world/"/>
+    <id>https://rrampage.github.io/post/hello-world/</id> 
     <author>
       <name>Raunak</name>
     </author>
