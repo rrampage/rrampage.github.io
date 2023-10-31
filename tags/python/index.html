@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Tags | A Random Walk</title>
+<title>python | A Random Walk</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <meta name="author" content="rrampage">
-<link rel="canonical" href="https://rrampage.github.io/tags/">
+<link rel="canonical" href="https://rrampage.github.io/tags/python/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.3583c276be8b676922334220eddb70a58dd857f110640a70a4641bbbc371cae2.css" integrity="sha256-NYPCdr6LZ2kiM0Ig7dtwpY3YV/EQZApwpGQbu8NxyuI=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://rrampage.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
@@ -18,7 +18,7 @@
 <link rel="mask-icon" href="https://rrampage.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://rrampage.github.io/tags/rss.xml">
+<link rel="alternate" type="application/rss+xml" href="https://rrampage.github.io/tags/python/rss.xml">
 <noscript>
     <style>
         #theme-toggle,
@@ -55,13 +55,13 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Tags" />
+</noscript><meta property="og:title" content="python" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://rrampage.github.io/tags/" /><meta property="og:site_name" content="A Random Walk" />
+<meta property="og:url" content="https://rrampage.github.io/tags/python/" /><meta property="og:site_name" content="A Random Walk" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Tags"/>
+<meta name="twitter:title" content="python"/>
 <meta name="twitter:description" content=""/>
 
 </head>
@@ -123,46 +123,37 @@
             </li>
             <li>
                 <a href="https://rrampage.github.io/tags/" title="Tags">
-                    <span class="active">Tags</span>
+                    <span>Tags</span>
                 </a>
             </li>
         </ul>
     </nav>
 </header>
-<main class="main">
+<main class="main"> 
 <header class="page-header">
-    <h1>Tags</h1>
+  <h1>
+    python
+  </h1>
 </header>
 
-<ul class="terms-tags">
-    <li>
-        <a href="https://rrampage.github.io/tags/debug/">debug <sup><strong><sup>2</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://rrampage.github.io/tags/hello/">hello <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://rrampage.github.io/tags/java/">java <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://rrampage.github.io/tags/jvm/">jvm <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://rrampage.github.io/tags/linux/">linux <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://rrampage.github.io/tags/lua/">lua <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://rrampage.github.io/tags/python/">python <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://rrampage.github.io/tags/regex/">regex <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://rrampage.github.io/tags/rust/">rust <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-</ul>
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Snake case to camel case and back using regular expressions and Python
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Snake case and Camel case are conventions of naming variables, functions and classes. Most teams and projects prescribe a particular case in their style guides.
+Examples of camel case:
+MyClass MyClassFactory MyClassFactoryBuilder MyClassFactoryBuilderImpl myInstance myInstance2 abc patternMatcher Examples of snake case:
+add matrix_add diagonal_matrix_add pseudo_inverse If we want to convert back and forth between these cases, we must look for the points of interest - the word boundaries. Camel case boundaries have the first letter capitalized while the snake case word boundaries have an _.
+Snake case to camel case Here is a regular expression for finding out the _ and the first letter in the next word:
+(.*?)_([a-zA-Z]) This regex has 2 parts:
+(.*?) finds everything upto the _.
+The ‘.’ means any character. ‘*’ stands for match 0 or more instances ‘?’ stands for non-greedy match. We must use ‘?’ in the pattern because the regex engine will try to match as much as possible by default. So, if we use just (....</p>
+  </div>
+  <footer class="entry-footer">May 9 2018   3 min</footer>
+  <a class="entry-link" aria-label="post link to Snake case to camel case and back using regular expressions and Python" href="https://rrampage.github.io/2018/05/09/snake-case-to-camel-case-and-back-using-regular-expressions-and-python/"></a>
+</article>
     </main>
     
 <footer class="footer">

@@ -165,6 +165,68 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>A Primer on JVM Memory Management and Troubleshooting - 1
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>This series is a summary of Oracle’s JVM troubleshooting course which gives an overview on JVM memory management, Hotspot VM’s garbage collection options, various memory errors and how to troubleshoot them.
+In this post (part 1), we will have a look at how JVM manages memory and its different garbage collectors.
+You can find Part 2 here
+JVM Memory Management Overview The JVM provides automatic memory management to free the programmer from manually managing memory. New objects are allocated on heap memory. A root set consists of pointers to external memory, static variables, threads, JNI references and internal JVM structures. Objects directly reachable from the root set must be kept in heap. Objects reachable from any of the reachable objects must also be in heap. This group of objects are the only ones which can be used by a program. The unreachable objects (garbage) are removed using a process called garbage collection (GC). Reachable objects are compacted i.e moved to contiguous space in heap....</p>
+  </div>
+  <footer class="entry-footer">May 15 2018   4 min</footer>
+  <a class="entry-link" aria-label="post link to A Primer on JVM Memory Management and Troubleshooting - 1" href="https://rrampage.github.io/2018/05/15/a-primer-on-jvm-memory-management-and-troubleshooting-1/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Snake case to camel case and back using regular expressions and Python
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Snake case and Camel case are conventions of naming variables, functions and classes. Most teams and projects prescribe a particular case in their style guides.
+Examples of camel case:
+MyClass MyClassFactory MyClassFactoryBuilder MyClassFactoryBuilderImpl myInstance myInstance2 abc patternMatcher Examples of snake case:
+add matrix_add diagonal_matrix_add pseudo_inverse If we want to convert back and forth between these cases, we must look for the points of interest - the word boundaries. Camel case boundaries have the first letter capitalized while the snake case word boundaries have an _.
+Snake case to camel case Here is a regular expression for finding out the _ and the first letter in the next word:
+(.*?)_([a-zA-Z]) This regex has 2 parts:
+(.*?) finds everything upto the _.
+The ‘.’ means any character. ‘*’ stands for match 0 or more instances ‘?’ stands for non-greedy match. We must use ‘?’ in the pattern because the regex engine will try to match as much as possible by default. So, if we use just (....</p>
+  </div>
+  <footer class="entry-footer">May 9 2018   3 min</footer>
+  <a class="entry-link" aria-label="post link to Snake case to camel case and back using regular expressions and Python" href="https://rrampage.github.io/2018/05/09/snake-case-to-camel-case-and-back-using-regular-expressions-and-python/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Cargo refused to build my project - A Rust debugging story!
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Background Today, I resumed a rust project of mine after a long time. In order to check my last working code, I ran cargo run. But it refused to run with error message:
+....&#34;-Wl,-Bdynamic&#34; &#34;-l&#34; &#34;dl&#34; &#34;-l&#34; &#34;rt&#34; &#34;-l&#34; &#34;pthread&#34; &#34;-l&#34; &#34;pthread&#34; &#34;-l&#34; &#34;gcc_s&#34; &#34;-l&#34; &#34;c&#34; &#34;-l&#34; &#34;m&#34; &#34;-l&#34; &#34;rt&#34; &#34;-l&#34; &#34;pthread&#34; &#34;-l&#34; &#34;util&#34; &#34;-l&#34; &#34;util&#34; = note: /usr/bin/ld: cannot find Scrt1.o: No such file or directory collect2: error: ld returned 1 exit status Linker Issues! ld is used to link libraries. So, the error was not in the code but in the linking phase. I googled the error and the solution was to have build-essential package installed. But the package was already installed on my machine (it is one of the first packages I install on any development machine).
+Some more googling revealed that cargo uses the system cc linker to link to the C runtime. Running which cc gave me $HOME/anaconda3/bin/cc. This cc is part of my Anaconda root environment....</p>
+  </div>
+  <footer class="entry-footer">May 9 2018   3 min</footer>
+  <a class="entry-link" aria-label="post link to Cargo refused to build my project - A Rust debugging story!" href="https://rrampage.github.io/2018/05/09/cargo-refused-to-build-my-project-a-rust-debugging-story/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Disk Space Debugging Checklist
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Many times, smoothly running processes stop working mysteriously. You open the logs and see what is happening, only to find that even the logs have stopped updating. But the process itself is running. You SSH to the server and type cd TAB. Bash weeps “Unable to create temporary file”. The machine is out of disk space…
+Here is a checklist to make disk space debugging easier, using standard Linux utilities so you can get started without having to install anything extra:
+df -h command gives you an overview in a readable format about the number of disks mounted and their total and available capacities. To get an idea of which folders/directories are eating up the maximum space, try out du -ch / | sort -h | tail -n 30. This gives you the 30 most space consuming directories. If you already know which directories generate maximum disk output e.g logs and temp files, you can replace the ‘/’ with your directory (DIR) and run the command as du -ch DIR | sort -h | tail -n 30 Now that we have identified the directories with maximum space consumed, we may need to delete some files and get our process going again....</p>
+  </div>
+  <footer class="entry-footer">May 4 2018   3 min</footer>
+  <a class="entry-link" aria-label="post link to Disk Space Debugging Checklist" href="https://rrampage.github.io/2018/05/04/disk-space-debugging-checklist/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>Hello World
     </h2>
   </header>

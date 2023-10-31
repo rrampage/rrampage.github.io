@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Tags | A Random Walk</title>
+<title>debug | A Random Walk</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <meta name="author" content="rrampage">
-<link rel="canonical" href="https://rrampage.github.io/tags/">
+<link rel="canonical" href="https://rrampage.github.io/tags/debug/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.3583c276be8b676922334220eddb70a58dd857f110640a70a4641bbbc371cae2.css" integrity="sha256-NYPCdr6LZ2kiM0Ig7dtwpY3YV/EQZApwpGQbu8NxyuI=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://rrampage.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
@@ -18,7 +18,7 @@
 <link rel="mask-icon" href="https://rrampage.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://rrampage.github.io/tags/rss.xml">
+<link rel="alternate" type="application/rss+xml" href="https://rrampage.github.io/tags/debug/rss.xml">
 <noscript>
     <style>
         #theme-toggle,
@@ -55,13 +55,13 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Tags" />
+</noscript><meta property="og:title" content="debug" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://rrampage.github.io/tags/" /><meta property="og:site_name" content="A Random Walk" />
+<meta property="og:url" content="https://rrampage.github.io/tags/debug/" /><meta property="og:site_name" content="A Random Walk" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Tags"/>
+<meta name="twitter:title" content="debug"/>
 <meta name="twitter:description" content=""/>
 
 </head>
@@ -123,46 +123,46 @@
             </li>
             <li>
                 <a href="https://rrampage.github.io/tags/" title="Tags">
-                    <span class="active">Tags</span>
+                    <span>Tags</span>
                 </a>
             </li>
         </ul>
     </nav>
 </header>
-<main class="main">
+<main class="main"> 
 <header class="page-header">
-    <h1>Tags</h1>
+  <h1>
+    debug
+  </h1>
 </header>
 
-<ul class="terms-tags">
-    <li>
-        <a href="https://rrampage.github.io/tags/debug/">debug <sup><strong><sup>2</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://rrampage.github.io/tags/hello/">hello <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://rrampage.github.io/tags/java/">java <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://rrampage.github.io/tags/jvm/">jvm <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://rrampage.github.io/tags/linux/">linux <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://rrampage.github.io/tags/lua/">lua <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://rrampage.github.io/tags/python/">python <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://rrampage.github.io/tags/regex/">regex <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://rrampage.github.io/tags/rust/">rust <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-</ul>
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Cargo refused to build my project - A Rust debugging story!
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Background Today, I resumed a rust project of mine after a long time. In order to check my last working code, I ran cargo run. But it refused to run with error message:
+....&#34;-Wl,-Bdynamic&#34; &#34;-l&#34; &#34;dl&#34; &#34;-l&#34; &#34;rt&#34; &#34;-l&#34; &#34;pthread&#34; &#34;-l&#34; &#34;pthread&#34; &#34;-l&#34; &#34;gcc_s&#34; &#34;-l&#34; &#34;c&#34; &#34;-l&#34; &#34;m&#34; &#34;-l&#34; &#34;rt&#34; &#34;-l&#34; &#34;pthread&#34; &#34;-l&#34; &#34;util&#34; &#34;-l&#34; &#34;util&#34; = note: /usr/bin/ld: cannot find Scrt1.o: No such file or directory collect2: error: ld returned 1 exit status Linker Issues! ld is used to link libraries. So, the error was not in the code but in the linking phase. I googled the error and the solution was to have build-essential package installed. But the package was already installed on my machine (it is one of the first packages I install on any development machine).
+Some more googling revealed that cargo uses the system cc linker to link to the C runtime. Running which cc gave me $HOME/anaconda3/bin/cc. This cc is part of my Anaconda root environment....</p>
+  </div>
+  <footer class="entry-footer">May 9 2018   3 min</footer>
+  <a class="entry-link" aria-label="post link to Cargo refused to build my project - A Rust debugging story!" href="https://rrampage.github.io/2018/05/09/cargo-refused-to-build-my-project-a-rust-debugging-story/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Disk Space Debugging Checklist
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Many times, smoothly running processes stop working mysteriously. You open the logs and see what is happening, only to find that even the logs have stopped updating. But the process itself is running. You SSH to the server and type cd TAB. Bash weeps “Unable to create temporary file”. The machine is out of disk space…
+Here is a checklist to make disk space debugging easier, using standard Linux utilities so you can get started without having to install anything extra:
+df -h command gives you an overview in a readable format about the number of disks mounted and their total and available capacities. To get an idea of which folders/directories are eating up the maximum space, try out du -ch / | sort -h | tail -n 30. This gives you the 30 most space consuming directories. If you already know which directories generate maximum disk output e.g logs and temp files, you can replace the ‘/’ with your directory (DIR) and run the command as du -ch DIR | sort -h | tail -n 30 Now that we have identified the directories with maximum space consumed, we may need to delete some files and get our process going again....</p>
+  </div>
+  <footer class="entry-footer">May 4 2018   3 min</footer>
+  <a class="entry-link" aria-label="post link to Disk Space Debugging Checklist" href="https://rrampage.github.io/2018/05/04/disk-space-debugging-checklist/"></a>
+</article>
     </main>
     
 <footer class="footer">

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>java on A Random Walk</title>
+    <link>https://rrampage.github.io/tags/java/</link>
+    <description>Recent content in java on A Random Walk</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 15 May 2018 14:14:49 +0000</lastBuildDate><atom:link href="https://rrampage.github.io/tags/java/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A Primer on JVM Memory Management and Troubleshooting - 1</title>
+      <link>https://rrampage.github.io/2018/05/15/a-primer-on-jvm-memory-management-and-troubleshooting-1/</link>
+      <pubDate>Tue, 15 May 2018 14:14:49 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/2018/05/15/a-primer-on-jvm-memory-management-and-troubleshooting-1/</guid>
+      <description>This series is a summary of Oracle&amp;rsquo;s JVM troubleshooting course which gives an overview on JVM memory management, Hotspot VM&amp;rsquo;s garbage collection options, various memory errors and how to troubleshoot them.
+In this post (part 1), we will have a look at how JVM manages memory and its different garbage collectors.
+You can find Part 2 here
+JVM Memory Management Overview The JVM provides automatic memory management to free the programmer from manually managing memory. New objects are allocated on heap memory. A root set consists of pointers to external memory, static variables, threads, JNI references and internal JVM structures. Objects directly reachable from the root set must be kept in heap. Objects reachable from any of the reachable objects must also be in heap. This group of objects are the only ones which can be used by a program. The unreachable objects (garbage) are removed using a process called garbage collection (GC). Reachable objects are compacted i.e moved to contiguous space in heap.</description>
+      <content:encoded><![CDATA[<p>This series is a summary of Oracle&rsquo;s <a href="https://apexapps.oracle.com/pls/apex/f?p=44785:149:105166169953256::NO:RP,149:P149_EVENT_ID:5552">JVM troubleshooting course</a> which gives an overview on JVM memory management, Hotspot VM&rsquo;s garbage collection options, various memory errors and how to troubleshoot them.</p>
+<p>In this post (part 1), we will have a look at how JVM manages memory and its different garbage collectors.</p>
+<p>You can find Part 2 <a href="https://dev.to/rrampage/jvm-primer-part-2---debugging-performance-issues-1od">here</a></p>
+<h3 id="jvm-memory-management-overview">JVM Memory Management Overview</h3>
+<p>The JVM provides automatic memory management to free the programmer from manually managing memory. New objects are allocated on heap memory. A <strong>root set</strong> consists of pointers to external memory, static variables, threads, <a href="https://en.wikipedia.org/wiki/Java_Native_Interface">JNI</a> references and internal JVM structures. Objects directly reachable from the root set must be kept in heap. Objects reachable from any of the reachable objects must also be in heap. This group of objects are the only ones which can be used by a program. The unreachable objects (garbage) are removed using a process called <strong>garbage collection (GC)</strong>. Reachable objects are <strong>compacted</strong> i.e moved to contiguous space in heap. This is important as otherwise, the heap will become <a href="https://en.wikipedia.org/wiki/Fragmentation_(computing)">fragmented</a>.</p>
+<h3 id="generational-gc-and-memory-spaces-in-hotspot">Generational GC and Memory Spaces in Hotspot</h3>
+<p>When the JVM starts, it requests some memory from the OS. This memory is divided into various spaces.</p>
+<p><img loading="lazy" src="https://www.ibm.com/support/knowledgecenter/SS3JSW_5.2.0/com.ibm.help.performance_mgmt.doc/SIPM_HotSpotMemory.jpg" alt="Memory spaces in Hotspot"  title="Memory spaces in Hotspot VM"  />
+
+Memory spaces in JVM prior to JDK 8</p>
+<ul>
+<li>Separate pools hold objects of diff age ranges</li>
+<li>JVM&rsquo;s GC is <strong>generational</strong> and is based on the hypothesis that:
+<ul>
+<li>Most objects die young</li>
+<li>Few references from older to younger objects</li>
+</ul>
+</li>
+<li>There are 2 generations of objects:
+<ul>
+<li>young : small and collected frequently (minor collection). Objects which survive a threshold number of GCs move to old generation.</li>
+<li>old : large, collected infrequently (major collection = Full GC)</li>
+</ul>
+</li>
+<li>Prior to JDK 8, there was also a <strong>permanent generation</strong> which was for storing class representations and metadata, interned strings and class statics. This was replaced by meta-space in JDK 8 and later.</li>
+<li><strong>Meta-space</strong> is allocated in native memory. It is managed through JVM options <strong>MetaspaceSize</strong> for initial size and <strong>MaxMetaspaceSize</strong> for maximum.
+<ul>
+<li>If <strong>UseCompressedClassPointers</strong> is enabled, 2 areas of memory are used for storing classes and their metadata - <strong>meta-space</strong> and <strong>compressed class space</strong>. 64 bit class pointers represented with 32 bit offsets to save space. Class metadata is referenced by 32 bit offsets stored in compressed class space. By default, compressed class space is 1 GB.</li>
+</ul>
+</li>
+<li>Code cache is used to store compiled code generated by JIT (Just in time optimizer), allocated out of native memory and managed by Code Cache Sweeper</li>
+</ul>
+<h3 id="garbage-collectors-in-hotspot-jvm">Garbage Collectors in Hotspot JVM</h3>
+<p>The JVM has different garbage collection methods for different generations of objects. Some of them are described below:</p>
+<ul>
+<li>Young generation collection
+<ul>
+<li>Serial - Stop-the-world (STW), copying collector, single threaded</li>
+<li>ParNew - STW, copying collector, multiple GC threads</li>
+<li>Parallel Scavenge - STW, copying collector, multiple GC threads</li>
+</ul>
+</li>
+<li>Old generation collection
+<ul>
+<li>Serial Old - STW, mark-sweep-compact collector, single threaded</li>
+<li>CMS - Mostly concurrent, low pause</li>
+<li>Parallel Old - compacting collector, multiple GC threads</li>
+</ul>
+</li>
+<li>G1 : designed for large heaps and offers predictable short pauses.
+<ul>
+<li>Has different memory layout for generations</li>
+<li>Same collector for all generations</li>
+</ul>
+</li>
+</ul>
+<h3 id="gc-options-for-jdk">GC options for JDK</h3>
+<p>These are the option flags passed to JVM for specifying which GC to use:</p>
+<ul>
+<li>UseSerialGC : Serial + SerialOld</li>
+<li>UseParNewGC : ParNew + SerialOld . In JDK 9, uses CMS for old gen</li>
+<li>UseConcMarkSweepGC : ParNew + CMS + SerialOld
+<ul>
+<li>CMS used most of time to collect old generation. SerialOld used when concurrent mode failure occurs.</li>
+<li>CMS performs most work in concurrent with application threads.</li>
+<li>No heap compaction leads to fragmentation. Has floating garbage and requires larger heap sizes.</li>
+<li>Free space maintained as linked lists. Allocation expensive compared to bump-the-pointer allocations.</li>
+<li>Additional overhead on young collections</li>
+<li>Deprecated in JDK 9</li>
+</ul>
+</li>
+<li>UseParallelGC : Parallel Scavenge + Parallel Old.
+<ul>
+<li>Maximizes throughput.</li>
+<li>Default GC till JDK 9</li>
+</ul>
+</li>
+<li>UseG1GC - G1 for both generations
+<ul>
+<li>Server style GC for multi-core machines with large memory</li>
+<li>Low GC pauses with high probability while trying for high throughput</li>
+<li>Compacting collector. Low pauses without fragmentation</li>
+<li>Better GC ergonomics. Parallel threads and some tasks are concurrent with application threads</li>
+<li>Available since JDK 7u4 and default in JDK 9</li>
+</ul>
+</li>
+</ul>
+<p>For more detailed information on tuning the garbage collector, read the official <a href="https://docs.oracle.com/javase/9/gctuning/toc.htm">GC Tuning Guide</a></p>
+<h4 id="minor-gc-or-how-young-generation-is-collected">Minor GC or How young generation is collected:</h4>
+<ol>
+<li>When Eden space in young gen is full, reachable objects are marked and moved to the ToSurvivorSpace</li>
+<li>Objects in FromSurvivor space that are reachable are moved to ToSurvivorSpace</li>
+<li>Objects in FromSurvivor space that have crossed the threshold are promoted to the old generation</li>
+<li>Eden becomes empty and is ready for new allocations</li>
+<li>To and From Survivor Spaces are switched</li>
+</ol>
+<h4 id="notes-on-mark-sweep-compact-collector-serial-old">Notes on Mark-Sweep-Compact collector (Serial Old):</h4>
+<ul>
+<li>Mark phase : marks all live objects</li>
+<li>Sweep phase : sweeps over heap identifying garbage</li>
+<li>Slide phase : GC performs a sliding compaction by sliding live objects to the start of the heap</li>
+</ul>
+]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>

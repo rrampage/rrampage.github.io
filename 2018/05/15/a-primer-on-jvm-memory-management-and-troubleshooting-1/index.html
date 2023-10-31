@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>A Primer on JVM Memory Management and Troubleshooting - 1 | A Random Walk</title>
+<meta name="keywords" content="java, jvm">
+<meta name="description" content="This series is a summary of Oracle&rsquo;s JVM troubleshooting course which gives an overview on JVM memory management, Hotspot VM&rsquo;s garbage collection options, various memory errors and how to troubleshoot them.
+In this post (part 1), we will have a look at how JVM manages memory and its different garbage collectors.
+You can find Part 2 here
+JVM Memory Management Overview The JVM provides automatic memory management to free the programmer from manually managing memory. New objects are allocated on heap memory. A root set consists of pointers to external memory, static variables, threads, JNI references and internal JVM structures. Objects directly reachable from the root set must be kept in heap. Objects reachable from any of the reachable objects must also be in heap. This group of objects are the only ones which can be used by a program. The unreachable objects (garbage) are removed using a process called garbage collection (GC). Reachable objects are compacted i.e moved to contiguous space in heap.">
+<meta name="author" content="rrampage">
+<link rel="canonical" href="https://rrampage.github.io/2018/05/15/a-primer-on-jvm-memory-management-and-troubleshooting-1/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3583c276be8b676922334220eddb70a58dd857f110640a70a4641bbbc371cae2.css" integrity="sha256-NYPCdr6LZ2kiM0Ig7dtwpY3YV/EQZApwpGQbu8NxyuI=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://rrampage.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://rrampage.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://rrampage.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://rrampage.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="A Primer on JVM Memory Management and Troubleshooting - 1" />
+<meta property="og:description" content="This series is a summary of Oracle&rsquo;s JVM troubleshooting course which gives an overview on JVM memory management, Hotspot VM&rsquo;s garbage collection options, various memory errors and how to troubleshoot them.
+In this post (part 1), we will have a look at how JVM manages memory and its different garbage collectors.
+You can find Part 2 here
+JVM Memory Management Overview The JVM provides automatic memory management to free the programmer from manually managing memory. New objects are allocated on heap memory. A root set consists of pointers to external memory, static variables, threads, JNI references and internal JVM structures. Objects directly reachable from the root set must be kept in heap. Objects reachable from any of the reachable objects must also be in heap. This group of objects are the only ones which can be used by a program. The unreachable objects (garbage) are removed using a process called garbage collection (GC). Reachable objects are compacted i.e moved to contiguous space in heap." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://rrampage.github.io/2018/05/15/a-primer-on-jvm-memory-management-and-troubleshooting-1/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2018-05-15T14:14:49+00:00" />
+<meta property="article:modified_time" content="2018-05-15T14:14:49+00:00" /><meta property="og:site_name" content="A Random Walk" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="A Primer on JVM Memory Management and Troubleshooting - 1"/>
+<meta name="twitter:description" content="This series is a summary of Oracle&rsquo;s JVM troubleshooting course which gives an overview on JVM memory management, Hotspot VM&rsquo;s garbage collection options, various memory errors and how to troubleshoot them.
+In this post (part 1), we will have a look at how JVM manages memory and its different garbage collectors.
+You can find Part 2 here
+JVM Memory Management Overview The JVM provides automatic memory management to free the programmer from manually managing memory. New objects are allocated on heap memory. A root set consists of pointers to external memory, static variables, threads, JNI references and internal JVM structures. Objects directly reachable from the root set must be kept in heap. Objects reachable from any of the reachable objects must also be in heap. This group of objects are the only ones which can be used by a program. The unreachable objects (garbage) are removed using a process called garbage collection (GC). Reachable objects are compacted i.e moved to contiguous space in heap."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://rrampage.github.io/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "A Primer on JVM Memory Management and Troubleshooting - 1",
+      "item": "https://rrampage.github.io/2018/05/15/a-primer-on-jvm-memory-management-and-troubleshooting-1/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "A Primer on JVM Memory Management and Troubleshooting - 1",
+  "name": "A Primer on JVM Memory Management and Troubleshooting - 1",
+  "description": "This series is a summary of Oracle\u0026rsquo;s JVM troubleshooting course which gives an overview on JVM memory management, Hotspot VM\u0026rsquo;s garbage collection options, various memory errors and how to troubleshoot them.\nIn this post (part 1), we will have a look at how JVM manages memory and its different garbage collectors.\nYou can find Part 2 here\nJVM Memory Management Overview The JVM provides automatic memory management to free the programmer from manually managing memory. New objects are allocated on heap memory. A root set consists of pointers to external memory, static variables, threads, JNI references and internal JVM structures. Objects directly reachable from the root set must be kept in heap. Objects reachable from any of the reachable objects must also be in heap. This group of objects are the only ones which can be used by a program. The unreachable objects (garbage) are removed using a process called garbage collection (GC). Reachable objects are compacted i.e moved to contiguous space in heap.",
+  "keywords": [
+    "java", "jvm"
+  ],
+  "articleBody": "This series is a summary of Oracle’s JVM troubleshooting course which gives an overview on JVM memory management, Hotspot VM’s garbage collection options, various memory errors and how to troubleshoot them.\nIn this post (part 1), we will have a look at how JVM manages memory and its different garbage collectors.\nYou can find Part 2 here\nJVM Memory Management Overview The JVM provides automatic memory management to free the programmer from manually managing memory. New objects are allocated on heap memory. A root set consists of pointers to external memory, static variables, threads, JNI references and internal JVM structures. Objects directly reachable from the root set must be kept in heap. Objects reachable from any of the reachable objects must also be in heap. This group of objects are the only ones which can be used by a program. The unreachable objects (garbage) are removed using a process called garbage collection (GC). Reachable objects are compacted i.e moved to contiguous space in heap. This is important as otherwise, the heap will become fragmented.\nGenerational GC and Memory Spaces in Hotspot When the JVM starts, it requests some memory from the OS. This memory is divided into various spaces.\nMemory spaces in JVM prior to JDK 8\nSeparate pools hold objects of diff age ranges JVM’s GC is generational and is based on the hypothesis that: Most objects die young Few references from older to younger objects There are 2 generations of objects: young : small and collected frequently (minor collection). Objects which survive a threshold number of GCs move to old generation. old : large, collected infrequently (major collection = Full GC) Prior to JDK 8, there was also a permanent generation which was for storing class representations and metadata, interned strings and class statics. This was replaced by meta-space in JDK 8 and later. Meta-space is allocated in native memory. It is managed through JVM options MetaspaceSize for initial size and MaxMetaspaceSize for maximum. If UseCompressedClassPointers is enabled, 2 areas of memory are used for storing classes and their metadata - meta-space and compressed class space. 64 bit class pointers represented with 32 bit offsets to save space. Class metadata is referenced by 32 bit offsets stored in compressed class space. By default, compressed class space is 1 GB. Code cache is used to store compiled code generated by JIT (Just in time optimizer), allocated out of native memory and managed by Code Cache Sweeper Garbage Collectors in Hotspot JVM The JVM has different garbage collection methods for different generations of objects. Some of them are described below:\nYoung generation collection Serial - Stop-the-world (STW), copying collector, single threaded ParNew - STW, copying collector, multiple GC threads Parallel Scavenge - STW, copying collector, multiple GC threads Old generation collection Serial Old - STW, mark-sweep-compact collector, single threaded CMS - Mostly concurrent, low pause Parallel Old - compacting collector, multiple GC threads G1 : designed for large heaps and offers predictable short pauses. Has different memory layout for generations Same collector for all generations GC options for JDK These are the option flags passed to JVM for specifying which GC to use:\nUseSerialGC : Serial + SerialOld UseParNewGC : ParNew + SerialOld . In JDK 9, uses CMS for old gen UseConcMarkSweepGC : ParNew + CMS + SerialOld CMS used most of time to collect old generation. SerialOld used when concurrent mode failure occurs. CMS performs most work in concurrent with application threads. No heap compaction leads to fragmentation. Has floating garbage and requires larger heap sizes. Free space maintained as linked lists. Allocation expensive compared to bump-the-pointer allocations. Additional overhead on young collections Deprecated in JDK 9 UseParallelGC : Parallel Scavenge + Parallel Old. Maximizes throughput. Default GC till JDK 9 UseG1GC - G1 for both generations Server style GC for multi-core machines with large memory Low GC pauses with high probability while trying for high throughput Compacting collector. Low pauses without fragmentation Better GC ergonomics. Parallel threads and some tasks are concurrent with application threads Available since JDK 7u4 and default in JDK 9 For more detailed information on tuning the garbage collector, read the official GC Tuning Guide\nMinor GC or How young generation is collected: When Eden space in young gen is full, reachable objects are marked and moved to the ToSurvivorSpace Objects in FromSurvivor space that are reachable are moved to ToSurvivorSpace Objects in FromSurvivor space that have crossed the threshold are promoted to the old generation Eden becomes empty and is ready for new allocations To and From Survivor Spaces are switched Notes on Mark-Sweep-Compact collector (Serial Old): Mark phase : marks all live objects Sweep phase : sweeps over heap identifying garbage Slide phase : GC performs a sliding compaction by sliding live objects to the start of the heap ",
+  "wordCount" : "798",
+  "inLanguage": "en",
+  "datePublished": "2018-05-15T14:14:49.746Z",
+  "dateModified": "2018-05-15T14:14:49.746Z",
+  "author":{
+    "@type": "Person",
+    "name": "rrampage"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://rrampage.github.io/2018/05/15/a-primer-on-jvm-memory-management-and-troubleshooting-1/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "A Random Walk",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://rrampage.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://rrampage.github.io/" accesskey="h" title="A Random Walk (Alt + H)">A Random Walk</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://rrampage.github.io/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/archives" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      A Primer on JVM Memory Management and Troubleshooting - 1
+    </h1>
+    <div class="post-meta">May 15 2018   4 min
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#jvm-memory-management-overview">JVM Memory Management Overview</a></li>
+        <li><a href="#generational-gc-and-memory-spaces-in-hotspot">Generational GC and Memory Spaces in Hotspot</a></li>
+        <li><a href="#garbage-collectors-in-hotspot-jvm">Garbage Collectors in Hotspot JVM</a></li>
+        <li><a href="#gc-options-for-jdk">GC options for JDK</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>This series is a summary of Oracle&rsquo;s <a href="https://apexapps.oracle.com/pls/apex/f?p=44785:149:105166169953256::NO:RP,149:P149_EVENT_ID:5552">JVM troubleshooting course</a> which gives an overview on JVM memory management, Hotspot VM&rsquo;s garbage collection options, various memory errors and how to troubleshoot them.</p>
+<p>In this post (part 1), we will have a look at how JVM manages memory and its different garbage collectors.</p>
+<p>You can find Part 2 <a href="https://dev.to/rrampage/jvm-primer-part-2---debugging-performance-issues-1od">here</a></p>
+<h3 id="jvm-memory-management-overview">JVM Memory Management Overview<a hidden class="anchor" aria-hidden="true" href="#jvm-memory-management-overview">#</a></h3>
+<p>The JVM provides automatic memory management to free the programmer from manually managing memory. New objects are allocated on heap memory. A <strong>root set</strong> consists of pointers to external memory, static variables, threads, <a href="https://en.wikipedia.org/wiki/Java_Native_Interface">JNI</a> references and internal JVM structures. Objects directly reachable from the root set must be kept in heap. Objects reachable from any of the reachable objects must also be in heap. This group of objects are the only ones which can be used by a program. The unreachable objects (garbage) are removed using a process called <strong>garbage collection (GC)</strong>. Reachable objects are <strong>compacted</strong> i.e moved to contiguous space in heap. This is important as otherwise, the heap will become <a href="https://en.wikipedia.org/wiki/Fragmentation_(computing)">fragmented</a>.</p>
+<h3 id="generational-gc-and-memory-spaces-in-hotspot">Generational GC and Memory Spaces in Hotspot<a hidden class="anchor" aria-hidden="true" href="#generational-gc-and-memory-spaces-in-hotspot">#</a></h3>
+<p>When the JVM starts, it requests some memory from the OS. This memory is divided into various spaces.</p>
+<p><img loading="lazy" src="https://www.ibm.com/support/knowledgecenter/SS3JSW_5.2.0/com.ibm.help.performance_mgmt.doc/SIPM_HotSpotMemory.jpg" alt="Memory spaces in Hotspot"  title="Memory spaces in Hotspot VM"  />
+
+Memory spaces in JVM prior to JDK 8</p>
+<ul>
+<li>Separate pools hold objects of diff age ranges</li>
+<li>JVM&rsquo;s GC is <strong>generational</strong> and is based on the hypothesis that:
+<ul>
+<li>Most objects die young</li>
+<li>Few references from older to younger objects</li>
+</ul>
+</li>
+<li>There are 2 generations of objects:
+<ul>
+<li>young : small and collected frequently (minor collection). Objects which survive a threshold number of GCs move to old generation.</li>
+<li>old : large, collected infrequently (major collection = Full GC)</li>
+</ul>
+</li>
+<li>Prior to JDK 8, there was also a <strong>permanent generation</strong> which was for storing class representations and metadata, interned strings and class statics. This was replaced by meta-space in JDK 8 and later.</li>
+<li><strong>Meta-space</strong> is allocated in native memory. It is managed through JVM options <strong>MetaspaceSize</strong> for initial size and <strong>MaxMetaspaceSize</strong> for maximum.
+<ul>
+<li>If <strong>UseCompressedClassPointers</strong> is enabled, 2 areas of memory are used for storing classes and their metadata - <strong>meta-space</strong> and <strong>compressed class space</strong>. 64 bit class pointers represented with 32 bit offsets to save space. Class metadata is referenced by 32 bit offsets stored in compressed class space. By default, compressed class space is 1 GB.</li>
+</ul>
+</li>
+<li>Code cache is used to store compiled code generated by JIT (Just in time optimizer), allocated out of native memory and managed by Code Cache Sweeper</li>
+</ul>
+<h3 id="garbage-collectors-in-hotspot-jvm">Garbage Collectors in Hotspot JVM<a hidden class="anchor" aria-hidden="true" href="#garbage-collectors-in-hotspot-jvm">#</a></h3>
+<p>The JVM has different garbage collection methods for different generations of objects. Some of them are described below:</p>
+<ul>
+<li>Young generation collection
+<ul>
+<li>Serial - Stop-the-world (STW), copying collector, single threaded</li>
+<li>ParNew - STW, copying collector, multiple GC threads</li>
+<li>Parallel Scavenge - STW, copying collector, multiple GC threads</li>
+</ul>
+</li>
+<li>Old generation collection
+<ul>
+<li>Serial Old - STW, mark-sweep-compact collector, single threaded</li>
+<li>CMS - Mostly concurrent, low pause</li>
+<li>Parallel Old - compacting collector, multiple GC threads</li>
+</ul>
+</li>
+<li>G1 : designed for large heaps and offers predictable short pauses.
+<ul>
+<li>Has different memory layout for generations</li>
+<li>Same collector for all generations</li>
+</ul>
+</li>
+</ul>
+<h3 id="gc-options-for-jdk">GC options for JDK<a hidden class="anchor" aria-hidden="true" href="#gc-options-for-jdk">#</a></h3>
+<p>These are the option flags passed to JVM for specifying which GC to use:</p>
+<ul>
+<li>UseSerialGC : Serial + SerialOld</li>
+<li>UseParNewGC : ParNew + SerialOld . In JDK 9, uses CMS for old gen</li>
+<li>UseConcMarkSweepGC : ParNew + CMS + SerialOld
+<ul>
+<li>CMS used most of time to collect old generation. SerialOld used when concurrent mode failure occurs.</li>
+<li>CMS performs most work in concurrent with application threads.</li>
+<li>No heap compaction leads to fragmentation. Has floating garbage and requires larger heap sizes.</li>
+<li>Free space maintained as linked lists. Allocation expensive compared to bump-the-pointer allocations.</li>
+<li>Additional overhead on young collections</li>
+<li>Deprecated in JDK 9</li>
+</ul>
+</li>
+<li>UseParallelGC : Parallel Scavenge + Parallel Old.
+<ul>
+<li>Maximizes throughput.</li>
+<li>Default GC till JDK 9</li>
+</ul>
+</li>
+<li>UseG1GC - G1 for both generations
+<ul>
+<li>Server style GC for multi-core machines with large memory</li>
+<li>Low GC pauses with high probability while trying for high throughput</li>
+<li>Compacting collector. Low pauses without fragmentation</li>
+<li>Better GC ergonomics. Parallel threads and some tasks are concurrent with application threads</li>
+<li>Available since JDK 7u4 and default in JDK 9</li>
+</ul>
+</li>
+</ul>
+<p>For more detailed information on tuning the garbage collector, read the official <a href="https://docs.oracle.com/javase/9/gctuning/toc.htm">GC Tuning Guide</a></p>
+<h4 id="minor-gc-or-how-young-generation-is-collected">Minor GC or How young generation is collected:<a hidden class="anchor" aria-hidden="true" href="#minor-gc-or-how-young-generation-is-collected">#</a></h4>
+<ol>
+<li>When Eden space in young gen is full, reachable objects are marked and moved to the ToSurvivorSpace</li>
+<li>Objects in FromSurvivor space that are reachable are moved to ToSurvivorSpace</li>
+<li>Objects in FromSurvivor space that have crossed the threshold are promoted to the old generation</li>
+<li>Eden becomes empty and is ready for new allocations</li>
+<li>To and From Survivor Spaces are switched</li>
+</ol>
+<h4 id="notes-on-mark-sweep-compact-collector-serial-old">Notes on Mark-Sweep-Compact collector (Serial Old):<a hidden class="anchor" aria-hidden="true" href="#notes-on-mark-sweep-compact-collector-serial-old">#</a></h4>
+<ul>
+<li>Mark phase : marks all live objects</li>
+<li>Sweep phase : sweeps over heap identifying garbage</li>
+<li>Slide phase : GC performs a sliding compaction by sliding live objects to the start of the heap</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://rrampage.github.io/tags/java/">java</a></li>
+      <li><a href="https://rrampage.github.io/tags/jvm/">jvm</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://rrampage.github.io/2021/12/04/relearning-lua/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>Re-learning Lua</span>
+  </a>
+  <a class="next" href="https://rrampage.github.io/2018/05/09/snake-case-to-camel-case-and-back-using-regular-expressions-and-python/">
+    <span class="title">Next »</span>
+    <br>
+    <span>Snake case to camel case and back using regular expressions and Python</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://rrampage.github.io/">A Random Walk</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>regex on A Random Walk</title>
+    <link>https://rrampage.github.io/tags/regex/</link>
+    <description>Recent content in regex on A Random Walk</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 09 May 2018 00:10:00 +0530</lastBuildDate><atom:link href="https://rrampage.github.io/tags/regex/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Snake case to camel case and back using regular expressions and Python</title>
+      <link>https://rrampage.github.io/2018/05/09/snake-case-to-camel-case-and-back-using-regular-expressions-and-python/</link>
+      <pubDate>Wed, 09 May 2018 00:10:00 +0530</pubDate>
+      
+      <guid>https://rrampage.github.io/2018/05/09/snake-case-to-camel-case-and-back-using-regular-expressions-and-python/</guid>
+      <description>Convert back and forth between snake and camel case using Python and the re module</description>
+      <content:encoded><![CDATA[<p><a href="https://en.wikipedia.org/wiki/Snake_case">Snake case</a> and <a href="https://en.wikipedia.org/wiki/Camel_case">Camel case</a> are conventions of naming variables, functions and classes. Most teams and projects prescribe a particular case in their style guides.</p>
+<p>Examples of camel case:</p>
+<pre tabindex="0"><code>MyClass
+MyClassFactory
+MyClassFactoryBuilder
+MyClassFactoryBuilderImpl
+myInstance
+myInstance2
+abc
+patternMatcher
+</code></pre><p>Examples of snake case:</p>
+<pre tabindex="0"><code>add
+matrix_add
+diagonal_matrix_add
+pseudo_inverse
+</code></pre><p>If we want to convert back and forth between these cases, we must look for the points of interest - the word boundaries. Camel case boundaries have the first letter capitalized while the snake case word boundaries have an <strong><code>_</code></strong>.</p>
+<h3 id="snake-case-to-camel-case">Snake case to camel case</h3>
+<p>Here is a regular expression for finding out the <strong><code>_</code></strong> and the first letter in the next word:</p>
+<pre tabindex="0"><code class="language-regex" data-lang="regex">(.*?)_([a-zA-Z])
+</code></pre><p>This regex has 2 parts:</p>
+<ol>
+<li>
+<p><strong><code>(.*?)</code></strong> finds everything upto the <strong><code>_</code></strong>.</p>
+<ul>
+<li>The &lsquo;.&rsquo; means any character.</li>
+<li>&lsquo;*&rsquo; stands for match 0 or more instances</li>
+<li>&lsquo;?&rsquo; stands for non-greedy match. We must use &lsquo;?&rsquo; in the pattern because the regex engine will try to match as much as possible by default. So, if we use just <strong><code>(.*)</code></strong>, the whole word will be consumed and nothing will be left for the rest of the pattern.</li>
+<li>&lsquo;()&rsquo; stand for a group. A group is a way of saving a part of the match for later.</li>
+<li>Together, they mean that find all characters upto the first &lsquo;_&rsquo; and capture them in a group.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>([a-zA-Z])</code></strong> finds the first alphabet after the <strong><code>_</code></strong>. We need this to convert to upper case for Camel case.</p>
+</li>
+</ol>
+<p>The Python code below converts words which are in snake case to camel case:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">re</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">REG</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&#34;(.*?)_([a-zA-Z])&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">camel</span><span class="p">(</span><span class="k">match</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="k">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">camel_upper</span><span class="p">(</span><span class="k">match</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="k">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="k">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">words</span> <span class="o">=</span> <span class="s2">&#34;&#34;&#34;add
+</span></span></span><span class="line"><span class="cl"><span class="s2">matrix_add
+</span></span></span><span class="line"><span class="cl"><span class="s2">diagonal_matrix_add
+</span></span></span><span class="line"><span class="cl"><span class="s2">pseudo_inverse&#34;&#34;&#34;</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">REG</span><span class="p">,</span> <span class="n">camel</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Output:</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># [&#39;add&#39;, &#39;matrixAdd&#39;, &#39;diagonalMatrixAdd&#39;, &#39;pseudoInverse&#39;]</span>
+</span></span></code></pre></div><p>We use the regex we constructed earlier and the <a href="https://docs.python.org/3/library/re.html#re.sub"><strong><code>re.sub</code></strong></a> method to substitute our matched words. We pass a method called <code>camel</code> as an argument. This method allows us to change the case of the letter in the second group and keep the first group unchanged. Notice that the first letter can be either lower or upper depending on whether it is a variable or method (lower) or a class (upper). The <code>camel_upper</code> method can be used for class names.</p>
+<h3 id="camel-case-to-snake-case">Camel case to snake case</h3>
+<p>Similarly, for converting from camel to snake case, the regex is:</p>
+<pre tabindex="0"><code class="language-regex" data-lang="regex">(.+?)([A-Z])
+</code></pre><p>And the Python code :</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">re</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">REG</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&#34;(.+?)([A-Z])&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">snake</span><span class="p">(</span><span class="k">match</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&#34;_&#34;</span> <span class="o">+</span> <span class="k">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">words</span> <span class="o">=</span> <span class="s2">&#34;&#34;&#34;MyClass
+</span></span></span><span class="line"><span class="cl"><span class="s2">MyClassFactory
+</span></span></span><span class="line"><span class="cl"><span class="s2">MyClassFactoryBuilder
+</span></span></span><span class="line"><span class="cl"><span class="s2">MyClassFactoryBuilderImpl
+</span></span></span><span class="line"><span class="cl"><span class="s2">myInstance
+</span></span></span><span class="line"><span class="cl"><span class="s2">myInstance2
+</span></span></span><span class="line"><span class="cl"><span class="s2">abc
+</span></span></span><span class="line"><span class="cl"><span class="s2">patternMatcher&#34;&#34;&#34;</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">REG</span><span class="p">,</span> <span class="n">snake</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Output</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># [&#39;my_class&#39;, &#39;my_class_factory&#39;, &#39;my_class_factory_builder&#39;, &#39;my_class_factory_builder_impl&#39;, &#39;my_instance&#39;, &#39;my_instance2&#39;, &#39;abc&#39;, &#39;pattern_matcher&#39;]</span>
+</span></span></code></pre></div>]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>
