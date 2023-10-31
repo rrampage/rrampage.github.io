@@ -5,12 +5,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Posts | A Random Walk</title>
+<title>Search | A Random Walk</title>
 <meta name="keywords" content="">
-<meta name="description" content="Posts - A Random Walk">
+<meta name="description" content="search">
 <meta name="author" content="rrampage">
-<link rel="canonical" href="https://rrampage.github.io/post/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.3583c276be8b676922334220eddb70a58dd857f110640a70a4641bbbc371cae2.css" integrity="sha256-NYPCdr6LZ2kiM0Ig7dtwpY3YV/EQZApwpGQbu8NxyuI=" rel="preload stylesheet" as="style">
+<link rel="canonical" href="https://rrampage.github.io/search/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3583c276be8b676922334220eddb70a58dd857f110640a70a4641bbbc371cae2.css" integrity="sha256-NYPCdr6LZ2kiM0Ig7dtwpY3YV/EQZApwpGQbu8NxyuI=" rel="preload stylesheet" as="style"><link crossorigin="anonymous" rel="preload" as="fetch" href="../index.json">
+<script defer crossorigin="anonymous" src="/assets/js/search.fc4d3d259dc135ab09b5eda7510566d64eb9fe1769e5f728f1b0a7e2a992b39e.js" integrity="sha256-/E09JZ3BNasJte2nUQVm1k65/hdp5fco8bCn4qmSs54="></script>
 <link rel="icon" href="https://rrampage.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://rrampage.github.io/favicon-32x32.png">
@@ -18,7 +19,6 @@
 <link rel="mask-icon" href="https://rrampage.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://rrampage.github.io/post/rss.xml">
 <noscript>
     <style>
         #theme-toggle,
@@ -55,14 +55,16 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Posts" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://rrampage.github.io/post/" /><meta property="og:site_name" content="A Random Walk" />
+</noscript><meta property="og:title" content="Search" />
+<meta property="og:description" content="search" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://rrampage.github.io/search/" /><meta property="article:section" content="" />
+
+<meta property="og:site_name" content="A Random Walk" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Posts"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:title" content="Search"/>
+<meta name="twitter:description" content="search"/>
 
 
 <script type="application/ld+json">
@@ -73,10 +75,43 @@
     {
       "@type": "ListItem",
       "position":  1 ,
-      "name": "Posts",
-      "item": "https://rrampage.github.io/post/"
+      "name": "Search",
+      "item": "https://rrampage.github.io/search/"
     }
   ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Search",
+  "name": "Search",
+  "description": "search",
+  "keywords": [
+    
+  ],
+  "articleBody": "",
+  "wordCount" : "0",
+  "inLanguage": "en",
+  "datePublished": "0001-01-01T00:00:00Z",
+  "dateModified": "0001-01-01T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "rrampage"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://rrampage.github.io/search/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "A Random Walk",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://rrampage.github.io/favicon.ico"
+    }
+  }
 }
 </script>
 </head>
@@ -133,7 +168,7 @@
             </li>
             <li>
                 <a href="https://rrampage.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
-                    <span>Search</span>
+                    <span class="active">Search</span>
                 </a>
             </li>
             <li>
@@ -144,36 +179,23 @@
         </ul>
     </nav>
 </header>
-<main class="main"> 
-<header class="page-header"><div class="breadcrumbs"><a href="https://rrampage.github.io/">Home</a></div>
-  <h1>
-    Posts
-  </h1>
+<main class="main">
+
+<header class="page-header">
+    <h1>Search <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+    </h1>
+    <div class="post-meta"></div>
 </header>
 
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Re-learning Lua
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Lua - Basics for x = 0, 10, 1 do print(x) end -- for loop with range and step. step if not given is assumed to be 1 -- Tables are the soul of Lua. They double up as arrays and hashes a = {} b = {1, 2, 3} b[1] -- b[1] will return 1 as indexing for arrays is from 1 c = {[0]={123,3},[&#34;a&#34;]={1,2,3},v={2,6,7}} -- We can have a &#34;0&#34;th index by adding the 1st element as [0]=value -- Adding keys which are not valid identifiers in Lua needs to be done by wrapping key in [] -- If a key is a valid identifier, we can access using `.` e.g c.a for above code vs c[0] for k,v in pairs(c) do print(type(k)) end -- iterates through k/v in table and prints type of key Print a table as valid Lua code function printTable(tbl) -- Specify function vars as local else they become global local s = &#34;{&#34; local fst = true for k,v in pairs(tbl) do local tk = type(k) local tv = type(v) if not fst then s = s ....</p>
-  </div>
-  <footer class="entry-footer">December 4 2021   2 min</footer>
-  <a class="entry-link" aria-label="post link to Re-learning Lua" href="https://rrampage.github.io/2021/12/04/re-learning-lua/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Hello World
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Hello World!</p>
-  </div>
-  <footer class="entry-footer">March 3 2014   1 min</footer>
-  <a class="entry-link" aria-label="post link to Hello World" href="https://rrampage.github.io/2014/03/03/hello-world/"></a>
-</article>
+<div id="searchbox">
+    <input id="searchInput" autofocus placeholder="placeholder text in search input box"
+        aria-label="search" type="search" autocomplete="off">
+    <ul id="searchResults" aria-label="search results"></ul>
+</div>
     </main>
     
 <footer class="footer">

@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Posts | A Random Walk</title>
+<title>Archive | A Random Walk</title>
 <meta name="keywords" content="">
-<meta name="description" content="Posts - A Random Walk">
+<meta name="description" content="archives">
 <meta name="author" content="rrampage">
-<link rel="canonical" href="https://rrampage.github.io/post/">
+<link rel="canonical" href="https://rrampage.github.io/archives/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.3583c276be8b676922334220eddb70a58dd857f110640a70a4641bbbc371cae2.css" integrity="sha256-NYPCdr6LZ2kiM0Ig7dtwpY3YV/EQZApwpGQbu8NxyuI=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://rrampage.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
@@ -18,7 +18,6 @@
 <link rel="mask-icon" href="https://rrampage.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://rrampage.github.io/post/rss.xml">
 <noscript>
     <style>
         #theme-toggle,
@@ -55,14 +54,16 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Posts" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://rrampage.github.io/post/" /><meta property="og:site_name" content="A Random Walk" />
+</noscript><meta property="og:title" content="Archive" />
+<meta property="og:description" content="archives" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://rrampage.github.io/archives/" /><meta property="article:section" content="" />
+
+<meta property="og:site_name" content="A Random Walk" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Posts"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:title" content="Archive"/>
+<meta name="twitter:description" content="archives"/>
 
 
 <script type="application/ld+json">
@@ -73,10 +74,43 @@
     {
       "@type": "ListItem",
       "position":  1 ,
-      "name": "Posts",
-      "item": "https://rrampage.github.io/post/"
+      "name": "Archive",
+      "item": "https://rrampage.github.io/archives/"
     }
   ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Archive",
+  "name": "Archive",
+  "description": "archives",
+  "keywords": [
+    
+  ],
+  "articleBody": "",
+  "wordCount" : "0",
+  "inLanguage": "en",
+  "datePublished": "0001-01-01T00:00:00Z",
+  "dateModified": "0001-01-01T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "rrampage"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://rrampage.github.io/archives/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "A Random Walk",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://rrampage.github.io/favicon.ico"
+    }
+  }
 }
 </script>
 </head>
@@ -128,7 +162,7 @@
             </li>
             <li>
                 <a href="https://rrampage.github.io/archives" title="Archive">
-                    <span>Archive</span>
+                    <span class="active">Archive</span>
                 </a>
             </li>
             <li>
@@ -144,36 +178,41 @@
         </ul>
     </nav>
 </header>
-<main class="main"> 
-<header class="page-header"><div class="breadcrumbs"><a href="https://rrampage.github.io/">Home</a></div>
-  <h1>
-    Posts
-  </h1>
+<main class="main">
+
+<header class="page-header">
+  <h1>Archive</h1>
 </header>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Re-learning Lua
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Lua - Basics for x = 0, 10, 1 do print(x) end -- for loop with range and step. step if not given is assumed to be 1 -- Tables are the soul of Lua. They double up as arrays and hashes a = {} b = {1, 2, 3} b[1] -- b[1] will return 1 as indexing for arrays is from 1 c = {[0]={123,3},[&#34;a&#34;]={1,2,3},v={2,6,7}} -- We can have a &#34;0&#34;th index by adding the 1st element as [0]=value -- Adding keys which are not valid identifiers in Lua needs to be done by wrapping key in [] -- If a key is a valid identifier, we can access using `.` e.g c.a for above code vs c[0] for k,v in pairs(c) do print(type(k)) end -- iterates through k/v in table and prints type of key Print a table as valid Lua code function printTable(tbl) -- Specify function vars as local else they become global local s = &#34;{&#34; local fst = true for k,v in pairs(tbl) do local tk = type(k) local tv = type(v) if not fst then s = s ....</p>
+<div class="archive-year">
+  <h2 class="archive-year-header">2021<sup class="archive-count">&nbsp;&nbsp;1</sup>
+  </h2>
+  <div class="archive-month">
+    <h3 class="archive-month-header">December<sup class="archive-count">&nbsp;&nbsp;1</sup></h3>
+    <div class="archive-posts">
+      <div class="archive-entry">
+        <h3 class="archive-entry-title">Re-learning Lua
+        </h3>
+        <div class="archive-meta">December 4 2021   2 min</div>
+        <a class="entry-link" aria-label="post link to Re-learning Lua" href="https://rrampage.github.io/2021/12/04/re-learning-lua/"></a>
+      </div>
+    </div>
   </div>
-  <footer class="entry-footer">December 4 2021   2 min</footer>
-  <a class="entry-link" aria-label="post link to Re-learning Lua" href="https://rrampage.github.io/2021/12/04/re-learning-lua/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Hello World
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Hello World!</p>
+</div>
+<div class="archive-year">
+  <h2 class="archive-year-header">2014<sup class="archive-count">&nbsp;&nbsp;1</sup>
+  </h2>
+  <div class="archive-month">
+    <h3 class="archive-month-header">March<sup class="archive-count">&nbsp;&nbsp;1</sup></h3>
+    <div class="archive-posts">
+      <div class="archive-entry">
+        <h3 class="archive-entry-title">Hello World
+        </h3>
+        <div class="archive-meta">March 3 2014   1 min</div>
+        <a class="entry-link" aria-label="post link to Hello World" href="https://rrampage.github.io/2014/03/03/hello-world/"></a>
+      </div>
+    </div>
   </div>
-  <footer class="entry-footer">March 3 2014   1 min</footer>
-  <a class="entry-link" aria-label="post link to Hello World" href="https://rrampage.github.io/2014/03/03/hello-world/"></a>
-</article>
+</div>
     </main>
     
 <footer class="footer">

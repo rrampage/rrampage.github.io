@@ -1,0 +1,151 @@
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>A Random Walk</title>
+  <link href="https://rrampage.github.io/index.xml" rel="self"/>
+  <link href="https://rrampage.github.io/"/>
+  <updated>2021-12-04T00:00:00+05:30</updated>
+  <id>https://rrampage.github.io/</id>
+  <author>
+    <name>Raunak</name>
+  </author>
+  <generator>Hugo -- gohugo.io</generator>
+  <entry>
+    <title type="html"><![CDATA[Re-learning Lua]]></title>
+    <link href="https://rrampage.github.io/2021/12/04/re-learning-lua/"/>
+    <id>https://rrampage.github.io/2021/12/04/re-learning-lua/</id> 
+    <author>
+      <name>Raunak</name>
+    </author>
+    <published>2021-12-04T00:00:00+05:30</published>
+    <updated>2021-12-04T00:00:00+05:30</updated>
+    
+    <content type="html"><![CDATA[<h2 id="lua---basics">Lua - Basics</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kr">for</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1</span> <span class="kr">do</span> <span class="n">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="kr">end</span> <span class="c1">-- for loop with range and step. step if not given is assumed to be 1</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- Tables are the soul of Lua. They double up as arrays and hashes</span>
+</span></span><span class="line"><span class="cl"><span class="n">a</span> <span class="o">=</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl"><span class="n">b</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- b[1] will return 1 as indexing for arrays is from 1</span>
+</span></span><span class="line"><span class="cl"><span class="n">c</span> <span class="o">=</span> <span class="p">{[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="mi">123</span><span class="p">,</span><span class="mi">3</span><span class="p">},[</span><span class="s2">&#34;a&#34;</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">},</span><span class="n">v</span><span class="o">=</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">}}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- We can have a &#34;0&#34;th index by adding the 1st element as [0]=value</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- Adding keys which are not valid identifiers in Lua needs to be done by wrapping key in []</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- If a key is a valid identifier, we can access using `.` e.g c.a for above code vs c[0]</span>
+</span></span><span class="line"><span class="cl"><span class="kr">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="kr">in</span> <span class="n">pairs</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="kr">do</span> <span class="n">print</span><span class="p">(</span><span class="n">type</span><span class="p">(</span><span class="n">k</span><span class="p">))</span> <span class="kr">end</span> <span class="c1">-- iterates through k/v in table and prints type of key</span>
+</span></span></code></pre></div><h3 id="print-a-table-as-valid-lua-code">Print a table as valid Lua code</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kr">function</span> <span class="nf">printTable</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">-- Specify function vars as local else they become global</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">local</span> <span class="n">s</span> <span class="o">=</span> <span class="s2">&#34;{&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">local</span> <span class="n">fst</span> <span class="o">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="kr">in</span> <span class="n">pairs</span><span class="p">(</span><span class="n">tbl</span><span class="p">)</span> <span class="kr">do</span>
+</span></span><span class="line"><span class="cl">        	    <span class="kd">local</span> <span class="n">tk</span> <span class="o">=</span> <span class="n">type</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        	    <span class="kd">local</span> <span class="n">tv</span> <span class="o">=</span> <span class="n">type</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="kr">if</span> <span class="ow">not</span> <span class="n">fst</span> <span class="kr">then</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span> <span class="o">..</span> <span class="s2">&#34;,&#34;</span>
+</span></span><span class="line"><span class="cl">                <span class="kr">else</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">fst</span> <span class="o">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">                <span class="kr">end</span>
+</span></span><span class="line"><span class="cl">                
+</span></span><span class="line"><span class="cl">                <span class="kr">if</span> <span class="n">tk</span> <span class="o">==</span> <span class="s2">&#34;number&#34;</span> <span class="ow">or</span> <span class="n">tk</span> <span class="o">==</span> <span class="s2">&#34;boolean&#34;</span> <span class="kr">then</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span> <span class="o">..</span> <span class="s2">&#34;[&#34;</span> <span class="o">..</span> <span class="n">tostring</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">..</span> <span class="s2">&#34;]=&#34;</span>
+</span></span><span class="line"><span class="cl">                <span class="kr">else</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span> <span class="o">..</span> <span class="s1">&#39;[&#34;&#39;</span> <span class="o">..</span> <span class="n">k</span> <span class="o">..</span> <span class="s1">&#39;&#34;]=&#39;</span>
+</span></span><span class="line"><span class="cl">                <span class="kr">end</span>
+</span></span><span class="line"><span class="cl">                
+</span></span><span class="line"><span class="cl">                <span class="kr">if</span> <span class="n">tv</span> <span class="o">==</span> <span class="s2">&#34;table&#34;</span> <span class="kr">then</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span> <span class="o">..</span> <span class="n">printTable</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="kr">elseif</span> <span class="n">tv</span> <span class="o">==</span> <span class="s2">&#34;number&#34;</span> <span class="ow">or</span> <span class="n">tv</span> <span class="o">==</span> <span class="s2">&#34;boolean&#34;</span> <span class="kr">then</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span> <span class="o">..</span> <span class="n">tostring</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="kr">elseif</span> <span class="n">tv</span> <span class="o">==</span> <span class="s2">&#34;string&#34;</span> <span class="kr">then</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span> <span class="o">..</span> <span class="s1">&#39;&#34;&#39;</span> <span class="o">..</span> <span class="n">v</span> <span class="o">..</span> <span class="s1">&#39;&#34;&#39;</span>
+</span></span><span class="line"><span class="cl">                <span class="kr">else</span>
+</span></span><span class="line"><span class="cl">                	<span class="n">s</span> <span class="o">=</span> <span class="n">s</span> <span class="o">..</span> <span class="n">vt</span>
+</span></span><span class="line"><span class="cl">                <span class="kr">end</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">end</span>
+</span></span><span class="line"><span class="cl">        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span> <span class="o">..</span> <span class="s2">&#34;}&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">return</span> <span class="n">s</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">sv</span> <span class="o">=</span> <span class="n">printTable</span><span class="p">({[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="mi">123</span><span class="p">,</span><span class="mi">3</span><span class="p">},[</span><span class="s2">&#34;a&#34;</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">},</span><span class="n">v</span><span class="o">=</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">},[</span><span class="kc">true</span><span class="p">]</span><span class="o">=</span><span class="mi">123</span><span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">sv</span><span class="p">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="c1">-- posts.lua (saved table) can be read from another lua file as posts=require(&#34;posts&#34;)</span>
+</span></span><span class="line"><span class="cl"><span class="kr">return</span> <span class="p">{[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="p">{[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">123</span><span class="p">,[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="mi">3</span><span class="p">},[</span><span class="s2">&#34;v&#34;</span><span class="p">]</span><span class="o">=</span><span class="p">{[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">2</span><span class="p">,[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="mi">6</span><span class="p">,[</span><span class="mi">3</span><span class="p">]</span><span class="o">=</span><span class="mi">7</span><span class="p">},[</span><span class="s2">&#34;a&#34;</span><span class="p">]</span><span class="o">=</span><span class="p">{[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">,[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="mi">2</span><span class="p">,[</span><span class="mi">3</span><span class="p">]</span><span class="o">=</span><span class="mi">3</span><span class="p">},[</span><span class="kc">true</span><span class="p">]</span><span class="o">=</span><span class="mi">123</span><span class="p">}</span>
+</span></span></code></pre></div>]]></content>
+    
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Hello World]]></title>
+    <link href="https://rrampage.github.io/2014/03/03/hello-world/"/>
+    <id>https://rrampage.github.io/2014/03/03/hello-world/</id> 
+    <author>
+      <name>Raunak</name>
+    </author>
+    <published>2014-03-03T22:38:33+05:30</published>
+    <updated>2014-03-03T22:38:33+05:30</updated>
+    
+    <content type="html"><![CDATA[<p><strong>Hello World!</strong></p>
+]]></content>
+    
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[About]]></title>
+    <link href="https://rrampage.github.io/about/"/>
+    <id>https://rrampage.github.io/about/</id> 
+    <author>
+      <name>Raunak</name>
+    </author>
+    <published>0001-01-01T00:00:00+00:00</published>
+    <updated>0001-01-01T00:00:00+00:00</updated>
+    
+    <content type="html"><![CDATA[<h4 id="about-this-blog">About this blog:</h4>
+<ul>
+<li>the delights and frustrations of programming</li>
+<li>new things I learn/stumble across while coding</li>
+<li>interesting concepts/resources I come across</li>
+<li>trying to explain a few topics</li>
+</ul>
+<h4 id="about-me">About Me</h4>
+<p>I am a software developer. I work on mostly backend stuff.
+I blog occasionally <a href="https://rrampage.github.io">here</a> or crosspost to <a href="https://dev.to/rrampage">dev.to</a>. You can reach out to me via various websites in the footer.</p>
+<h4 id="-ask-me-about-">💬 Ask me about &hellip;</h4>
+<ul>
+<li>Bash, sed, awk, GNU Make, jq</li>
+<li>Java/Kotlin, JOOQ, Dropwizard</li>
+<li>Postgres</li>
+<li>Solr &amp; Elasticsearch</li>
+<li>ArangoDB</li>
+<li>Nginx &amp; Openresty</li>
+<li>Linux</li>
+<li>State machines, Regexes, State charts</li>
+</ul>
+<h4 id="-how-to-reach-me">📫 How to reach me:</h4>
+<ul>
+<li>Github issues on <a href="https://github.com/rrampage/rrampage/issues">this repo</a></li>
+<li>My DMs are open on <a href="https://dev.to/rrampage">dev.to</a></li>
+<li><a href="https://in.linkedin.com/in/raunak1">LinkedIn</a></li>
+<li><a href="https://twitter.com/QuixoticCoder">Twitter</a></li>
+</ul>
+]]></content>
+    
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Archive]]></title>
+    <link href="https://rrampage.github.io/archives/"/>
+    <id>https://rrampage.github.io/archives/</id> 
+    <author>
+      <name>Raunak</name>
+    </author>
+    <published>0001-01-01T00:00:00+00:00</published>
+    <updated>0001-01-01T00:00:00+00:00</updated>
+    
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Search]]></title>
+    <link href="https://rrampage.github.io/search/"/>
+    <id>https://rrampage.github.io/search/</id> 
+    <author>
+      <name>Raunak</name>
+    </author>
+    <published>0001-01-01T00:00:00+00:00</published>
+    <updated>0001-01-01T00:00:00+00:00</updated>
+    
+  </entry>
+</feed>
