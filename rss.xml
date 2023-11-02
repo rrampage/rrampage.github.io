@@ -75,7 +75,7 @@
       <guid>https://rrampage.github.io/2018/05/26/awk-a-useful-little-language/</guid>
       <description>Speed up text processing tasks with Awk</description>
       <content:encoded><![CDATA[<p>Awk is a small but capable programming language which is used for processing text. It was developed by Aho, Weinberger, Kerninghan at Bell Labs.</p>
-<p><a href="https://twitter.com/b0rk">Julia Evans</a> made an awesome <a href="https://wizardzines.com/comics/awk/"><code>awk</code> comic</a>:
+<p><a href="https://twitter.com/b0rk">Julia Evans</a> made an awesome Awk <a href="https://wizardzines.com/comics/awk/">comic</a>:
 
   <img src="https://wizardzines.com/images/uploads/awk.png" alt="AWK comic"/>
 </p>
@@ -88,13 +88,13 @@
 </span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">condition</span><span class="p">(</span><span class="n">line</span><span class="p">):</span> <span class="c1">#match line against condition</span>
 </span></span><span class="line"><span class="cl">            <span class="n">action</span><span class="p">()</span> <span class="c1">#perform action on match </span>
 </span></span></code></pre></div><p>Here are some small snippets of Awk:</p>
-<h3 id="example---hello-world">Example - Hello World!</h3>
+<h2 id="example---hello-world">Example - Hello World!</h2>
 <p>You can run <code>awk</code> programs inline or through a file:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">awk <span class="s1">&#39;BEGIN{ print &#34;Hello, World!&#34;}&#39;</span>
 </span></span></code></pre></div><p>Alternatively, you can save this to a file <code>hello.awk</code>:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-awk" data-lang="awk"><span class="line"><span class="cl"><span class="nb">BEGIN</span><span class="p">{</span> <span class="kr">print</span> <span class="s2">&#34;Hello, World!&#34;</span><span class="p">}</span>
 </span></span></code></pre></div><p>Then run it as <code>awk -f hello.awk</code></p>
-<h3 id="example---reading-a-csv-and-printing-a-specific-column">Example - Reading a CSV and printing a specific column</h3>
+<h2 id="example---reading-a-csv-and-printing-a-specific-column">Example - Reading a CSV and printing a specific column</h2>
 <p>Let&rsquo;s now do something useful! Download this <a href="https://data.lacity.org/api/views/nxs9-385f/rows.csv">csv</a> which is 2010 census data by zip code in Los Angeles city.</p>
 <p>Read the first 3 lines from csv: <code>head -3 2010_Census_Populations_by_Zip_Code.csv</code></p>
 <pre tabindex="0"><code>Zip Code,Total Population,Median Age,Total Males,Total Females,Total Households,Average Household Size
@@ -102,14 +102,14 @@
 90001,57110,26.6,28468,28642,12971,4.4
 </code></pre><p>We will print just the total column using <code>awk -F, '{print $2}' 2010_Census_Populations_by_Zip_Code.csv</code></p>
 <p>The <code>-F,</code> sets the field separator to comma as we need to split by commas for getting fields in a CSV file. <code>$n</code> allows you to use the value in the nth column.</p>
-<h3 id="example---computing-some-statistics">Example - Computing some statistics</h3>
+<h2 id="example---computing-some-statistics">Example - Computing some statistics</h2>
 <p>Awk allows the use of variables and functions. Let&rsquo;s see how to use them by computing the total population in the entire city.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-awk" data-lang="awk"><span class="line"><span class="cl"><span class="c1"># total.awk</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span><span class="nx">s</span> <span class="o">+=</span> <span class="o">$</span><span class="mi">2</span><span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="nb">END</span> <span class="p">{</span><span class="kr">print</span> <span class="s2">&#34;Total population:&#34;</span><span class="p">,</span> <span class="nx">s</span><span class="p">}</span>
 </span></span></code></pre></div><p>Variables are by default initialized to 0. Here, we use a variable <code>s</code> to hold the total.</p>
 <p>Running this script as <strong><code>awk -F, -f total.awk 2010_Census_Populations_by_Zip_Code.csv</code></strong>, we get output: <code>Total population: 10603988</code></p>
-<h3 id="special-variables-and-built-in-functions">Special variables and built-in functions</h3>
+<h2 id="special-variables-and-built-in-functions">Special variables and built-in functions</h2>
 <p>Awk uses some special variables and functions to make your programs more compact:</p>
 <ul>
 <li><strong>NF</strong> : Number of fields in a line</li>
@@ -127,14 +127,14 @@ We also want the average population per zip code. Our script:</p>
 Total households: 3497698
 Average household size: 3.0317
 Average population per zip code: 33241.3
-</code></pre><h3 id="example---pattern-matching">Example - Pattern matching</h3>
+</code></pre><h2 id="example---pattern-matching">Example - Pattern matching</h2>
 <p>We have done some useful things with awk so far, but we have ignored its biggest strength - pattern matching. We can match based on field values, regexes, line numbers.</p>
 <ul>
 <li>Print every 2nd line : <strong><code>NR%2 == 0 {print $0}</code></strong>. Here $0 stands for the entire line.</li>
 <li>Print all zip codes with population &gt; 100,000 : <strong><code>$2 &gt; 100000 {print $1}</code></strong></li>
 <li>Print all zip codes with population &gt; 10,000 and average household size &gt; 4 : <strong><code>$2 &gt; 10000 &amp;&amp; $7 &gt; 4 { print $1}</code></strong>. We can combine conditions using <code>&amp;&amp;</code> and <code>||</code> which stand for logical <strong>and</strong> and <strong>or</strong> respectively.</li>
 </ul>
-<h3 id="further-reading">Further reading</h3>
+<h2 id="further-reading">Further reading</h2>
 <p>There is a lot more to Awk. Here are some references:</p>
 <ul>
 <li>
