@@ -6,7 +6,63 @@
     <description>Recent content in bash on A Random Walk</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 26 May 2018 13:58:58 +0000</lastBuildDate><atom:link href="https://rrampage.github.io/tags/bash/rss.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 06 Nov 2018 18:53:23 +0000</lastBuildDate><atom:link href="https://rrampage.github.io/tags/bash/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ensuring that a shell script runs exactly once</title>
+      <link>https://rrampage.github.io/2018/11/06/ensuring-that-a-shell-script-runs-exactly-once/</link>
+      <pubDate>Tue, 06 Nov 2018 18:53:23 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/2018/11/06/ensuring-that-a-shell-script-runs-exactly-once/</guid>
+      <description>How to ensure that only one instance of a shell script runs at a time</description>
+      <content:encoded><![CDATA[<p>Many times, we have shell scripts which perform some important stuff like inserting into database, mailing reports, etc which we want to run exactly one instance of.</p>
+<h2 id="enter-locks">Enter locks!</h2>
+<p>A simple solution is to create a &ldquo;lock file&rdquo; and check if the file exists when the script starts. If the file is already created, it means another instance of that program is running, so we can fail with message &ldquo;Try again later!&rdquo;. Once the script completes running, it will clean-up and delete the lock file.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">LOCK_FILE</span><span class="o">=</span>a.lock
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span> -f <span class="s2">&#34;</span><span class="nv">$LOCK_FILE</span><span class="s2">&#34;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Lock file already exists, exit the script</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;An instance of this script is already running&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">exit</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Create the lock file</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Locked&#34;</span> &gt; <span class="s2">&#34;</span><span class="nv">$LOCK_FILE</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Do the normal stuff</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># clean-up before exit</span>
+</span></span><span class="line"><span class="cl">rm <span class="s2">&#34;</span><span class="nv">$LOCK_FILE</span><span class="s2">&#34;</span>
+</span></span></code></pre></div><p>This looks promising but there are issues with this approach. What happens if the script does not end correctly i.e it exits because of some failure before it reaches the clean-up part of the code? Or if it gets forcibly terminated with <code>Ctrl+C</code> or <code>kill</code> command? In both these cases, the created lock file will not be deleted. So next time you run the script, you will always get an error and will have to manually delete the file.</p>
+<p>There is another, more subtle error with the above code. A race condition. If two instances of scripts are started around the same time, it is possible that both of them get past the <code>if [ -f &quot;$LOCK_FILE&quot; ]</code> because the second instance may reach that part of the code before the first instance is able to create the lock file. Thus, we have more than one instance running.</p>
+<h2 id="a-better-lock">A better lock!</h2>
+<p>Is there a way to create a lock file which is more robust to race conditions and non-standard termination (<code>Ctrl+C</code>, <code>kill</code> command, etc)? Linux offers <code>flock</code> a utility to manage locks from shell scripts. Using <code>flock</code>, we can rewrite the above snippet as follows:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">LOCK_FILE</span><span class="o">=</span>a.lock
+</span></span><span class="line"><span class="cl"><span class="nb">exec</span> 99&gt;<span class="s2">&#34;</span><span class="nv">$LOCK_FILE</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">flock -n <span class="m">99</span> <span class="o">||</span> <span class="nb">exit</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Do stuff and exit!</span>
+</span></span></code></pre></div><p>The <code>exec 99&gt;&quot;$LOCK_FILE&quot;</code> creates a file descriptor numbered 99 and assigns it to <code>LOCK_FILE</code>. <a href="https://en.wikipedia.org/wiki/File_descriptor">File descriptors (fd)</a>  0, 1, 2 are for <code>stdin</code>, <code>stdout</code>, <code>stderr</code> respectively. We are creating new fd with a high number to ensure that it does not clash with numbered fds opened later-on by script.</p>
+<p><code>flock -n 99 || exit 1</code> does 2 things. Firstly, it acquires an <code>exclusive</code> lock on the file descriptor 99 which refers to our <code>LOCK_FILE</code>. This operation is guaranteed by the linux kernel to be atomic. Secondly, if it fails to acquire the lock, it exits with return code 1. We do not need to worry about any clean up. <code>flock</code> will automatically release the lock when the script exits regardless of how it terminates. This solves our problem!</p>
+<p>What if I wanted to add a more informational message instead of exiting directly on failure to acquire lock? We can change the line <code>flock -n 99 || exit 1</code> as follows:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">flock -n <span class="m">99</span>
+</span></span><span class="line"><span class="cl"><span class="nv">RC</span><span class="o">=</span><span class="nv">$?</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span> <span class="s2">&#34;</span><span class="nv">$RC</span><span class="s2">&#34;</span> !<span class="o">=</span> <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Send message and exit</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;Already running script. Try again after sometime&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">exit</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span></code></pre></div><p>The flock <a href="http://man7.org/linux/man-pages/man1/flock.1.html">man page</a> has an example which you can use to add an exclusive lock to start of any shell script:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">FLOCKER</span><span class="si">}</span><span class="s2">&#34;</span> !<span class="o">=</span> <span class="s2">&#34;</span><span class="nv">$0</span><span class="s2">&#34;</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">exec</span> env <span class="nv">FLOCKER</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$0</span><span class="s2">&#34;</span> flock -en <span class="s2">&#34;</span><span class="nv">$0</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="nv">$0</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="nv">$@</span><span class="s2">&#34;</span> <span class="o">||</span> :
+</span></span></code></pre></div><p>This boilerplate uses the script file itself as a lock. It works by setting an environment variable <code>$FLOCKER</code> to script file name and executing the script with its original parameters after acquiring the lock. On failure however, it does not print anything and silently exits.</p>
+<p><code>$0</code> here stands for name of the script. <code>$@</code> stands for all arguments passed to the script when it was called.</p>
+<h2 id="use-case-for-me">Use case for me</h2>
+<p>My team uses a test machine where we deploy multiple branches of a code-base. We need to make sure that exactly one person is building the project at a particular time. The deploy script pulls the specified branch of code from <code>git</code> and builds the project, deploys the main service and starts ancillary services. The script takes sometime to execute. If someone tries to deploy another branch while a build is ongoing, both can fail.</p>
+<p>With the above snippet, calling the script more than once shows the current branch being built and exits with failure.</p>
+<h2 id="further-reading">Further reading</h2>
+<ul>
+<li>Flock <a href="http://man7.org/linux/man-pages/man1/flock.1.html">man page</a></li>
+<li><a href="http://mywiki.wooledge.org/BashFAQ/045">Pitfalls of creating a lock file</a> like in our initial snippet</li>
+</ul>
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>Awk - A useful little language</title>
       <link>https://rrampage.github.io/2018/05/26/awk-a-useful-little-language/</link>

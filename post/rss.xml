@@ -68,6 +68,399 @@
     </item>
     
     <item>
+      <title>Ensuring that a shell script runs exactly once</title>
+      <link>https://rrampage.github.io/2018/11/06/ensuring-that-a-shell-script-runs-exactly-once/</link>
+      <pubDate>Tue, 06 Nov 2018 18:53:23 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/2018/11/06/ensuring-that-a-shell-script-runs-exactly-once/</guid>
+      <description>How to ensure that only one instance of a shell script runs at a time</description>
+      <content:encoded><![CDATA[<p>Many times, we have shell scripts which perform some important stuff like inserting into database, mailing reports, etc which we want to run exactly one instance of.</p>
+<h2 id="enter-locks">Enter locks!</h2>
+<p>A simple solution is to create a &ldquo;lock file&rdquo; and check if the file exists when the script starts. If the file is already created, it means another instance of that program is running, so we can fail with message &ldquo;Try again later!&rdquo;. Once the script completes running, it will clean-up and delete the lock file.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">LOCK_FILE</span><span class="o">=</span>a.lock
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span> -f <span class="s2">&#34;</span><span class="nv">$LOCK_FILE</span><span class="s2">&#34;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Lock file already exists, exit the script</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;An instance of this script is already running&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">exit</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Create the lock file</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Locked&#34;</span> &gt; <span class="s2">&#34;</span><span class="nv">$LOCK_FILE</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Do the normal stuff</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># clean-up before exit</span>
+</span></span><span class="line"><span class="cl">rm <span class="s2">&#34;</span><span class="nv">$LOCK_FILE</span><span class="s2">&#34;</span>
+</span></span></code></pre></div><p>This looks promising but there are issues with this approach. What happens if the script does not end correctly i.e it exits because of some failure before it reaches the clean-up part of the code? Or if it gets forcibly terminated with <code>Ctrl+C</code> or <code>kill</code> command? In both these cases, the created lock file will not be deleted. So next time you run the script, you will always get an error and will have to manually delete the file.</p>
+<p>There is another, more subtle error with the above code. A race condition. If two instances of scripts are started around the same time, it is possible that both of them get past the <code>if [ -f &quot;$LOCK_FILE&quot; ]</code> because the second instance may reach that part of the code before the first instance is able to create the lock file. Thus, we have more than one instance running.</p>
+<h2 id="a-better-lock">A better lock!</h2>
+<p>Is there a way to create a lock file which is more robust to race conditions and non-standard termination (<code>Ctrl+C</code>, <code>kill</code> command, etc)? Linux offers <code>flock</code> a utility to manage locks from shell scripts. Using <code>flock</code>, we can rewrite the above snippet as follows:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">LOCK_FILE</span><span class="o">=</span>a.lock
+</span></span><span class="line"><span class="cl"><span class="nb">exec</span> 99&gt;<span class="s2">&#34;</span><span class="nv">$LOCK_FILE</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">flock -n <span class="m">99</span> <span class="o">||</span> <span class="nb">exit</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Do stuff and exit!</span>
+</span></span></code></pre></div><p>The <code>exec 99&gt;&quot;$LOCK_FILE&quot;</code> creates a file descriptor numbered 99 and assigns it to <code>LOCK_FILE</code>. <a href="https://en.wikipedia.org/wiki/File_descriptor">File descriptors (fd)</a>  0, 1, 2 are for <code>stdin</code>, <code>stdout</code>, <code>stderr</code> respectively. We are creating new fd with a high number to ensure that it does not clash with numbered fds opened later-on by script.</p>
+<p><code>flock -n 99 || exit 1</code> does 2 things. Firstly, it acquires an <code>exclusive</code> lock on the file descriptor 99 which refers to our <code>LOCK_FILE</code>. This operation is guaranteed by the linux kernel to be atomic. Secondly, if it fails to acquire the lock, it exits with return code 1. We do not need to worry about any clean up. <code>flock</code> will automatically release the lock when the script exits regardless of how it terminates. This solves our problem!</p>
+<p>What if I wanted to add a more informational message instead of exiting directly on failure to acquire lock? We can change the line <code>flock -n 99 || exit 1</code> as follows:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">flock -n <span class="m">99</span>
+</span></span><span class="line"><span class="cl"><span class="nv">RC</span><span class="o">=</span><span class="nv">$?</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span> <span class="s2">&#34;</span><span class="nv">$RC</span><span class="s2">&#34;</span> !<span class="o">=</span> <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Send message and exit</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;Already running script. Try again after sometime&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">exit</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span></code></pre></div><p>The flock <a href="http://man7.org/linux/man-pages/man1/flock.1.html">man page</a> has an example which you can use to add an exclusive lock to start of any shell script:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">FLOCKER</span><span class="si">}</span><span class="s2">&#34;</span> !<span class="o">=</span> <span class="s2">&#34;</span><span class="nv">$0</span><span class="s2">&#34;</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">exec</span> env <span class="nv">FLOCKER</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$0</span><span class="s2">&#34;</span> flock -en <span class="s2">&#34;</span><span class="nv">$0</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="nv">$0</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="nv">$@</span><span class="s2">&#34;</span> <span class="o">||</span> :
+</span></span></code></pre></div><p>This boilerplate uses the script file itself as a lock. It works by setting an environment variable <code>$FLOCKER</code> to script file name and executing the script with its original parameters after acquiring the lock. On failure however, it does not print anything and silently exits.</p>
+<p><code>$0</code> here stands for name of the script. <code>$@</code> stands for all arguments passed to the script when it was called.</p>
+<h2 id="use-case-for-me">Use case for me</h2>
+<p>My team uses a test machine where we deploy multiple branches of a code-base. We need to make sure that exactly one person is building the project at a particular time. The deploy script pulls the specified branch of code from <code>git</code> and builds the project, deploys the main service and starts ancillary services. The script takes sometime to execute. If someone tries to deploy another branch while a build is ongoing, both can fail.</p>
+<p>With the above snippet, calling the script more than once shows the current branch being built and exits with failure.</p>
+<h2 id="further-reading">Further reading</h2>
+<ul>
+<li>Flock <a href="http://man7.org/linux/man-pages/man1/flock.1.html">man page</a></li>
+<li><a href="http://mywiki.wooledge.org/BashFAQ/045">Pitfalls of creating a lock file</a> like in our initial snippet</li>
+</ul>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Surviving the Linux OOM Killer</title>
+      <link>https://rrampage.github.io/2018/10/04/surviving-the-linux-oom-killer/</link>
+      <pubDate>Thu, 04 Oct 2018 15:48:41 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/2018/10/04/surviving-the-linux-oom-killer/</guid>
+      <description>How OOM Killer frees memory</description>
+      <content:encoded><![CDATA[<p>When your Linux machine runs out of memory, <strong>Out of Memory (OOM) killer</strong> is called by kernel to free some memory. It is often encountered on servers which have a number of memory intensive processes running. In this post, we dig a little deeper into when does OOM killer get called, how it decides which process to kill and if we can prevent it from killing important processes like databases.</p>
+<h2 id="how-does-oom-killer-choose-which-process-to-kill">How does OOM Killer choose which process to kill?</h2>
+<p>The Linux kernel gives a score to each running process called <code>oom_score</code> which shows how likely it is to be terminated in case of low available memory. The score is proportional to the amount of memory used by the process. The score is <code>10 x percent of memory used by process</code>. So the maximum score is 100% x 10 = 1000. In addition, if a process is running as a <strong>privileged user</strong>, it gets a <strong>slightly lower oom_score</strong> as compared to same memory usage by a normal user process. In earlier versions of Linux ( v2.6.32 kernel), there was a more elaborate heuristic which calculated this score.</p>
+<p>The <code>oom_score</code> of a process can be found in the <code>/proc</code> directory. Let&rsquo;s say that the process id (pid) of your process is 42, <code>cat /proc/42/oom_score</code> will give you the process&rsquo; score.</p>
+<h2 id="can-i-ensure-some-important-processes-do-not-get-killed-by-oom-killer">Can I ensure some important processes do not get killed by OOM Killer?</h2>
+<p>Yes! The OOM killer checks <code>oom_score_adj</code> to adjust its final calculated score. This file is present in <code>/proc/$pid/oom_score_adj</code>. You can add a large negative score to this file to ensure that your process gets a lower chance of being picked and terminated by OOM killer. The <code>oom_score_adj</code> can vary from -1000 to 1000. If you assign -1000 to it, it can use 100% memory and still avoid getting terminated by OOM killer. On the other hand, if you assign 1000 to it, the Linux kernel will keep killing the process even when it uses minimal memory.</p>
+<p>Let&rsquo;s go back to our process with pid 42. Here is how you can change its <code>oom_score_adj</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">echo</span> -200 <span class="p">|</span> sudo tee - /proc/42/oom_score_adj
+</span></span></code></pre></div><p>We need to do this as <code>root</code> user or <code>sudo</code> because Linux does not allow normal users to reduce the OOM score. You can increase the OOM score as a normal user without any special permissions. e.g <code>echo 100 &gt; /proc/42/oom_score_adj</code></p>
+<p>There is also another, less fine-grained score called <code>oom_adj</code> which varies from -16 to 15. It is similar to <code>oom_score_adj</code>. In fact, when you set <code>oom_score_adj</code>, the kernel automatically scales it down and calculates <code>oom_adj</code>. <code>oom_adj</code> has a magic value of -17 which indicates that the given process should never be killed by OOM killer.</p>
+<h2 id="display-oom-scores-of-all-running-processes">Display OOM scores of all running processes</h2>
+<p>This script displays the OOM score and OOM adjusted score of all running processes, in descending order of OOM score</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#!/bin/bash</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Displays running processes in descending order of OOM score</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span> <span class="s1">&#39;PID\tOOM Score\tOOM Adj\tCommand\n&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="nb">read</span> -r pid comm<span class="p">;</span> <span class="k">do</span> <span class="o">[</span> -f /proc/<span class="nv">$pid</span>/oom_score <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="o">[</span> <span class="k">$(</span>cat /proc/<span class="nv">$pid</span>/oom_score<span class="k">)</span> !<span class="o">=</span> <span class="m">0</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">printf</span> <span class="s1">&#39;%d\t%d\t\t%d\t%s\n&#39;</span> <span class="s2">&#34;</span><span class="nv">$pid</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="k">$(</span>cat /proc/<span class="nv">$pid</span>/oom_score<span class="k">)</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="k">$(</span>cat /proc/<span class="nv">$pid</span>/oom_score_adj<span class="k">)</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="nv">$comm</span><span class="s2">&#34;</span><span class="p">;</span> <span class="k">done</span> &lt; &lt;<span class="o">(</span>ps -e -o <span class="nv">pid</span><span class="o">=</span> -o <span class="nv">comm</span><span class="o">=)</span> <span class="p">|</span> sort -k 2nr
+</span></span></code></pre></div><h2 id="check-if-any-of-your-processes-have-been-oom-killed">Check if any of your processes have been OOM-killed</h2>
+<p>The easiest way is to <code>grep</code> your system logs. In Ubuntu: <code>grep -i kill /var/log/syslog</code>. If a process has been killed, you may get results like <code>my_process invoked oom-killer: gfp_mask=0x201da, order=0, oom_score_adj=0</code></p>
+<h2 id="caveats-of-adjusting-oom-scores">Caveats of adjusting OOM scores</h2>
+<p>Remember that OOM is a symptom of a bigger problem - low available memory. The best way to solve it is by either increasing the available memory (e.g better hardware) or moving some programs to other machines or by reducing memory consumption of programs (e.g allocate less memory where possible).</p>
+<p>Too much tweaking of the OOM adjusted score will result in random processes getting killed and not being able to free enough memory.</p>
+<h2 id="references">References</h2>
+<ol>
+<li><a href="http://man7.org/linux/man-pages/man5/proc.5.html">proc</a> man page</li>
+<li><a href="https://askubuntu.com/questions/60672/how-do-i-use-oom-score-adj/">https://askubuntu.com/questions/60672/how-do-i-use-oom-score-adj/</a></li>
+<li><a href="https://linux-mm.org/OOM_Killer">Walkthrough</a> on which part of Linux code is called</li>
+<li>Classic <a href="https://lwn.net/Articles/317814/">LWN article</a> (a bit dated)</li>
+<li><a href="https://www.lynxbee.com/how-to-invoke-oom-killer-manually-for-understanding-which-process-gets-killed-first/">Invoking the OOM killer manually</a></li>
+</ol>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Algorithms: Gray Binary Code</title>
+      <link>https://rrampage.github.io/2018/08/18/algorithms-gray-binary-code/</link>
+      <pubDate>Sat, 18 Aug 2018 17:52:23 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/2018/08/18/algorithms-gray-binary-code/</guid>
+      <description>Gray Binary Code - A different way of ordering numbers</description>
+      <content:encoded><![CDATA[<p><a href="https://en.wikipedia.org/wiki/Gray_code">Gray binary code</a> is a way of expressing binary numbers such that consecutive numbers differ in exactly 1 digit.
+For example, in our conventional binary system, the numbers are</p>
+<ul>
+<li>000</li>
+<li>001</li>
+<li>010</li>
+<li>011</li>
+<li>100</li>
+<li>101</li>
+<li>110</li>
+<li>111 and so on</li>
+</ul>
+<p>In Gray, they are:</p>
+<ul>
+<li>000</li>
+<li>001</li>
+<li>011</li>
+<li>010</li>
+<li>110</li>
+<li>111</li>
+<li>101</li>
+<li>100 and so on</li>
+</ul>
+<p>In first system, when we go from &lsquo;001&rsquo; to &lsquo;010&rsquo;, there are 2 changes namely the unit&rsquo;s place becomes &lsquo;0&rsquo; from &lsquo;1&rsquo; and the next digit becomes &lsquo;1&rsquo; from &lsquo;0&rsquo;.
+But in Gray&rsquo;s system, &lsquo;001&rsquo; becomes &lsquo;011&rsquo; where there is only 1 change (that of 2nd digit).</p>
+<p>Gray codes are used in error correction in communication.</p>
+<h3 id="generating-gray-codes-of-length-n">Generating Gray codes of length n</h3>
+<p>Is there a property we can use for easily generating the Gray codes of a given length? Yes! In our previous example, we generated all the Gray codes for n=3. Ignoring the most significant bit (<strong>MSB</strong>), notice how the 4th and 5th numbers are equal in their first 2 digits, as are the 3rd and 6th, 2nd and 7th and 1st and 8th. The last 4 numbers are <strong>reflection</strong> of the first 4 if we ignore the last digit. But the last digit is 0 for the 1st 4 numbers and 1 for the last 4&hellip; We have a recursive formulation.</p>
+<p>R(0) = []
+R(n+1) = 0R(n) + 1R&rsquo;(n)   (R&rsquo;(n) = reverse of R(n))
+For n=0, we have an empty list.
+For n+1, we take R(n), prepend 0 to all elements and to this sequence, we add reverse of R(n) prepended with 1.</p>
+<p>This can be succinctly expressed in Python as:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">gray_code</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">res</span> <span class="o">=</span> <span class="n">gray_code</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;0&#39;</span><span class="o">+</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">res</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="o">+</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">res</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+</span></span></code></pre></div><p>The above function returns in correct order all the 2^n Gray codes of length n.
+We had to add a case for <code>n==1</code> because we are treating the numbers as strings so we can prepend &lsquo;0&rsquo; or &lsquo;1&rsquo;. As n=0 is an empty list, we need another case where we first add the strings.</p>
+<h3 id="converting-a-binary-number-to-gray-code">Converting a binary number to Gray code</h3>
+<p>How do we convert a binary number to Gray code e.g what is Gray code equivalent of 7 (111 in binary)? From our earlier example, it is 100 = 4. So we need a function which takes an integer and returns the equivalent Gray code as integer.</p>
+<p>We can use our recursive formulation from earlier to arrive at an algorithm. Let n = 2^a + b. Here, a is the MSB of n. G(n) is the Gray code of n. From our earlier formula, G(n) = 2^a + G(2^a-1-b) .. because of the reflection property. Thus, we know the value of G(n) at ath digit. We can keep iterating to get the other digits of G(n).</p>
+<p>Our pseudo-code:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">bin_to_gray</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">a</span> <span class="o">=</span> <span class="n">MSB</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c1"># Assume MSB function exists. It finds most significant bit of n</span>
+</span></span><span class="line"><span class="cl">    <span class="n">b</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="o">**</span><span class="n">a</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">2</span><span class="o">**</span><span class="n">a</span> <span class="o">+</span> <span class="n">bin_to_gray</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">a</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">log2</span> <span class="k">as</span> <span class="n">l2</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># A simple way to find MSB</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">MSB</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">l2</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+</span></span></code></pre></div><h4 id="an-even-faster-way">An even faster way:</h4>
+<p>It turns out that there is an even faster way of getting the nth Gray code from n.
+G(n) = n xor n/2</p>
+<p>In C, Java or Python, this is expressed as:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">return</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">^</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">1</span><span class="p">)</span><span class="w">
+</span></span></span></code></pre></div><h4 id="addendum--generating-all-gray-codes-knuth-style">Addendum : Generating all Gray codes Knuth style!</h4>
+<p>The legendary <a href="https://www-cs-faculty.stanford.edu/~knuth/taocp.html">Donald Knuth</a> uses this algorithm to generate all the tuples in his Art of Computer Programming Vol 4A:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">gen_gray_bin_taocp</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kt">boolean</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"> </span><span class="c1">// parity bit</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kt">byte</span><span class="o">[]</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">byte</span><span class="o">[</span><span class="n">n</span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="c1">// each bit is an element in this array</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">0</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">Arrays</span><span class="p">.</span><span class="na">toString</span><span class="p">(</span><span class="n">a</span><span class="p">));</span><span class="w"> </span><span class="c1">// Will print the number in reverse order</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">p</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">0</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">1</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="c1">// Find min j so that a[j-1] = 1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="o">[</span><span class="n">j</span><span class="o">-</span><span class="n">1</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">1</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="k">break</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="n">j</span><span class="o">++</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">j</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="c1">// Termination condition</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="k">return</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">a</span><span class="o">[</span><span class="n">j</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">byte</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="n">1</span><span class="o">-</span><span class="n">a</span><span class="o">[</span><span class="n">j</span><span class="o">]</span><span class="p">);</span><span class="w"> </span><span class="c1">// We flip the element at j</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div>]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>100 Days Of Code</title>
+      <link>https://rrampage.github.io/2018/08/13/100-days-of-code/</link>
+      <pubDate>Mon, 13 Aug 2018 13:40:27 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/2018/08/13/100-days-of-code/</guid>
+      <description>My 100 Days Of Code Challenge</description>
+      <content:encoded><![CDATA[<p>I have started the <a href="https://www.100daysofcode.com/">100 days of code challenge</a>.
+I intend to use this time to check out new languages and frameworks and solve some fun problems.</p>
+<p>I will update this post with my logs.</p>
+<p><strong>Aug 13 2018 D0</strong> : Algorithms for calculating number of combinations and generating them in a lexicographical increasing order. <a href="https://dev.to/rrampage/algorithms-generating-combinations-100daysofcode-4o0a">Blog</a></p>
+<p><strong>Aug 14 2018 D1</strong> : Working on algorithm for generating all permutations. First I managed to generate all possible <code>r</code> repetitions of <code>n</code> i.e <code>n^r</code>. Next, I read up and wrote code on Heap&rsquo;s algorithm. I am still not sure of the intuition behind the algorithm. Also, it does not generate the permutations in lexicographical increasing order.</p>
+<p><strong>Aug 15 2018 D2</strong> : Learned and implemented an algorithm that generates all permutations in a lexicographical order. It is not as efficient as Heap&rsquo;s algorithm.</p>
+<p><strong>Aug 16 2018 D3</strong> : Stumbled across the game of <a href="https://www.nytimes.com/crosswords/game/set">Set</a>. Wrote a small python script which generates all solutions of any given game.</p>
+<p><strong>Aug 17 2018 D4</strong> : Learning to use <a href="https://pptr.dev/">Puppeteer.js</a> along with <a href="https://cloud.google.com/functions">Google Cloud Functions</a>. This <a href="https://dev.to/_mertsimsek/to-use-google-cloud-function-as-google-chrome-3e7e">dev.to post</a> was very useful in getting me started.</p>
+<p><strong>Aug 18 2018 D5</strong> : Read about Gray Codes, an alternative way of ordering binary numbers in TAOCP Vol 4. Wrote <a href="https://dev.to/rrampage/algorithms-gray-binary-code---a-different-way-of-ordering-numbers-14e3">a blog post</a> exploring some of their properties and how to generate them.</p>
+<p><strong>Aug 19 2018 D6</strong> : Wrote a script which calculates iterations for <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">Conway&rsquo;s Game of Life</a></p>
+<p><strong>Aug 20 2018 D7</strong> : Went through some Dynamic programming problems. Staircase problem is a good example of DP.</p>
+<p><strong>Aug 21 2018 D8</strong>: More recursion and DP. Towers of Hanoi and Longest unique sub-string problem.</p>
+<p><strong>Aug 24 2018 D9</strong>: After 2 days break due to travel, got back to C and linked lists. I am working through <a href="http://cslibrary.stanford.edu/105/LinkedListProblems.pdf">Stanford&rsquo;s Linked List problems</a>.</p>
+<p><strong>Aug 25 2018 D10</strong> Working on a Sudoku solver. Made some more progress on the linked list problems from yesterday.</p>
+<p><strong>Aug 26 2018 D11</strong> My sudoku solver can solve easy sudokus from <a href="https://www.codewars.com/kata/sudoku-solver/python">Code Wars</a></p>
+<p><a href="https://gist.github.com/rrampage/ddc6f6fdaa0911493d2edec5cc303271">Gist</a></p>
+<p><strong>Aug 27 2018 D12</strong> Reading up on back-tracking and n-queens problem.</p>
+<p><strong>Aug 28 2018 D13</strong> Some fun with numpy and pandas and setting up virtualenvs.</p>
+<p><strong>Aug 29 2018 D14</strong> Solved <a href="https://www.codewars.com/kata/compress-slash-encode-a-message-with-rle-run-length-encoding/train/python">Run Length Encoding problem</a> recursively</p>
+<p><strong>Aug 30 2018 D15</strong> Data visualization using matplotlib in Python</p>
+<p><strong>Aug 31 2018 D16</strong> 1D Cellular Automata in Java</p>
+<p><strong>Sep 1 2018 D17</strong> Solved some regex golf problems</p>
+<p><strong>Sep 2 2018 D18</strong> Played around with TMDB API using Python</p>
+<p><strong>Sep 3 2018 D19</strong> Some interactive graph visualizations using Gephi</p>
+<p><strong>Sep 4 2018 D20</strong> Implemented Tries in Java</p>
+<p><strong>Sep 5 2018 D21</strong> Codewars kata on displaying a Tic-tac-toe board in C</p>
+<p><strong>Sep 6 2018 D22</strong> Dynamic programming - Coin change problem!</p>
+<p><strong>Sep 7 2018 D23</strong> Data cleaning using OpenRefine</p>
+<p><strong>Sep 8 2018 D24</strong> Using SQLite for importing tabular data</p>
+<p><strong>Sep 9 2018 D25</strong> SQLite window functions</p>
+<p><strong>Sep 13 2018 D26</strong> After 3 day break because of job interviews and travel, a simple Python problem on moving 0s to the end of list on <a href="https://www.codewars.com/kata/52597aa56021e91c93000cb0">Codewars</a></p>
+<p><strong>Sep 14 2018 D27</strong> Full-text search using SQLite (FTS4 and FTS5 engines)</p>
+<p><strong>Sep 15 2018 D28</strong> n-Queens in Python using backtracking in just 20 lines! Code here: <a href="https://gist.github.com/rrampage/8f7fb7e0a53b1a5ec0161386ded429cc">gist</a></p>
+<p><strong>Sep 16 2018 D29</strong> Playing around with D3.js for data visualization</p>
+<p><strong>Sep 17 2018 D30</strong> Creating SVGs of various shapes in HTML. Awesome guide <a href="http://svgpocketguide.com/book/">here</a></p>
+<p><strong>Sep 18 2018 D31</strong> Befunge interpreter on <a href="https://www.codewars.com/kata/befunge-interpreter/">Codewars</a></p>
+<p><strong>Sep 19 2018 D32</strong> Learned more about JS <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce">Array.reduce</a></p>
+<p><strong>Sep 20 2018 D33</strong> Learned more about git branching and detaching from HEAD commit</p>
+<p><strong>Sep 21 2018 D34</strong> Learned to use <a href="http://www.grymoire.com/Unix/Sed.html">sed</a> <a href="https://likegeeks.com/sed-linux/">effectively</a></p>
+<p><strong>Sep 22 2018 D35</strong> <code>os.walk</code> in Python is very nifty for crawling the filesystem!</p>
+<p><strong>Sep 23 2018 D36</strong> More d3.js, visualizations using choropleths for maps</p>
+<p><strong>Sep 24 2018 D37</strong> Learned how OOM killer works on Linux. Wrote an article <a href="https://dev.to/rrampage/surviving-the-linux-oom-killer-2ki9">here</a></p>
+<p>Have started working once again. I am putting this on hiatus till I find more time. Meanwhile, I will continue posting blog posts on my learning.</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Algorithms: Generating Combinations</title>
+      <link>https://rrampage.github.io/2018/08/12/algorithms-generating-combinations/</link>
+      <pubDate>Sun, 12 Aug 2018 20:20:11 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/2018/08/12/algorithms-generating-combinations/</guid>
+      <description>Generate combinations of n numbers taken r at a time</description>
+      <content:encoded><![CDATA[<p>In how many different ways can we select <code>r</code> objects from a collection of <code>n</code> objects? In mathematics, this is called <a href="https://en.wikipedia.org/wiki/Combination">combinations</a>.</p>
+<p><img loading="lazy" src="https://thepracticaldev.s3.amazonaws.com/i/w8utl55xbryxdvolbkdx.jpg" alt="Combinations of 5 objects, taken 2 at a time"  />
+</p>
+<p>The formula for the number of combinations is:
+<img loading="lazy" src="https://wikimedia.org/api/rest_v1/media/math/render/svg/813f7124a61dac205542db3f8491b36cb306453a" alt=""  />
+
+where, <code>n!</code> denotes the factorial of a number that is the product of all numbers from 1 to n (inclusive).</p>
+<h3 id="prelude--a-function-for-calculating-factorial-of-a-number">Prelude : A function for calculating factorial of a number</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">factorial</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">1L</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">res</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">res</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><h3 id="calculating-combinations">Calculating Combinations</h3>
+<p>That was simple! Let us now move on to calculating the number of combinations given <code>n</code> and <code>r</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">combinations</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">0</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">1L</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">r</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">r</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">res</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">i</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">res</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">1</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">res</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>What does this algorithm do? Recall that we need to find <code>n!/r!(n-r)!</code> which will be of the form <code>n(n-1)...(n-r+1)/1.2...r</code>. Similar to <code>factorial</code>, we initialize the result as <code>1</code> and multiply by <code>n-i</code> and divide by <code>i+1</code>. Will this result in a fractional number? No. This is because first, we multiply by <code>n</code> and divide by <code>1</code>. Next, we multiply by <code>n-1</code> and divide by <code>2</code>. Now, either <code>n</code> or <code>n-1</code> have to be even (as they are consecutive numbers). Similarly, next when we divide by 3, one of <code>n</code>,<code>n-1</code> and <code>n-2</code> must be divisible by 3.</p>
+<p>In the above code, we also make use of the mathematical property that <code>combinations(n,r) = combinations(n,n-r)</code>. This way, we can do less number of operations for calculating the combinations.</p>
+<h3 id="generating-the-combinations">Generating the combinations</h3>
+<p>Counting the number of combinations was not so hard! Now, let&rsquo;s generate all the combinations.</p>
+<ul>
+<li>Given <code>n</code> and <code>r</code>, we will print out all the combinations.</li>
+<li>For the <code>n</code> objects, we will use the numbers from 0 to (n-1).</li>
+<li>Additionally, we will generate them in a <strong>lexicographical</strong> order which is math speak for sorted order.</li>
+<li>Finally, in a combination containing a and b, if a &lt; b, we will print <code>a b</code> instead of <code>b a</code>. Formally stated, if a[k] and a[k+1] are the kth and (k+1)th elements in a generated combination, a[k] &lt; a[k+1] for all k</li>
+</ul>
+<p>For example, given n = 4, r = 2, we have:</p>
+<pre tabindex="0"><code>0 1
+0 2
+0 3
+1 2
+1 3
+2 3
+</code></pre><p>i.e 6 combinations.</p>
+<p>Notice that we have <code>0 1</code> and not <code>1 0</code>. This is because we are generating each combination in lexicographical order and we take the minimum for each combination.</p>
+<h4 id="generating-for-a-specific-value-of-r-r--2">Generating for a specific value of <code>r</code> (r = 2)</h4>
+<p>If we have a specific value of <code>r</code> say 2, the code will involve 2 <code>for</code> loops like:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="o">-</span><span class="n">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="o">+</span><span class="n">1</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">println</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&#34; &#34;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">j</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>In the code above, our first loop variable <code>i</code> goes from 0 to n-2 and the next variable <code>j</code> goes from <code>i+1</code> to n-1. Why so? This is because we have a requirement for taking the lexicographical minimum combination, so <code>i &lt; j</code> from our constraints.</p>
+<p>If value of <code>r</code> is fixed, we can simply create r <code>for</code> loops. But it is not fixed&hellip;</p>
+<h4 id="generalizing">Generalizing!</h4>
+<p>Now, let&rsquo;s move on to the main goal - generate combinations of <code>n</code> numbers taken <code>r</code> at a time. <em>This section will be a little verbose as I have outlined how I arrived at the correct code. If you are interested in just the algorithm, feel free to skip to the bottom of the article</em></p>
+<p>If we notice our previous code for <code>r = 2</code>, our first combination is always <code>0 1</code> as <code>i = 0, j = 1</code>. Similarly, if <code>r</code> was 3, our first combination would be <code>0 1 2</code>. There is a pattern!</p>
+<p><strong>By creating an array <code>a</code> of size <code>r</code>, we can generate the first combination as <code>0 1 2 .. r-1</code>.</strong> We have the first combination ready. What about the rest? Somehow, if we increment elements in this array, we will generate the combinations&hellip;</p>
+<p>Again, looking at the <code>r = 2</code> case, notice that the <strong>last</strong> combination is <code>n-2 n-1</code>. Similarly, for <code>r = 3</code>, it is <code>n-3 n-2 n-1</code>. Thus, for <code>r</code> elements, it will be <code>n-r+1 n-r+2 .. n-1</code>. There is one more insight - <strong>there is exactly one combination which starts with <code>n-r+1</code></strong>. If our array&rsquo;s first element reaches <code>n-r+1</code>, we are done!</p>
+<p><strong>We now have a termination condition for our function: <code>a[0] == n-r+1</code></strong></p>
+<p>The code we have so far will look like:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="c1">// Given</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kt">int</span><span class="w"> </span><span class="n">r</span><span class="p">;</span><span class="w"> </span><span class="c1">// Given</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[</span><span class="n">r</span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="c1">// Initialize array of size r</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">r</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w"> </span><span class="c1">// Initialize array with first combination</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="o">-</span><span class="n">r</span><span class="o">+</span><span class="n">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// Our termination condition</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// DO SOMETHING!</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>We have a <code>while</code> loop that checks for termination condition. For the loop to terminate, we need to steadily progress from our first combination to the last combination. As we are generating elements in lexicographical order, the last element of the array must be incremented first. Then the second from last element and so on.</p>
+<p>In our earlier example of <code>n = 4, r = 2</code>, we had</p>
+<pre tabindex="0"><code>0 1
+0 2
+0 3
+1 2
+1 3
+2 3
+</code></pre><p>After <code>0 3</code>, we get <code>1 2</code>. This means once the <code>r-1</code> element (last element) reaches its maximum, we increment <code>r-2</code> element from 0 to 1 and also reset the value of <code>r-1</code> element to <code>a[r-2]+1</code> as it must always be at least 1 greater than the <code>r-2</code> element (from our constraints). Moving to our pseudo-code, let&rsquo;s add this to the <code>while</code> loop</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="o">-</span><span class="n">1</span><span class="p">;</span><span class="w"> </span><span class="c1">// variable i keeps track of which element in array we are incrementing</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="o">-</span><span class="n">r</span><span class="o">+</span><span class="n">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// Our termination condition</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">n</span><span class="o">-</span><span class="n">r</span><span class="o">+</span><span class="n">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="o">-</span><span class="n">1</span><span class="p">;</span><span class="w"> </span><span class="c1">//If a[i] has reached the max allowable value, decrement i and move to next element in array</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">printArray</span><span class="p">(</span><span class="n">a</span><span class="p">);</span><span class="w"> </span><span class="c1">// pseudo-code to print out the combination</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]+</span><span class="n">1</span><span class="p">;</span><span class="w"> </span><span class="c1">// increment</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">r</span><span class="o">-</span><span class="n">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="n">1</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]+</span><span class="n">1</span><span class="p">;</span><span class="w"> </span><span class="c1">// Reset `i+1` element as previous element + 1, according to our constraints</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="o">+</span><span class="n">1</span><span class="p">;</span><span class="w"> </span><span class="c1">// Once you have reset the i+1 element, it is no longer &lt; n-r+i and hence, we can move it back to old value</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>We have an index variable <code>i</code> which we use to check which is the element in the array to be incremented. In the first <code>if</code> in above code, we check if the <code>a[i]</code> has reached its maximum value of <code>n-r+i</code>. If yes, we decrement <code>i</code> as <code>a[i]</code> can no longer be incremented. Moving out of <code>if</code>, we then print the combination and increment <code>a[i]</code>. Now, if <code>i</code> is no longer <code>r-1</code> i.e it is no longer last element of <code>a</code>, we must reset it to <code>r-1</code> and also set the value of <code>a[r-1]</code> as <code>a[r-2]+1</code>. This works for <code>r=2</code>. Hooray! We have abstracted out the <code>for</code> loop in the earlier section into a <code>while</code> loop with a few conditionals.</p>
+<p>But does this work for <code>r &gt; 2</code>? No&hellip; We need a minor change to make it work! Change the <code>if</code> statements inside the loop to <code>while</code> loops and we are done! In case of first loop, we need to find the maximum <code>i</code> which is less than <code>n+r-i</code>. For example <code>n=5, r=3</code> we have:</p>
+<pre tabindex="0"><code>0 1 2
+0 1 3
+0 1 4
+0 2 3
+0 2 4
+0 3 4
+1 2 3
+1 2 4
+1 3 4
+2 3 4
+</code></pre><p>As we move from <code>0 3 4</code> to <code>1 2 3</code>, both <code>i = 2</code> (a[2] = 4) and <code>i = 1</code> (a[1] = 3) are at their maximum. We need to move to <code>i = 0</code>. Similarly, the second <code>if</code> must be a <code>while</code> loop because once we have incremented the a[i] for minimum <code>i</code>, we need to reset the outer elements of array to maintain our constraints.</p>
+<h3 id="our-final-code">Our final code:</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[</span><span class="n">r</span><span class="o">]</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">// initialize first combination</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">r</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">1</span><span class="p">;</span><span class="w"> </span><span class="c1">// Index to keep track of maximum unsaturated element in array</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">// a[0] can only be n-r+1 exactly once - our termination condition!</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// If outer elements are saturated, keep decrementing i till you find unsaturated element</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">i</span><span class="o">--</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">printArray</span><span class="p">(</span><span class="n">a</span><span class="p">);</span><span class="w"> </span><span class="c1">// pseudo-code to print array as space separated numbers</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]++</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// Reset each outer element to prev element + 1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">1</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">1</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">i</span><span class="o">++</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><h4 id="proof-of-termination">Proof of termination</h4>
+<p>Now that we have our algorithm, how can we show that it terminates? In each iteration of our outer while loop, we increment the element of the array with maximum index i which has not reached value <code>n-r+i</code> while maintaining our constraints. <strong>Due to the lexicographical ordering, our previous combination is always lesser than our currently generated combination.</strong> As there are only a finite number of combinations till we reach our &ldquo;last&rdquo; combination, we can say that our algorithm will terminate.</p>
+<h3 id="meta">Meta:</h3>
+<p>I began my 100 days of code challenge today with this problem. I will create a separate post explaining my motivations and plans.</p>
+<p>Regarding this problem statement of generating combinations, I had some trouble initially moving from <code>r=2</code> case to the general one. It took me some time to find the correct termination condition. I am happy that the final algorithm is relatively compact. I also want to do a proof of correctness for this algorithm later.</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
       <title>Awk - A useful little language</title>
       <link>https://rrampage.github.io/2018/05/26/awk-a-useful-little-language/</link>
       <pubDate>Sat, 26 May 2018 13:58:58 +0000</pubDate>

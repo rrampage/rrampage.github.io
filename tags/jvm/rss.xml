@@ -6,7 +6,194 @@
     <description>Recent content in jvm on A Random Walk</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 15 May 2018 14:14:49 +0000</lastBuildDate><atom:link href="https://rrampage.github.io/tags/jvm/rss.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 16 May 2018 11:53:42 +0000</lastBuildDate><atom:link href="https://rrampage.github.io/tags/jvm/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>JVM Primer Part 2 - Debugging memory issues</title>
+      <link>https://rrampage.github.io/2018/05/16/jvm-primer-part-2-debugging-memory-issues/</link>
+      <pubDate>Wed, 16 May 2018 11:53:42 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/2018/05/16/jvm-primer-part-2-debugging-memory-issues/</guid>
+      <description>JVM Primer - Debugging memory issues</description>
+      <content:encoded><![CDATA[<p>This is part 2 of my series on JVM Memory management and debugging.
+Read part 1 <a href="https://dev.to/rrampage/a-primer-on-jvm-memory-management-and-troubleshooting---1-12b6">here</a></p>
+<p>In this post, we will cover symptoms of memory issues for JVM-based applications, which tools we can use to diagnose them and how we can fix them.</p>
+<h2 id="symptoms">Symptoms</h2>
+<p>Here are a few symptoms of memory issues:</p>
+<ol>
+<li>Poor application performance</li>
+<li>Abnormal memory usage</li>
+<li>OutOfMemory errors (OOME)</li>
+</ol>
+<h3 id="poor-application-performance">Poor Application Performance</h3>
+<ol>
+<li>Application not performing to expected level</li>
+<li>Long response times</li>
+<li>Dropping client requests</li>
+<li>Stuck threads</li>
+<li>Service unavailability</li>
+<li>Large gaps in timestamps in application logs</li>
+</ol>
+<h3 id="causes-of-memory-problems">Causes of memory problems:</h3>
+<ol>
+<li>Misconfigured memory
+<ul>
+<li><strong>Old generation</strong> memory space is sized smaller than live-set of objects. This triggers a major garbage collection (GC), resulting in larger pauses.</li>
+<li><strong>Code cache</strong> is smaller than generated compiled code footprint</li>
+<li><strong>Young generation</strong> is not sized appropriately leading to premature promotion of objects</li>
+<li><strong>PermGen / Metaspace</strong> not sized correctly leading to full GC</li>
+</ul>
+</li>
+<li>Memory leaks - Unintentional retention of objects in memory spaces
+<ul>
+<li>Unintentional references to set of objects in heap</li>
+<li>Not dereferencing classloader instances appropriateky</li>
+<li>Not releasing native resources appropriately</li>
+</ul>
+</li>
+<li>Excessive use of <strong>finalizers</strong>
+<ul>
+<li>Objects with finalizers may delay their own GC</li>
+<li>Finalizer thread needs to invoke finalize() method of the instances before reclaiming them</li>
+<li>There can only be 1 Finalizer thread. If it does not keep up with rate at which objects become available for finalization, JVM fails with OOME</li>
+<li>Pending finalizer objects are essentially accumulated garbage</li>
+<li>Finalizers deprecated in Java 9</li>
+</ul>
+</li>
+<li>Explicit GC calls
+<ul>
+<li><strong><code>System.gc()</code></strong> and diagnostic data collections can cause long pauses</li>
+<li><strong><code>-XX:+DisableExplicitGC</code></strong> can disable System.gc() calls</li>
+<li><strong><code>-XX:+PrintClassHistogram</code></strong> also calls an explicit GC when receiving <code>kill -3</code> signal</li>
+</ul>
+</li>
+</ol>
+<h3 id="outofmemoryerror">OutOfMemoryError</h3>
+<ul>
+<li>Hierarchy : <code>Throwable</code> -&gt; <code>Error</code> -&gt; <code>VirtualMachineError</code> -&gt; <code>OutOfMemoryError</code> (Unchecked exception)</li>
+<li>Thrown when JVM runs out of space in various memory spaces or cannot proceed further with process execution. Some of the possibilities:
+<ul>
+<li>Heap space full
+<ul>
+<li>JVM already invoked full GC but could not free up space</li>
+<li>Heap may be sized smaller than app footprint or app is unnecessarily holding on to some set of objects in heap</li>
+</ul>
+</li>
+<li>GC overhead limit exceeded
+<ul>
+<li>Too many GCs with very less space claimed</li>
+<li>Application threads not getting any CPU cycles</li>
+</ul>
+</li>
+<li>Requested array size exceeds VM limit</li>
+<li>PermGen space / Metaspace / compressed class space
+<ul>
+<li>Full GC invoked but unable to free space in Metaspace and application is attempting to load more classes</li>
+<li>Metaspace by default &ldquo;unlimited&rdquo; but can be controlled by MaxMetaspaceSize. By default, 1 GB reserved for compressed class space</li>
+<li>Make sure that -Xnoclassgc is not in use as it prevents unloading of classes</li>
+</ul>
+</li>
+<li>Native memory - out of swap space / stack trace with native method
+<ul>
+<li>Native space used for Java thread stacks, loaded jars, zips, native libraries, native resources like files; mem allocated from native code</li>
+<li>Unable to allocate more native memory or to create new threads or native memory leaks</li>
+<li>Running 32 bit JVM on 64 bit machine puts 4 GB limit on process size</li>
+<li>Position of Java heap can put a cap on max size of native heap. Can be controlled by option -XX:HeapBaseMinAddress=n to specify address native heap should be based at</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="codecache-warnings">CodeCache warnings</h3>
+<ul>
+<li>warning message printed by JVM saying CodeCache full, compiler has been disabled.</li>
+<li><strong>No OOME when code cache is full</strong></li>
+<li>Emergency cleanup undertaken by Sweeper. This may discard compiled code and JIT may need to perform optimizations again</li>
+<li>Ensure appropriate size of CC using <strong><code>ReservedCodeCacheSize</code></strong> option</li>
+</ul>
+<h3 id="direct-buffer-memory">Direct Buffer Memory</h3>
+<ul>
+<li><strong><code>ByteBuffer.allocateDirect(N)</code></strong> : Direct buffers which are garbage collected using phantom references and a reference queue</li>
+<li>Unlimited memory by default but can be controlled by -XX:MaxDirectMemorySize=n</li>
+<li>Used by <strong>Java NIO</strong>. Heap ByteBuffer for I/O uses temporary direct ByteBuffer</li>
+</ul>
+<h2 id="diagnostic-data-data-collection-and-analysis-tools">Diagnostic Data, Data Collection and Analysis Tools</h2>
+<h3 id="troubleshooting-memory-leaks">Troubleshooting Memory leaks</h3>
+<ol>
+<li>
+<p><strong>Confirm memory leak</strong></p>
+<ul>
+<li>Monitor heap usage over time</li>
+<li>If full GCs unable to claim space in OldGen, could be config issue</li>
+<li>Heap size may be too small -&gt; Increase heap size and monitor! If issue persists, it could be a memory leak</li>
+<li><code>-XX:+GCTimeLimit</code> sets upper limit on amount of time GCs can spend in percent of total time, default 98%</li>
+<li><code>-XX:+GCHeapFreeLimit</code> sets lower limit on amount of space that should be freed by a GC, represented as % of max heap, default is 2%</li>
+<li><code>OutOfMemoryError</code> is thrown after a full GC if previous 5 consecutive GCs were not able to keep the GC cost below <code>GCTimeLimit</code> or free up at least <code>GCHeapFreeLimit</code> space</li>
+<li><code>PermGen</code>/<code>Metaspace</code> may be too small if frequent Full GCs do not claim any space</li>
+</ul>
+</li>
+<li>
+<p><strong>Diagnostic data and analysis</strong></p>
+<ul>
+<li><strong>GC logs</strong> are helpful for determining heap requirements, finding out excessive GCs and long GC pauses and in configuration of memory spaces
+<ul>
+<li>For Java 9+, G1 options are: <code>-Xlog:gc*,gc+phases=debug:file=gc.log . For non G1, -Xlog:gc*:file=gc.log</code>. For older JVMs, <code>-XX:+PrintGCDetails, -XX:+PrintGCTimeStamps, -XX:+PrintGCDateStamps, -Xloggc:gc.log</code></li>
+<li>For checking metaspace, <code>-verbose:class</code> or <code>-XX:+TraceClassLoading , -XX:+TraceClassUnloading</code></li>
+<li>We can analyse logs through manual inspection, <a href="https://sourceforge.net/projects/gcviewer/">GCViewer</a>, <a href="https://github.com/jewes/gchisto">GCHisto</a>, <a href="http://gceasy.io/">gceasy.io</a></li>
+</ul>
+</li>
+<li><strong>Heap dumps</strong> help determine unexpected memory growth and memory leaks.
+<ul>
+<li>We can take heap dumps in follwing ways:
+<ul>
+<li>jcmd pid GC.heap_dump heapdump.dmp</li>
+<li>jmap -dump:format=b,file=snapshot.jmap pid</li>
+<li>JConsole or Java Mission Control using MBean HotSpotDiagnostic</li>
+<li>JVM option heap dump on OOM error : -XX:+HeapDumpOnOutOfMemoryError . Frequent full GCs can delay collection of heap dump and restart of the process</li>
+</ul>
+</li>
+<li><strong>Eclipse Memory Analyzer Tool (MAT)</strong> shows leak suspects, histograms, unreachable objects, duplicate classes, reference chains to GC roots, allows using <a href="https://en.wikipedia.org/wiki/Object_Query_Language">OQL</a> to explore heap dumps.</li>
+<li><strong>JOverFlow for JMC</strong> and <strong>Java VisualVM</strong>, <strong>YourKit</strong> (a commercial profiler) can all take heap dumps.</li>
+</ul>
+</li>
+<li><strong>Heap histograms</strong> - quick view of objects in heap
+<ul>
+<li>Collect using:
+<ul>
+<li><code>-XX:+PrintClassHistogram</code> and <code>SIGQUIT</code> on Posix and <code>SIGBREAK</code> on Windows</li>
+<li><code>jcmd pid GC.class_histogram filename=histo</code></li>
+<li><code>jmap -histo pid core_file</code></li>
+<li><code>jhsdb jmap</code> (Java 9)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Java flight recordings</strong> - unexpected memory growth and memory leaks, GC events
+<ul>
+<li>Enable Heap Statistics. Can introduce additional performance overhead</li>
+<li>To create a flight recording : <code>-XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:StartFlightRecording=delay=20s,duration=60s,name=Rec,filename=lol.jfr,settings=profile</code></li>
+<li><strong>Flight recordings can find out type of leaking objects but you need heap dumps to find out what is causing the objects to leak</strong></li>
+</ul>
+</li>
+<li><strong>Finalizers</strong>
+<ul>
+<li>Collect data using JConsole, jmap</li>
+<li>Analyse using Eclipse MAT / Visual VM using heap dumps</li>
+</ul>
+</li>
+<li>Native Memory
+<ul>
+<li>Native Memory Tracker output - tracks native memory used internally by JVM, not for external libraries. Start JVM with <strong><code>NativeMemoryTracking</code></strong> option</li>
+<li><strong><code>pmap</code></strong>, <strong><code>libumem</code></strong>, <strong><code>valgrind</code></strong>, core files</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this series, we have taken a look at how the JVM manages memory and how the garbage collection process works. We have also gone through how to diagnose memory issues, which tools to use to collect and analyze diagnostic information and some JVM options which can affect application performance.</p>
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>A Primer on JVM Memory Management and Troubleshooting - 1</title>
       <link>https://rrampage.github.io/2018/05/15/a-primer-on-jvm-memory-management-and-troubleshooting-1/</link>

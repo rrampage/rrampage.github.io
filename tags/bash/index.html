@@ -138,6 +138,20 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2>Ensuring that a shell script runs exactly once
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Many times, we have shell scripts which perform some important stuff like inserting into database, mailing reports, etc which we want to run exactly one instance of.
+Enter locks! A simple solution is to create a “lock file” and check if the file exists when the script starts. If the file is already created, it means another instance of that program is running, so we can fail with message “Try again later!”. Once the script completes running, it will clean-up and delete the lock file.
+LOCK_FILE=a.lock if [ -f &#34;$LOCK_FILE&#34; ]; then # Lock file already exists, exit the script echo &#34;An instance of this script is already running&#34; exit 1 fi # Create the lock file echo &#34;Locked&#34; &gt; &#34;$LOCK_FILE&#34; # Do the normal stuff # clean-up before exit rm &#34;$LOCK_FILE&#34; This looks promising but there are issues with this approach. What happens if the script does not end correctly i.e it exits because of some failure before it reaches the clean-up part of the code?...</p>
+  </div>
+  <footer class="entry-footer">November 6 2018   4 min</footer>
+  <a class="entry-link" aria-label="post link to Ensuring that a shell script runs exactly once" href="https://rrampage.github.io/2018/11/06/ensuring-that-a-shell-script-runs-exactly-once/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2>Awk - A useful little language
     </h2>
   </header>

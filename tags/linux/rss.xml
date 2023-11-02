@@ -6,84 +6,100 @@
     <description>Recent content in linux on A Random Walk</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 26 May 2018 13:58:58 +0000</lastBuildDate><atom:link href="https://rrampage.github.io/tags/linux/rss.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 06 Nov 2018 18:53:23 +0000</lastBuildDate><atom:link href="https://rrampage.github.io/tags/linux/rss.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Awk - A useful little language</title>
-      <link>https://rrampage.github.io/2018/05/26/awk-a-useful-little-language/</link>
-      <pubDate>Sat, 26 May 2018 13:58:58 +0000</pubDate>
+      <title>Ensuring that a shell script runs exactly once</title>
+      <link>https://rrampage.github.io/2018/11/06/ensuring-that-a-shell-script-runs-exactly-once/</link>
+      <pubDate>Tue, 06 Nov 2018 18:53:23 +0000</pubDate>
       
-      <guid>https://rrampage.github.io/2018/05/26/awk-a-useful-little-language/</guid>
-      <description>Speed up text processing tasks with Awk</description>
-      <content:encoded><![CDATA[<p>Awk is a small but capable programming language which is used for processing text. It was developed by Aho, Weinberger, Kerninghan at Bell Labs.</p>
-<p><a href="https://twitter.com/b0rk">Julia Evans</a> made an awesome Awk <a href="https://wizardzines.com/comics/awk/">comic</a>:
-
-  <img src="https://wizardzines.com/images/uploads/awk.png" alt="AWK comic"/>
-</p>
-<p>Awk scans input file as a sequence of lines and splits each line into fields. The field separator is usually whitespace but you can customize it to any character.</p>
-<p>An <code>awk</code> program is a sequence of <strong>pattern-action</strong> pairs i.e for each line, it checks if it matches the pattern and if yes, it performs the associated action on the line. Awk can be used interactively or to run saved programs.</p>
-<p>Here is what Awk does written in Python-like pseudocode:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">initialize</span><span class="p">()</span> <span class="c1"># Initializes variables in BEGIN block</span>
-</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">input_lines</span><span class="p">:</span> <span class="c1"># Awk divides file / input into a list of lines</span>
-</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">condition</span><span class="p">,</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">conditions</span><span class="p">:</span> <span class="c1"># A program is a list of condition-action pairs</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">condition</span><span class="p">(</span><span class="n">line</span><span class="p">):</span> <span class="c1">#match line against condition</span>
-</span></span><span class="line"><span class="cl">            <span class="n">action</span><span class="p">()</span> <span class="c1">#perform action on match </span>
-</span></span></code></pre></div><p>Here are some small snippets of Awk:</p>
-<h2 id="example---hello-world">Example - Hello World!</h2>
-<p>You can run <code>awk</code> programs inline or through a file:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">awk <span class="s1">&#39;BEGIN{ print &#34;Hello, World!&#34;}&#39;</span>
-</span></span></code></pre></div><p>Alternatively, you can save this to a file <code>hello.awk</code>:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-awk" data-lang="awk"><span class="line"><span class="cl"><span class="nb">BEGIN</span><span class="p">{</span> <span class="kr">print</span> <span class="s2">&#34;Hello, World!&#34;</span><span class="p">}</span>
-</span></span></code></pre></div><p>Then run it as <code>awk -f hello.awk</code></p>
-<h2 id="example---reading-a-csv-and-printing-a-specific-column">Example - Reading a CSV and printing a specific column</h2>
-<p>Let&rsquo;s now do something useful! Download this <a href="https://data.lacity.org/api/views/nxs9-385f/rows.csv">csv</a> which is 2010 census data by zip code in Los Angeles city.</p>
-<p>Read the first 3 lines from csv: <code>head -3 2010_Census_Populations_by_Zip_Code.csv</code></p>
-<pre tabindex="0"><code>Zip Code,Total Population,Median Age,Total Males,Total Females,Total Households,Average Household Size
-91371,1,73.5,0,1,1,1
-90001,57110,26.6,28468,28642,12971,4.4
-</code></pre><p>We will print just the total column using <code>awk -F, '{print $2}' 2010_Census_Populations_by_Zip_Code.csv</code></p>
-<p>The <code>-F,</code> sets the field separator to comma as we need to split by commas for getting fields in a CSV file. <code>$n</code> allows you to use the value in the nth column.</p>
-<h2 id="example---computing-some-statistics">Example - Computing some statistics</h2>
-<p>Awk allows the use of variables and functions. Let&rsquo;s see how to use them by computing the total population in the entire city.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-awk" data-lang="awk"><span class="line"><span class="cl"><span class="c1"># total.awk</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="nx">s</span> <span class="o">+=</span> <span class="o">$</span><span class="mi">2</span><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="nb">END</span> <span class="p">{</span><span class="kr">print</span> <span class="s2">&#34;Total population:&#34;</span><span class="p">,</span> <span class="nx">s</span><span class="p">}</span>
-</span></span></code></pre></div><p>Variables are by default initialized to 0. Here, we use a variable <code>s</code> to hold the total.</p>
-<p>Running this script as <strong><code>awk -F, -f total.awk 2010_Census_Populations_by_Zip_Code.csv</code></strong>, we get output: <code>Total population: 10603988</code></p>
-<h2 id="special-variables-and-built-in-functions">Special variables and built-in functions</h2>
-<p>Awk uses some special variables and functions to make your programs more compact:</p>
-<ul>
-<li><strong>NF</strong> : Number of fields in a line</li>
-<li><strong>NR</strong> : Line number</li>
-<li><strong>$0</strong> : The entire input line</li>
-<li><strong>length</strong> : gives number of characters in a string</li>
-</ul>
-<p>Now, we will compute the average household size which is total population divided by total households. The columns of interest are $2 and $6.
-We also want the average population per zip code. Our script:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-awk" data-lang="awk"><span class="line"><span class="cl"><span class="c1"># stats.awk</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span> <span class="nx">s</span> <span class="o">+=</span> <span class="o">$</span><span class="mi">2</span><span class="p">;</span> <span class="nx">h</span> <span class="o">+=</span> <span class="o">$</span><span class="mi">6</span><span class="p">;}</span>
-</span></span><span class="line"><span class="cl"><span class="nb">END</span> <span class="p">{</span><span class="kr">print</span> <span class="s2">&#34;Total population:&#34;</span><span class="p">,</span> <span class="nx">s</span><span class="p">,</span> <span class="s2">&#34;\nTotal households:&#34;</span><span class="p">,</span> <span class="nx">h</span><span class="p">,</span> <span class="s2">&#34;\nAverage household size:&#34;</span><span class="p">,</span> <span class="nx">s</span><span class="o">/</span><span class="nx">h</span><span class="p">,</span> <span class="s2">&#34;\nAverage population per zip code:&#34;</span><span class="p">,</span> <span class="nx">s</span><span class="o">/</span><span class="nb">NR</span><span class="p">}</span>
-</span></span></code></pre></div><p><code>NR</code> gives us the total number of lines. But we do not want the header line. We can use <code>tail</code> command to skip the 1st line as <code>tail -n +2</code>. Running <strong><code>tail -n +2 2010_Census_Populations_by_Zip_Code.csv | awk -F, -f total.awk</code></strong> gives us :</p>
-<pre tabindex="0"><code>Total population: 10603988
-Total households: 3497698
-Average household size: 3.0317
-Average population per zip code: 33241.3
-</code></pre><h2 id="example---pattern-matching">Example - Pattern matching</h2>
-<p>We have done some useful things with awk so far, but we have ignored its biggest strength - pattern matching. We can match based on field values, regexes, line numbers.</p>
-<ul>
-<li>Print every 2nd line : <strong><code>NR%2 == 0 {print $0}</code></strong>. Here $0 stands for the entire line.</li>
-<li>Print all zip codes with population &gt; 100,000 : <strong><code>$2 &gt; 100000 {print $1}</code></strong></li>
-<li>Print all zip codes with population &gt; 10,000 and average household size &gt; 4 : <strong><code>$2 &gt; 10000 &amp;&amp; $7 &gt; 4 { print $1}</code></strong>. We can combine conditions using <code>&amp;&amp;</code> and <code>||</code> which stand for logical <strong>and</strong> and <strong>or</strong> respectively.</li>
-</ul>
+      <guid>https://rrampage.github.io/2018/11/06/ensuring-that-a-shell-script-runs-exactly-once/</guid>
+      <description>How to ensure that only one instance of a shell script runs at a time</description>
+      <content:encoded><![CDATA[<p>Many times, we have shell scripts which perform some important stuff like inserting into database, mailing reports, etc which we want to run exactly one instance of.</p>
+<h2 id="enter-locks">Enter locks!</h2>
+<p>A simple solution is to create a &ldquo;lock file&rdquo; and check if the file exists when the script starts. If the file is already created, it means another instance of that program is running, so we can fail with message &ldquo;Try again later!&rdquo;. Once the script completes running, it will clean-up and delete the lock file.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">LOCK_FILE</span><span class="o">=</span>a.lock
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span> -f <span class="s2">&#34;</span><span class="nv">$LOCK_FILE</span><span class="s2">&#34;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Lock file already exists, exit the script</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;An instance of this script is already running&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">exit</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Create the lock file</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Locked&#34;</span> &gt; <span class="s2">&#34;</span><span class="nv">$LOCK_FILE</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Do the normal stuff</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># clean-up before exit</span>
+</span></span><span class="line"><span class="cl">rm <span class="s2">&#34;</span><span class="nv">$LOCK_FILE</span><span class="s2">&#34;</span>
+</span></span></code></pre></div><p>This looks promising but there are issues with this approach. What happens if the script does not end correctly i.e it exits because of some failure before it reaches the clean-up part of the code? Or if it gets forcibly terminated with <code>Ctrl+C</code> or <code>kill</code> command? In both these cases, the created lock file will not be deleted. So next time you run the script, you will always get an error and will have to manually delete the file.</p>
+<p>There is another, more subtle error with the above code. A race condition. If two instances of scripts are started around the same time, it is possible that both of them get past the <code>if [ -f &quot;$LOCK_FILE&quot; ]</code> because the second instance may reach that part of the code before the first instance is able to create the lock file. Thus, we have more than one instance running.</p>
+<h2 id="a-better-lock">A better lock!</h2>
+<p>Is there a way to create a lock file which is more robust to race conditions and non-standard termination (<code>Ctrl+C</code>, <code>kill</code> command, etc)? Linux offers <code>flock</code> a utility to manage locks from shell scripts. Using <code>flock</code>, we can rewrite the above snippet as follows:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">LOCK_FILE</span><span class="o">=</span>a.lock
+</span></span><span class="line"><span class="cl"><span class="nb">exec</span> 99&gt;<span class="s2">&#34;</span><span class="nv">$LOCK_FILE</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">flock -n <span class="m">99</span> <span class="o">||</span> <span class="nb">exit</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Do stuff and exit!</span>
+</span></span></code></pre></div><p>The <code>exec 99&gt;&quot;$LOCK_FILE&quot;</code> creates a file descriptor numbered 99 and assigns it to <code>LOCK_FILE</code>. <a href="https://en.wikipedia.org/wiki/File_descriptor">File descriptors (fd)</a>  0, 1, 2 are for <code>stdin</code>, <code>stdout</code>, <code>stderr</code> respectively. We are creating new fd with a high number to ensure that it does not clash with numbered fds opened later-on by script.</p>
+<p><code>flock -n 99 || exit 1</code> does 2 things. Firstly, it acquires an <code>exclusive</code> lock on the file descriptor 99 which refers to our <code>LOCK_FILE</code>. This operation is guaranteed by the linux kernel to be atomic. Secondly, if it fails to acquire the lock, it exits with return code 1. We do not need to worry about any clean up. <code>flock</code> will automatically release the lock when the script exits regardless of how it terminates. This solves our problem!</p>
+<p>What if I wanted to add a more informational message instead of exiting directly on failure to acquire lock? We can change the line <code>flock -n 99 || exit 1</code> as follows:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">flock -n <span class="m">99</span>
+</span></span><span class="line"><span class="cl"><span class="nv">RC</span><span class="o">=</span><span class="nv">$?</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span> <span class="s2">&#34;</span><span class="nv">$RC</span><span class="s2">&#34;</span> !<span class="o">=</span> <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Send message and exit</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;Already running script. Try again after sometime&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">exit</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span></code></pre></div><p>The flock <a href="http://man7.org/linux/man-pages/man1/flock.1.html">man page</a> has an example which you can use to add an exclusive lock to start of any shell script:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">FLOCKER</span><span class="si">}</span><span class="s2">&#34;</span> !<span class="o">=</span> <span class="s2">&#34;</span><span class="nv">$0</span><span class="s2">&#34;</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">exec</span> env <span class="nv">FLOCKER</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$0</span><span class="s2">&#34;</span> flock -en <span class="s2">&#34;</span><span class="nv">$0</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="nv">$0</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="nv">$@</span><span class="s2">&#34;</span> <span class="o">||</span> :
+</span></span></code></pre></div><p>This boilerplate uses the script file itself as a lock. It works by setting an environment variable <code>$FLOCKER</code> to script file name and executing the script with its original parameters after acquiring the lock. On failure however, it does not print anything and silently exits.</p>
+<p><code>$0</code> here stands for name of the script. <code>$@</code> stands for all arguments passed to the script when it was called.</p>
+<h2 id="use-case-for-me">Use case for me</h2>
+<p>My team uses a test machine where we deploy multiple branches of a code-base. We need to make sure that exactly one person is building the project at a particular time. The deploy script pulls the specified branch of code from <code>git</code> and builds the project, deploys the main service and starts ancillary services. The script takes sometime to execute. If someone tries to deploy another branch while a build is ongoing, both can fail.</p>
+<p>With the above snippet, calling the script more than once shows the current branch being built and exits with failure.</p>
 <h2 id="further-reading">Further reading</h2>
-<p>There is a lot more to Awk. Here are some references:</p>
 <ul>
-<li>
-<p>The best resource for learning Awk is <a href="https://ia802309.us.archive.org/25/items/pdfy-MgN0H1joIoDVoIC7/The_AWK_Programming_Language.pdf">The AWK programming language</a> written by the same trio. This book goes over and beyond a typical programming language tutorial and teaches you how to use your Awk superpowers to build versatile systems like a relational database, a parser, an interpreter, etc.</p>
-</li>
-<li>
-<p>The <a href="https://web.archive.org/web/20090410021611/http://www.gnu.org:80/software/gawk/manual/gawk.html">GNU Awk Manual for Effective Awk Programming</a> is a thorough reference.</p>
-</li>
+<li>Flock <a href="http://man7.org/linux/man-pages/man1/flock.1.html">man page</a></li>
+<li><a href="http://mywiki.wooledge.org/BashFAQ/045">Pitfalls of creating a lock file</a> like in our initial snippet</li>
 </ul>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Surviving the Linux OOM Killer</title>
+      <link>https://rrampage.github.io/2018/10/04/surviving-the-linux-oom-killer/</link>
+      <pubDate>Thu, 04 Oct 2018 15:48:41 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/2018/10/04/surviving-the-linux-oom-killer/</guid>
+      <description>How OOM Killer frees memory</description>
+      <content:encoded><![CDATA[<p>When your Linux machine runs out of memory, <strong>Out of Memory (OOM) killer</strong> is called by kernel to free some memory. It is often encountered on servers which have a number of memory intensive processes running. In this post, we dig a little deeper into when does OOM killer get called, how it decides which process to kill and if we can prevent it from killing important processes like databases.</p>
+<h2 id="how-does-oom-killer-choose-which-process-to-kill">How does OOM Killer choose which process to kill?</h2>
+<p>The Linux kernel gives a score to each running process called <code>oom_score</code> which shows how likely it is to be terminated in case of low available memory. The score is proportional to the amount of memory used by the process. The score is <code>10 x percent of memory used by process</code>. So the maximum score is 100% x 10 = 1000. In addition, if a process is running as a <strong>privileged user</strong>, it gets a <strong>slightly lower oom_score</strong> as compared to same memory usage by a normal user process. In earlier versions of Linux ( v2.6.32 kernel), there was a more elaborate heuristic which calculated this score.</p>
+<p>The <code>oom_score</code> of a process can be found in the <code>/proc</code> directory. Let&rsquo;s say that the process id (pid) of your process is 42, <code>cat /proc/42/oom_score</code> will give you the process&rsquo; score.</p>
+<h2 id="can-i-ensure-some-important-processes-do-not-get-killed-by-oom-killer">Can I ensure some important processes do not get killed by OOM Killer?</h2>
+<p>Yes! The OOM killer checks <code>oom_score_adj</code> to adjust its final calculated score. This file is present in <code>/proc/$pid/oom_score_adj</code>. You can add a large negative score to this file to ensure that your process gets a lower chance of being picked and terminated by OOM killer. The <code>oom_score_adj</code> can vary from -1000 to 1000. If you assign -1000 to it, it can use 100% memory and still avoid getting terminated by OOM killer. On the other hand, if you assign 1000 to it, the Linux kernel will keep killing the process even when it uses minimal memory.</p>
+<p>Let&rsquo;s go back to our process with pid 42. Here is how you can change its <code>oom_score_adj</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">echo</span> -200 <span class="p">|</span> sudo tee - /proc/42/oom_score_adj
+</span></span></code></pre></div><p>We need to do this as <code>root</code> user or <code>sudo</code> because Linux does not allow normal users to reduce the OOM score. You can increase the OOM score as a normal user without any special permissions. e.g <code>echo 100 &gt; /proc/42/oom_score_adj</code></p>
+<p>There is also another, less fine-grained score called <code>oom_adj</code> which varies from -16 to 15. It is similar to <code>oom_score_adj</code>. In fact, when you set <code>oom_score_adj</code>, the kernel automatically scales it down and calculates <code>oom_adj</code>. <code>oom_adj</code> has a magic value of -17 which indicates that the given process should never be killed by OOM killer.</p>
+<h2 id="display-oom-scores-of-all-running-processes">Display OOM scores of all running processes</h2>
+<p>This script displays the OOM score and OOM adjusted score of all running processes, in descending order of OOM score</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#!/bin/bash</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Displays running processes in descending order of OOM score</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span> <span class="s1">&#39;PID\tOOM Score\tOOM Adj\tCommand\n&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="nb">read</span> -r pid comm<span class="p">;</span> <span class="k">do</span> <span class="o">[</span> -f /proc/<span class="nv">$pid</span>/oom_score <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="o">[</span> <span class="k">$(</span>cat /proc/<span class="nv">$pid</span>/oom_score<span class="k">)</span> !<span class="o">=</span> <span class="m">0</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">printf</span> <span class="s1">&#39;%d\t%d\t\t%d\t%s\n&#39;</span> <span class="s2">&#34;</span><span class="nv">$pid</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="k">$(</span>cat /proc/<span class="nv">$pid</span>/oom_score<span class="k">)</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="k">$(</span>cat /proc/<span class="nv">$pid</span>/oom_score_adj<span class="k">)</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="nv">$comm</span><span class="s2">&#34;</span><span class="p">;</span> <span class="k">done</span> &lt; &lt;<span class="o">(</span>ps -e -o <span class="nv">pid</span><span class="o">=</span> -o <span class="nv">comm</span><span class="o">=)</span> <span class="p">|</span> sort -k 2nr
+</span></span></code></pre></div><h2 id="check-if-any-of-your-processes-have-been-oom-killed">Check if any of your processes have been OOM-killed</h2>
+<p>The easiest way is to <code>grep</code> your system logs. In Ubuntu: <code>grep -i kill /var/log/syslog</code>. If a process has been killed, you may get results like <code>my_process invoked oom-killer: gfp_mask=0x201da, order=0, oom_score_adj=0</code></p>
+<h2 id="caveats-of-adjusting-oom-scores">Caveats of adjusting OOM scores</h2>
+<p>Remember that OOM is a symptom of a bigger problem - low available memory. The best way to solve it is by either increasing the available memory (e.g better hardware) or moving some programs to other machines or by reducing memory consumption of programs (e.g allocate less memory where possible).</p>
+<p>Too much tweaking of the OOM adjusted score will result in random processes getting killed and not being able to free enough memory.</p>
+<h2 id="references">References</h2>
+<ol>
+<li><a href="http://man7.org/linux/man-pages/man5/proc.5.html">proc</a> man page</li>
+<li><a href="https://askubuntu.com/questions/60672/how-do-i-use-oom-score-adj/">https://askubuntu.com/questions/60672/how-do-i-use-oom-score-adj/</a></li>
+<li><a href="https://linux-mm.org/OOM_Killer">Walkthrough</a> on which part of Linux code is called</li>
+<li>Classic <a href="https://lwn.net/Articles/317814/">LWN article</a> (a bit dated)</li>
+<li><a href="https://www.lynxbee.com/how-to-invoke-oom-killer-manually-for-understanding-which-process-gets-killed-first/">Invoking the OOM killer manually</a></li>
+</ol>
 ]]></content:encoded>
     </item>
     

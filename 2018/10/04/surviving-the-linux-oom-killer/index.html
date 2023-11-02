@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Surviving the Linux OOM Killer | A Random Walk</title>
+<meta name="keywords" content="linux, devops">
+<meta name="description" content="How OOM Killer frees memory">
+<meta name="author" content="Raunak">
+<link rel="canonical" href="https://rrampage.github.io/2018/10/04/surviving-the-linux-oom-killer/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3583c276be8b676922334220eddb70a58dd857f110640a70a4641bbbc371cae2.css" integrity="sha256-NYPCdr6LZ2kiM0Ig7dtwpY3YV/EQZApwpGQbu8NxyuI=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://rrampage.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://rrampage.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://rrampage.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://rrampage.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Surviving the Linux OOM Killer" />
+<meta property="og:description" content="How OOM Killer frees memory" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://rrampage.github.io/2018/10/04/surviving-the-linux-oom-killer/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2018-10-04T15:48:41+00:00" />
+<meta property="article:modified_time" content="2018-10-04T15:48:41+00:00" /><meta property="og:site_name" content="A Random Walk" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Surviving the Linux OOM Killer"/>
+<meta name="twitter:description" content="How OOM Killer frees memory"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://rrampage.github.io/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Surviving the Linux OOM Killer",
+      "item": "https://rrampage.github.io/2018/10/04/surviving-the-linux-oom-killer/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Surviving the Linux OOM Killer",
+  "name": "Surviving the Linux OOM Killer",
+  "description": "How OOM Killer frees memory",
+  "keywords": [
+    "linux", "devops"
+  ],
+  "articleBody": "When your Linux machine runs out of memory, Out of Memory (OOM) killer is called by kernel to free some memory. It is often encountered on servers which have a number of memory intensive processes running. In this post, we dig a little deeper into when does OOM killer get called, how it decides which process to kill and if we can prevent it from killing important processes like databases.\nHow does OOM Killer choose which process to kill? The Linux kernel gives a score to each running process called oom_score which shows how likely it is to be terminated in case of low available memory. The score is proportional to the amount of memory used by the process. The score is 10 x percent of memory used by process. So the maximum score is 100% x 10 = 1000. In addition, if a process is running as a privileged user, it gets a slightly lower oom_score as compared to same memory usage by a normal user process. In earlier versions of Linux ( v2.6.32 kernel), there was a more elaborate heuristic which calculated this score.\nThe oom_score of a process can be found in the /proc directory. Let’s say that the process id (pid) of your process is 42, cat /proc/42/oom_score will give you the process’ score.\nCan I ensure some important processes do not get killed by OOM Killer? Yes! The OOM killer checks oom_score_adj to adjust its final calculated score. This file is present in /proc/$pid/oom_score_adj. You can add a large negative score to this file to ensure that your process gets a lower chance of being picked and terminated by OOM killer. The oom_score_adj can vary from -1000 to 1000. If you assign -1000 to it, it can use 100% memory and still avoid getting terminated by OOM killer. On the other hand, if you assign 1000 to it, the Linux kernel will keep killing the process even when it uses minimal memory.\nLet’s go back to our process with pid 42. Here is how you can change its oom_score_adj:\necho -200 | sudo tee - /proc/42/oom_score_adj We need to do this as root user or sudo because Linux does not allow normal users to reduce the OOM score. You can increase the OOM score as a normal user without any special permissions. e.g echo 100 \u003e /proc/42/oom_score_adj\nThere is also another, less fine-grained score called oom_adj which varies from -16 to 15. It is similar to oom_score_adj. In fact, when you set oom_score_adj, the kernel automatically scales it down and calculates oom_adj. oom_adj has a magic value of -17 which indicates that the given process should never be killed by OOM killer.\nDisplay OOM scores of all running processes This script displays the OOM score and OOM adjusted score of all running processes, in descending order of OOM score\n#!/bin/bash # Displays running processes in descending order of OOM score printf 'PID\\tOOM Score\\tOOM Adj\\tCommand\\n' while read -r pid comm; do [ -f /proc/$pid/oom_score ] \u0026\u0026 [ $(cat /proc/$pid/oom_score) != 0 ] \u0026\u0026 printf '%d\\t%d\\t\\t%d\\t%s\\n' \"$pid\" \"$(cat /proc/$pid/oom_score)\" \"$(cat /proc/$pid/oom_score_adj)\" \"$comm\"; done \u003c \u003c(ps -e -o pid= -o comm=) | sort -k 2nr Check if any of your processes have been OOM-killed The easiest way is to grep your system logs. In Ubuntu: grep -i kill /var/log/syslog. If a process has been killed, you may get results like my_process invoked oom-killer: gfp_mask=0x201da, order=0, oom_score_adj=0\nCaveats of adjusting OOM scores Remember that OOM is a symptom of a bigger problem - low available memory. The best way to solve it is by either increasing the available memory (e.g better hardware) or moving some programs to other machines or by reducing memory consumption of programs (e.g allocate less memory where possible).\nToo much tweaking of the OOM adjusted score will result in random processes getting killed and not being able to free enough memory.\nReferences proc man page https://askubuntu.com/questions/60672/how-do-i-use-oom-score-adj/ Walkthrough on which part of Linux code is called Classic LWN article (a bit dated) Invoking the OOM killer manually ",
+  "wordCount" : "671",
+  "inLanguage": "en",
+  "datePublished": "2018-10-04T15:48:41.1Z",
+  "dateModified": "2018-10-04T15:48:41.1Z",
+  "author":{
+    "@type": "Person",
+    "name": "Raunak"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://rrampage.github.io/2018/10/04/surviving-the-linux-oom-killer/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "A Random Walk",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://rrampage.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://rrampage.github.io/" accesskey="h" title="A Random Walk (Alt + H)">A Random Walk</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://rrampage.github.io/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/archives" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Surviving the Linux OOM Killer
+    </h1>
+    <div class="post-description">
+      How OOM Killer frees memory
+    </div>
+    <div class="post-meta">October 4 2018   4 min
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#how-does-oom-killer-choose-which-process-to-kill">How does OOM Killer choose which process to kill?</a></li>
+    <li><a href="#can-i-ensure-some-important-processes-do-not-get-killed-by-oom-killer">Can I ensure some important processes do not get killed by OOM Killer?</a></li>
+    <li><a href="#display-oom-scores-of-all-running-processes">Display OOM scores of all running processes</a></li>
+    <li><a href="#check-if-any-of-your-processes-have-been-oom-killed">Check if any of your processes have been OOM-killed</a></li>
+    <li><a href="#caveats-of-adjusting-oom-scores">Caveats of adjusting OOM scores</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>When your Linux machine runs out of memory, <strong>Out of Memory (OOM) killer</strong> is called by kernel to free some memory. It is often encountered on servers which have a number of memory intensive processes running. In this post, we dig a little deeper into when does OOM killer get called, how it decides which process to kill and if we can prevent it from killing important processes like databases.</p>
+<h2 id="how-does-oom-killer-choose-which-process-to-kill">How does OOM Killer choose which process to kill?<a hidden class="anchor" aria-hidden="true" href="#how-does-oom-killer-choose-which-process-to-kill">#</a></h2>
+<p>The Linux kernel gives a score to each running process called <code>oom_score</code> which shows how likely it is to be terminated in case of low available memory. The score is proportional to the amount of memory used by the process. The score is <code>10 x percent of memory used by process</code>. So the maximum score is 100% x 10 = 1000. In addition, if a process is running as a <strong>privileged user</strong>, it gets a <strong>slightly lower oom_score</strong> as compared to same memory usage by a normal user process. In earlier versions of Linux ( v2.6.32 kernel), there was a more elaborate heuristic which calculated this score.</p>
+<p>The <code>oom_score</code> of a process can be found in the <code>/proc</code> directory. Let&rsquo;s say that the process id (pid) of your process is 42, <code>cat /proc/42/oom_score</code> will give you the process&rsquo; score.</p>
+<h2 id="can-i-ensure-some-important-processes-do-not-get-killed-by-oom-killer">Can I ensure some important processes do not get killed by OOM Killer?<a hidden class="anchor" aria-hidden="true" href="#can-i-ensure-some-important-processes-do-not-get-killed-by-oom-killer">#</a></h2>
+<p>Yes! The OOM killer checks <code>oom_score_adj</code> to adjust its final calculated score. This file is present in <code>/proc/$pid/oom_score_adj</code>. You can add a large negative score to this file to ensure that your process gets a lower chance of being picked and terminated by OOM killer. The <code>oom_score_adj</code> can vary from -1000 to 1000. If you assign -1000 to it, it can use 100% memory and still avoid getting terminated by OOM killer. On the other hand, if you assign 1000 to it, the Linux kernel will keep killing the process even when it uses minimal memory.</p>
+<p>Let&rsquo;s go back to our process with pid 42. Here is how you can change its <code>oom_score_adj</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">echo</span> -200 <span class="p">|</span> sudo tee - /proc/42/oom_score_adj
+</span></span></code></pre></div><p>We need to do this as <code>root</code> user or <code>sudo</code> because Linux does not allow normal users to reduce the OOM score. You can increase the OOM score as a normal user without any special permissions. e.g <code>echo 100 &gt; /proc/42/oom_score_adj</code></p>
+<p>There is also another, less fine-grained score called <code>oom_adj</code> which varies from -16 to 15. It is similar to <code>oom_score_adj</code>. In fact, when you set <code>oom_score_adj</code>, the kernel automatically scales it down and calculates <code>oom_adj</code>. <code>oom_adj</code> has a magic value of -17 which indicates that the given process should never be killed by OOM killer.</p>
+<h2 id="display-oom-scores-of-all-running-processes">Display OOM scores of all running processes<a hidden class="anchor" aria-hidden="true" href="#display-oom-scores-of-all-running-processes">#</a></h2>
+<p>This script displays the OOM score and OOM adjusted score of all running processes, in descending order of OOM score</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#!/bin/bash</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Displays running processes in descending order of OOM score</span>
+</span></span><span class="line"><span class="cl"><span class="nb">printf</span> <span class="s1">&#39;PID\tOOM Score\tOOM Adj\tCommand\n&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="nb">read</span> -r pid comm<span class="p">;</span> <span class="k">do</span> <span class="o">[</span> -f /proc/<span class="nv">$pid</span>/oom_score <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="o">[</span> <span class="k">$(</span>cat /proc/<span class="nv">$pid</span>/oom_score<span class="k">)</span> !<span class="o">=</span> <span class="m">0</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">printf</span> <span class="s1">&#39;%d\t%d\t\t%d\t%s\n&#39;</span> <span class="s2">&#34;</span><span class="nv">$pid</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="k">$(</span>cat /proc/<span class="nv">$pid</span>/oom_score<span class="k">)</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="k">$(</span>cat /proc/<span class="nv">$pid</span>/oom_score_adj<span class="k">)</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="nv">$comm</span><span class="s2">&#34;</span><span class="p">;</span> <span class="k">done</span> &lt; &lt;<span class="o">(</span>ps -e -o <span class="nv">pid</span><span class="o">=</span> -o <span class="nv">comm</span><span class="o">=)</span> <span class="p">|</span> sort -k 2nr
+</span></span></code></pre></div><h2 id="check-if-any-of-your-processes-have-been-oom-killed">Check if any of your processes have been OOM-killed<a hidden class="anchor" aria-hidden="true" href="#check-if-any-of-your-processes-have-been-oom-killed">#</a></h2>
+<p>The easiest way is to <code>grep</code> your system logs. In Ubuntu: <code>grep -i kill /var/log/syslog</code>. If a process has been killed, you may get results like <code>my_process invoked oom-killer: gfp_mask=0x201da, order=0, oom_score_adj=0</code></p>
+<h2 id="caveats-of-adjusting-oom-scores">Caveats of adjusting OOM scores<a hidden class="anchor" aria-hidden="true" href="#caveats-of-adjusting-oom-scores">#</a></h2>
+<p>Remember that OOM is a symptom of a bigger problem - low available memory. The best way to solve it is by either increasing the available memory (e.g better hardware) or moving some programs to other machines or by reducing memory consumption of programs (e.g allocate less memory where possible).</p>
+<p>Too much tweaking of the OOM adjusted score will result in random processes getting killed and not being able to free enough memory.</p>
+<h2 id="references">References<a hidden class="anchor" aria-hidden="true" href="#references">#</a></h2>
+<ol>
+<li><a href="http://man7.org/linux/man-pages/man5/proc.5.html">proc</a> man page</li>
+<li><a href="https://askubuntu.com/questions/60672/how-do-i-use-oom-score-adj/">https://askubuntu.com/questions/60672/how-do-i-use-oom-score-adj/</a></li>
+<li><a href="https://linux-mm.org/OOM_Killer">Walkthrough</a> on which part of Linux code is called</li>
+<li>Classic <a href="https://lwn.net/Articles/317814/">LWN article</a> (a bit dated)</li>
+<li><a href="https://www.lynxbee.com/how-to-invoke-oom-killer-manually-for-understanding-which-process-gets-killed-first/">Invoking the OOM killer manually</a></li>
+</ol>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://rrampage.github.io/tags/linux/">linux</a></li>
+      <li><a href="https://rrampage.github.io/tags/devops/">devops</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://rrampage.github.io/2018/11/06/ensuring-that-a-shell-script-runs-exactly-once/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>Ensuring that a shell script runs exactly once</span>
+  </a>
+  <a class="next" href="https://rrampage.github.io/2018/08/18/algorithms-gray-binary-code/">
+    <span class="title">Next »</span>
+    <br>
+    <span>Algorithms: Gray Binary Code</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://rrampage.github.io/">A Random Walk</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

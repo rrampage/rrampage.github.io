@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Ensuring that a shell script runs exactly once | A Random Walk</title>
+<meta name="keywords" content="bash, linux">
+<meta name="description" content="How to ensure that only one instance of a shell script runs at a time">
+<meta name="author" content="Raunak">
+<link rel="canonical" href="https://rrampage.github.io/2018/11/06/ensuring-that-a-shell-script-runs-exactly-once/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3583c276be8b676922334220eddb70a58dd857f110640a70a4641bbbc371cae2.css" integrity="sha256-NYPCdr6LZ2kiM0Ig7dtwpY3YV/EQZApwpGQbu8NxyuI=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://rrampage.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://rrampage.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://rrampage.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://rrampage.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Ensuring that a shell script runs exactly once" />
+<meta property="og:description" content="How to ensure that only one instance of a shell script runs at a time" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://rrampage.github.io/2018/11/06/ensuring-that-a-shell-script-runs-exactly-once/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2018-11-06T18:53:23+00:00" />
+<meta property="article:modified_time" content="2018-11-06T18:53:23+00:00" /><meta property="og:site_name" content="A Random Walk" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Ensuring that a shell script runs exactly once"/>
+<meta name="twitter:description" content="How to ensure that only one instance of a shell script runs at a time"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://rrampage.github.io/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Ensuring that a shell script runs exactly once",
+      "item": "https://rrampage.github.io/2018/11/06/ensuring-that-a-shell-script-runs-exactly-once/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Ensuring that a shell script runs exactly once",
+  "name": "Ensuring that a shell script runs exactly once",
+  "description": "How to ensure that only one instance of a shell script runs at a time",
+  "keywords": [
+    "bash", "linux"
+  ],
+  "articleBody": "Many times, we have shell scripts which perform some important stuff like inserting into database, mailing reports, etc which we want to run exactly one instance of.\nEnter locks! A simple solution is to create a “lock file” and check if the file exists when the script starts. If the file is already created, it means another instance of that program is running, so we can fail with message “Try again later!”. Once the script completes running, it will clean-up and delete the lock file.\nLOCK_FILE=a.lock if [ -f \"$LOCK_FILE\" ]; then # Lock file already exists, exit the script echo \"An instance of this script is already running\" exit 1 fi # Create the lock file echo \"Locked\" \u003e \"$LOCK_FILE\" # Do the normal stuff # clean-up before exit rm \"$LOCK_FILE\" This looks promising but there are issues with this approach. What happens if the script does not end correctly i.e it exits because of some failure before it reaches the clean-up part of the code? Or if it gets forcibly terminated with Ctrl+C or kill command? In both these cases, the created lock file will not be deleted. So next time you run the script, you will always get an error and will have to manually delete the file.\nThere is another, more subtle error with the above code. A race condition. If two instances of scripts are started around the same time, it is possible that both of them get past the if [ -f \"$LOCK_FILE\" ] because the second instance may reach that part of the code before the first instance is able to create the lock file. Thus, we have more than one instance running.\nA better lock! Is there a way to create a lock file which is more robust to race conditions and non-standard termination (Ctrl+C, kill command, etc)? Linux offers flock a utility to manage locks from shell scripts. Using flock, we can rewrite the above snippet as follows:\nLOCK_FILE=a.lock exec 99\u003e\"$LOCK_FILE\" flock -n 99 || exit 1 # Do stuff and exit! The exec 99\u003e\"$LOCK_FILE\" creates a file descriptor numbered 99 and assigns it to LOCK_FILE. File descriptors (fd) 0, 1, 2 are for stdin, stdout, stderr respectively. We are creating new fd with a high number to ensure that it does not clash with numbered fds opened later-on by script.\nflock -n 99 || exit 1 does 2 things. Firstly, it acquires an exclusive lock on the file descriptor 99 which refers to our LOCK_FILE. This operation is guaranteed by the linux kernel to be atomic. Secondly, if it fails to acquire the lock, it exits with return code 1. We do not need to worry about any clean up. flock will automatically release the lock when the script exits regardless of how it terminates. This solves our problem!\nWhat if I wanted to add a more informational message instead of exiting directly on failure to acquire lock? We can change the line flock -n 99 || exit 1 as follows:\nflock -n 99 RC=$? if [ \"$RC\" != 0 ]; then # Send message and exit echo \"Already running script. Try again after sometime\" exit 1 fi The flock man page has an example which you can use to add an exclusive lock to start of any shell script:\n[ \"${FLOCKER}\" != \"$0\" ] \u0026\u0026 exec env FLOCKER=\"$0\" flock -en \"$0\" \"$0\" \"$@\" || : This boilerplate uses the script file itself as a lock. It works by setting an environment variable $FLOCKER to script file name and executing the script with its original parameters after acquiring the lock. On failure however, it does not print anything and silently exits.\n$0 here stands for name of the script. $@ stands for all arguments passed to the script when it was called.\nUse case for me My team uses a test machine where we deploy multiple branches of a code-base. We need to make sure that exactly one person is building the project at a particular time. The deploy script pulls the specified branch of code from git and builds the project, deploys the main service and starts ancillary services. The script takes sometime to execute. If someone tries to deploy another branch while a build is ongoing, both can fail.\nWith the above snippet, calling the script more than once shows the current branch being built and exits with failure.\nFurther reading Flock man page Pitfalls of creating a lock file like in our initial snippet ",
+  "wordCount" : "747",
+  "inLanguage": "en",
+  "datePublished": "2018-11-06T18:53:23.63Z",
+  "dateModified": "2018-11-06T18:53:23.63Z",
+  "author":{
+    "@type": "Person",
+    "name": "Raunak"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://rrampage.github.io/2018/11/06/ensuring-that-a-shell-script-runs-exactly-once/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "A Random Walk",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://rrampage.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://rrampage.github.io/" accesskey="h" title="A Random Walk (Alt + H)">A Random Walk</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://rrampage.github.io/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/archives" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Ensuring that a shell script runs exactly once
+    </h1>
+    <div class="post-description">
+      How to ensure that only one instance of a shell script runs at a time
+    </div>
+    <div class="post-meta">November 6 2018   4 min
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#enter-locks">Enter locks!</a></li>
+    <li><a href="#a-better-lock">A better lock!</a></li>
+    <li><a href="#use-case-for-me">Use case for me</a></li>
+    <li><a href="#further-reading">Further reading</a></li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>Many times, we have shell scripts which perform some important stuff like inserting into database, mailing reports, etc which we want to run exactly one instance of.</p>
+<h2 id="enter-locks">Enter locks!<a hidden class="anchor" aria-hidden="true" href="#enter-locks">#</a></h2>
+<p>A simple solution is to create a &ldquo;lock file&rdquo; and check if the file exists when the script starts. If the file is already created, it means another instance of that program is running, so we can fail with message &ldquo;Try again later!&rdquo;. Once the script completes running, it will clean-up and delete the lock file.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">LOCK_FILE</span><span class="o">=</span>a.lock
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span> -f <span class="s2">&#34;</span><span class="nv">$LOCK_FILE</span><span class="s2">&#34;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Lock file already exists, exit the script</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;An instance of this script is already running&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">exit</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Create the lock file</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Locked&#34;</span> &gt; <span class="s2">&#34;</span><span class="nv">$LOCK_FILE</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Do the normal stuff</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># clean-up before exit</span>
+</span></span><span class="line"><span class="cl">rm <span class="s2">&#34;</span><span class="nv">$LOCK_FILE</span><span class="s2">&#34;</span>
+</span></span></code></pre></div><p>This looks promising but there are issues with this approach. What happens if the script does not end correctly i.e it exits because of some failure before it reaches the clean-up part of the code? Or if it gets forcibly terminated with <code>Ctrl+C</code> or <code>kill</code> command? In both these cases, the created lock file will not be deleted. So next time you run the script, you will always get an error and will have to manually delete the file.</p>
+<p>There is another, more subtle error with the above code. A race condition. If two instances of scripts are started around the same time, it is possible that both of them get past the <code>if [ -f &quot;$LOCK_FILE&quot; ]</code> because the second instance may reach that part of the code before the first instance is able to create the lock file. Thus, we have more than one instance running.</p>
+<h2 id="a-better-lock">A better lock!<a hidden class="anchor" aria-hidden="true" href="#a-better-lock">#</a></h2>
+<p>Is there a way to create a lock file which is more robust to race conditions and non-standard termination (<code>Ctrl+C</code>, <code>kill</code> command, etc)? Linux offers <code>flock</code> a utility to manage locks from shell scripts. Using <code>flock</code>, we can rewrite the above snippet as follows:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">LOCK_FILE</span><span class="o">=</span>a.lock
+</span></span><span class="line"><span class="cl"><span class="nb">exec</span> 99&gt;<span class="s2">&#34;</span><span class="nv">$LOCK_FILE</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">flock -n <span class="m">99</span> <span class="o">||</span> <span class="nb">exit</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Do stuff and exit!</span>
+</span></span></code></pre></div><p>The <code>exec 99&gt;&quot;$LOCK_FILE&quot;</code> creates a file descriptor numbered 99 and assigns it to <code>LOCK_FILE</code>. <a href="https://en.wikipedia.org/wiki/File_descriptor">File descriptors (fd)</a>  0, 1, 2 are for <code>stdin</code>, <code>stdout</code>, <code>stderr</code> respectively. We are creating new fd with a high number to ensure that it does not clash with numbered fds opened later-on by script.</p>
+<p><code>flock -n 99 || exit 1</code> does 2 things. Firstly, it acquires an <code>exclusive</code> lock on the file descriptor 99 which refers to our <code>LOCK_FILE</code>. This operation is guaranteed by the linux kernel to be atomic. Secondly, if it fails to acquire the lock, it exits with return code 1. We do not need to worry about any clean up. <code>flock</code> will automatically release the lock when the script exits regardless of how it terminates. This solves our problem!</p>
+<p>What if I wanted to add a more informational message instead of exiting directly on failure to acquire lock? We can change the line <code>flock -n 99 || exit 1</code> as follows:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">flock -n <span class="m">99</span>
+</span></span><span class="line"><span class="cl"><span class="nv">RC</span><span class="o">=</span><span class="nv">$?</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span> <span class="s2">&#34;</span><span class="nv">$RC</span><span class="s2">&#34;</span> !<span class="o">=</span> <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Send message and exit</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;Already running script. Try again after sometime&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">exit</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span></code></pre></div><p>The flock <a href="http://man7.org/linux/man-pages/man1/flock.1.html">man page</a> has an example which you can use to add an exclusive lock to start of any shell script:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">FLOCKER</span><span class="si">}</span><span class="s2">&#34;</span> !<span class="o">=</span> <span class="s2">&#34;</span><span class="nv">$0</span><span class="s2">&#34;</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">exec</span> env <span class="nv">FLOCKER</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$0</span><span class="s2">&#34;</span> flock -en <span class="s2">&#34;</span><span class="nv">$0</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="nv">$0</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="nv">$@</span><span class="s2">&#34;</span> <span class="o">||</span> :
+</span></span></code></pre></div><p>This boilerplate uses the script file itself as a lock. It works by setting an environment variable <code>$FLOCKER</code> to script file name and executing the script with its original parameters after acquiring the lock. On failure however, it does not print anything and silently exits.</p>
+<p><code>$0</code> here stands for name of the script. <code>$@</code> stands for all arguments passed to the script when it was called.</p>
+<h2 id="use-case-for-me">Use case for me<a hidden class="anchor" aria-hidden="true" href="#use-case-for-me">#</a></h2>
+<p>My team uses a test machine where we deploy multiple branches of a code-base. We need to make sure that exactly one person is building the project at a particular time. The deploy script pulls the specified branch of code from <code>git</code> and builds the project, deploys the main service and starts ancillary services. The script takes sometime to execute. If someone tries to deploy another branch while a build is ongoing, both can fail.</p>
+<p>With the above snippet, calling the script more than once shows the current branch being built and exits with failure.</p>
+<h2 id="further-reading">Further reading<a hidden class="anchor" aria-hidden="true" href="#further-reading">#</a></h2>
+<ul>
+<li>Flock <a href="http://man7.org/linux/man-pages/man1/flock.1.html">man page</a></li>
+<li><a href="http://mywiki.wooledge.org/BashFAQ/045">Pitfalls of creating a lock file</a> like in our initial snippet</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://rrampage.github.io/tags/bash/">bash</a></li>
+      <li><a href="https://rrampage.github.io/tags/linux/">linux</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://rrampage.github.io/2021/12/04/relearning-lua/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>Re-learning Lua</span>
+  </a>
+  <a class="next" href="https://rrampage.github.io/2018/10/04/surviving-the-linux-oom-killer/">
+    <span class="title">Next »</span>
+    <br>
+    <span>Surviving the Linux OOM Killer</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://rrampage.github.io/">A Random Walk</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
