@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>linux on A Random Walk</title>
-    <link>https://rrampage.github.io/tags/linux/</link>
-    <description>Recent content in linux on A Random Walk</description>
+    <title>bash on A Random Walk</title>
+    <link>https://rrampage.github.io/tags/bash/</link>
+    <description>Recent content in bash on A Random Walk</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 26 May 2018 13:58:58 +0000</lastBuildDate><atom:link href="https://rrampage.github.io/tags/linux/rss.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 26 May 2018 13:58:58 +0000</lastBuildDate><atom:link href="https://rrampage.github.io/tags/bash/rss.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Awk - A useful little language</title>
       <link>https://rrampage.github.io/2018/05/26/awk-a-useful-little-language/</link>
@@ -82,27 +82,6 @@ Average population per zip code: 33241.3
 <p>The <a href="https://web.archive.org/web/20090410021611/http://www.gnu.org:80/software/gawk/manual/gawk.html">GNU Awk Manual for Effective Awk Programming</a> is a thorough reference.</p>
 </li>
 </ul>
-]]></content:encoded>
-    </item>
-    
-    <item>
-      <title>Disk Space Debugging Checklist</title>
-      <link>https://rrampage.github.io/2018/05/04/disk-space-debugging-checklist/</link>
-      <pubDate>Fri, 04 May 2018 00:00:00 +0530</pubDate>
-      
-      <guid>https://rrampage.github.io/2018/05/04/disk-space-debugging-checklist/</guid>
-      <description>Checklist for debugging disk issues on Linux servers</description>
-      <content:encoded><![CDATA[<p>Many times, smoothly running processes stop working mysteriously. You open the logs and see what is happening, only to find that even the logs have stopped updating. But the process itself is running. You SSH to the server and type cd TAB. Bash weeps &ldquo;Unable to create temporary file&rdquo;. The machine is out of disk space&hellip;</p>
-<p>Here is a checklist to make disk space debugging easier, using standard Linux utilities so you can get started without having to install anything extra:</p>
-<ol>
-<li><strong><code>df -h</code></strong> command gives you an overview in a readable format about the number of disks mounted and their total and available capacities.</li>
-<li>To get an idea of which folders/directories are eating up the maximum space, try out <strong><code>du -ch / | sort -h | tail -n 30</code></strong>. This gives you the 30 most space consuming directories. If you already know which directories generate maximum disk output e.g logs and temp files, you can replace the &lsquo;/&rsquo; with your directory (DIR) and run the command as <strong><code>du -ch DIR | sort -h | tail -n 30</code></strong></li>
-<li>Now that we have identified the directories with maximum space consumed, we may need to delete some files and get our process going again. The <strong><code>rm</code></strong> command is your friend here. You can delete old logs and temporary files to free up space.</li>
-<li>Many times, the culprit is a single large file which is already in use by a program e.g <code>catalina.out</code> by Apache Tomcat. If you want to free up space without shutting down the process, the <strong><code>truncate</code></strong> command will help you out. Example: <strong><code>truncate -s0 BIG_LOG.log</code></strong>. This will truncate the file to 0 bytes and still allow the other process to use it without issues (standard Unix permissions apply)</li>
-<li>Sometimes, you delete files and still, the space does not seem to be recovered. This can be because some process is still holding on to the file descriptor of the deleted file. Once these processes are stopped, the space will be recovered. The <strong><code>lsof</code></strong> command will help you out here. It stands for <em>list open files</em>. You can find out which processes are using deleted files as follows: <code>lsof | grep deleted | grep OLD_FILENAME</code>. The lsof command gives you the process name and the process id so you can run <code>kill</code> on the process. If you do not know the name of the deleted file, you can still run <code>lsof | grep deleted</code> and see the output to check for any familiar file / process.</li>
-</ol>
-<p>Finally, keep in mind that disk space is one of the metrics you should monitor on your server. This checklist must be used in a pinch. If you find yourself constantly having disk space issues, the solution is to set up periodic deletion/rotation of old log files, alerts when the disk space reaches a particular threshold or to increase the disk size if your processes require a lot of disk space e.g Kafka, MySQL and other databases.</p>
-<p>Let me know if there are some other tools I am missing out on and your experiences dealing with disk space issues!</p>
 ]]></content:encoded>
     </item>
     

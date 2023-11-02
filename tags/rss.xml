@@ -18,11 +18,71 @@
     </item>
     
     <item>
+      <title>bash</title>
+      <link>https://rrampage.github.io/tags/bash/</link>
+      <pubDate>Sat, 26 May 2018 13:58:58 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/tags/bash/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>linux</title>
+      <link>https://rrampage.github.io/tags/linux/</link>
+      <pubDate>Sat, 26 May 2018 13:58:58 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/tags/linux/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>programming</title>
+      <link>https://rrampage.github.io/tags/programming/</link>
+      <pubDate>Sat, 26 May 2018 13:58:58 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/tags/programming/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>shell</title>
+      <link>https://rrampage.github.io/tags/shell/</link>
+      <pubDate>Sat, 26 May 2018 13:58:58 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/tags/shell/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>devops</title>
+      <link>https://rrampage.github.io/tags/devops/</link>
+      <pubDate>Wed, 16 May 2018 11:53:42 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/tags/devops/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
       <title>java</title>
       <link>https://rrampage.github.io/tags/java/</link>
-      <pubDate>Tue, 15 May 2018 14:14:49 +0000</pubDate>
+      <pubDate>Wed, 16 May 2018 11:53:42 +0000</pubDate>
       
       <guid>https://rrampage.github.io/tags/java/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>kotlin</title>
+      <link>https://rrampage.github.io/tags/kotlin/</link>
+      <pubDate>Wed, 16 May 2018 11:53:42 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/tags/kotlin/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>
@@ -73,16 +133,6 @@
       <pubDate>Wed, 09 May 2018 00:00:00 +0530</pubDate>
       
       <guid>https://rrampage.github.io/tags/rust/</guid>
-      <description></description>
-      <content:encoded><![CDATA[]]></content:encoded>
-    </item>
-    
-    <item>
-      <title>linux</title>
-      <link>https://rrampage.github.io/tags/linux/</link>
-      <pubDate>Fri, 04 May 2018 00:00:00 +0530</pubDate>
-      
-      <guid>https://rrampage.github.io/tags/linux/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>

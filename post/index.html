@@ -165,6 +165,37 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>Awk - A useful little language
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Awk is a small but capable programming language which is used for processing text. It was developed by Aho, Weinberger, Kerninghan at Bell Labs.
+Julia Evans made an awesome intro to awk: Awk scans input file as a sequence of lines and splits each line into fields. The field separator is usually whitespace but you can customize it to any character.
+An awk program is a sequence of pattern-action pairs i.e for each line, it checks if it matches the pattern and if yes, it performs the associated action on the line. Awk can be used interactively or to run saved programs.
+Here is what Awk does written in Python-like pseudocode:
+initialize() # Initializes variables in BEGIN block for line in input_lines: # Awk divides file / input into a list of lines for condition, action in conditions: # A program is a list of condition-action pairs if condition(line): #match line against condition action() #perform action on match Here are some small snippets of Awk:...</p>
+  </div>
+  <footer class="entry-footer">May 26 2018   4 min</footer>
+  <a class="entry-link" aria-label="post link to Awk - A useful little language" href="https://rrampage.github.io/2018/05/26/awk-a-useful-little-language/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>JVM Primer Part 2 - Debugging memory issues
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>This is part 2 of my series on JVM Memory management and debugging. Read part 1 here
+In this post, we will cover symptoms of memory issues for JVM-based applications, which tools we can use to diagnose them and how we can fix them.
+Symptoms Here are a few symptoms of memory issues:
+Poor application performance Abnormal memory usage OutOfMemory errors (OOME) Poor Application Performance Application not performing to expected level Long response times Dropping client requests Stuck threads Service unavailability Large gaps in timestamps in application logs Causes of memory problems: Misconfigured memory Old generation memory space is sized smaller than live-set of objects. This triggers a major garbage collection (GC), resulting in larger pauses. Code cache is smaller than generated compiled code footprint Young generation is not sized appropriately leading to premature promotion of objects PermGen / Metaspace not sized correctly leading to full GC Memory leaks - Unintentional retention of objects in memory spaces Unintentional references to set of objects in heap Not dereferencing classloader instances appropriateky Not releasing native resources appropriately Excessive use of finalizers Objects with finalizers may delay their own GC Finalizer thread needs to invoke finalize() method of the instances before reclaiming them There can only be 1 Finalizer thread....</p>
+  </div>
+  <footer class="entry-footer">May 16 2018   6 min</footer>
+  <a class="entry-link" aria-label="post link to JVM Primer Part 2 - Debugging memory issues" href="https://rrampage.github.io/2018/05/16/jvm-primer-part-2-debugging-memory-issues/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>A Primer on JVM Memory Management and Troubleshooting - 1
     </h2>
   </header>
