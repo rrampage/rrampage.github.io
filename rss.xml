@@ -13,7 +13,7 @@
       <pubDate>Sat, 04 Dec 2021 00:00:00 +0530</pubDate>
       
       <guid>https://rrampage.github.io/2021/12/04/relearning-lua/</guid>
-      <description>Lua - Basics for x = 0, 10, 1 do print(x) end -- for loop with range and step. step if not given is assumed to be 1 -- Tables are the soul of Lua. They double up as arrays and hashes a = {} b = {1, 2, 3} b[1] -- b[1] will return 1 as indexing for arrays is from 1 c = {[0]={123,3},[&amp;#34;a&amp;#34;]={1,2,3},v={2,6,7}} -- We can have a &amp;#34;0&amp;#34;th index by adding the 1st element as [0]=value -- Adding keys which are not valid identifiers in Lua needs to be done by wrapping key in [] -- If a key is a valid identifier, we can access using `.` e.g c.a for above code vs c[0] for k,v in pairs(c) do print(type(k)) end -- iterates through k/v in table and prints type of key Print a table as valid Lua code function printTable(tbl) -- Specify function vars as local else they become global local s = &amp;#34;{&amp;#34; local fst = true for k,v in pairs(tbl) do local tk = type(k) local tv = type(v) if not fst then s = s .</description>
+      <description>Lua Basics</description>
       <content:encoded><![CDATA[<h2 id="lua---basics">Lua - Basics</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kr">for</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1</span> <span class="kr">do</span> <span class="n">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="kr">end</span> <span class="c1">-- for loop with range and step. step if not given is assumed to be 1</span>
 </span></span><span class="line"><span class="cl"><span class="c1">-- Tables are the soul of Lua. They double up as arrays and hashes</span>
@@ -344,7 +344,7 @@ pseudo_inverse
       
       <guid>https://rrampage.github.io/about/</guid>
       <description>About this blog: the delights and frustrations of programming new things I learn/stumble across while coding interesting concepts/resources I come across trying to explain a few topics About Me I am a software developer. I work on mostly backend stuff. I blog occasionally here or crosspost to dev.to. You can reach out to me via various websites in the footer.
-💬 Ask me about &amp;hellip; Bash, sed, awk, GNU Make, jq Java/Kotlin, JOOQ, Dropwizard Postgres Solr &amp;amp; Elasticsearch ArangoDB Nginx &amp;amp; Openresty Linux State machines, Regexes, State charts 📫 How to reach me: Github issues on this repo My DMs are open on dev.to LinkedIn Twitter </description>
+💬 Ask me about &amp;hellip; Bash, sed, awk, GNU Make, jq Linux Postgres/MySQL/SQLite Java/Kotlin, JOOQ, Dropwizard Solr &amp;amp; Elasticsearch ArangoDB Nginx &amp;amp; Openresty State machines, Regexes, State charts 📫 How to reach me: Mastodon LinkedIn Twitter Software powering this blog: Hugo Theme - PaperMod Github pages </description>
       <content:encoded><![CDATA[<h4 id="about-this-blog">About this blog:</h4>
 <ul>
 <li>the delights and frustrations of programming</li>
@@ -358,20 +358,28 @@ I blog occasionally <a href="https://rrampage.github.io">here</a> or crosspost t
 <h4 id="-ask-me-about-">💬 Ask me about &hellip;</h4>
 <ul>
 <li>Bash, sed, awk, GNU Make, jq</li>
+<li>Linux</li>
+<li>Postgres/MySQL/SQLite</li>
 <li>Java/Kotlin, JOOQ, Dropwizard</li>
-<li>Postgres</li>
 <li>Solr &amp; Elasticsearch</li>
 <li>ArangoDB</li>
 <li>Nginx &amp; Openresty</li>
-<li>Linux</li>
 <li>State machines, Regexes, State charts</li>
 </ul>
 <h4 id="-how-to-reach-me">📫 How to reach me:</h4>
 <ul>
-<li>Github issues on <a href="https://github.com/rrampage/rrampage/issues">this repo</a></li>
-<li>My DMs are open on <a href="https://dev.to/rrampage">dev.to</a></li>
+<li><a href="https://hachyderm.io/@bit">Mastodon</a></li>
 <li><a href="https://in.linkedin.com/in/raunak1">LinkedIn</a></li>
 <li><a href="https://twitter.com/QuixoticCoder">Twitter</a></li>
+</ul>
+<h4 id="software-powering-this-blog">Software powering this blog:</h4>
+<ul>
+<li><a href="https://gohugo.io/">Hugo</a>
+<ul>
+<li><a href="https://github.com/adityatelange/hugo-PaperMod/">Theme - PaperMod</a></li>
+</ul>
+</li>
+<li><a href="https://github.com/rrampage/rrampage.github.io">Github pages</a></li>
 </ul>
 ]]></content:encoded>
     </item>

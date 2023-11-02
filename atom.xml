@@ -1,6 +1,6 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>A Random Walk</title>
-  <link href="https://rrampage.github.io/index.xml" rel="self"/>
+  <link href="https://rrampage.github.io/atom.xml" rel="self"/>
   <link href="https://rrampage.github.io/"/>
   <updated>2021-12-04T00:00:00+05:30</updated>
   <id>https://rrampage.github.io/</id>
@@ -376,20 +376,28 @@ I blog occasionally <a href="https://rrampage.github.io">here</a> or crosspost t
 <h4 id="-ask-me-about-">💬 Ask me about &hellip;</h4>
 <ul>
 <li>Bash, sed, awk, GNU Make, jq</li>
+<li>Linux</li>
+<li>Postgres/MySQL/SQLite</li>
 <li>Java/Kotlin, JOOQ, Dropwizard</li>
-<li>Postgres</li>
 <li>Solr &amp; Elasticsearch</li>
 <li>ArangoDB</li>
 <li>Nginx &amp; Openresty</li>
-<li>Linux</li>
 <li>State machines, Regexes, State charts</li>
 </ul>
 <h4 id="-how-to-reach-me">📫 How to reach me:</h4>
 <ul>
-<li>Github issues on <a href="https://github.com/rrampage/rrampage/issues">this repo</a></li>
-<li>My DMs are open on <a href="https://dev.to/rrampage">dev.to</a></li>
+<li><a href="https://hachyderm.io/@bit">Mastodon</a></li>
 <li><a href="https://in.linkedin.com/in/raunak1">LinkedIn</a></li>
 <li><a href="https://twitter.com/QuixoticCoder">Twitter</a></li>
+</ul>
+<h4 id="software-powering-this-blog">Software powering this blog:</h4>
+<ul>
+<li><a href="https://gohugo.io/">Hugo</a>
+<ul>
+<li><a href="https://github.com/adityatelange/hugo-PaperMod/">Theme - PaperMod</a></li>
+</ul>
+</li>
+<li><a href="https://github.com/rrampage/rrampage.github.io">Github pages</a></li>
 </ul>
 ]]></content>
     
