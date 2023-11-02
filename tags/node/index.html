@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>node | A Random Walk</title>
+<meta name="keywords" content="">
+<meta name="description" content="A Random Walk - Raunak Ramakrishnan">
+<meta name="author" content="Raunak">
+<link rel="canonical" href="https://rrampage.github.io/tags/node/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3583c276be8b676922334220eddb70a58dd857f110640a70a4641bbbc371cae2.css" integrity="sha256-NYPCdr6LZ2kiM0Ig7dtwpY3YV/EQZApwpGQbu8NxyuI=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://rrampage.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://rrampage.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://rrampage.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://rrampage.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://rrampage.github.io/tags/node/rss.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="node" />
+<meta property="og:description" content="A Random Walk - Raunak Ramakrishnan" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://rrampage.github.io/tags/node/" /><meta property="og:site_name" content="A Random Walk" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="node"/>
+<meta name="twitter:description" content="A Random Walk - Raunak Ramakrishnan"/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://rrampage.github.io/" accesskey="h" title="A Random Walk (Alt + H)">A Random Walk</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://rrampage.github.io/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/archives" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    node
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>NPM and Node tips to make your dev machine (slightly) safer
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>NPM is used as a convenient cross-platform package manager for a lot of developer tools. For many tools, the defacto way to install is npm install -g $TOOL. But installing anything via npm allows it to run untrusted code on your machine.
+Here are a few tips to minimize the risk:
+1. NEVER run npm as sudo/root Node’s official documentation recommends not installing global packages as sudo/root. If you have already installed node through nvm ignore this step. If you use a system installed node e.g using Ubuntu’s apt-get, read through this guide for Linux/Mac or npm-g-nosudo which is a shell script for Linux.
+If you are lazy (like me), here’s a summary from the linked guide: mkdir -p &#34;${HOME}/.npm-packages&#34; &amp;&amp; npm config set prefix &#34;${HOME}/.npm-packages&#34; Add this to your .bashrc or .zshrc:
+NPM_PACKAGES=&#34;${HOME}/.npm-packages&#34; export PATH=&#34;$PATH:$NPM_PACKAGES/bin&#34; # Preserve MANPATH if you already defined it somewhere in your config. # Otherwise, fall back to `manpath` so we can inherit from `/etc/manpath`. export MANPATH=&#34;${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man&#34; 2....</p>
+  </div>
+  <footer class="entry-footer">May 28 2020   4 min</footer>
+  <a class="entry-link" aria-label="post link to NPM and Node tips to make your dev machine (slightly) safer" href="https://rrampage.github.io/2020/05/28/npm-and-node-tips-to-make-your-dev-machine-slightly-safer/"></a>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://rrampage.github.io/">A Random Walk</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -72,6 +72,440 @@
     
   </entry>
   <entry>
+    <title type="html"><![CDATA[S3 Game]]></title>
+    <link href="https://rrampage.github.io/2020/06/04/s3-game/"/>
+    <id>https://rrampage.github.io/2020/06/04/s3-game/</id> 
+    <author>
+      <name>Raunak</name>
+    </author>
+    <published>2020-06-04T16:09:34+00:00</published>
+    <updated>2020-06-04T16:09:34+00:00</updated>
+    
+    <content type="html"><![CDATA[<h2 id="introduction">Introduction</h2>
+<p>The best way to learn a skill is through deliberate practice!
+<a href="http://s3game-level1.s3-website.us-east-2.amazonaws.com/">S3 Game</a> is an awesome game made by <a href="https://www.linkedin.com/in/vpantyukhin/">Vasily Pantyukhin</a> which walks you through various features of S3 from beginner to fairly advanced.</p>
+<h3 id="what-you-will-need">What you will need:</h3>
+<ul>
+<li>A browser</li>
+<li><a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html">aws cli</a></li>
+</ul>
+<h3 id="click-herehttps3game-level1s3-websiteus-east-2amazonawscom-to-play"><strong>CLICK <a href="http://s3game-level1.s3-website.us-east-2.amazonaws.com/">HERE</a> TO PLAY!</strong></h3>
+<p>Each level consists of finding a &ldquo;treasure&rdquo; object and getting to the next level using the secret code in the &ldquo;treasure&rdquo;.</p>
+<p>Go ahead and play this game. Each level contains multiple hints with links to S3 API documentation.</p>
+<p>Below is a walk through you can refer to if you are stuck on any level. Make sure that you try for a bit before seeing here :)</p>
+<h2 id="walk-through-spoilers">Walk through (Spoilers)</h2>
+<h3 id="level-1https3game-level1s3-websiteus-east-2amazonawscomlevel1html"><a href="http://s3game-level1.s3-website.us-east-2.amazonaws.com/level1.html">Level 1</a></h3>
+<h4 id="solution">Solution:</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># List the objects in bucket</span>
+</span></span><span class="line"><span class="cl">aws s3 ls s3://s3game-level1
+</span></span></code></pre></div><p>Visit the <a href="http://s3game-level1.s3-website.us-east-2.amazonaws.com/treasure1">treasure object</a></p>
+<h3 id="level-2httpss3game-level2s3us-east-2amazonawscomlevel2-748l6b6xwzl6html"><a href="https://s3game-level2.s3.us-east-2.amazonaws.com/level2-748l6b6xwzl6.html">Level 2</a></h3>
+<h4 id="solution-1">Solution:</h4>
+<p>Just get the treasure2 object either using browser or aws s3 : <a href="https://s3game-level2.s3.us-east-2.amazonaws.com/treasure2">https://s3game-level2.s3.us-east-2.amazonaws.com/treasure2</a>
+Make sure to save the Access and Secret key somewhere</p>
+<h3 id="level-3httpss3game-level3s3us-east-2amazonawscomlevel3-76qp7mlpzyg1html"><a href="https://s3game-level3.s3.us-east-2.amazonaws.com/level3-76qp7mlpzyg1.html">Level 3</a></h3>
+<p>Create an AWS profile &ldquo;tmp&rdquo; with the access and secret key obtained from previous level. You will need to use this for almost every level from here on.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">aws configure --profile tmp
+</span></span><span class="line"><span class="cl">&gt; AWS Access Key ID
+</span></span><span class="line"><span class="cl">&gt; AWS Secret Access Key
+</span></span><span class="line"><span class="cl">&gt; Default region name - us-east-2
+</span></span></code></pre></div><h4 id="solution-2">Solution:</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">aws s3 ls s3://s3game-level3 --profile tmp
+</span></span><span class="line"><span class="cl">aws s3 cp s3://s3game-level3/treasure3_has_no_secret_code . --profile tmp
+</span></span><span class="line"><span class="cl">cat treasure3_has_no_secret_code
+</span></span><span class="line"><span class="cl"><span class="c1"># The object data itself does not have the secret code. It is present in the metadata</span>
+</span></span><span class="line"><span class="cl">aws s3api head-object --bucket s3game-level3 --key treasure3_has_no_secret_code --profile tmp
+</span></span></code></pre></div><h3 id="level-4httpss3game-level4-k73045aztqlns3us-east-2amazonawscomlevel4html"><a href="https://s3game-level4-k73045aztqln.s3.us-east-2.amazonaws.com/level4.html">Level 4</a></h3>
+<ul>
+<li><a href="https://s3game-level4-k73045aztqln.s3.us-east-2.amazonaws.com/level4-hint2.html">Hint</a></li>
+</ul>
+<h4 id="solution-3">Solution:</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># List the bucket ..</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># get the file</span>
+</span></span><span class="line"><span class="cl">aws s3 cp s3://s3game-level4-k73045aztqln/treasure4_also_has_no_secret_code . --profile tmp
+</span></span><span class="line"><span class="cl"><span class="c1"># looks like the data is empty</span>
+</span></span><span class="line"><span class="cl">aws s3api head-object --bucket s3game-level4-k73045aztqln --profile tmp --key treasure4_also_has_no_secret_code
+</span></span><span class="line"><span class="cl"><span class="c1"># ... so is the metadata. Let&#39;s try object tags as mentioned in hint</span>
+</span></span><span class="line"><span class="cl">aws s3api get-object-tagging --bucket s3game-level4-k73045aztqln --profile tmp --key treasure4_also_has_no_secret_code
+</span></span></code></pre></div><h4 id="takeaway">Takeaway:</h4>
+<blockquote>
+<p>Object in S3, including its metadata, is immutable. When you edit object&rsquo;s metadata, you are actually overwriting the object with a copy of itself, with its metadata modified.
+In contrast, tags are subresources. They are managed separately and can be modified without modifying the object itself.</p>
+</blockquote>
+<h3 id="level-5httpss3game-level5-8v95e5rv7z4is3us-east-2amazonawscomlevel5html"><a href="https://s3game-level5-8v95e5rv7z4i.s3.us-east-2.amazonaws.com/level5.html">Level 5</a></h3>
+<ul>
+<li><a href="https://s3game-level5-8v95e5rv7z4i.s3.us-east-2.amazonaws.com/level5-hint2.html">Hint</a></li>
+<li><a href="https://s3game-level5-8v95e5rv7z4i.s3.us-east-2.amazonaws.com/level5-hint3.html">Hint</a></li>
+<li><a href="https://s3game-level5-8v95e5rv7z4i.s3.us-east-2.amazonaws.com/level5-hint4.html">Hint</a></li>
+</ul>
+<h4 id="solution-4">Solution</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># We are listing all versions of objects as the hint says that the object is not present in its current version</span>
+</span></span><span class="line"><span class="cl">aws s3api list-object-versions --bucket s3game-level5-8v95e5rv7z4i --profile tmp
+</span></span><span class="line"><span class="cl"><span class="c1"># Get the specific version of treasure5_is_deleted using version-id from previous call</span>
+</span></span><span class="line"><span class="cl">aws s3api get-object --bucket <span class="s1">&#39;s3game-level5-8v95e5rv7z4i&#39;</span> --key treasure5_is_deleted --version-id <span class="s1">&#39;344PQOyFqocF0TI66MbLynNNdQqHfBz3&#39;</span> --profile tmp treasure5_is_deleted
+</span></span></code></pre></div><h4 id="takeaway-1">Takeaway</h4>
+<blockquote>
+<p>S3 versioning keeps multiple variants of an object in the same bucket.
+If you enable versioning for a bucket, S3 automatically generates a unique version ID for the object being stored.
+In one bucket you can have two objects with the same key, but different version IDs.
+Check if versioning is enabled using: <code>aws s3api get-bucket-versioning --bucket my-bucket</code></p>
+</blockquote>
+<h3 id="level-6httpss3game-level6-vjv45x1gux81s3us-east-2amazonawscomlevel6html"><a href="https://s3game-level6-vjv45x1gux81.s3.us-east-2.amazonaws.com/level6.html">Level 6</a></h3>
+<ul>
+<li><a href="https://s3game-level6-vjv45x1gux81.s3.us-east-2.amazonaws.com/level6-hint2.html">Hint</a></li>
+</ul>
+<h4 id="solution-5">Solution</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># We need to get a gzipped object using S3 select</span>
+</span></span><span class="line"><span class="cl">aws s3api list-objects --bucket s3game-level6-vjv45x1gux81 --profile tmp
+</span></span><span class="line"><span class="cl"><span class="c1"># Now, do the select on s3select.csv.gz</span>
+</span></span><span class="line"><span class="cl">aws s3api <span class="k">select</span>-object-content --bucket s3game-level6-vjv45x1gux81 --key s3select.csv.gz --expression <span class="s2">&#34;SELECT s.Answer FROM s3object s WHERE Category = &#39;TREASURE&#39;&#34;</span> --expression-type sql --input-serialization <span class="s1">&#39;{&#34;CSV&#34;: {&#34;FileHeaderInfo&#34;: &#34;USE&#34;, &#34;FieldDelimiter&#34;: &#34;;&#34;}, &#34;CompressionType&#34;: &#34;GZIP&#34;}&#39;</span> --output-serialization <span class="s1">&#39;{&#34;CSV&#34;: {}}&#39;</span> --profile tmp treasure6
+</span></span></code></pre></div><h3 id="level-7httpss3game-level7-zhovpo4j8588s3us-east-2amazonawscomlevel7html"><a href="https://s3game-level7-zhovpo4j8588.s3.us-east-2.amazonaws.com/level7.html">Level 7</a></h3>
+<ul>
+<li><a href="https://s3game-level7-zhovpo4j8588.s3.us-east-2.amazonaws.com/level7-hint2.html">Hint</a></li>
+</ul>
+<h4 id="solution-6">Solution</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Get &#39;somethingstrange&#39; from the bucket</span>
+</span></span><span class="line"><span class="cl">aws s3api get-object --bucket s3game-level7-zhovpo4j8588 --key somethingstrange --profile tmp t7
+</span></span><span class="line"><span class="cl">cat t7
+</span></span><span class="line"><span class="cl"><span class="c1"># Visit the pre-signed URL in the file to get URL for next level</span>
+</span></span></code></pre></div><h4 id="takeaway-2">Takeaway</h4>
+<p>Pre-signed URLs are a powerful feature of S3. From the <a href="https://boto3.amazonaws.com/v1/documentation/api/latest/guide/s3-presigned-urls.html">docs</a>:</p>
+<blockquote>
+<p>A presigned URL is generated by an AWS user who has access to the object. The generated URL is then given to the unauthorized user. The presigned URL can be entered in a browser or used by a program or HTML webpage. The credentials used by the presigned URL are those of the AWS user who generated the URL.</p>
+<p>A presigned URL remains valid for a <strong>limited period of time</strong> which is specified when the URL is generated.</p>
+</blockquote>
+<h3 id="level-8httpss3game-level8-v6g8tp7ra2lds3us-east-2amazonawscomlevel8html"><a href="https://s3game-level8-v6g8tp7ra2ld.s3.us-east-2.amazonaws.com/level8.html">Level 8</a></h3>
+<h4 id="solution-7">Solution</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># List objects</span>
+</span></span><span class="line"><span class="cl">aws s3api list-objects --bucket s3game-level8-v6g8tp7ra2ld --profile tmp
+</span></span><span class="line"><span class="cl"><span class="c1"># Visit the treasure file using the cloudfront URL</span>
+</span></span><span class="line"><span class="cl">curl <span class="s1">&#39;https://d2suiw06vujwz3.cloudfront.net/treasure8_CDN&#39;</span>
+</span></span></code></pre></div><h4 id="takeaway-3">Takeaway</h4>
+<ul>
+<li>You can easily create a Cloudfront distribution backed by an S3 bucket</li>
+<li>In such cases, you can restrict public access for the objects in the bucket as they can be accessed using Cloudfront</li>
+<li>Ensure that your bucket does not allow unprivileged users to list all objects in the bucket</li>
+</ul>
+<h3 id="level-9httpss3game-level9-781xtls2quvys3us-east-2amazonawscomlevel9html"><a href="https://s3game-level9-781xtls2quvy.s3.us-east-2.amazonaws.com/level9.html">Level 9</a></h3>
+<ul>
+<li><a href="https://s3game-level9-781xtls2quvy.s3.us-east-2.amazonaws.com/level9-hint2.html">Hint</a></li>
+</ul>
+<p>The bucket has a policy which checks that any request for &ldquo;arn:aws:s3:::s3game-level9-781xtls2quvy/treasure9_referer&rdquo; has the referer string &ldquo;<a href="http://s3game.treasure">http://s3game.treasure</a>&rdquo;</p>
+<h4 id="solution-8">Solution</h4>
+<p>All we need to do is curl with a &ndash;refer given in policy
+curl &lsquo;<a href="https://s3game-level9-781xtls2quvy.s3.us-east-2.amazonaws.com/treasure9_referer'">https://s3game-level9-781xtls2quvy.s3.us-east-2.amazonaws.com/treasure9_referer'</a> &ndash;refer &lsquo;<a href="http://s3game.treasure">http://s3game.treasure</a>&rsquo;</p>
+<h3 id="level-10httpss3game-level10-gac6tf83erp6s3us-east-2amazonawscomlevel10html"><a href="https://s3game-level10-gac6tf83erp6.s3.us-east-2.amazonaws.com/level10.html">Level 10</a></h3>
+<p>Here, we need to fetch an object which is in Infrequent Access storage.</p>
+<h4 id="solution-9">Solution</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># We can use the powerful query param of aws cli to just fetch those objects which are in infrequent access storgae</span>
+</span></span><span class="line"><span class="cl">aws s3api list-objects --bucket s3game-level10-gac6tf83erp6 --query <span class="s1">&#39;Contents[?StorageClass == `STANDARD_IA`]&#39;</span> --profile tmp
+</span></span></code></pre></div><h4 id="takeaway-4">Takeaway</h4>
+<blockquote>
+<p>Amazon S3 offers a range of storage classes designed for different use cases:</p>
+<ul>
+<li>Standard for general-purpose storage of frequently accessed data</li>
+<li>Intelligent-Tiering for data with unknown or changing access patterns</li>
+<li>Standard-Infrequent Access (Standard-IA) and One Zone-Infrequent Access (One Zone-IA) for long-lived, but less frequently accessed data</li>
+<li>Glacier and Glacier Deep Archive for long-term archive</li>
+</ul>
+</blockquote>
+<h3 id="level-11httpss3game-level11-djq30a807iyqs3us-east-2amazonawscomlevel11html"><a href="https://s3game-level11-djq30a807iyq.s3.us-east-2.amazonaws.com/level11.html">Level 11</a></h3>
+<p>Here we need to fetch an object which has been encrypted using client side encryption and uploaded to S3. This means that we can not fetch the object unless we have the encryption key.</p>
+<h4 id="solution-10">Solution</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># The encryption key is given in the hint</span>
+</span></span><span class="line"><span class="cl">aws s3 cp --sse-c <span class="s1">&#39;AES256&#39;</span> --sse-c-key <span class="s1">&#39;UkXp2s5v8y/B?E(H+MbPeShVmYq3t6w9&#39;</span> <span class="s1">&#39;s3://s3game-level11-djq30a807iyq/treasure11_encryption&#39;</span> --profile tmp .
+</span></span><span class="line"><span class="cl"><span class="c1"># Alternate way using aws s3api. Here we also need to give md5 of encryption key as additional integrity check</span>
+</span></span><span class="line"><span class="cl">aws s3api get-object --bucket s3game-level11-djq30a807iyq --key treasure11_encryption --sse-customer-key <span class="s1">&#39;UkXp2s5v8y/B?E(H+MbPeShVmYq3t6w9&#39;</span> --sse-customer-algorithm AES256 --profile tmp treasure11_encryption
+</span></span></code></pre></div><h4 id="takeaway-5">Takeaway</h4>
+<p>S3 supports both <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">server side</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html">client side encryption</a>.</p>
+<h3 id="victory---level-12httpss3game-level12-bk0m5ax5n92os3us-east-2amazonawscomlevel12html">VICTORY! - <a href="https://s3game-level12-bk0m5ax5n92o.s3.us-east-2.amazonaws.com/level12.html">Level 12</a></h3>
+<p>Congrats! You have cleared the game!</p>
+]]></content>
+    
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[NPM and Node tips to make your dev machine (slightly) safer]]></title>
+    <link href="https://rrampage.github.io/2020/05/28/npm-and-node-tips-to-make-your-dev-machine-slightly-safer/"/>
+    <id>https://rrampage.github.io/2020/05/28/npm-and-node-tips-to-make-your-dev-machine-slightly-safer/</id> 
+    <author>
+      <name>Raunak</name>
+    </author>
+    <published>2020-05-28T10:42:07+00:00</published>
+    <updated>2020-05-28T10:42:07+00:00</updated>
+    
+    <content type="html"><![CDATA[<p>NPM is used as a convenient cross-platform package manager for <a href="https://hackernoon.com/the-best-of-npm-install-g-9ab9d749eeb1">a lot of developer tools</a>. For many tools, the defacto way to install is <strong><code>npm install -g $TOOL</code></strong>. But installing anything via npm allows it to run untrusted code on your machine.</p>
+<p>Here are a few tips to minimize the risk:</p>
+<h2 id="1-never-run-npm-as-sudoroot">1. NEVER run npm as sudo/root</h2>
+<p><a href="https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally">Node&rsquo;s official documentation</a> recommends not installing global packages as sudo/root. If you have already installed node through <code>nvm</code> ignore this step. If you use a system installed <code>node</code> e.g using Ubuntu&rsquo;s apt-get, read through <strong><a href="https://github.com/sindresorhus/guides/blob/master/npm-global-without-sudo.md">this guide</a></strong> for Linux/Mac or <a href="https://github.com/glenpike/npm-g_nosudo">npm-g-nosudo</a> which is a shell script for Linux.</p>
+<h3 id="if-you-are-lazy-like-me-heres-a-summary-from-the-linked-guide">If you are lazy (like me), here&rsquo;s a summary from the linked guide:</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mkdir -p <span class="s2">&#34;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/.npm-packages&#34;</span> <span class="o">&amp;&amp;</span> npm config <span class="nb">set</span> prefix <span class="s2">&#34;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/.npm-packages&#34;</span>
+</span></span></code></pre></div><p>Add this to your <code>.bashrc</code> or <code>.zshrc</code>:</p>
+<pre tabindex="0"><code>NPM_PACKAGES=&#34;${HOME}/.npm-packages&#34;
+export PATH=&#34;$PATH:$NPM_PACKAGES/bin&#34;
+# Preserve MANPATH if you already defined it somewhere in your config.
+# Otherwise, fall back to `manpath` so we can inherit from `/etc/manpath`.
+export MANPATH=&#34;${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man&#34;
+</code></pre><h2 id="2-installuse-node-using-nvm-or-asdf">2. Install/Use node using <code>nvm</code> or <code>asdf</code></h2>
+<p><a href="https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally">Node&rsquo;s official documentation</a> recommends installing node as an unprivileged user using a node version manager.</p>
+<p>Here are the steps:</p>
+<ul>
+<li>Install <a href="https://github.com/nvm-sh/nvm">nvm</a>. This does not work for Windows, use <a href="https://github.com/coreybutler/nvm-windows">nvm-windows</a> which is a totally different project from nvm.
+<ul>
+<li>Unfortunately, <code>nvm</code> suffers from the curl pipe to bash install as its main way to install.</li>
+<li>If you have git installed on your machine, you can also directly clone it using the following steps:
+<ul>
+<li><code>cd &quot;$HOME&quot; &amp;&amp; git clone https://github.com/nvm-sh/nvm.git .nvm</code></li>
+<li><code>cd &quot;$HOME/.nvm&quot; &amp;&amp; git checkout v0.35.3 &amp;&amp; . nvm.sh</code></li>
+<li>Add to your .bashrc or .zshrc:</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre tabindex="0"><code>export NVM_DIR=&#34;$HOME/.nvm&#34;
+[ -s &#34;$NVM_DIR/nvm.sh&#34; ] &amp;&amp; \. &#34;$NVM_DIR/nvm.sh&#34;  # This loads nvm
+[ -s &#34;$NVM_DIR/bash_completion&#34; ] &amp;&amp; \. &#34;$NVM_DIR/bash_completion&#34;  # This loads nvm bash_completion
+</code></pre><ul>
+<li><code>nvm install --lts</code> or whichever version of node you need.</li>
+<li><code>nvm use node</code></li>
+<li>To use a node version by default, <code>echo &quot;lts/*&quot; &gt; &quot;$HOME/.nvmrc&quot;</code></li>
+</ul>
+<h2 id="3-list-all-your-globally-installed-npm-packages-and-remove-any-unnecessary-ones">3. List all your globally installed npm packages and remove any unnecessary ones</h2>
+<p>Listing global packages is done with <strong><code>npm ls -g --depth 0</code></strong>
+Remove any unnecessary packages with <strong><code>npm uninstall -g $TOOL</code></strong>
+You can check your shell history/scripts folders to see if you actually use many of the global packages.</p>
+<h2 id="4-audit-your-packages">4. Audit your packages</h2>
+<p>Run <strong><code>npm audit</code></strong> in your project regularly to see if <a href="https://docs.npmjs.com/auditing-package-dependencies-for-security-vulnerabilities">any dependencies are vulnerable</a>. This only works for your development projects, not global packages.</p>
+<h3 id="a-hacky-wayhttpsstackoverflowcoma53619858-to-npm-audit--global-packages"><a href="https://stackoverflow.com/a/53619858">A (hacky) way</a> to <code>npm audit</code>  global packages:</h3>
+<ul>
+<li>Run <code>npm</code>. The last line will show the folder of the global npm packages e.g <code>$HOME/.npm-packages/lib/node_modules/npm</code></li>
+<li>Go to <code>$HOME/.npm-packages/lib</code> and run <code>npm init -y</code> and then run <code>npm i --package-lock-only</code>. These steps are required as <code>npm audit</code> checks for <code>package.json</code> and <code>package-lock.json</code></li>
+<li>Now run <code>npm audit</code>. Remove any dependencies which have high or too many moderate vulnerabilities. These could either be malicious or unmaintained tools.</li>
+<li>Remove the <code>package.json</code> and <code>package-lock.json</code> after the audit</li>
+</ul>
+<h2 id="5-use-npx-to-run-executables">5. Use <code>npx</code> to run executables</h2>
+<p>Many times, it is not necessary to have a tool installed globally e.g <code>create-react-app</code>. Node 6+ comes with <code>npx</code> which allows you to temporarily download and run scripts. The benefits of using <code>npx</code> over <code>npm install -g</code> are beautifully explained in <a href="https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b">this post</a>.</p>
+<p>A gist of the article:</p>
+<blockquote>
+<p>Calling npx <command> when <command> isn’t already in your $PATH will automatically install a package with that name from the npm registry for you, and invoke it. When it’s done, the installed package won’t be anywhere in your globals, so you won’t have to worry about pollution in the long-term.</p>
+</blockquote>
+<blockquote>
+<p>This feature is ideal for things like generators, too. Tools like yeoman or create-react-app only ever get called once in a blue moon. <strong>By the time you run them again, they’ll already be far out of date, so you end up having to run an install every time you want to use them anyway.</strong></p>
+</blockquote>
+<h2 id="bonus--use-deno-for-developer-tools">Bonus : Use Deno for developer tools</h2>
+<p>I think a project like <a href="https://deno.land/">deno</a> with good sandbox capabilities and <a href="https://deno.land/manual/getting_started/permissions">limited permisisons</a> is the best choice for a lot of developer tools currently made using Node. Read <a href="https://www.jeremymorgan.com/blog/programming/what-is-deno/">this post</a> for more details on why everyone is talking about Deno.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Does this solve all security issues of <code>node</code>/<code>npm</code> on your machine? No! There are a <a href="https://blog.npmjs.org/post/180565383195/details-about-the-event-stream-incident">lot</a> <a href="https://blog.npmjs.org/post/185397814280/plot-to-steal-cryptocurrency-foiled-by-the-npm">of</a> <a href="https://blog.npmjs.org/post/175824896885/incident-report-npm-inc-operations-incident-of">ways</a> in which a malicious attacker can compromise your machine/project. This only prevents a bad npm tool from getting root access and removes globally installed npm tools with known insecure dependencies.</p>
+]]></content>
+    
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Webhook to auto-deploy on git push to Github]]></title>
+    <link href="https://rrampage.github.io/2020/05/25/webhook-to-auto-deploy-on-git-push-to-github/"/>
+    <id>https://rrampage.github.io/2020/05/25/webhook-to-auto-deploy-on-git-push-to-github/</id> 
+    <author>
+      <name>Raunak</name>
+    </author>
+    <published>2020-05-25T17:32:54+00:00</published>
+    <updated>2020-05-25T17:32:54+00:00</updated>
+    
+    <content type="html"><![CDATA[<h2 id="what-is-a-webhook">What is a webhook?</h2>
+<p>A <a href="https://en.wikipedia.org/wiki/Webhook">webhook</a> is an endpoint on your server which allows you to execute a particular task. Webhooks are usually triggered by some event. A good use-case for a webhook is running tests on a dedicated test server or deploying your latest <code>master</code> branch to staging/production.</p>
+<p><a href="https://developer.github.com/webhooks/">Github</a> / <a href="https://docs.gitlab.com/ee/user/project/integrations/webhooks.html">Gitlab</a> / Bitbucket allow you to specify a webhook URL in your repository settings. Github triggers the webhook which sends the event data on every push.</p>
+<h2 id="webhookhttpsgithubcomadnanhwebhook-server"><a href="https://github.com/adnanh/webhook">Webhook</a> server</h2>
+<p><a href="https://github.com/adnanh/webhook">Webhook</a> is a very useful golang project which runs any script you specify when a particular endpoint is hit.</p>
+<p>Download and extract the binary for your operating system from the <a href="https://github.com/adnanh/webhook/releases">releases page</a>. For Linux, it is <a href="https://github.com/adnanh/webhook/releases/download/2.7.0/webhook-linux-amd64.tar.gz">here</a>.</p>
+<p>The program takes as config a <strong><code>hooks.json</code></strong> file:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">[</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;hello-world&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;execute-command&#34;</span><span class="p">:</span> <span class="s2">&#34;/home/user/scripts/hello.sh&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;command-working-directory&#34;</span><span class="p">:</span> <span class="s2">&#34;/home/user/webhook&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span></code></pre></div><p>Replace <code>user</code> with the username of your linux user.</p>
+<p>The <code>hello.sh</code> script.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nb">echo</span> <span class="s1">&#39;Hello!&#39;</span>
+</span></span></code></pre></div><p>Make the script executable by running <strong><code>chmod +x hello.sh</code></strong></p>
+<p>Start webhook server as <strong><code>webhook -hooks hooks.json -hotreload -logfile webhooks.log</code></strong>. The server will run on port 9000 by default. You can check if everything is working by running <strong><code>curl http://localhost:9000/hooks/hello-world</code></strong>. This will print &ldquo;Hello!&rdquo; in the log file.</p>
+<h2 id="deploy-script">Deploy script</h2>
+<p>For the purpose of this post, I&rsquo;ll assume the script is called <strong><code>deploy</code></strong> and is at location <code>/home/user/scripts/deploy</code>. This script will vary depending on your tech stack and the complexity of your CI process.</p>
+<p>A simple example <code>deploy</code> script:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="c1"># If you have a build server which creates binary/jar/artifact</span>
+</span></span><span class="line"><span class="cl">wget <span class="s1">&#39;ARTIFACT_URL&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Else, git pull and build on the server itself</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Assuming this script stops old instance of your code and starts a new instance with latest artifact </span>
+</span></span><span class="line"><span class="cl">restart-service.sh
+</span></span></code></pre></div><h3 id="configuration-to-run-deploy-script">Configuration to run deploy script</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">[</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;deploy-from-git&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;execute-command&#34;</span><span class="p">:</span> <span class="s2">&#34;/home/user/scripts/deploy&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;command-working-directory&#34;</span><span class="p">:</span> <span class="s2">&#34;/home/user/scripts&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;trigger-rule&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;and&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;match&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">          <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;payload-hash-sha1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;secret&#34;</span><span class="p">:</span> <span class="s2">&#34;MyTotallySecretString&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;parameter&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">              <span class="nt">&#34;source&#34;</span><span class="p">:</span> <span class="s2">&#34;header&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">              <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;X-Hub-Signature&#34;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">          <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;match&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">          <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;value&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;value&#34;</span><span class="p">:</span> <span class="s2">&#34;refs/heads/master&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;parameter&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">              <span class="nt">&#34;source&#34;</span><span class="p">:</span> <span class="s2">&#34;payload&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">              <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;ref&#34;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">          <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span></code></pre></div><p>The <strong>trigger-rule</strong> in config above will ensure that the script is only triggered when header from Github request contains <strong>&ldquo;X-Hub-Signature&rdquo;</strong> with a secret string and the push has occured in master branch.</p>
+<p>Make sure that the secret string (&ldquo;secret&rdquo; : &ldquo;MyTotallySecretString&rdquo;) is randomly generated. This secret will need to be entered in Github settings as well.</p>
+<p>For Gitlab and Bitbucket, example hook config can be found on repo page <a href="https://github.com/adnanh/webhook/blob/master/docs/Hook-Examples.md">here</a></p>
+<h2 id="expose-your-webhook-server-safely-to-the-internet">Expose your webhook server safely to the internet</h2>
+<p>There are 2 ways of exposing the webhook server to github:</p>
+<ul>
+<li>Proxy using Nginx</li>
+<li>Via a tunnel e.g by downloading <a href="https://ngrok.com/product">ngrok</a> and then running <code>ngrok http 9000</code></li>
+</ul>
+<h3 id="nginx-configuration">Nginx configuration</h3>
+<p>Preferably use HTTPS for your domain with Nginx. A good tutorial <a href="https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-18-04">here</a>.</p>
+<p>Example Nginx config (HTTPS):</p>
+<pre tabindex="0"><code>upstream webhook {
+    server localhost:9000;
+}
+
+server {
+	listen 443 ssl http2;
+        server_name YOUR.DOMAIN.COM;
+	ssl_certificate YOUR_CERT_CHAIN; # e.g /etc/letsencrypt/live/DOMAIN/fullchain.pem;
+	ssl_certificate_key YOUR_CERT_KEY; # e.g /etc/letsencrypt/live/DOMAIN/privkey.pem;
+	include /etc/nginx/options-ssl-nginx.conf;
+	ssl_dhparam /etc/nginx/ssl-dhparams.pem;
+        location ~ ^/hooks/(.+)$ {
+		proxy_pass http://webhook;
+	}
+}
+</code></pre><h2 id="add-your-webhook-url-to-github">Add your webhook URL to Github</h2>
+<p>Go to the settings page of your Github repo then click on Webhook. Enter the URL of your webhook server. If using Nginx, it should be something like <code>https://YOUR.DOMAIN.COM/hooks/deploy-from-git</code>. Make sure you select content type as <code>application/json</code> and secret to the secret you generated earlier.</p>
+<h2 id="bonus-create-a-systemd-user-service-for-webhook-linux">Bonus: Create a systemd user service for webhook (Linux)</h2>
+<p>Create a systemd unit file with path <strong>/home/user/.config/systemd/user/webhook.service</strong> . This service does not require sudo/root permissions and can be run by the unprivileged user.</p>
+<pre tabindex="0"><code>[Unit]
+AssertPathExists=/home/user/scripts
+
+[Service]
+WorkingDirectory=/home/user/scripts
+ExecStart=/home/user/scripts/webhook -hooks hooks.json -hotreload -logfile webhooks.log
+Restart=always
+PrivateTmp=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=default.target
+</code></pre><p>Do <code>systemctl --user daemon-reload</code> and <code>systemctl --user start webhook.service</code>. You can <code>systemctl --user enable webhook.service</code> to ensure that the service always runs when your machine is booted.</p>
+]]></content>
+    
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Bash function to add TILs]]></title>
+    <link href="https://rrampage.github.io/2020/05/23/bash-function-to-add-tils/"/>
+    <id>https://rrampage.github.io/2020/05/23/bash-function-to-add-tils/</id> 
+    <author>
+      <name>Raunak</name>
+    </author>
+    <published>2020-05-23T12:42:20+00:00</published>
+    <updated>2020-05-23T12:42:20+00:00</updated>
+    
+    <content type="html"><![CDATA[<h2 id="til-snippet"><code>til</code> snippet</h2>
+<p>Here&rsquo;s a snippet I use in my <strong><code>.bashrc</code></strong> file to quickly write down and review TILs (Today I learned):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">TIL_FILE</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$HOME</span><span class="s2">/my-notes-repo/til.md&#34;</span>
+</span></span><span class="line"><span class="cl">til <span class="o">()</span> 
+</span></span><span class="line"><span class="cl"><span class="o">{</span> 
+</span></span><span class="line"><span class="cl">    <span class="c1"># checks if the function has been called without any argument</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">[[</span> -z <span class="nv">$1</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># opens the file in my editor, setting the cursor to the last line</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># useful to review latest entries or to write a longer entry</span>
+</span></span><span class="line"><span class="cl">        vim + <span class="s2">&#34;</span><span class="nv">$TIL_FILE</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># adds a line with today&#39;s date, a TAB and all arguments supplied (&#34;$@&#34;)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">echo</span> -e <span class="s2">&#34;- </span><span class="k">$(</span> date <span class="s1">&#39;+%F&#39;</span> <span class="k">)</span><span class="s2">:\t</span><span class="nv">$@</span><span class="s2">&#34;</span> &gt;&gt; <span class="s2">&#34;</span><span class="nv">$TIL_FILE</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">fi</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="how-to-use">How to use:</h2>
+<ul>
+<li><strong><code>til</code></strong> to open the file. I use this to review what I learned today  or if I need to write a longer, multiline entry</li>
+<li><strong><code>til CONTENT</code></strong> to append a line to the file
+<ul>
+<li>e.g <code>til grep --line-buffered to immediately print especially when tailing files</code> will add this: <code>- 2020-05-23:   grep --line-buffered to immediately print especially when tailing files</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="explanation-on-the-function">Explanation on the function</h3>
+<p>In case you missed the comments in the function, here&rsquo;s an explanation of what the various lines do:</p>
+<ul>
+<li><strong><code>if [[ -z $1 ]];</code></strong> checks if the function has been called without any arguments</li>
+<li><strong><code>vim + &quot;$TIL_FILE&quot;</code></strong> opens the file in vim (my preferred editor), setting the cursor to the last line of the file.</li>
+<li><strong><code>echo -e &quot;- $tdate:\t$@&quot; &gt;&gt; &quot;$TIL_FILE&quot;;</code></strong> adds a line with today&rsquo;s date, a TAB and all arguments supplied (&quot;$@&quot;) to <code>til</code></li>
+</ul>
+]]></content>
+    
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Setting display brightness on Linux from the command line]]></title>
+    <link href="https://rrampage.github.io/2020/05/19/setting-display-brightness-on-linux-from-the-command-line/"/>
+    <id>https://rrampage.github.io/2020/05/19/setting-display-brightness-on-linux-from-the-command-line/</id> 
+    <author>
+      <name>Raunak</name>
+    </author>
+    <published>2020-05-19T16:10:26+00:00</published>
+    <updated>2020-05-19T16:10:26+00:00</updated>
+    
+    <content type="html"><![CDATA[<h2 id="setting-display-brightness-using-xrandr">Setting display brightness using <code>xrandr</code></h2>
+<p>I auto-adjust the brightness on my display using a <a href="https://en.wikipedia.org/wiki/Cron">cron</a> which runs at 7 pm everyday.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">xrandr --output eDP-1 --brightness 0.9
+</span></span></code></pre></div><p>This sets the brightness to 90% of maximum brightness.</p>
+<h2 id="working-with-linux-display-environments-in-a-cron">Working with Linux Display environments in a cron</h2>
+<p>The above command works when run from my terminal. But when run on a cron, it does not produce any effect. We need to explicitly mention the &ldquo;display number&rdquo; as an environment variable <code>DISPLAY</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="m">8</span> <span class="m">19</span> * * * <span class="nv">DISPLAY</span><span class="o">=</span>:0 xrandr --verbose --output eDP-1 --brightness 0.9
+</span></span></code></pre></div><h3 id="how-to-get-the-display-number-of-your-monitor">How to get the display number of your monitor?</h3>
+<p>Running <code>xrandr</code> will give you a lot of output like</p>
+<pre tabindex="0"><code>Screen 0: minimum 320 x 200, current 1920 x 1080, maximum 16384 x 16384
+eDP-1 connected primary 1920x1080+0+0 (normal left inverted right x axis y axis)
+</code></pre><p>In my case, the display number is <code>:0</code></p>
+<h3 id="adjusting-backlight-brightness-vs-perceived-brightness">Adjusting backlight brightness vs perceived brightness</h3>
+<p>If <code>xrandr</code> is unable to find backlight, it only changes &ldquo;perceived&rdquo; brightness i.e it does <a href="https://wiki.archlinux.org/index.php/backlight#Color_correction">software color correction</a>. If we want to save battery, we will need to reduce the backlight brightness.</p>
+<p>In Linux, the backlights can be found in <code>/sys/class/backlight</code>. In my case, it was <code>/sys/class/backlight/intel_backlight</code>. In this folder, there are many files like</p>
+<pre tabindex="0"><code>actual_brightness
+max_brightness
+brightness
+</code></pre><p><code>max_brightness</code> shows highest possible level of brightness for the display. We can adjust the value in <code>brightness</code> file to reduce backlight brightness.
+Here&rsquo;s what I do to adjust it: <code>echo 1800 &gt; /sys/class/backlight/intel_backlight/brightness</code> (in root crontab)</p>
+<p>Unlike the xrandr command, this does not require setting any DISPLAY variable in the cron file.</p>
+<h2 id="other-tools">Other tools</h2>
+<ul>
+<li><a href="https://github.com/Hummer12007/brightnessctl">brightnessctl</a> is an easy to use tool which integrates well with systemd. It is also available in the package managers of various distributions like Debian, Ubuntu, Arch Linux.</li>
+</ul>
+]]></content>
+    
+  </entry>
+  <entry>
     <title type="html"><![CDATA[Easy VPN using Wireguard]]></title>
     <link href="https://rrampage.github.io/2018/12/14/easy-vpn-using-wireguard/"/>
     <id>https://rrampage.github.io/2018/12/14/easy-vpn-using-wireguard/</id> 

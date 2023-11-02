@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Bash function to add TILs | A Random Walk</title>
+<meta name="keywords" content="bash, til">
+<meta name="description" content="Add TIL to a `til.md` file from the command line">
+<meta name="author" content="Raunak">
+<link rel="canonical" href="https://rrampage.github.io/2020/05/23/bash-function-to-add-tils/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3583c276be8b676922334220eddb70a58dd857f110640a70a4641bbbc371cae2.css" integrity="sha256-NYPCdr6LZ2kiM0Ig7dtwpY3YV/EQZApwpGQbu8NxyuI=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://rrampage.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://rrampage.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://rrampage.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://rrampage.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Bash function to add TILs" />
+<meta property="og:description" content="Add TIL to a `til.md` file from the command line" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://rrampage.github.io/2020/05/23/bash-function-to-add-tils/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-05-23T12:42:20+00:00" />
+<meta property="article:modified_time" content="2020-05-23T12:42:20+00:00" /><meta property="og:site_name" content="A Random Walk" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Bash function to add TILs"/>
+<meta name="twitter:description" content="Add TIL to a `til.md` file from the command line"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://rrampage.github.io/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Bash function to add TILs",
+      "item": "https://rrampage.github.io/2020/05/23/bash-function-to-add-tils/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Bash function to add TILs",
+  "name": "Bash function to add TILs",
+  "description": "Add TIL to a `til.md` file from the command line",
+  "keywords": [
+    "bash", "til"
+  ],
+  "articleBody": "til snippet Here’s a snippet I use in my .bashrc file to quickly write down and review TILs (Today I learned):\nTIL_FILE=\"$HOME/my-notes-repo/til.md\" til () { # checks if the function has been called without any argument if [[ -z $1 ]]; then # opens the file in my editor, setting the cursor to the last line # useful to review latest entries or to write a longer entry vim + \"$TIL_FILE\"; else # adds a line with today's date, a TAB and all arguments supplied (\"$@\") echo -e \"- $( date '+%F' ):\\t$@\" \u003e\u003e \"$TIL_FILE\"; fi } How to use: til to open the file. I use this to review what I learned today or if I need to write a longer, multiline entry til CONTENT to append a line to the file e.g til grep --line-buffered to immediately print especially when tailing files will add this: - 2020-05-23: grep --line-buffered to immediately print especially when tailing files Explanation on the function In case you missed the comments in the function, here’s an explanation of what the various lines do:\nif [[ -z $1 ]]; checks if the function has been called without any arguments vim + \"$TIL_FILE\" opens the file in vim (my preferred editor), setting the cursor to the last line of the file. echo -e \"- $tdate:\\t$@\" \u003e\u003e \"$TIL_FILE\"; adds a line with today’s date, a TAB and all arguments supplied (\"$@\") to til ",
+  "wordCount" : "237",
+  "inLanguage": "en",
+  "datePublished": "2020-05-23T12:42:20.645Z",
+  "dateModified": "2020-05-23T12:42:20.645Z",
+  "author":{
+    "@type": "Person",
+    "name": "Raunak"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://rrampage.github.io/2020/05/23/bash-function-to-add-tils/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "A Random Walk",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://rrampage.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://rrampage.github.io/" accesskey="h" title="A Random Walk (Alt + H)">A Random Walk</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://rrampage.github.io/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/archives" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Bash function to add TILs
+    </h1>
+    <div class="post-description">
+      Add TIL to a `til.md` file from the command line
+    </div>
+    <div class="post-meta">May 23 2020   2 min
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#til-snippet"><code>til</code> snippet</a></li>
+    <li><a href="#how-to-use">How to use:</a>
+      <ul>
+        <li><a href="#explanation-on-the-function">Explanation on the function</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="til-snippet"><code>til</code> snippet<a hidden class="anchor" aria-hidden="true" href="#til-snippet">#</a></h2>
+<p>Here&rsquo;s a snippet I use in my <strong><code>.bashrc</code></strong> file to quickly write down and review TILs (Today I learned):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">TIL_FILE</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$HOME</span><span class="s2">/my-notes-repo/til.md&#34;</span>
+</span></span><span class="line"><span class="cl">til <span class="o">()</span> 
+</span></span><span class="line"><span class="cl"><span class="o">{</span> 
+</span></span><span class="line"><span class="cl">    <span class="c1"># checks if the function has been called without any argument</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">[[</span> -z <span class="nv">$1</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># opens the file in my editor, setting the cursor to the last line</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># useful to review latest entries or to write a longer entry</span>
+</span></span><span class="line"><span class="cl">        vim + <span class="s2">&#34;</span><span class="nv">$TIL_FILE</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># adds a line with today&#39;s date, a TAB and all arguments supplied (&#34;$@&#34;)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">echo</span> -e <span class="s2">&#34;- </span><span class="k">$(</span> date <span class="s1">&#39;+%F&#39;</span> <span class="k">)</span><span class="s2">:\t</span><span class="nv">$@</span><span class="s2">&#34;</span> &gt;&gt; <span class="s2">&#34;</span><span class="nv">$TIL_FILE</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">fi</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="how-to-use">How to use:<a hidden class="anchor" aria-hidden="true" href="#how-to-use">#</a></h2>
+<ul>
+<li><strong><code>til</code></strong> to open the file. I use this to review what I learned today  or if I need to write a longer, multiline entry</li>
+<li><strong><code>til CONTENT</code></strong> to append a line to the file
+<ul>
+<li>e.g <code>til grep --line-buffered to immediately print especially when tailing files</code> will add this: <code>- 2020-05-23:   grep --line-buffered to immediately print especially when tailing files</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="explanation-on-the-function">Explanation on the function<a hidden class="anchor" aria-hidden="true" href="#explanation-on-the-function">#</a></h3>
+<p>In case you missed the comments in the function, here&rsquo;s an explanation of what the various lines do:</p>
+<ul>
+<li><strong><code>if [[ -z $1 ]];</code></strong> checks if the function has been called without any arguments</li>
+<li><strong><code>vim + &quot;$TIL_FILE&quot;</code></strong> opens the file in vim (my preferred editor), setting the cursor to the last line of the file.</li>
+<li><strong><code>echo -e &quot;- $tdate:\t$@&quot; &gt;&gt; &quot;$TIL_FILE&quot;;</code></strong> adds a line with today&rsquo;s date, a TAB and all arguments supplied (&quot;$@&quot;) to <code>til</code></li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://rrampage.github.io/tags/bash/">bash</a></li>
+      <li><a href="https://rrampage.github.io/tags/til/">til</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://rrampage.github.io/2020/05/25/webhook-to-auto-deploy-on-git-push-to-github/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>Webhook to auto-deploy on git push to Github</span>
+  </a>
+  <a class="next" href="https://rrampage.github.io/2020/05/19/setting-display-brightness-on-linux-from-the-command-line/">
+    <span class="title">Next »</span>
+    <br>
+    <span>Setting display brightness on Linux from the command line</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://rrampage.github.io/">A Random Walk</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

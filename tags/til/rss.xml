@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>til on A Random Walk</title>
+    <link>https://rrampage.github.io/tags/til/</link>
+    <description>Recent content in til on A Random Walk</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 23 May 2020 12:42:20 +0000</lastBuildDate><atom:link href="https://rrampage.github.io/tags/til/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bash function to add TILs</title>
+      <link>https://rrampage.github.io/2020/05/23/bash-function-to-add-tils/</link>
+      <pubDate>Sat, 23 May 2020 12:42:20 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/2020/05/23/bash-function-to-add-tils/</guid>
+      <description>Add TIL to a `til.md` file from the command line</description>
+      <content:encoded><![CDATA[<h2 id="til-snippet"><code>til</code> snippet</h2>
+<p>Here&rsquo;s a snippet I use in my <strong><code>.bashrc</code></strong> file to quickly write down and review TILs (Today I learned):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">TIL_FILE</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$HOME</span><span class="s2">/my-notes-repo/til.md&#34;</span>
+</span></span><span class="line"><span class="cl">til <span class="o">()</span> 
+</span></span><span class="line"><span class="cl"><span class="o">{</span> 
+</span></span><span class="line"><span class="cl">    <span class="c1"># checks if the function has been called without any argument</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">[[</span> -z <span class="nv">$1</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># opens the file in my editor, setting the cursor to the last line</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># useful to review latest entries or to write a longer entry</span>
+</span></span><span class="line"><span class="cl">        vim + <span class="s2">&#34;</span><span class="nv">$TIL_FILE</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># adds a line with today&#39;s date, a TAB and all arguments supplied (&#34;$@&#34;)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">echo</span> -e <span class="s2">&#34;- </span><span class="k">$(</span> date <span class="s1">&#39;+%F&#39;</span> <span class="k">)</span><span class="s2">:\t</span><span class="nv">$@</span><span class="s2">&#34;</span> &gt;&gt; <span class="s2">&#34;</span><span class="nv">$TIL_FILE</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">fi</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="how-to-use">How to use:</h2>
+<ul>
+<li><strong><code>til</code></strong> to open the file. I use this to review what I learned today  or if I need to write a longer, multiline entry</li>
+<li><strong><code>til CONTENT</code></strong> to append a line to the file
+<ul>
+<li>e.g <code>til grep --line-buffered to immediately print especially when tailing files</code> will add this: <code>- 2020-05-23:   grep --line-buffered to immediately print especially when tailing files</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="explanation-on-the-function">Explanation on the function</h3>
+<p>In case you missed the comments in the function, here&rsquo;s an explanation of what the various lines do:</p>
+<ul>
+<li><strong><code>if [[ -z $1 ]];</code></strong> checks if the function has been called without any arguments</li>
+<li><strong><code>vim + &quot;$TIL_FILE&quot;</code></strong> opens the file in vim (my preferred editor), setting the cursor to the last line of the file.</li>
+<li><strong><code>echo -e &quot;- $tdate:\t$@&quot; &gt;&gt; &quot;$TIL_FILE&quot;;</code></strong> adds a line with today&rsquo;s date, a TAB and all arguments supplied (&quot;$@&quot;) to <code>til</code></li>
+</ul>
+]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>NPM and Node tips to make your dev machine (slightly) safer | A Random Walk</title>
+<meta name="keywords" content="javascript, node, security">
+<meta name="description" content="NPM is used as a convenient cross-platform package manager for a lot of developer tools. For many tools, the defacto way to install is npm install -g $TOOL. But installing anything via npm allows it to run untrusted code on your machine.
+Here are a few tips to minimize the risk:
+1. NEVER run npm as sudo/root Node&rsquo;s official documentation recommends not installing global packages as sudo/root. If you have already installed node through nvm ignore this step. If you use a system installed node e.g using Ubuntu&rsquo;s apt-get, read through this guide for Linux/Mac or npm-g-nosudo which is a shell script for Linux.
+If you are lazy (like me), here&rsquo;s a summary from the linked guide: mkdir -p &#34;${HOME}/.npm-packages&#34; &amp;&amp; npm config set prefix &#34;${HOME}/.npm-packages&#34; Add this to your .bashrc or .zshrc:
+NPM_PACKAGES=&#34;${HOME}/.npm-packages&#34; export PATH=&#34;$PATH:$NPM_PACKAGES/bin&#34; # Preserve MANPATH if you already defined it somewhere in your config. # Otherwise, fall back to `manpath` so we can inherit from `/etc/manpath`. export MANPATH=&#34;${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man&#34; 2.">
+<meta name="author" content="Raunak">
+<link rel="canonical" href="https://rrampage.github.io/2020/05/28/npm-and-node-tips-to-make-your-dev-machine-slightly-safer/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3583c276be8b676922334220eddb70a58dd857f110640a70a4641bbbc371cae2.css" integrity="sha256-NYPCdr6LZ2kiM0Ig7dtwpY3YV/EQZApwpGQbu8NxyuI=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://rrampage.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://rrampage.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://rrampage.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://rrampage.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="NPM and Node tips to make your dev machine (slightly) safer" />
+<meta property="og:description" content="NPM is used as a convenient cross-platform package manager for a lot of developer tools. For many tools, the defacto way to install is npm install -g $TOOL. But installing anything via npm allows it to run untrusted code on your machine.
+Here are a few tips to minimize the risk:
+1. NEVER run npm as sudo/root Node&rsquo;s official documentation recommends not installing global packages as sudo/root. If you have already installed node through nvm ignore this step. If you use a system installed node e.g using Ubuntu&rsquo;s apt-get, read through this guide for Linux/Mac or npm-g-nosudo which is a shell script for Linux.
+If you are lazy (like me), here&rsquo;s a summary from the linked guide: mkdir -p &#34;${HOME}/.npm-packages&#34; &amp;&amp; npm config set prefix &#34;${HOME}/.npm-packages&#34; Add this to your .bashrc or .zshrc:
+NPM_PACKAGES=&#34;${HOME}/.npm-packages&#34; export PATH=&#34;$PATH:$NPM_PACKAGES/bin&#34; # Preserve MANPATH if you already defined it somewhere in your config. # Otherwise, fall back to `manpath` so we can inherit from `/etc/manpath`. export MANPATH=&#34;${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man&#34; 2." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://rrampage.github.io/2020/05/28/npm-and-node-tips-to-make-your-dev-machine-slightly-safer/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-05-28T10:42:07+00:00" />
+<meta property="article:modified_time" content="2020-05-28T10:42:07+00:00" /><meta property="og:site_name" content="A Random Walk" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="NPM and Node tips to make your dev machine (slightly) safer"/>
+<meta name="twitter:description" content="NPM is used as a convenient cross-platform package manager for a lot of developer tools. For many tools, the defacto way to install is npm install -g $TOOL. But installing anything via npm allows it to run untrusted code on your machine.
+Here are a few tips to minimize the risk:
+1. NEVER run npm as sudo/root Node&rsquo;s official documentation recommends not installing global packages as sudo/root. If you have already installed node through nvm ignore this step. If you use a system installed node e.g using Ubuntu&rsquo;s apt-get, read through this guide for Linux/Mac or npm-g-nosudo which is a shell script for Linux.
+If you are lazy (like me), here&rsquo;s a summary from the linked guide: mkdir -p &#34;${HOME}/.npm-packages&#34; &amp;&amp; npm config set prefix &#34;${HOME}/.npm-packages&#34; Add this to your .bashrc or .zshrc:
+NPM_PACKAGES=&#34;${HOME}/.npm-packages&#34; export PATH=&#34;$PATH:$NPM_PACKAGES/bin&#34; # Preserve MANPATH if you already defined it somewhere in your config. # Otherwise, fall back to `manpath` so we can inherit from `/etc/manpath`. export MANPATH=&#34;${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man&#34; 2."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://rrampage.github.io/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "NPM and Node tips to make your dev machine (slightly) safer",
+      "item": "https://rrampage.github.io/2020/05/28/npm-and-node-tips-to-make-your-dev-machine-slightly-safer/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "NPM and Node tips to make your dev machine (slightly) safer",
+  "name": "NPM and Node tips to make your dev machine (slightly) safer",
+  "description": "NPM is used as a convenient cross-platform package manager for a lot of developer tools. For many tools, the defacto way to install is npm install -g $TOOL. But installing anything via npm allows it to run untrusted code on your machine.\nHere are a few tips to minimize the risk:\n1. NEVER run npm as sudo/root Node\u0026rsquo;s official documentation recommends not installing global packages as sudo/root. If you have already installed node through nvm ignore this step. If you use a system installed node e.g using Ubuntu\u0026rsquo;s apt-get, read through this guide for Linux/Mac or npm-g-nosudo which is a shell script for Linux.\nIf you are lazy (like me), here\u0026rsquo;s a summary from the linked guide: mkdir -p \u0026#34;${HOME}/.npm-packages\u0026#34; \u0026amp;\u0026amp; npm config set prefix \u0026#34;${HOME}/.npm-packages\u0026#34; Add this to your .bashrc or .zshrc:\nNPM_PACKAGES=\u0026#34;${HOME}/.npm-packages\u0026#34; export PATH=\u0026#34;$PATH:$NPM_PACKAGES/bin\u0026#34; # Preserve MANPATH if you already defined it somewhere in your config. # Otherwise, fall back to `manpath` so we can inherit from `/etc/manpath`. export MANPATH=\u0026#34;${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man\u0026#34; 2.",
+  "keywords": [
+    "javascript", "node", "security"
+  ],
+  "articleBody": "NPM is used as a convenient cross-platform package manager for a lot of developer tools. For many tools, the defacto way to install is npm install -g $TOOL. But installing anything via npm allows it to run untrusted code on your machine.\nHere are a few tips to minimize the risk:\n1. NEVER run npm as sudo/root Node’s official documentation recommends not installing global packages as sudo/root. If you have already installed node through nvm ignore this step. If you use a system installed node e.g using Ubuntu’s apt-get, read through this guide for Linux/Mac or npm-g-nosudo which is a shell script for Linux.\nIf you are lazy (like me), here’s a summary from the linked guide: mkdir -p \"${HOME}/.npm-packages\" \u0026\u0026 npm config set prefix \"${HOME}/.npm-packages\" Add this to your .bashrc or .zshrc:\nNPM_PACKAGES=\"${HOME}/.npm-packages\" export PATH=\"$PATH:$NPM_PACKAGES/bin\" # Preserve MANPATH if you already defined it somewhere in your config. # Otherwise, fall back to `manpath` so we can inherit from `/etc/manpath`. export MANPATH=\"${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man\" 2. Install/Use node using nvm or asdf Node’s official documentation recommends installing node as an unprivileged user using a node version manager.\nHere are the steps:\nInstall nvm. This does not work for Windows, use nvm-windows which is a totally different project from nvm. Unfortunately, nvm suffers from the curl pipe to bash install as its main way to install. If you have git installed on your machine, you can also directly clone it using the following steps: cd \"$HOME\" \u0026\u0026 git clone https://github.com/nvm-sh/nvm.git .nvm cd \"$HOME/.nvm\" \u0026\u0026 git checkout v0.35.3 \u0026\u0026 . nvm.sh Add to your .bashrc or .zshrc: export NVM_DIR=\"$HOME/.nvm\" [ -s \"$NVM_DIR/nvm.sh\" ] \u0026\u0026 \\. \"$NVM_DIR/nvm.sh\" # This loads nvm [ -s \"$NVM_DIR/bash_completion\" ] \u0026\u0026 \\. \"$NVM_DIR/bash_completion\" # This loads nvm bash_completion nvm install --lts or whichever version of node you need. nvm use node To use a node version by default, echo \"lts/*\" \u003e \"$HOME/.nvmrc\" 3. List all your globally installed npm packages and remove any unnecessary ones Listing global packages is done with npm ls -g --depth 0 Remove any unnecessary packages with npm uninstall -g $TOOL You can check your shell history/scripts folders to see if you actually use many of the global packages.\n4. Audit your packages Run npm audit in your project regularly to see if any dependencies are vulnerable. This only works for your development projects, not global packages.\nA (hacky) way to npm audit global packages: Run npm. The last line will show the folder of the global npm packages e.g $HOME/.npm-packages/lib/node_modules/npm Go to $HOME/.npm-packages/lib and run npm init -y and then run npm i --package-lock-only. These steps are required as npm audit checks for package.json and package-lock.json Now run npm audit. Remove any dependencies which have high or too many moderate vulnerabilities. These could either be malicious or unmaintained tools. Remove the package.json and package-lock.json after the audit 5. Use npx to run executables Many times, it is not necessary to have a tool installed globally e.g create-react-app. Node 6+ comes with npx which allows you to temporarily download and run scripts. The benefits of using npx over npm install -g are beautifully explained in this post.\nA gist of the article:\nCalling npx when isn’t already in your $PATH will automatically install a package with that name from the npm registry for you, and invoke it. When it’s done, the installed package won’t be anywhere in your globals, so you won’t have to worry about pollution in the long-term.\nThis feature is ideal for things like generators, too. Tools like yeoman or create-react-app only ever get called once in a blue moon. By the time you run them again, they’ll already be far out of date, so you end up having to run an install every time you want to use them anyway.\nBonus : Use Deno for developer tools I think a project like deno with good sandbox capabilities and limited permisisons is the best choice for a lot of developer tools currently made using Node. Read this post for more details on why everyone is talking about Deno.\nConclusion Does this solve all security issues of node/npm on your machine? No! There are a lot of ways in which a malicious attacker can compromise your machine/project. This only prevents a bad npm tool from getting root access and removes globally installed npm tools with known insecure dependencies.\n",
+  "wordCount" : "723",
+  "inLanguage": "en",
+  "datePublished": "2020-05-28T10:42:07.736Z",
+  "dateModified": "2020-05-28T10:42:07.736Z",
+  "author":{
+    "@type": "Person",
+    "name": "Raunak"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://rrampage.github.io/2020/05/28/npm-and-node-tips-to-make-your-dev-machine-slightly-safer/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "A Random Walk",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://rrampage.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://rrampage.github.io/" accesskey="h" title="A Random Walk (Alt + H)">A Random Walk</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://rrampage.github.io/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/archives" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      NPM and Node tips to make your dev machine (slightly) safer
+    </h1>
+    <div class="post-meta">May 28 2020   4 min
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-never-run-npm-as-sudoroot">1. NEVER run npm as sudo/root</a>
+      <ul>
+        <li><a href="#if-you-are-lazy-like-me-heres-a-summary-from-the-linked-guide">If you are lazy (like me), here&rsquo;s a summary from the linked guide:</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-installuse-node-using-nvm-or-asdf">2. Install/Use node using <code>nvm</code> or <code>asdf</code></a></li>
+    <li><a href="#3-list-all-your-globally-installed-npm-packages-and-remove-any-unnecessary-ones">3. List all your globally installed npm packages and remove any unnecessary ones</a></li>
+    <li><a href="#4-audit-your-packages">4. Audit your packages</a>
+      <ul>
+        <li><a href="#a-hacky-wayhttpsstackoverflowcoma53619858-to-npm-audit--global-packages"><a href="https://stackoverflow.com/a/53619858">A (hacky) way</a> to <code>npm audit</code>  global packages:</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-use-npx-to-run-executables">5. Use <code>npx</code> to run executables</a></li>
+    <li><a href="#bonus--use-deno-for-developer-tools">Bonus : Use Deno for developer tools</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>NPM is used as a convenient cross-platform package manager for <a href="https://hackernoon.com/the-best-of-npm-install-g-9ab9d749eeb1">a lot of developer tools</a>. For many tools, the defacto way to install is <strong><code>npm install -g $TOOL</code></strong>. But installing anything via npm allows it to run untrusted code on your machine.</p>
+<p>Here are a few tips to minimize the risk:</p>
+<h2 id="1-never-run-npm-as-sudoroot">1. NEVER run npm as sudo/root<a hidden class="anchor" aria-hidden="true" href="#1-never-run-npm-as-sudoroot">#</a></h2>
+<p><a href="https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally">Node&rsquo;s official documentation</a> recommends not installing global packages as sudo/root. If you have already installed node through <code>nvm</code> ignore this step. If you use a system installed <code>node</code> e.g using Ubuntu&rsquo;s apt-get, read through <strong><a href="https://github.com/sindresorhus/guides/blob/master/npm-global-without-sudo.md">this guide</a></strong> for Linux/Mac or <a href="https://github.com/glenpike/npm-g_nosudo">npm-g-nosudo</a> which is a shell script for Linux.</p>
+<h3 id="if-you-are-lazy-like-me-heres-a-summary-from-the-linked-guide">If you are lazy (like me), here&rsquo;s a summary from the linked guide:<a hidden class="anchor" aria-hidden="true" href="#if-you-are-lazy-like-me-heres-a-summary-from-the-linked-guide">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mkdir -p <span class="s2">&#34;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/.npm-packages&#34;</span> <span class="o">&amp;&amp;</span> npm config <span class="nb">set</span> prefix <span class="s2">&#34;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/.npm-packages&#34;</span>
+</span></span></code></pre></div><p>Add this to your <code>.bashrc</code> or <code>.zshrc</code>:</p>
+<pre tabindex="0"><code>NPM_PACKAGES=&#34;${HOME}/.npm-packages&#34;
+export PATH=&#34;$PATH:$NPM_PACKAGES/bin&#34;
+# Preserve MANPATH if you already defined it somewhere in your config.
+# Otherwise, fall back to `manpath` so we can inherit from `/etc/manpath`.
+export MANPATH=&#34;${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man&#34;
+</code></pre><h2 id="2-installuse-node-using-nvm-or-asdf">2. Install/Use node using <code>nvm</code> or <code>asdf</code><a hidden class="anchor" aria-hidden="true" href="#2-installuse-node-using-nvm-or-asdf">#</a></h2>
+<p><a href="https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally">Node&rsquo;s official documentation</a> recommends installing node as an unprivileged user using a node version manager.</p>
+<p>Here are the steps:</p>
+<ul>
+<li>Install <a href="https://github.com/nvm-sh/nvm">nvm</a>. This does not work for Windows, use <a href="https://github.com/coreybutler/nvm-windows">nvm-windows</a> which is a totally different project from nvm.
+<ul>
+<li>Unfortunately, <code>nvm</code> suffers from the curl pipe to bash install as its main way to install.</li>
+<li>If you have git installed on your machine, you can also directly clone it using the following steps:
+<ul>
+<li><code>cd &quot;$HOME&quot; &amp;&amp; git clone https://github.com/nvm-sh/nvm.git .nvm</code></li>
+<li><code>cd &quot;$HOME/.nvm&quot; &amp;&amp; git checkout v0.35.3 &amp;&amp; . nvm.sh</code></li>
+<li>Add to your .bashrc or .zshrc:</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre tabindex="0"><code>export NVM_DIR=&#34;$HOME/.nvm&#34;
+[ -s &#34;$NVM_DIR/nvm.sh&#34; ] &amp;&amp; \. &#34;$NVM_DIR/nvm.sh&#34;  # This loads nvm
+[ -s &#34;$NVM_DIR/bash_completion&#34; ] &amp;&amp; \. &#34;$NVM_DIR/bash_completion&#34;  # This loads nvm bash_completion
+</code></pre><ul>
+<li><code>nvm install --lts</code> or whichever version of node you need.</li>
+<li><code>nvm use node</code></li>
+<li>To use a node version by default, <code>echo &quot;lts/*&quot; &gt; &quot;$HOME/.nvmrc&quot;</code></li>
+</ul>
+<h2 id="3-list-all-your-globally-installed-npm-packages-and-remove-any-unnecessary-ones">3. List all your globally installed npm packages and remove any unnecessary ones<a hidden class="anchor" aria-hidden="true" href="#3-list-all-your-globally-installed-npm-packages-and-remove-any-unnecessary-ones">#</a></h2>
+<p>Listing global packages is done with <strong><code>npm ls -g --depth 0</code></strong>
+Remove any unnecessary packages with <strong><code>npm uninstall -g $TOOL</code></strong>
+You can check your shell history/scripts folders to see if you actually use many of the global packages.</p>
+<h2 id="4-audit-your-packages">4. Audit your packages<a hidden class="anchor" aria-hidden="true" href="#4-audit-your-packages">#</a></h2>
+<p>Run <strong><code>npm audit</code></strong> in your project regularly to see if <a href="https://docs.npmjs.com/auditing-package-dependencies-for-security-vulnerabilities">any dependencies are vulnerable</a>. This only works for your development projects, not global packages.</p>
+<h3 id="a-hacky-wayhttpsstackoverflowcoma53619858-to-npm-audit--global-packages"><a href="https://stackoverflow.com/a/53619858">A (hacky) way</a> to <code>npm audit</code>  global packages:<a hidden class="anchor" aria-hidden="true" href="#a-hacky-wayhttpsstackoverflowcoma53619858-to-npm-audit--global-packages">#</a></h3>
+<ul>
+<li>Run <code>npm</code>. The last line will show the folder of the global npm packages e.g <code>$HOME/.npm-packages/lib/node_modules/npm</code></li>
+<li>Go to <code>$HOME/.npm-packages/lib</code> and run <code>npm init -y</code> and then run <code>npm i --package-lock-only</code>. These steps are required as <code>npm audit</code> checks for <code>package.json</code> and <code>package-lock.json</code></li>
+<li>Now run <code>npm audit</code>. Remove any dependencies which have high or too many moderate vulnerabilities. These could either be malicious or unmaintained tools.</li>
+<li>Remove the <code>package.json</code> and <code>package-lock.json</code> after the audit</li>
+</ul>
+<h2 id="5-use-npx-to-run-executables">5. Use <code>npx</code> to run executables<a hidden class="anchor" aria-hidden="true" href="#5-use-npx-to-run-executables">#</a></h2>
+<p>Many times, it is not necessary to have a tool installed globally e.g <code>create-react-app</code>. Node 6+ comes with <code>npx</code> which allows you to temporarily download and run scripts. The benefits of using <code>npx</code> over <code>npm install -g</code> are beautifully explained in <a href="https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b">this post</a>.</p>
+<p>A gist of the article:</p>
+<blockquote>
+<p>Calling npx <command> when <command> isn’t already in your $PATH will automatically install a package with that name from the npm registry for you, and invoke it. When it’s done, the installed package won’t be anywhere in your globals, so you won’t have to worry about pollution in the long-term.</p>
+</blockquote>
+<blockquote>
+<p>This feature is ideal for things like generators, too. Tools like yeoman or create-react-app only ever get called once in a blue moon. <strong>By the time you run them again, they’ll already be far out of date, so you end up having to run an install every time you want to use them anyway.</strong></p>
+</blockquote>
+<h2 id="bonus--use-deno-for-developer-tools">Bonus : Use Deno for developer tools<a hidden class="anchor" aria-hidden="true" href="#bonus--use-deno-for-developer-tools">#</a></h2>
+<p>I think a project like <a href="https://deno.land/">deno</a> with good sandbox capabilities and <a href="https://deno.land/manual/getting_started/permissions">limited permisisons</a> is the best choice for a lot of developer tools currently made using Node. Read <a href="https://www.jeremymorgan.com/blog/programming/what-is-deno/">this post</a> for more details on why everyone is talking about Deno.</p>
+<h2 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h2>
+<p>Does this solve all security issues of <code>node</code>/<code>npm</code> on your machine? No! There are a <a href="https://blog.npmjs.org/post/180565383195/details-about-the-event-stream-incident">lot</a> <a href="https://blog.npmjs.org/post/185397814280/plot-to-steal-cryptocurrency-foiled-by-the-npm">of</a> <a href="https://blog.npmjs.org/post/175824896885/incident-report-npm-inc-operations-incident-of">ways</a> in which a malicious attacker can compromise your machine/project. This only prevents a bad npm tool from getting root access and removes globally installed npm tools with known insecure dependencies.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://rrampage.github.io/tags/javascript/">javascript</a></li>
+      <li><a href="https://rrampage.github.io/tags/node/">node</a></li>
+      <li><a href="https://rrampage.github.io/tags/security/">security</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://rrampage.github.io/2020/06/04/s3-game/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>S3 Game</span>
+  </a>
+  <a class="next" href="https://rrampage.github.io/2020/05/25/webhook-to-auto-deploy-on-git-push-to-github/">
+    <span class="title">Next »</span>
+    <br>
+    <span>Webhook to auto-deploy on git push to Github</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://rrampage.github.io/">A Random Walk</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

@@ -6,7 +6,163 @@
     <description>Recent content in linux on A Random Walk</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 14 Dec 2018 11:48:44 +0000</lastBuildDate><atom:link href="https://rrampage.github.io/tags/linux/rss.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 25 May 2020 17:32:54 +0000</lastBuildDate><atom:link href="https://rrampage.github.io/tags/linux/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Webhook to auto-deploy on git push to Github</title>
+      <link>https://rrampage.github.io/2020/05/25/webhook-to-auto-deploy-on-git-push-to-github/</link>
+      <pubDate>Mon, 25 May 2020 17:32:54 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/2020/05/25/webhook-to-auto-deploy-on-git-push-to-github/</guid>
+      <description>Use git push webhook to run CI or auto-deploy</description>
+      <content:encoded><![CDATA[<h2 id="what-is-a-webhook">What is a webhook?</h2>
+<p>A <a href="https://en.wikipedia.org/wiki/Webhook">webhook</a> is an endpoint on your server which allows you to execute a particular task. Webhooks are usually triggered by some event. A good use-case for a webhook is running tests on a dedicated test server or deploying your latest <code>master</code> branch to staging/production.</p>
+<p><a href="https://developer.github.com/webhooks/">Github</a> / <a href="https://docs.gitlab.com/ee/user/project/integrations/webhooks.html">Gitlab</a> / Bitbucket allow you to specify a webhook URL in your repository settings. Github triggers the webhook which sends the event data on every push.</p>
+<h2 id="webhookhttpsgithubcomadnanhwebhook-server"><a href="https://github.com/adnanh/webhook">Webhook</a> server</h2>
+<p><a href="https://github.com/adnanh/webhook">Webhook</a> is a very useful golang project which runs any script you specify when a particular endpoint is hit.</p>
+<p>Download and extract the binary for your operating system from the <a href="https://github.com/adnanh/webhook/releases">releases page</a>. For Linux, it is <a href="https://github.com/adnanh/webhook/releases/download/2.7.0/webhook-linux-amd64.tar.gz">here</a>.</p>
+<p>The program takes as config a <strong><code>hooks.json</code></strong> file:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">[</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;hello-world&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;execute-command&#34;</span><span class="p">:</span> <span class="s2">&#34;/home/user/scripts/hello.sh&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;command-working-directory&#34;</span><span class="p">:</span> <span class="s2">&#34;/home/user/webhook&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span></code></pre></div><p>Replace <code>user</code> with the username of your linux user.</p>
+<p>The <code>hello.sh</code> script.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nb">echo</span> <span class="s1">&#39;Hello!&#39;</span>
+</span></span></code></pre></div><p>Make the script executable by running <strong><code>chmod +x hello.sh</code></strong></p>
+<p>Start webhook server as <strong><code>webhook -hooks hooks.json -hotreload -logfile webhooks.log</code></strong>. The server will run on port 9000 by default. You can check if everything is working by running <strong><code>curl http://localhost:9000/hooks/hello-world</code></strong>. This will print &ldquo;Hello!&rdquo; in the log file.</p>
+<h2 id="deploy-script">Deploy script</h2>
+<p>For the purpose of this post, I&rsquo;ll assume the script is called <strong><code>deploy</code></strong> and is at location <code>/home/user/scripts/deploy</code>. This script will vary depending on your tech stack and the complexity of your CI process.</p>
+<p>A simple example <code>deploy</code> script:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="c1"># If you have a build server which creates binary/jar/artifact</span>
+</span></span><span class="line"><span class="cl">wget <span class="s1">&#39;ARTIFACT_URL&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Else, git pull and build on the server itself</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Assuming this script stops old instance of your code and starts a new instance with latest artifact </span>
+</span></span><span class="line"><span class="cl">restart-service.sh
+</span></span></code></pre></div><h3 id="configuration-to-run-deploy-script">Configuration to run deploy script</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">[</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;deploy-from-git&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;execute-command&#34;</span><span class="p">:</span> <span class="s2">&#34;/home/user/scripts/deploy&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;command-working-directory&#34;</span><span class="p">:</span> <span class="s2">&#34;/home/user/scripts&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;trigger-rule&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;and&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;match&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">          <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;payload-hash-sha1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;secret&#34;</span><span class="p">:</span> <span class="s2">&#34;MyTotallySecretString&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;parameter&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">              <span class="nt">&#34;source&#34;</span><span class="p">:</span> <span class="s2">&#34;header&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">              <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;X-Hub-Signature&#34;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">          <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;match&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">          <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;value&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;value&#34;</span><span class="p">:</span> <span class="s2">&#34;refs/heads/master&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;parameter&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">              <span class="nt">&#34;source&#34;</span><span class="p">:</span> <span class="s2">&#34;payload&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">              <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;ref&#34;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">          <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span></code></pre></div><p>The <strong>trigger-rule</strong> in config above will ensure that the script is only triggered when header from Github request contains <strong>&ldquo;X-Hub-Signature&rdquo;</strong> with a secret string and the push has occured in master branch.</p>
+<p>Make sure that the secret string (&ldquo;secret&rdquo; : &ldquo;MyTotallySecretString&rdquo;) is randomly generated. This secret will need to be entered in Github settings as well.</p>
+<p>For Gitlab and Bitbucket, example hook config can be found on repo page <a href="https://github.com/adnanh/webhook/blob/master/docs/Hook-Examples.md">here</a></p>
+<h2 id="expose-your-webhook-server-safely-to-the-internet">Expose your webhook server safely to the internet</h2>
+<p>There are 2 ways of exposing the webhook server to github:</p>
+<ul>
+<li>Proxy using Nginx</li>
+<li>Via a tunnel e.g by downloading <a href="https://ngrok.com/product">ngrok</a> and then running <code>ngrok http 9000</code></li>
+</ul>
+<h3 id="nginx-configuration">Nginx configuration</h3>
+<p>Preferably use HTTPS for your domain with Nginx. A good tutorial <a href="https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-18-04">here</a>.</p>
+<p>Example Nginx config (HTTPS):</p>
+<pre tabindex="0"><code>upstream webhook {
+    server localhost:9000;
+}
+
+server {
+	listen 443 ssl http2;
+        server_name YOUR.DOMAIN.COM;
+	ssl_certificate YOUR_CERT_CHAIN; # e.g /etc/letsencrypt/live/DOMAIN/fullchain.pem;
+	ssl_certificate_key YOUR_CERT_KEY; # e.g /etc/letsencrypt/live/DOMAIN/privkey.pem;
+	include /etc/nginx/options-ssl-nginx.conf;
+	ssl_dhparam /etc/nginx/ssl-dhparams.pem;
+        location ~ ^/hooks/(.+)$ {
+		proxy_pass http://webhook;
+	}
+}
+</code></pre><h2 id="add-your-webhook-url-to-github">Add your webhook URL to Github</h2>
+<p>Go to the settings page of your Github repo then click on Webhook. Enter the URL of your webhook server. If using Nginx, it should be something like <code>https://YOUR.DOMAIN.COM/hooks/deploy-from-git</code>. Make sure you select content type as <code>application/json</code> and secret to the secret you generated earlier.</p>
+<h2 id="bonus-create-a-systemd-user-service-for-webhook-linux">Bonus: Create a systemd user service for webhook (Linux)</h2>
+<p>Create a systemd unit file with path <strong>/home/user/.config/systemd/user/webhook.service</strong> . This service does not require sudo/root permissions and can be run by the unprivileged user.</p>
+<pre tabindex="0"><code>[Unit]
+AssertPathExists=/home/user/scripts
+
+[Service]
+WorkingDirectory=/home/user/scripts
+ExecStart=/home/user/scripts/webhook -hooks hooks.json -hotreload -logfile webhooks.log
+Restart=always
+PrivateTmp=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=default.target
+</code></pre><p>Do <code>systemctl --user daemon-reload</code> and <code>systemctl --user start webhook.service</code>. You can <code>systemctl --user enable webhook.service</code> to ensure that the service always runs when your machine is booted.</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Setting display brightness on Linux from the command line</title>
+      <link>https://rrampage.github.io/2020/05/19/setting-display-brightness-on-linux-from-the-command-line/</link>
+      <pubDate>Tue, 19 May 2020 16:10:26 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/2020/05/19/setting-display-brightness-on-linux-from-the-command-line/</guid>
+      <description>Auto-adjust the brightness on display in Linux</description>
+      <content:encoded><![CDATA[<h2 id="setting-display-brightness-using-xrandr">Setting display brightness using <code>xrandr</code></h2>
+<p>I auto-adjust the brightness on my display using a <a href="https://en.wikipedia.org/wiki/Cron">cron</a> which runs at 7 pm everyday.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">xrandr --output eDP-1 --brightness 0.9
+</span></span></code></pre></div><p>This sets the brightness to 90% of maximum brightness.</p>
+<h2 id="working-with-linux-display-environments-in-a-cron">Working with Linux Display environments in a cron</h2>
+<p>The above command works when run from my terminal. But when run on a cron, it does not produce any effect. We need to explicitly mention the &ldquo;display number&rdquo; as an environment variable <code>DISPLAY</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="m">8</span> <span class="m">19</span> * * * <span class="nv">DISPLAY</span><span class="o">=</span>:0 xrandr --verbose --output eDP-1 --brightness 0.9
+</span></span></code></pre></div><h3 id="how-to-get-the-display-number-of-your-monitor">How to get the display number of your monitor?</h3>
+<p>Running <code>xrandr</code> will give you a lot of output like</p>
+<pre tabindex="0"><code>Screen 0: minimum 320 x 200, current 1920 x 1080, maximum 16384 x 16384
+eDP-1 connected primary 1920x1080+0+0 (normal left inverted right x axis y axis)
+</code></pre><p>In my case, the display number is <code>:0</code></p>
+<h3 id="adjusting-backlight-brightness-vs-perceived-brightness">Adjusting backlight brightness vs perceived brightness</h3>
+<p>If <code>xrandr</code> is unable to find backlight, it only changes &ldquo;perceived&rdquo; brightness i.e it does <a href="https://wiki.archlinux.org/index.php/backlight#Color_correction">software color correction</a>. If we want to save battery, we will need to reduce the backlight brightness.</p>
+<p>In Linux, the backlights can be found in <code>/sys/class/backlight</code>. In my case, it was <code>/sys/class/backlight/intel_backlight</code>. In this folder, there are many files like</p>
+<pre tabindex="0"><code>actual_brightness
+max_brightness
+brightness
+</code></pre><p><code>max_brightness</code> shows highest possible level of brightness for the display. We can adjust the value in <code>brightness</code> file to reduce backlight brightness.
+Here&rsquo;s what I do to adjust it: <code>echo 1800 &gt; /sys/class/backlight/intel_backlight/brightness</code> (in root crontab)</p>
+<p>Unlike the xrandr command, this does not require setting any DISPLAY variable in the cron file.</p>
+<h2 id="other-tools">Other tools</h2>
+<ul>
+<li><a href="https://github.com/Hummer12007/brightnessctl">brightnessctl</a> is an easy to use tool which integrates well with systemd. It is also available in the package managers of various distributions like Debian, Ubuntu, Arch Linux.</li>
+</ul>
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>Easy VPN using Wireguard</title>
       <link>https://rrampage.github.io/2018/12/14/easy-vpn-using-wireguard/</link>

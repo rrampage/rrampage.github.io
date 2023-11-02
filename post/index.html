@@ -165,6 +165,90 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>S3 Game
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Introduction The best way to learn a skill is through deliberate practice! S3 Game is an awesome game made by Vasily Pantyukhin which walks you through various features of S3 from beginner to fairly advanced.
+What you will need: A browser aws cli CLICK HERE TO PLAY! Each level consists of finding a “treasure” object and getting to the next level using the secret code in the “treasure”.
+Go ahead and play this game. Each level contains multiple hints with links to S3 API documentation.
+Below is a walk through you can refer to if you are stuck on any level. Make sure that you try for a bit before seeing here :)
+Walk through (Spoilers) Level 1 Solution: # List the objects in bucket aws s3 ls s3://s3game-level1 Visit the treasure object
+Level 2 Solution: Just get the treasure2 object either using browser or aws s3 : https://s3game-level2.s3.us-east-2.amazonaws.com/treasure2 Make sure to save the Access and Secret key somewhere
+Level 3 Create an AWS profile “tmp” with the access and secret key obtained from previous level....</p>
+  </div>
+  <footer class="entry-footer">June 4 2020   5 min</footer>
+  <a class="entry-link" aria-label="post link to S3 Game" href="https://rrampage.github.io/2020/06/04/s3-game/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>NPM and Node tips to make your dev machine (slightly) safer
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>NPM is used as a convenient cross-platform package manager for a lot of developer tools. For many tools, the defacto way to install is npm install -g $TOOL. But installing anything via npm allows it to run untrusted code on your machine.
+Here are a few tips to minimize the risk:
+1. NEVER run npm as sudo/root Node’s official documentation recommends not installing global packages as sudo/root. If you have already installed node through nvm ignore this step. If you use a system installed node e.g using Ubuntu’s apt-get, read through this guide for Linux/Mac or npm-g-nosudo which is a shell script for Linux.
+If you are lazy (like me), here’s a summary from the linked guide: mkdir -p &#34;${HOME}/.npm-packages&#34; &amp;&amp; npm config set prefix &#34;${HOME}/.npm-packages&#34; Add this to your .bashrc or .zshrc:
+NPM_PACKAGES=&#34;${HOME}/.npm-packages&#34; export PATH=&#34;$PATH:$NPM_PACKAGES/bin&#34; # Preserve MANPATH if you already defined it somewhere in your config. # Otherwise, fall back to `manpath` so we can inherit from `/etc/manpath`. export MANPATH=&#34;${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man&#34; 2....</p>
+  </div>
+  <footer class="entry-footer">May 28 2020   4 min</footer>
+  <a class="entry-link" aria-label="post link to NPM and Node tips to make your dev machine (slightly) safer" href="https://rrampage.github.io/2020/05/28/npm-and-node-tips-to-make-your-dev-machine-slightly-safer/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Webhook to auto-deploy on git push to Github
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>What is a webhook? A webhook is an endpoint on your server which allows you to execute a particular task. Webhooks are usually triggered by some event. A good use-case for a webhook is running tests on a dedicated test server or deploying your latest master branch to staging/production.
+Github / Gitlab / Bitbucket allow you to specify a webhook URL in your repository settings. Github triggers the webhook which sends the event data on every push.
+Webhook server Webhook is a very useful golang project which runs any script you specify when a particular endpoint is hit.
+Download and extract the binary for your operating system from the releases page. For Linux, it is here.
+The program takes as config a hooks.json file:
+[ { &#34;id&#34;: &#34;hello-world&#34;, &#34;execute-command&#34;: &#34;/home/user/scripts/hello.sh&#34;, &#34;command-working-directory&#34;: &#34;/home/user/webhook&#34; } ] Replace user with the username of your linux user.
+The hello.sh script.
+#!/bin/bash echo &#39;Hello!&#39; Make the script executable by running chmod &#43;x hello.sh
+Start webhook server as webhook -hooks hooks....</p>
+  </div>
+  <footer class="entry-footer">May 25 2020   3 min</footer>
+  <a class="entry-link" aria-label="post link to Webhook to auto-deploy on git push to Github" href="https://rrampage.github.io/2020/05/25/webhook-to-auto-deploy-on-git-push-to-github/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Bash function to add TILs
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>til snippet Here’s a snippet I use in my .bashrc file to quickly write down and review TILs (Today I learned):
+TIL_FILE=&#34;$HOME/my-notes-repo/til.md&#34; til () { # checks if the function has been called without any argument if [[ -z $1 ]]; then # opens the file in my editor, setting the cursor to the last line # useful to review latest entries or to write a longer entry vim &#43; &#34;$TIL_FILE&#34;; else # adds a line with today&#39;s date, a TAB and all arguments supplied (&#34;$@&#34;) echo -e &#34;- $( date &#39;&#43;%F&#39; ):\t$@&#34; &gt;&gt; &#34;$TIL_FILE&#34;; fi } How to use: til to open the file. I use this to review what I learned today or if I need to write a longer, multiline entry til CONTENT to append a line to the file e.g til grep --line-buffered to immediately print especially when tailing files will add this: - 2020-05-23: grep --line-buffered to immediately print especially when tailing files Explanation on the function In case you missed the comments in the function, here’s an explanation of what the various lines do:...</p>
+  </div>
+  <footer class="entry-footer">May 23 2020   2 min</footer>
+  <a class="entry-link" aria-label="post link to Bash function to add TILs" href="https://rrampage.github.io/2020/05/23/bash-function-to-add-tils/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Setting display brightness on Linux from the command line
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Setting display brightness using xrandr I auto-adjust the brightness on my display using a cron which runs at 7 pm everyday.
+xrandr --output eDP-1 --brightness 0.9 This sets the brightness to 90% of maximum brightness.
+Working with Linux Display environments in a cron The above command works when run from my terminal. But when run on a cron, it does not produce any effect. We need to explicitly mention the “display number” as an environment variable DISPLAY.
+8 19 * * * DISPLAY=:0 xrandr --verbose --output eDP-1 --brightness 0.9 How to get the display number of your monitor? Running xrandr will give you a lot of output like
+Screen 0: minimum 320 x 200, current 1920 x 1080, maximum 16384 x 16384 eDP-1 connected primary 1920x1080&#43;0&#43;0 (normal left inverted right x axis y axis) In my case, the display number is :0
+Adjusting backlight brightness vs perceived brightness If xrandr is unable to find backlight, it only changes “perceived” brightness i....</p>
+  </div>
+  <footer class="entry-footer">May 19 2020   2 min</footer>
+  <a class="entry-link" aria-label="post link to Setting display brightness on Linux from the command line" href="https://rrampage.github.io/2020/05/19/setting-display-brightness-on-linux-from-the-command-line/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>Easy VPN using Wireguard
     </h2>
   </header>
@@ -223,82 +307,6 @@ On my computer, it gives the following output:...</p>
   </div>
   <footer class="entry-footer">November 11 2018   4 min</footer>
   <a class="entry-link" aria-label="post link to Command-line productivity tips : Getting help in the terminal" href="https://rrampage.github.io/2018/11/11/command-line-productivity-tips-getting-help-in-the-terminal/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Git: How to keep your fork updated with remote repository
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>This is useful when you have forked a repository (repo), cloned it to your local machine and want to keep it in sync with the original repo.
-Adding the remote repo We can list the remote repositories for our repo with git remote -v and add the original repo as follows:
-git remote add upstream LINK_TO_ORIGINAL_REPO Note that it is merely a convention to call it upstream. You can give any name you want.
-Check that the repo is added to your remote using git remote -v.
-Sync with remote Check if there are any changes in remote not on your fork using git fetch upstream Checkout whichever branch you are interested ( git checkout $BRANCH) Merge with upstream using: git merge upstream/$BRANCH Push your changes to origin if needed: git push origin $BRANCH Removing the remote repo If you no longer want to get changes from the remote repo, it is easy to remove it using git remote remove upstream...</p>
-  </div>
-  <footer class="entry-footer">November 9 2018   1 min</footer>
-  <a class="entry-link" aria-label="post link to Git: How to keep your fork updated with remote repository" href="https://rrampage.github.io/2018/11/09/git-how-to-keep-your-fork-updated-with-remote-repository/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Ensuring that a shell script runs exactly once
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Many times, we have shell scripts which perform some important stuff like inserting into database, mailing reports, etc which we want to run exactly one instance of.
-Enter locks! A simple solution is to create a “lock file” and check if the file exists when the script starts. If the file is already created, it means another instance of that program is running, so we can fail with message “Try again later!”. Once the script completes running, it will clean-up and delete the lock file.
-LOCK_FILE=a.lock if [ -f &#34;$LOCK_FILE&#34; ]; then # Lock file already exists, exit the script echo &#34;An instance of this script is already running&#34; exit 1 fi # Create the lock file echo &#34;Locked&#34; &gt; &#34;$LOCK_FILE&#34; # Do the normal stuff # clean-up before exit rm &#34;$LOCK_FILE&#34; This looks promising but there are issues with this approach. What happens if the script does not end correctly i.e it exits because of some failure before it reaches the clean-up part of the code?...</p>
-  </div>
-  <footer class="entry-footer">November 6 2018   4 min</footer>
-  <a class="entry-link" aria-label="post link to Ensuring that a shell script runs exactly once" href="https://rrampage.github.io/2018/11/06/ensuring-that-a-shell-script-runs-exactly-once/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Surviving the Linux OOM Killer
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>When your Linux machine runs out of memory, Out of Memory (OOM) killer is called by kernel to free some memory. It is often encountered on servers which have a number of memory intensive processes running. In this post, we dig a little deeper into when does OOM killer get called, how it decides which process to kill and if we can prevent it from killing important processes like databases.
-How does OOM Killer choose which process to kill? The Linux kernel gives a score to each running process called oom_score which shows how likely it is to be terminated in case of low available memory. The score is proportional to the amount of memory used by the process. The score is 10 x percent of memory used by process. So the maximum score is 100% x 10 = 1000. In addition, if a process is running as a privileged user, it gets a slightly lower oom_score as compared to same memory usage by a normal user process....</p>
-  </div>
-  <footer class="entry-footer">October 4 2018   4 min</footer>
-  <a class="entry-link" aria-label="post link to Surviving the Linux OOM Killer" href="https://rrampage.github.io/2018/10/04/surviving-the-linux-oom-killer/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Algorithms: Gray Binary Code
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Gray binary code is a way of expressing binary numbers such that consecutive numbers differ in exactly 1 digit. For example, in our conventional binary system, the numbers are
-000 001 010 011 100 101 110 111 and so on In Gray, they are:
-000 001 011 010 110 111 101 100 and so on In first system, when we go from ‘001’ to ‘010’, there are 2 changes namely the unit’s place becomes ‘0’ from ‘1’ and the next digit becomes ‘1’ from ‘0’. But in Gray’s system, ‘001’ becomes ‘011’ where there is only 1 change (that of 2nd digit).
-Gray codes are used in error correction in communication.
-Generating Gray codes of length n Is there a property we can use for easily generating the Gray codes of a given length? Yes! In our previous example, we generated all the Gray codes for n=3. Ignoring the most significant bit (MSB), notice how the 4th and 5th numbers are equal in their first 2 digits, as are the 3rd and 6th, 2nd and 7th and 1st and 8th....</p>
-  </div>
-  <footer class="entry-footer">August 18 2018   4 min</footer>
-  <a class="entry-link" aria-label="post link to Algorithms: Gray Binary Code" href="https://rrampage.github.io/2018/08/18/algorithms-gray-binary-code/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>100 Days Of Code
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>I have started the 100 days of code challenge. I intend to use this time to check out new languages and frameworks and solve some fun problems.
-I will update this post with my logs.
-Aug 13 2018 D0 : Algorithms for calculating number of combinations and generating them in a lexicographical increasing order. Blog
-Aug 14 2018 D1 : Working on algorithm for generating all permutations. First I managed to generate all possible r repetitions of n i.e n^r. Next, I read up and wrote code on Heap’s algorithm. I am still not sure of the intuition behind the algorithm. Also, it does not generate the permutations in lexicographical increasing order.
-Aug 15 2018 D2 : Learned and implemented an algorithm that generates all permutations in a lexicographical order. It is not as efficient as Heap’s algorithm.
-Aug 16 2018 D3 : Stumbled across the game of Set. Wrote a small python script which generates all solutions of any given game....</p>
-  </div>
-  <footer class="entry-footer">August 13 2018   4 min</footer>
-  <a class="entry-link" aria-label="post link to 100 Days Of Code" href="https://rrampage.github.io/2018/08/13/100-days-of-code/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

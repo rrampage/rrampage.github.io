@@ -18,11 +18,91 @@
     </item>
     
     <item>
+      <title>aws</title>
+      <link>https://rrampage.github.io/tags/aws/</link>
+      <pubDate>Thu, 04 Jun 2020 16:09:34 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/tags/aws/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>javascript</title>
+      <link>https://rrampage.github.io/tags/javascript/</link>
+      <pubDate>Thu, 28 May 2020 10:42:07 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/tags/javascript/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>node</title>
+      <link>https://rrampage.github.io/tags/node/</link>
+      <pubDate>Thu, 28 May 2020 10:42:07 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/tags/node/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>security</title>
+      <link>https://rrampage.github.io/tags/security/</link>
+      <pubDate>Thu, 28 May 2020 10:42:07 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/tags/security/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>bash</title>
+      <link>https://rrampage.github.io/tags/bash/</link>
+      <pubDate>Mon, 25 May 2020 17:32:54 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/tags/bash/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>git</title>
+      <link>https://rrampage.github.io/tags/git/</link>
+      <pubDate>Mon, 25 May 2020 17:32:54 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/tags/git/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
       <title>linux</title>
       <link>https://rrampage.github.io/tags/linux/</link>
-      <pubDate>Fri, 14 Dec 2018 11:48:44 +0000</pubDate>
+      <pubDate>Mon, 25 May 2020 17:32:54 +0000</pubDate>
       
       <guid>https://rrampage.github.io/tags/linux/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>systemd</title>
+      <link>https://rrampage.github.io/tags/systemd/</link>
+      <pubDate>Mon, 25 May 2020 17:32:54 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/tags/systemd/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>til</title>
+      <link>https://rrampage.github.io/tags/til/</link>
+      <pubDate>Sat, 23 May 2020 12:42:20 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/tags/til/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>
@@ -33,26 +113,6 @@
       <pubDate>Fri, 14 Dec 2018 11:48:44 +0000</pubDate>
       
       <guid>https://rrampage.github.io/tags/wireguard/</guid>
-      <description></description>
-      <content:encoded><![CDATA[]]></content:encoded>
-    </item>
-    
-    <item>
-      <title>git</title>
-      <link>https://rrampage.github.io/tags/git/</link>
-      <pubDate>Thu, 22 Nov 2018 10:44:36 +0000</pubDate>
-      
-      <guid>https://rrampage.github.io/tags/git/</guid>
-      <description></description>
-      <content:encoded><![CDATA[]]></content:encoded>
-    </item>
-    
-    <item>
-      <title>bash</title>
-      <link>https://rrampage.github.io/tags/bash/</link>
-      <pubDate>Thu, 15 Nov 2018 09:39:37 +0000</pubDate>
-      
-      <guid>https://rrampage.github.io/tags/bash/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>
