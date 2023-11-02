@@ -15,8 +15,10 @@
       <guid>https://rrampage.github.io/2018/05/26/awk-a-useful-little-language/</guid>
       <description>Speed up text processing tasks with Awk</description>
       <content:encoded><![CDATA[<p>Awk is a small but capable programming language which is used for processing text. It was developed by Aho, Weinberger, Kerninghan at Bell Labs.</p>
-<p><a href="https://twitter.com/b0rk">Julia Evans</a> made an awesome intro to <code>awk</code>:
-<img src="https://pbs.twimg.com/media/DeLcVfSWAAAw6OZ.jpg" alt="AWK comic"/></p>
+<p><a href="https://twitter.com/b0rk">Julia Evans</a> made an awesome <a href="https://wizardzines.com/comics/awk/"><code>awk</code> comic</a>:
+
+  <img src="https://wizardzines.com/images/uploads/awk.png" alt="AWK comic"/>
+</p>
 <p>Awk scans input file as a sequence of lines and splits each line into fields. The field separator is usually whitespace but you can customize it to any character.</p>
 <p>An <code>awk</code> program is a sequence of <strong>pattern-action</strong> pairs i.e for each line, it checks if it matches the pattern and if yes, it performs the associated action on the line. Awk can be used interactively or to run saved programs.</p>
 <p>Here is what Awk does written in Python-like pseudocode:</p>
