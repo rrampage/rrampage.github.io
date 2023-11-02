@@ -17,13 +17,37 @@
     <loc>https://rrampage.github.io/tags/</loc>
     <lastmod>2021-12-04T00:00:00+05:30</lastmod>
   </url><url>
-    <loc>https://rrampage.github.io/tags/bash/</loc>
-    <lastmod>2018-11-06T18:53:23+00:00</lastmod>
-  </url><url>
-    <loc>https://rrampage.github.io/2018/11/06/ensuring-that-a-shell-script-runs-exactly-once/</loc>
-    <lastmod>2018-11-06T18:53:23+00:00</lastmod>
+    <loc>https://rrampage.github.io/2018/12/14/easy-vpn-using-wireguard/</loc>
+    <lastmod>2018-12-14T11:48:44+00:00</lastmod>
   </url><url>
     <loc>https://rrampage.github.io/tags/linux/</loc>
+    <lastmod>2018-12-14T11:48:44+00:00</lastmod>
+  </url><url>
+    <loc>https://rrampage.github.io/tags/wireguard/</loc>
+    <lastmod>2018-12-14T11:48:44+00:00</lastmod>
+  </url><url>
+    <loc>https://rrampage.github.io/tags/git/</loc>
+    <lastmod>2018-11-22T10:44:36+00:00</lastmod>
+  </url><url>
+    <loc>https://rrampage.github.io/2018/11/22/git-tagging-tutorial/</loc>
+    <lastmod>2018-11-22T10:44:36+00:00</lastmod>
+  </url><url>
+    <loc>https://rrampage.github.io/tags/bash/</loc>
+    <lastmod>2018-11-15T09:39:37+00:00</lastmod>
+  </url><url>
+    <loc>https://rrampage.github.io/2018/11/15/bash-command-completion-finding-all-the-cats-in-your-path/</loc>
+    <lastmod>2018-11-15T09:39:37+00:00</lastmod>
+  </url><url>
+    <loc>https://rrampage.github.io/tags/python/</loc>
+    <lastmod>2018-11-15T09:39:37+00:00</lastmod>
+  </url><url>
+    <loc>https://rrampage.github.io/2018/11/11/command-line-productivity-tips-getting-help-in-the-terminal/</loc>
+    <lastmod>2018-11-11T17:30:30+00:00</lastmod>
+  </url><url>
+    <loc>https://rrampage.github.io/2018/11/09/git-how-to-keep-your-fork-updated-with-remote-repository/</loc>
+    <lastmod>2018-11-09T12:50:54+00:00</lastmod>
+  </url><url>
+    <loc>https://rrampage.github.io/2018/11/06/ensuring-that-a-shell-script-runs-exactly-once/</loc>
     <lastmod>2018-11-06T18:53:23+00:00</lastmod>
   </url><url>
     <loc>https://rrampage.github.io/tags/devops/</loc>
@@ -42,9 +66,6 @@
     <lastmod>2018-08-18T17:52:23+00:00</lastmod>
   </url><url>
     <loc>https://rrampage.github.io/tags/math/</loc>
-    <lastmod>2018-08-18T17:52:23+00:00</lastmod>
-  </url><url>
-    <loc>https://rrampage.github.io/tags/python/</loc>
     <lastmod>2018-08-18T17:52:23+00:00</lastmod>
   </url><url>
     <loc>https://rrampage.github.io/2018/08/13/100-days-of-code/</loc>

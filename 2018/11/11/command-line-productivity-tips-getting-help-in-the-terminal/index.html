@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Command-line productivity tips : Getting help in the terminal | A Random Walk</title>
+<meta name="keywords" content="bash, linux">
+<meta name="description" content="What to do when you are stuck in the command-line">
+<meta name="author" content="Raunak">
+<link rel="canonical" href="https://rrampage.github.io/2018/11/11/command-line-productivity-tips-getting-help-in-the-terminal/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3583c276be8b676922334220eddb70a58dd857f110640a70a4641bbbc371cae2.css" integrity="sha256-NYPCdr6LZ2kiM0Ig7dtwpY3YV/EQZApwpGQbu8NxyuI=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://rrampage.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://rrampage.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://rrampage.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://rrampage.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Command-line productivity tips : Getting help in the terminal" />
+<meta property="og:description" content="What to do when you are stuck in the command-line" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://rrampage.github.io/2018/11/11/command-line-productivity-tips-getting-help-in-the-terminal/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2018-11-11T17:30:30+00:00" />
+<meta property="article:modified_time" content="2018-11-11T17:30:30+00:00" /><meta property="og:site_name" content="A Random Walk" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Command-line productivity tips : Getting help in the terminal"/>
+<meta name="twitter:description" content="What to do when you are stuck in the command-line"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://rrampage.github.io/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Command-line productivity tips : Getting help in the terminal",
+      "item": "https://rrampage.github.io/2018/11/11/command-line-productivity-tips-getting-help-in-the-terminal/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Command-line productivity tips : Getting help in the terminal",
+  "name": "Command-line productivity tips : Getting help in the terminal",
+  "description": "What to do when you are stuck in the command-line",
+  "keywords": [
+    "bash", "linux"
+  ],
+  "articleBody": "The command-line is often a daunting place for beginners. With nothing but a blinking cursor and an unfriendly dark screen staring back at you, despair sets in.\nHere are a few things to do if you are stuck:\n1. How to find programs for specific tasks Many times, you want to do a particular task but you do not remember the name of the program which does that. Many shell utilities are not easy to remember at first with their cryptic 2 letter names.\nWorry not, there is a command called apropos to help you out!\nFor example, you want to show a file with line numbers. You know that there is a program but have forgotten its name. You can just type apropos -a line number to get a list of programs. We use -a flag so that apropos will only return those programs which have the words line AND number in their description.\nOn my computer, it gives the following output:\napropos -a line number # Output: addr2line (1) - convert addresses into file names and line numbers. nl (1) - number lines of files x86_64-linux-gnu-addr2line (1) - convert addresses into file names and line numbers. There are 3 programs which have something to do with numbering lines. Let’s find out what each of these programs does.\n2. Find out what a program does Let’s have a look at our first candidate addr2line. Typing --help after the command is one way of finding out what a program does. It is a convention for command-line programs to print a small help message when you call them with --help. Some programs also allow do the same on calling with -h.\naddr2line --help # Output: Usage: addr2line [option(s)] [addr(s)] Convert addresses into line number/file name pairs. If no addresses are specified on the command line, they will be read from stdin .... Ok. This does program does something with addresses, not what we are looking for. Moving on to the next in our list: nl\nnl --help # Output: Usage: nl [OPTION]... [FILE]... Write each FILE to standard output, with line numbers added. ... Looks like we found our program. Let’s try it out. This is our file foo.txt\ncat foo.txt # Output: one two three four five nl foo.txt # Output: 1 one 2 two 3 three 4 four 5 five It works ok but why is it not numbering blank lines?\n3. Getting detailed information about a program The --help messages are very concise. If we want to know in detail what a program does, we need to consult the manual or man pages. These pages are very detailed documentation of what a program does, all its possible options and arguments. Type man nl and have a look at the information…\nWoah! The terminal screen is filled with information!. You can navigate up and down using the arrow keys and press q to quit.\nWe can see the following in the output:\n. . -b, --body-numbering=STYLE use STYLE for numbering body lines . . STYLE is one of: a number all lines t number only nonempty lines n number no lines So, nl -b a foo.txt will number all lines in foo.txt which is what we want.\nnl -b a foo.txt # Output: 1 one 2 two 3 three 4 5 four 6 five That seems to solve our problem.\nThere is also info command which gives even more detailed usage information. You can try it out using info nl.\n4. Getting examples for using a program But what if we just quickly want to get our command to work without having to read a huge wall of text?\nTurns out, there is a nifty utility you can install called tldr. If you use node or python you can install using npm install -g tldr or pip install tldr respectively. The tldr page has a list of other installation options. After installing it, just try out tldr nl in your terminal\ntldr nl # Output: nl A utility for numbering lines, either from a file, or from standard input. - Number non-blank lines in a file: nl file .... - Number all lines including blank lines: nl -b a file There! We can see the example with easy to understand description.\ntldr is community-driven! People contribute examples for various commands. If your favorite command does not have an entry, you can submit a pull request.\nRecap To recap, we can:\nFind out possible programs which do particular tasks using apropos Get help information for $program using $program --help or man $program Get examples using tldr $program PS: What if we are not able to find programs for our tasks In Section 1, we assume that we will be able to find programs for our task. But many times, we may not have it installed. In such cases, we can search our distribution’s package manager e.g apt-get for Ubuntu or yum or dnf for CentOS / Fedora.\nIn Ubuntu, we can search all available packages in the repositories using apt-cache search $KEYWORD.\n",
+  "wordCount" : "842",
+  "inLanguage": "en",
+  "datePublished": "2018-11-11T17:30:30.427Z",
+  "dateModified": "2018-11-11T17:30:30.427Z",
+  "author":{
+    "@type": "Person",
+    "name": "Raunak"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://rrampage.github.io/2018/11/11/command-line-productivity-tips-getting-help-in-the-terminal/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "A Random Walk",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://rrampage.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://rrampage.github.io/" accesskey="h" title="A Random Walk (Alt + H)">A Random Walk</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://rrampage.github.io/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/archives" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Command-line productivity tips : Getting help in the terminal
+    </h1>
+    <div class="post-description">
+      What to do when you are stuck in the command-line
+    </div>
+    <div class="post-meta">November 11 2018   4 min
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-how-to-find-programs-for-specific-tasks">1. How to find programs for specific tasks</a></li>
+    <li><a href="#2-find-out-what-a-program-does">2. Find out what a program does</a></li>
+    <li><a href="#3-getting-detailed-information-about-a-program">3. Getting detailed information about a program</a></li>
+    <li><a href="#4-getting-examples-for-using-a-program">4. Getting examples for using a program</a></li>
+    <li><a href="#recap">Recap</a>
+      <ul>
+        <li><a href="#ps-what-if-we-are-not-able-to-find-programs-for-our-tasks">PS: What if we are not able to find programs for our tasks</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>The command-line is often a daunting place for beginners. With nothing but a blinking cursor and an unfriendly dark screen staring back at you, despair sets in.</p>
+<p>Here are a few things to do if you are stuck:</p>
+<h2 id="1-how-to-find-programs-for-specific-tasks">1. How to find programs for specific tasks<a hidden class="anchor" aria-hidden="true" href="#1-how-to-find-programs-for-specific-tasks">#</a></h2>
+<p>Many times, you want to do a particular task but you do not remember the name of the program which does that. Many shell utilities are not easy to remember at first with their cryptic 2 letter names.</p>
+<p>Worry not, there is a command called <strong><code>apropos</code></strong> to help you out!</p>
+<p>For example, you want to <strong>show a file with line numbers</strong>. You know that there is a program but have forgotten its name. You can just type <code>apropos -a line number</code> to get a list of programs. We use <code>-a</code> flag so that <code>apropos</code> will only return those programs which have the words <strong><code>line</code> AND <code>number</code></strong> in their description.</p>
+<p>On my computer, it gives the following output:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">apropos -a line number
+</span></span><span class="line"><span class="cl"><span class="c1"># Output:</span>
+</span></span><span class="line"><span class="cl">addr2line <span class="o">(</span>1<span class="o">)</span>        - convert addresses into file names and line numbers.
+</span></span><span class="line"><span class="cl">nl <span class="o">(</span>1<span class="o">)</span>               - number lines of files
+</span></span><span class="line"><span class="cl">x86_64-linux-gnu-addr2line <span class="o">(</span>1<span class="o">)</span> - convert addresses into file names and line numbers.
+</span></span></code></pre></div><p>There are 3 programs which have something to do with numbering lines. Let&rsquo;s find out what each of these programs does.</p>
+<h2 id="2-find-out-what-a-program-does">2. Find out what a program does<a hidden class="anchor" aria-hidden="true" href="#2-find-out-what-a-program-does">#</a></h2>
+<p>Let&rsquo;s have a look at our first candidate <code>addr2line</code>. <strong>Typing <code>--help</code> after the command is one way of finding out what a program does</strong>. It is a convention for command-line programs to print a small help message when you call them with <code>--help</code>. Some programs also allow do the same on calling with <code>-h</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">addr2line --help
+</span></span><span class="line"><span class="cl"><span class="c1"># Output:</span>
+</span></span><span class="line"><span class="cl">Usage: addr2line <span class="o">[</span>option<span class="o">(</span>s<span class="o">)]</span> <span class="o">[</span>addr<span class="o">(</span>s<span class="o">)]</span>
+</span></span><span class="line"><span class="cl"> Convert addresses into line number/file name pairs.
+</span></span><span class="line"><span class="cl"> If no addresses are specified on the <span class="nb">command</span> line, they will be <span class="nb">read</span> from stdin
+</span></span><span class="line"><span class="cl">....
+</span></span></code></pre></div><p>Ok. This does program does something with <code>addresses</code>, not what we are looking for. Moving on to the next in our list: <code>nl</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nl --help
+</span></span><span class="line"><span class="cl"><span class="c1"># Output:</span>
+</span></span><span class="line"><span class="cl">Usage: nl <span class="o">[</span>OPTION<span class="o">]</span>... <span class="o">[</span>FILE<span class="o">]</span>...
+</span></span><span class="line"><span class="cl">Write each FILE to standard output, with line numbers added.
+</span></span><span class="line"><span class="cl">...
+</span></span></code></pre></div><p>Looks like we found our program. Let&rsquo;s try it out. This is our file <code>foo.txt</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat foo.txt
+</span></span><span class="line"><span class="cl"><span class="c1"># Output:</span>
+</span></span><span class="line"><span class="cl">one
+</span></span><span class="line"><span class="cl">two
+</span></span><span class="line"><span class="cl">three
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">four
+</span></span><span class="line"><span class="cl">five
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nl foo.txt
+</span></span><span class="line"><span class="cl"><span class="c1"># Output:</span>
+</span></span><span class="line"><span class="cl">     <span class="m">1</span>  one
+</span></span><span class="line"><span class="cl">     <span class="m">2</span>  two
+</span></span><span class="line"><span class="cl">     <span class="m">3</span>  three
+</span></span><span class="line"><span class="cl">       
+</span></span><span class="line"><span class="cl">     <span class="m">4</span>  four
+</span></span><span class="line"><span class="cl">     <span class="m">5</span>  five
+</span></span></code></pre></div><p>It works ok but why is it not numbering blank lines?</p>
+<h2 id="3-getting-detailed-information-about-a-program">3. Getting detailed information about a program<a hidden class="anchor" aria-hidden="true" href="#3-getting-detailed-information-about-a-program">#</a></h2>
+<p>The <code>--help</code> messages are very concise. If we want to know in detail what a program does, we need to consult the manual or <code>man</code> pages. These pages are very detailed documentation of what a program does, all its possible options and arguments. Type <code>man nl</code> and have a look at the information&hellip;</p>
+<p>Woah! The terminal screen is filled with information!. You can navigate up and down using the arrow keys and press <code>q</code> to quit.</p>
+<p>We can see the following in the output:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-b, --body-numbering<span class="o">=</span>STYLE
+</span></span><span class="line"><span class="cl">              use STYLE <span class="k">for</span> numbering body lines
+</span></span><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">STYLE is one of:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">       a      number all lines
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">       t      number only nonempty lines
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">       n      number no lines
+</span></span></code></pre></div><p>So, <strong><code>nl -b a foo.txt</code></strong> will number <strong>all</strong> lines in foo.txt which is what we want.</p>
+<pre tabindex="0"><code>nl -b a foo.txt
+# Output:
+     1  one
+     2  two
+     3  three
+     4
+     5  four
+     6  five
+</code></pre><p>That seems to solve our problem.</p>
+<p>There is also <code>info</code> command which gives even more detailed usage information. You can try it out using <strong><code>info nl</code></strong>.</p>
+<h2 id="4-getting-examples-for-using-a-program">4. Getting examples for using a program<a hidden class="anchor" aria-hidden="true" href="#4-getting-examples-for-using-a-program">#</a></h2>
+<p>But what if we just quickly want to get our command to work without having to read a huge wall of text?</p>
+<p>Turns out, there is a nifty utility you can install called <strong><code>tldr</code></strong>. If you use <code>node</code> or <code>python</code> you can install using <code>npm install -g tldr</code> or <code>pip install tldr</code> respectively. The <a href="https://tldr.sh/">tldr page</a> has a list of other installation options. After installing it, just try out <code>tldr nl</code> in your terminal</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">tldr nl
+</span></span><span class="line"><span class="cl"><span class="c1"># Output:</span>
+</span></span><span class="line"><span class="cl">nl
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  A utility <span class="k">for</span> numbering lines, either from a file, or from standard input.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  - Number non-blank lines in a file:
+</span></span><span class="line"><span class="cl">    nl file
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">....
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  - Number all lines including blank lines:
+</span></span><span class="line"><span class="cl">    nl -b a file
+</span></span></code></pre></div><p>There! We can see the example with easy to understand description.</p>
+<p><code>tldr</code> is community-driven! People contribute examples for various commands. If your favorite command does not have an entry, you can submit a <a href="https://github.com/tldr-pages/tldr">pull request</a>.</p>
+<h2 id="recap">Recap<a hidden class="anchor" aria-hidden="true" href="#recap">#</a></h2>
+<p>To recap, we can:</p>
+<ul>
+<li>Find out possible programs which do particular tasks using <strong><code>apropos</code></strong></li>
+<li>Get help information for <strong><code>$program</code></strong> using <strong><code>$program --help</code></strong> or <strong><code>man $program</code></strong></li>
+<li>Get examples using <strong><code>tldr $program</code></strong></li>
+</ul>
+<h3 id="ps-what-if-we-are-not-able-to-find-programs-for-our-tasks">PS: What if we are not able to find programs for our tasks<a hidden class="anchor" aria-hidden="true" href="#ps-what-if-we-are-not-able-to-find-programs-for-our-tasks">#</a></h3>
+<p>In Section 1, we assume that we will be able to find programs for our task. But many times, we may not have it installed. In such cases, we can search our distribution&rsquo;s package manager e.g <code>apt-get</code> for Ubuntu or <code>yum</code> or <code>dnf</code> for CentOS / Fedora.</p>
+<p>In Ubuntu, we can search all available packages in the repositories using <code>apt-cache search $KEYWORD</code>.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://rrampage.github.io/tags/bash/">bash</a></li>
+      <li><a href="https://rrampage.github.io/tags/linux/">linux</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://rrampage.github.io/2018/11/15/bash-command-completion-finding-all-the-cats-in-your-path/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>Bash Command Completion - Finding all the cats in your $PATH!</span>
+  </a>
+  <a class="next" href="https://rrampage.github.io/2018/11/09/git-how-to-keep-your-fork-updated-with-remote-repository/">
+    <span class="title">Next »</span>
+    <br>
+    <span>Git: How to keep your fork updated with remote repository</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://rrampage.github.io/">A Random Walk</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

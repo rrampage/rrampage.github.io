@@ -149,6 +149,86 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>Algorithms: Generating Combinations
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>In how many different ways can we select r objects from a collection of n objects? In mathematics, this is called combinations.
+The formula for the number of combinations is: where, n! denotes the factorial of a number that is the product of all numbers from 1 to n (inclusive).
+Prelude : A function for calculating factorial of a number public static long factorial(int n) { long res = 1L; for (int i = 1; i &lt;= n; i&#43;&#43;) { res *= i; } return res; } Calculating Combinations That was simple! Let us now move on to calculating the number of combinations given n and r
+public static long combinations(int n, int r) { if (r &lt; 0) { return 0; } long res = 1L; if (r &gt; n - r) { r = n - r; } for (int i = 0; i &lt; r; i&#43;&#43;) { res *= (n - i); res /= (i &#43; 1); } return res; } What does this algorithm do?...</p>
+  </div>
+  <footer class="entry-footer">August 12 2018   8 min</footer>
+  <a class="entry-link" aria-label="post link to Algorithms: Generating Combinations" href="https://rrampage.github.io/2018/08/12/algorithms-generating-combinations/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Awk - A useful little language
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Awk is a small but capable programming language which is used for processing text. It was developed by Aho, Weinberger, Kerninghan at Bell Labs.
+Julia Evans made an awesome Awk comic: Awk scans input file as a sequence of lines and splits each line into fields. The field separator is usually whitespace but you can customize it to any character.
+An awk program is a sequence of pattern-action pairs i.e for each line, it checks if it matches the pattern and if yes, it performs the associated action on the line. Awk can be used interactively or to run saved programs.
+Here is what Awk does written in Python-like pseudocode:
+initialize() # Initializes variables in BEGIN block for line in input_lines: # Awk divides file / input into a list of lines for condition, action in conditions: # A program is a list of condition-action pairs if condition(line): #match line against condition action() #perform action on match Here are some small snippets of Awk:...</p>
+  </div>
+  <footer class="entry-footer">May 26 2018   4 min</footer>
+  <a class="entry-link" aria-label="post link to Awk - A useful little language" href="https://rrampage.github.io/2018/05/26/awk-a-useful-little-language/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>JVM Primer Part 2 - Debugging memory issues
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>This is part 2 of my series on JVM Memory management and debugging. Read part 1 here
+In this post, we will cover symptoms of memory issues for JVM-based applications, which tools we can use to diagnose them and how we can fix them.
+Symptoms Here are a few symptoms of memory issues:
+Poor application performance Abnormal memory usage OutOfMemory errors (OOME) Poor Application Performance Application not performing to expected level Long response times Dropping client requests Stuck threads Service unavailability Large gaps in timestamps in application logs Causes of memory problems: Misconfigured memory Old generation memory space is sized smaller than live-set of objects. This triggers a major garbage collection (GC), resulting in larger pauses. Code cache is smaller than generated compiled code footprint Young generation is not sized appropriately leading to premature promotion of objects PermGen / Metaspace not sized correctly leading to full GC Memory leaks - Unintentional retention of objects in memory spaces Unintentional references to set of objects in heap Not dereferencing classloader instances appropriateky Not releasing native resources appropriately Excessive use of finalizers Objects with finalizers may delay their own GC Finalizer thread needs to invoke finalize() method of the instances before reclaiming them There can only be 1 Finalizer thread....</p>
+  </div>
+  <footer class="entry-footer">May 16 2018   6 min</footer>
+  <a class="entry-link" aria-label="post link to JVM Primer Part 2 - Debugging memory issues" href="https://rrampage.github.io/2018/05/16/jvm-primer-part-2-debugging-memory-issues/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>A Primer on JVM Memory Management and Troubleshooting - 1
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>This series is a summary of Oracle’s JVM troubleshooting course which gives an overview on JVM memory management, Hotspot VM’s garbage collection options, various memory errors and how to troubleshoot them.
+In this post (part 1), we will have a look at how JVM manages memory and its different garbage collectors.
+You can find Part 2 here
+JVM Memory Management Overview The JVM provides automatic memory management to free the programmer from manually managing memory. New objects are allocated on heap memory. A root set consists of pointers to external memory, static variables, threads, JNI references and internal JVM structures. Objects directly reachable from the root set must be kept in heap. Objects reachable from any of the reachable objects must also be in heap. This group of objects are the only ones which can be used by a program. The unreachable objects (garbage) are removed using a process called garbage collection (GC). Reachable objects are compacted i.e moved to contiguous space in heap....</p>
+  </div>
+  <footer class="entry-footer">May 15 2018   4 min</footer>
+  <a class="entry-link" aria-label="post link to A Primer on JVM Memory Management and Troubleshooting - 1" href="https://rrampage.github.io/2018/05/15/a-primer-on-jvm-memory-management-and-troubleshooting-1/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Snake case to camel case and back using regular expressions and Python
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Snake case and Camel case are conventions of naming variables, functions and classes. Most teams and projects prescribe a particular case in their style guides.
+Examples of camel case:
+MyClass MyClassFactory MyClassFactoryBuilder MyClassFactoryBuilderImpl myInstance myInstance2 abc patternMatcher Examples of snake case:
+add matrix_add diagonal_matrix_add pseudo_inverse If we want to convert back and forth between these cases, we must look for the points of interest - the word boundaries. Camel case boundaries have the first letter capitalized while the snake case word boundaries have an _.
+Snake case to camel case Here is a regular expression for finding out the _ and the first letter in the next word:
+(.*?)_([a-zA-Z]) This regex has 2 parts:
+(.*?) finds everything upto the _.
+The ‘.’ means any character. ‘*’ stands for match 0 or more instances ‘?’ stands for non-greedy match. We must use ‘?’ in the pattern because the regex engine will try to match as much as possible by default. So, if we use just (....</p>
+  </div>
+  <footer class="entry-footer">May 9 2018   3 min</footer>
+  <a class="entry-link" aria-label="post link to Snake case to camel case and back using regular expressions and Python" href="https://rrampage.github.io/2018/05/09/snake-case-to-camel-case-and-back-using-regular-expressions-and-python/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>Cargo refused to build my project - A Rust debugging story!
     </h2>
   </header>

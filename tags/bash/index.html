@@ -138,6 +138,38 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2>Bash Command Completion - Finding all the cats in your $PATH!
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Today, I was curious to find out how many programs ending with cat I had on my system. I remember using cat, zcat and wanted to know if there are similar programs. Pressing TAB after cat only gives programs which start with cat.
+1. apropos In my last post, I had mentioned that apropos is a way to search for what programs are available on your system. The search string for apropos can be any regex. So, apropos &#39;cat$&#39; should solve the problem. cat$ means all words ending with ‘cat’
+The output has
+STAILQ_CONCAT (3) - implementations of singly-linked lists, singly-linked tail queues, lists and tail queues OPENSSL_strlcat (3ssl) - Memory allocation functions .. bzcat (1) - decompresses files to stdout cat (1) - concatenate files and print on the standard output fc-cat (1) - read font information cache files gencat (1) - Generate message catalog Clearly, the top 2 do not look like programs. Why is apropos then returning them?...</p>
+  </div>
+  <footer class="entry-footer">November 15 2018   4 min</footer>
+  <a class="entry-link" aria-label="post link to Bash Command Completion - Finding all the cats in your $PATH!" href="https://rrampage.github.io/2018/11/15/bash-command-completion-finding-all-the-cats-in-your-path/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Command-line productivity tips : Getting help in the terminal
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>The command-line is often a daunting place for beginners. With nothing but a blinking cursor and an unfriendly dark screen staring back at you, despair sets in.
+Here are a few things to do if you are stuck:
+1. How to find programs for specific tasks Many times, you want to do a particular task but you do not remember the name of the program which does that. Many shell utilities are not easy to remember at first with their cryptic 2 letter names.
+Worry not, there is a command called apropos to help you out!
+For example, you want to show a file with line numbers. You know that there is a program but have forgotten its name. You can just type apropos -a line number to get a list of programs. We use -a flag so that apropos will only return those programs which have the words line AND number in their description.
+On my computer, it gives the following output:...</p>
+  </div>
+  <footer class="entry-footer">November 11 2018   4 min</footer>
+  <a class="entry-link" aria-label="post link to Command-line productivity tips : Getting help in the terminal" href="https://rrampage.github.io/2018/11/11/command-line-productivity-tips-getting-help-in-the-terminal/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2>Ensuring that a shell script runs exactly once
     </h2>
   </header>

@@ -165,6 +165,84 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>Easy VPN using Wireguard
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Why Wireguard and How does it work? Simple (one config file on server and client and one command to run) Small codebase (5000 LOC) unlike OpenVPN and IPSEC Scheduled to be merged into Linux kernel soon Wireguard works by creating a tunnel to the server using a separate network interface on your machine. You do not need to worry about Proxy settings and all your applications will work without issue.
+Installation and Key Generation Do this on both server and client machines
+#Installation: For both machines sudo apt install wireguard wireguard-tools openresolv # openresolv is in case you are using systemd-resolved which is default for DNS resolution on Ubuntu # Generate private and public key pair : For both machines umask 077 wg genkey | tee privatekey | wg pubkey &gt; publickey Configure Server Create file called /etc/wireguard/wg0.conf
+[Interface] PrivateKey = &lt;Private Key&gt; ListenPort = &lt;UDP Port to listen on, by default it is 51820&gt; Address = 192.168.2.1/24, fd86:ea04:1115::1/64 ListenPort = 51820 PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; ip6tables -A FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE; ip6tables -D FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE SaveConfig = true [Peer] PublicKey = &lt;Client Public Key&gt; AllowedIPs = 192....</p>
+  </div>
+  <footer class="entry-footer">December 14 2018   3 min</footer>
+  <a class="entry-link" aria-label="post link to Easy VPN using Wireguard" href="https://rrampage.github.io/2018/12/14/easy-vpn-using-wireguard/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Git Tagging Tutorial
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>I read a post on dev.to which shows how to create git tags using GUI-based git clients. I think that tags are useful to know even when using the git cli.
+What are tags Tags are specific points in your code history which are useful to re-visit later e.g you just released a new version of your app. You can tag the commit as v1.0 using git tag v1.0. Anytime you want to reproduce bugs encountered on that version, simply do git checkout v1.0 and investigate.
+How to use git tag better Checkout code to the tag The tag is linked to the specific commit and not to a branch. When you checkout the tag, git tells you that you are in “detached HEAD” state. Do not worry, all it means is that you need to create a new branch if you want to retain any changes you make after checking out the tag.
+Create a new branch exactly at the commit of the tag using git checkout -b BRANCH_NAME TAG_NAME...</p>
+  </div>
+  <footer class="entry-footer">November 22 2018   3 min</footer>
+  <a class="entry-link" aria-label="post link to Git Tagging Tutorial" href="https://rrampage.github.io/2018/11/22/git-tagging-tutorial/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Bash Command Completion - Finding all the cats in your $PATH!
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Today, I was curious to find out how many programs ending with cat I had on my system. I remember using cat, zcat and wanted to know if there are similar programs. Pressing TAB after cat only gives programs which start with cat.
+1. apropos In my last post, I had mentioned that apropos is a way to search for what programs are available on your system. The search string for apropos can be any regex. So, apropos &#39;cat$&#39; should solve the problem. cat$ means all words ending with ‘cat’
+The output has
+STAILQ_CONCAT (3) - implementations of singly-linked lists, singly-linked tail queues, lists and tail queues OPENSSL_strlcat (3ssl) - Memory allocation functions .. bzcat (1) - decompresses files to stdout cat (1) - concatenate files and print on the standard output fc-cat (1) - read font information cache files gencat (1) - Generate message catalog Clearly, the top 2 do not look like programs. Why is apropos then returning them?...</p>
+  </div>
+  <footer class="entry-footer">November 15 2018   4 min</footer>
+  <a class="entry-link" aria-label="post link to Bash Command Completion - Finding all the cats in your $PATH!" href="https://rrampage.github.io/2018/11/15/bash-command-completion-finding-all-the-cats-in-your-path/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Command-line productivity tips : Getting help in the terminal
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>The command-line is often a daunting place for beginners. With nothing but a blinking cursor and an unfriendly dark screen staring back at you, despair sets in.
+Here are a few things to do if you are stuck:
+1. How to find programs for specific tasks Many times, you want to do a particular task but you do not remember the name of the program which does that. Many shell utilities are not easy to remember at first with their cryptic 2 letter names.
+Worry not, there is a command called apropos to help you out!
+For example, you want to show a file with line numbers. You know that there is a program but have forgotten its name. You can just type apropos -a line number to get a list of programs. We use -a flag so that apropos will only return those programs which have the words line AND number in their description.
+On my computer, it gives the following output:...</p>
+  </div>
+  <footer class="entry-footer">November 11 2018   4 min</footer>
+  <a class="entry-link" aria-label="post link to Command-line productivity tips : Getting help in the terminal" href="https://rrampage.github.io/2018/11/11/command-line-productivity-tips-getting-help-in-the-terminal/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Git: How to keep your fork updated with remote repository
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>This is useful when you have forked a repository (repo), cloned it to your local machine and want to keep it in sync with the original repo.
+Adding the remote repo We can list the remote repositories for our repo with git remote -v and add the original repo as follows:
+git remote add upstream LINK_TO_ORIGINAL_REPO Note that it is merely a convention to call it upstream. You can give any name you want.
+Check that the repo is added to your remote using git remote -v.
+Sync with remote Check if there are any changes in remote not on your fork using git fetch upstream Checkout whichever branch you are interested ( git checkout $BRANCH) Merge with upstream using: git merge upstream/$BRANCH Push your changes to origin if needed: git push origin $BRANCH Removing the remote repo If you no longer want to get changes from the remote repo, it is easy to remove it using git remote remove upstream...</p>
+  </div>
+  <footer class="entry-footer">November 9 2018   1 min</footer>
+  <a class="entry-link" aria-label="post link to Git: How to keep your fork updated with remote repository" href="https://rrampage.github.io/2018/11/09/git-how-to-keep-your-fork-updated-with-remote-repository/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>Ensuring that a shell script runs exactly once
     </h2>
   </header>
@@ -221,86 +299,6 @@ Aug 16 2018 D3 : Stumbled across the game of Set. Wrote a small python script wh
   </div>
   <footer class="entry-footer">August 13 2018   4 min</footer>
   <a class="entry-link" aria-label="post link to 100 Days Of Code" href="https://rrampage.github.io/2018/08/13/100-days-of-code/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Algorithms: Generating Combinations
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>In how many different ways can we select r objects from a collection of n objects? In mathematics, this is called combinations.
-The formula for the number of combinations is: where, n! denotes the factorial of a number that is the product of all numbers from 1 to n (inclusive).
-Prelude : A function for calculating factorial of a number public static long factorial(int n) { long res = 1L; for (int i = 1; i &lt;= n; i&#43;&#43;) { res *= i; } return res; } Calculating Combinations That was simple! Let us now move on to calculating the number of combinations given n and r
-public static long combinations(int n, int r) { if (r &lt; 0) { return 0; } long res = 1L; if (r &gt; n - r) { r = n - r; } for (int i = 0; i &lt; r; i&#43;&#43;) { res *= (n - i); res /= (i &#43; 1); } return res; } What does this algorithm do?...</p>
-  </div>
-  <footer class="entry-footer">August 12 2018   8 min</footer>
-  <a class="entry-link" aria-label="post link to Algorithms: Generating Combinations" href="https://rrampage.github.io/2018/08/12/algorithms-generating-combinations/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Awk - A useful little language
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Awk is a small but capable programming language which is used for processing text. It was developed by Aho, Weinberger, Kerninghan at Bell Labs.
-Julia Evans made an awesome Awk comic: Awk scans input file as a sequence of lines and splits each line into fields. The field separator is usually whitespace but you can customize it to any character.
-An awk program is a sequence of pattern-action pairs i.e for each line, it checks if it matches the pattern and if yes, it performs the associated action on the line. Awk can be used interactively or to run saved programs.
-Here is what Awk does written in Python-like pseudocode:
-initialize() # Initializes variables in BEGIN block for line in input_lines: # Awk divides file / input into a list of lines for condition, action in conditions: # A program is a list of condition-action pairs if condition(line): #match line against condition action() #perform action on match Here are some small snippets of Awk:...</p>
-  </div>
-  <footer class="entry-footer">May 26 2018   4 min</footer>
-  <a class="entry-link" aria-label="post link to Awk - A useful little language" href="https://rrampage.github.io/2018/05/26/awk-a-useful-little-language/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>JVM Primer Part 2 - Debugging memory issues
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>This is part 2 of my series on JVM Memory management and debugging. Read part 1 here
-In this post, we will cover symptoms of memory issues for JVM-based applications, which tools we can use to diagnose them and how we can fix them.
-Symptoms Here are a few symptoms of memory issues:
-Poor application performance Abnormal memory usage OutOfMemory errors (OOME) Poor Application Performance Application not performing to expected level Long response times Dropping client requests Stuck threads Service unavailability Large gaps in timestamps in application logs Causes of memory problems: Misconfigured memory Old generation memory space is sized smaller than live-set of objects. This triggers a major garbage collection (GC), resulting in larger pauses. Code cache is smaller than generated compiled code footprint Young generation is not sized appropriately leading to premature promotion of objects PermGen / Metaspace not sized correctly leading to full GC Memory leaks - Unintentional retention of objects in memory spaces Unintentional references to set of objects in heap Not dereferencing classloader instances appropriateky Not releasing native resources appropriately Excessive use of finalizers Objects with finalizers may delay their own GC Finalizer thread needs to invoke finalize() method of the instances before reclaiming them There can only be 1 Finalizer thread....</p>
-  </div>
-  <footer class="entry-footer">May 16 2018   6 min</footer>
-  <a class="entry-link" aria-label="post link to JVM Primer Part 2 - Debugging memory issues" href="https://rrampage.github.io/2018/05/16/jvm-primer-part-2-debugging-memory-issues/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>A Primer on JVM Memory Management and Troubleshooting - 1
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>This series is a summary of Oracle’s JVM troubleshooting course which gives an overview on JVM memory management, Hotspot VM’s garbage collection options, various memory errors and how to troubleshoot them.
-In this post (part 1), we will have a look at how JVM manages memory and its different garbage collectors.
-You can find Part 2 here
-JVM Memory Management Overview The JVM provides automatic memory management to free the programmer from manually managing memory. New objects are allocated on heap memory. A root set consists of pointers to external memory, static variables, threads, JNI references and internal JVM structures. Objects directly reachable from the root set must be kept in heap. Objects reachable from any of the reachable objects must also be in heap. This group of objects are the only ones which can be used by a program. The unreachable objects (garbage) are removed using a process called garbage collection (GC). Reachable objects are compacted i.e moved to contiguous space in heap....</p>
-  </div>
-  <footer class="entry-footer">May 15 2018   4 min</footer>
-  <a class="entry-link" aria-label="post link to A Primer on JVM Memory Management and Troubleshooting - 1" href="https://rrampage.github.io/2018/05/15/a-primer-on-jvm-memory-management-and-troubleshooting-1/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Snake case to camel case and back using regular expressions and Python
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Snake case and Camel case are conventions of naming variables, functions and classes. Most teams and projects prescribe a particular case in their style guides.
-Examples of camel case:
-MyClass MyClassFactory MyClassFactoryBuilder MyClassFactoryBuilderImpl myInstance myInstance2 abc patternMatcher Examples of snake case:
-add matrix_add diagonal_matrix_add pseudo_inverse If we want to convert back and forth between these cases, we must look for the points of interest - the word boundaries. Camel case boundaries have the first letter capitalized while the snake case word boundaries have an _.
-Snake case to camel case Here is a regular expression for finding out the _ and the first letter in the next word:
-(.*?)_([a-zA-Z]) This regex has 2 parts:
-(.*?) finds everything upto the _.
-The ‘.’ means any character. ‘*’ stands for match 0 or more instances ‘?’ stands for non-greedy match. We must use ‘?’ in the pattern because the regex engine will try to match as much as possible by default. So, if we use just (....</p>
-  </div>
-  <footer class="entry-footer">May 9 2018   3 min</footer>
-  <a class="entry-link" aria-label="post link to Snake case to camel case and back using regular expressions and Python" href="https://rrampage.github.io/2018/05/09/snake-case-to-camel-case-and-back-using-regular-expressions-and-python/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

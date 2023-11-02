@@ -6,7 +6,284 @@
     <description>Recent content in linux on A Random Walk</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 06 Nov 2018 18:53:23 +0000</lastBuildDate><atom:link href="https://rrampage.github.io/tags/linux/rss.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 14 Dec 2018 11:48:44 +0000</lastBuildDate><atom:link href="https://rrampage.github.io/tags/linux/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Easy VPN using Wireguard</title>
+      <link>https://rrampage.github.io/2018/12/14/easy-vpn-using-wireguard/</link>
+      <pubDate>Fri, 14 Dec 2018 11:48:44 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/2018/12/14/easy-vpn-using-wireguard/</guid>
+      <description>Setup a painless VPN using Wireguard</description>
+      <content:encoded><![CDATA[<h2 id="why-wireguard-and-how-does-it-work">Why Wireguard and How does it work?</h2>
+<ul>
+<li>Simple (one config file on server and client and one command to run)</li>
+<li>Small codebase (5000 LOC) unlike OpenVPN and IPSEC</li>
+<li>Scheduled to be merged into Linux kernel soon</li>
+</ul>
+<p>Wireguard works by creating a tunnel to the server using a separate network interface on your machine.
+You do not need to worry about Proxy settings and all your applications will work without issue.</p>
+<h2 id="installation-and-key-generation">Installation and Key Generation</h2>
+<p>Do this on both server and client machines</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#Installation: For both machines</span>
+</span></span><span class="line"><span class="cl">sudo apt install wireguard wireguard-tools openresolv
+</span></span><span class="line"><span class="cl"><span class="c1"># openresolv is in case you are using systemd-resolved which is default for DNS resolution on Ubuntu</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Generate private and public key pair : For both machines</span>
+</span></span><span class="line"><span class="cl"><span class="nb">umask</span> <span class="m">077</span>
+</span></span><span class="line"><span class="cl">wg genkey <span class="p">|</span> tee privatekey <span class="p">|</span> wg pubkey &gt; publickey
+</span></span></code></pre></div><h2 id="configure-server">Configure Server</h2>
+<p>Create file called <code>/etc/wireguard/wg0.conf</code></p>
+<pre tabindex="0"><code>[Interface]
+PrivateKey = &lt;Private Key&gt;
+ListenPort = &lt;UDP Port to listen on, by default it is 51820&gt;
+Address = 192.168.2.1/24, fd86:ea04:1115::1/64
+ListenPort = 51820
+PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; ip6tables -A FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE; ip6tables -D FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+SaveConfig = true
+
+[Peer]
+PublicKey = &lt;Client Public Key&gt;
+AllowedIPs = 192.168.2.2/32
+</code></pre><p>Note that you have to paste the <strong>contents</strong> of the private key in the conf file, not the path.
+The <strong>PostUp</strong> sets up forwarding rules when the wiregaurd interface is started. <strong>PostDown</strong> deletes the rules when the interface is shutdown.
+Packet forwarding is essential if you want to use your server as a VPN to the general internet. Enable it on your server by adding the following to <code>/etc/sysctl.conf</code> and run <code>sudo sysctl -p</code> to reload the configuration changes.</p>
+<pre tabindex="0"><code># Add to end of /etc/sysctl.conf
+net.ipv4.ip_forward=1
+net.ipv6.conf.all.forwarding=1
+</code></pre><p>Whitelist the UDP port so that it is reachable by client</p>
+<pre tabindex="0"><code>sudo ufw allow 51820/udp
+sudo ufw enable
+</code></pre><h2 id="configure-client">Configure Client</h2>
+<p>Create file called <code>/etc/wireguard/wg0.conf</code></p>
+<pre tabindex="0"><code>[Interface]
+PrivateKey = &lt;Private Key&gt;
+Address = 192.168.2.2/32
+SaveConfig = true
+
+[Peer]
+PublicKey = &lt;Server Public Key&gt;
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = &lt;Server Public IP: Port e.g 23.23.23.23:2323&gt;
+</code></pre><p>Note that the <strong>Address</strong> in interface part of client must be within range of <strong>AllowedIPs</strong> in server&rsquo;s config.
+If you are not using the server as a VPN, you can restrict the <strong>AllowedIPs</strong> section of client.</p>
+<h2 id="start-server-and-client">Start Server and Client</h2>
+<p>Run <code>sudo wg-quick up wg0</code>
+Enable it to run as service on system startup using <code>sudo systemctl enable wg-quick@wg0</code>
+If you want to stop, use <code>sudo wg-quick down wg0</code></p>
+<h2 id="test-connection">Test connection</h2>
+<pre tabindex="0"><code># Ping Google
+ping -c3 8.8.8.8
+sudo wg # shows tyou status of the wireguard connection
+</code></pre><h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://www.wireguard.com/papers/wireguard.pdf">Whitepaper</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-create-a-point-to-point-vpn-with-wireguard-on-ubuntu-16-04">Adapted from</a></li>
+<li><a href="https://www.timdoug.com/log/2018/08/04/#wireguard_macos">OSX</a></li>
+<li><a href="https://play.google.com/store/apps/details?id=com.wireguard.android&amp;hl=en_US">Android client</a></li>
+<li><a href="https://www.wireguard.com/install/">More platforms</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Bash Command Completion - Finding all the cats in your $PATH!</title>
+      <link>https://rrampage.github.io/2018/11/15/bash-command-completion-finding-all-the-cats-in-your-path/</link>
+      <pubDate>Thu, 15 Nov 2018 09:39:37 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/2018/11/15/bash-command-completion-finding-all-the-cats-in-your-path/</guid>
+      <description>How to search for programs on the terminal</description>
+      <content:encoded><![CDATA[<p>Today, I was curious to find out <strong>how many programs ending with <code>cat</code></strong> I had on my system. I remember using <code>cat</code>, <code>zcat</code> and wanted to know if there are similar programs. Pressing TAB after <code>cat</code> only gives programs which start with <code>cat</code>.</p>
+<h2 id="1-apropos">1. <code>apropos</code></h2>
+<p>In my <a href="https://dev.to/rrampage/getting-help-in-the-terminal-4cmo">last post</a>, I had mentioned that apropos is a way to search for what programs are available on your system. The search string for <code>apropos</code> can be any regex. So, <code>apropos 'cat$'</code> should solve the problem. <code>cat$</code> means all words ending with &lsquo;cat&rsquo;</p>
+<p>The output has</p>
+<pre tabindex="0"><code>STAILQ_CONCAT (3)     - implementations of singly-linked lists, singly-linked tail queues, lists and tail queues
+OPENSSL_strlcat (3ssl) - Memory allocation functions
+..
+bzcat (1)            - decompresses files to stdout
+cat (1)              - concatenate files and print on the standard output
+fc-cat (1)           - read font information cache files
+gencat (1)           - Generate message catalog
+</code></pre><p>Clearly, the top 2 do not look like programs. Why is <code>apropos</code> then returning them?
+Let&rsquo;s have a look at the <code>apropos</code> manual</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">man apropos
+</span></span><span class="line"><span class="cl"><span class="c1"># apropos - search the manual page names and descriptions</span>
+</span></span></code></pre></div><p>So <code>apropos</code> searches the <code>man</code> pages. And looks like there are <code>man</code> pages for other things and not just programs&hellip;</p>
+<p>Digging deeper, let&rsquo;s try manual for the <code>man</code> pages!</p>
+<pre tabindex="0"><code>man man
+# The table below shows the section numbers of the manual followed by the types of pages they contain.
+#       1   Executable programs or shell commands
+#       2   System calls (functions provided by the kernel)
+#       3   Library calls (functions within program libraries)
+#       4   Special files (usually found in /dev)
+#       5   File formats and conventions eg /etc/passwd
+#       6   Games
+#       7   Miscellaneous (including macro packages and conventions), e.g. man(7), groff(7)
+#       8   System administration commands (usually only for root)
+#       9   Kernel routines [Non standard]
+</code></pre><p>Ok. We are interested in are executable programs i.e section 1 of the man pages. <code>apropos</code> has a way to limit which sections we search using<code>-s</code> flag.
+<strong><code>apropos -s 1 'cat$'</code></strong> gives us all programs ending with name <code>cat</code> which have an entry in the man pages but it does not show us any programs which do not have a man page.</p>
+<h2 id="2-list-all-programs-on-your-path">2. List all programs on your path</h2>
+<p>The way Bash knows which programs can be called directly by their name (e.g <code>ls</code>) and not by their full path (e.g <code>/usr/bin/ls</code>) is by looking at the <code>$PATH</code> environment variable.</p>
+<p>** Listing all executable files on path **</p>
+<p>Here&rsquo;s a small bash snippet which lists the executable files in PATH (let&rsquo;s call it <code>paths.sh</code>)</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="c1"># The directories in $PATH are separated by &#34;:&#34;, so we split by it to get individual directories</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> pdir in <span class="k">$(</span><span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$PATH</span><span class="s2">&#34;</span> <span class="p">|</span> tr <span class="s2">&#34;:&#34;</span> <span class="s2">&#34;\n&#34;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># We `find` all files in the directory which are executable and print the filename</span>
+</span></span><span class="line"><span class="cl">    find <span class="s2">&#34;</span><span class="nv">$pdir</span><span class="s2">&#34;</span> -maxdepth <span class="m">1</span> -executable -type f -printf <span class="s2">&#34;%f\n&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span></code></pre></div><p>If you prefer Python, here&rsquo;s a small Python program for the same (let&rsquo;s call it <code>paths.py</code>)</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl"><span class="n">path_dirs</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PATH&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span> <span class="c1"># Split PATH by &#39;:&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">path_dirs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">all_files</span> <span class="o">=</span> <span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path_dirs</span><span class="p">))</span> <span class="c1"># Iterable of all files in the directories contained in PATH</span>
+</span></span><span class="line"><span class="cl"><span class="n">is_exec</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">X_OK</span><span class="p">)</span> <span class="c1"># Function to check if a filename is executable</span>
+</span></span><span class="line"><span class="cl"><span class="n">execs</span> <span class="o">=</span> <span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">([</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fs</span> <span class="k">if</span> <span class="n">is_exec</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">f</span><span class="p">))]</span> <span class="k">for</span> <span class="n">r</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">fs</span> <span class="ow">in</span> <span class="n">all_files</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">execs</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span></code></pre></div><p>Running either our Bash or Python scripts will give us the correct output!</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sh paths.sh <span class="p">|</span> grep <span class="s1">&#39;cat$&#39;</span>
+</span></span><span class="line"><span class="cl">python3 paths.py <span class="p">|</span> grep <span class="s1">&#39;cat$&#39;</span>
+</span></span></code></pre></div><h2 id="3-power-of-bash-completion">3. Power of Bash Completion!</h2>
+<p>When I press TAB TAB after typing a letter, I get a list of suggestions. How does Bash do that? The <a href="https://www.gnu.org/software/bash/manual/html_node/Programmable-Completion.html">Bash manual</a> says that it uses <code>complete</code> and <code>compgen</code> built-ins for suggesting completions.</p>
+<p><code>compgen</code> generates completions using a list of words (-W) or list of commands (-c). The latter is of particular interest to us. <code>compgen -c</code> prints every executable on our path and all shell built-ins and shell-functions.</p>
+<p><code>compgen --help</code> prints following message:
+<code>compgen: compgen [-abcdefgjksuv] [-o option] [-A action] [-G globpat] [-W wordlist]  [-F function] [-C command] [-X filterpat] [-P prefix] [-S suffix] [word] Display possible completions depending on the options.</code></p>
+<p>The options stand for:</p>
+<ul>
+<li>a : aliases</li>
+<li>b : shell builtins</li>
+<li><strong>c : executable commands</strong></li>
+<li>d : directories in current directory</li>
+<li>e : <strong>export</strong> variables</li>
+<li>f : files in current directory</li>
+<li>g : groups in system</li>
+<li>j : pending jobs (in background / stopped)</li>
+<li>k : Bash <strong>keywords</strong></li>
+<li>s : System services</li>
+<li>u : users</li>
+<li>v : All shell variables</li>
+</ul>
+<p>So <strong><code>compgen -c | grep 'cat$'</code></strong> should give us every single executable ending with <code>cat</code>.</p>
+<h2 id="epilogue">Epilogue</h2>
+<p>Diving into this rabbit-hole has given me a better understanding of how Bash completion works, how apropos finds relevant programs and why man pages are organized into various sections.</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Command-line productivity tips : Getting help in the terminal</title>
+      <link>https://rrampage.github.io/2018/11/11/command-line-productivity-tips-getting-help-in-the-terminal/</link>
+      <pubDate>Sun, 11 Nov 2018 17:30:30 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/2018/11/11/command-line-productivity-tips-getting-help-in-the-terminal/</guid>
+      <description>What to do when you are stuck in the command-line</description>
+      <content:encoded><![CDATA[<p>The command-line is often a daunting place for beginners. With nothing but a blinking cursor and an unfriendly dark screen staring back at you, despair sets in.</p>
+<p>Here are a few things to do if you are stuck:</p>
+<h2 id="1-how-to-find-programs-for-specific-tasks">1. How to find programs for specific tasks</h2>
+<p>Many times, you want to do a particular task but you do not remember the name of the program which does that. Many shell utilities are not easy to remember at first with their cryptic 2 letter names.</p>
+<p>Worry not, there is a command called <strong><code>apropos</code></strong> to help you out!</p>
+<p>For example, you want to <strong>show a file with line numbers</strong>. You know that there is a program but have forgotten its name. You can just type <code>apropos -a line number</code> to get a list of programs. We use <code>-a</code> flag so that <code>apropos</code> will only return those programs which have the words <strong><code>line</code> AND <code>number</code></strong> in their description.</p>
+<p>On my computer, it gives the following output:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">apropos -a line number
+</span></span><span class="line"><span class="cl"><span class="c1"># Output:</span>
+</span></span><span class="line"><span class="cl">addr2line <span class="o">(</span>1<span class="o">)</span>        - convert addresses into file names and line numbers.
+</span></span><span class="line"><span class="cl">nl <span class="o">(</span>1<span class="o">)</span>               - number lines of files
+</span></span><span class="line"><span class="cl">x86_64-linux-gnu-addr2line <span class="o">(</span>1<span class="o">)</span> - convert addresses into file names and line numbers.
+</span></span></code></pre></div><p>There are 3 programs which have something to do with numbering lines. Let&rsquo;s find out what each of these programs does.</p>
+<h2 id="2-find-out-what-a-program-does">2. Find out what a program does</h2>
+<p>Let&rsquo;s have a look at our first candidate <code>addr2line</code>. <strong>Typing <code>--help</code> after the command is one way of finding out what a program does</strong>. It is a convention for command-line programs to print a small help message when you call them with <code>--help</code>. Some programs also allow do the same on calling with <code>-h</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">addr2line --help
+</span></span><span class="line"><span class="cl"><span class="c1"># Output:</span>
+</span></span><span class="line"><span class="cl">Usage: addr2line <span class="o">[</span>option<span class="o">(</span>s<span class="o">)]</span> <span class="o">[</span>addr<span class="o">(</span>s<span class="o">)]</span>
+</span></span><span class="line"><span class="cl"> Convert addresses into line number/file name pairs.
+</span></span><span class="line"><span class="cl"> If no addresses are specified on the <span class="nb">command</span> line, they will be <span class="nb">read</span> from stdin
+</span></span><span class="line"><span class="cl">....
+</span></span></code></pre></div><p>Ok. This does program does something with <code>addresses</code>, not what we are looking for. Moving on to the next in our list: <code>nl</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nl --help
+</span></span><span class="line"><span class="cl"><span class="c1"># Output:</span>
+</span></span><span class="line"><span class="cl">Usage: nl <span class="o">[</span>OPTION<span class="o">]</span>... <span class="o">[</span>FILE<span class="o">]</span>...
+</span></span><span class="line"><span class="cl">Write each FILE to standard output, with line numbers added.
+</span></span><span class="line"><span class="cl">...
+</span></span></code></pre></div><p>Looks like we found our program. Let&rsquo;s try it out. This is our file <code>foo.txt</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat foo.txt
+</span></span><span class="line"><span class="cl"><span class="c1"># Output:</span>
+</span></span><span class="line"><span class="cl">one
+</span></span><span class="line"><span class="cl">two
+</span></span><span class="line"><span class="cl">three
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">four
+</span></span><span class="line"><span class="cl">five
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nl foo.txt
+</span></span><span class="line"><span class="cl"><span class="c1"># Output:</span>
+</span></span><span class="line"><span class="cl">     <span class="m">1</span>  one
+</span></span><span class="line"><span class="cl">     <span class="m">2</span>  two
+</span></span><span class="line"><span class="cl">     <span class="m">3</span>  three
+</span></span><span class="line"><span class="cl">       
+</span></span><span class="line"><span class="cl">     <span class="m">4</span>  four
+</span></span><span class="line"><span class="cl">     <span class="m">5</span>  five
+</span></span></code></pre></div><p>It works ok but why is it not numbering blank lines?</p>
+<h2 id="3-getting-detailed-information-about-a-program">3. Getting detailed information about a program</h2>
+<p>The <code>--help</code> messages are very concise. If we want to know in detail what a program does, we need to consult the manual or <code>man</code> pages. These pages are very detailed documentation of what a program does, all its possible options and arguments. Type <code>man nl</code> and have a look at the information&hellip;</p>
+<p>Woah! The terminal screen is filled with information!. You can navigate up and down using the arrow keys and press <code>q</code> to quit.</p>
+<p>We can see the following in the output:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-b, --body-numbering<span class="o">=</span>STYLE
+</span></span><span class="line"><span class="cl">              use STYLE <span class="k">for</span> numbering body lines
+</span></span><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">STYLE is one of:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">       a      number all lines
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">       t      number only nonempty lines
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">       n      number no lines
+</span></span></code></pre></div><p>So, <strong><code>nl -b a foo.txt</code></strong> will number <strong>all</strong> lines in foo.txt which is what we want.</p>
+<pre tabindex="0"><code>nl -b a foo.txt
+# Output:
+     1  one
+     2  two
+     3  three
+     4
+     5  four
+     6  five
+</code></pre><p>That seems to solve our problem.</p>
+<p>There is also <code>info</code> command which gives even more detailed usage information. You can try it out using <strong><code>info nl</code></strong>.</p>
+<h2 id="4-getting-examples-for-using-a-program">4. Getting examples for using a program</h2>
+<p>But what if we just quickly want to get our command to work without having to read a huge wall of text?</p>
+<p>Turns out, there is a nifty utility you can install called <strong><code>tldr</code></strong>. If you use <code>node</code> or <code>python</code> you can install using <code>npm install -g tldr</code> or <code>pip install tldr</code> respectively. The <a href="https://tldr.sh/">tldr page</a> has a list of other installation options. After installing it, just try out <code>tldr nl</code> in your terminal</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">tldr nl
+</span></span><span class="line"><span class="cl"><span class="c1"># Output:</span>
+</span></span><span class="line"><span class="cl">nl
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  A utility <span class="k">for</span> numbering lines, either from a file, or from standard input.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  - Number non-blank lines in a file:
+</span></span><span class="line"><span class="cl">    nl file
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">....
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  - Number all lines including blank lines:
+</span></span><span class="line"><span class="cl">    nl -b a file
+</span></span></code></pre></div><p>There! We can see the example with easy to understand description.</p>
+<p><code>tldr</code> is community-driven! People contribute examples for various commands. If your favorite command does not have an entry, you can submit a <a href="https://github.com/tldr-pages/tldr">pull request</a>.</p>
+<h2 id="recap">Recap</h2>
+<p>To recap, we can:</p>
+<ul>
+<li>Find out possible programs which do particular tasks using <strong><code>apropos</code></strong></li>
+<li>Get help information for <strong><code>$program</code></strong> using <strong><code>$program --help</code></strong> or <strong><code>man $program</code></strong></li>
+<li>Get examples using <strong><code>tldr $program</code></strong></li>
+</ul>
+<h3 id="ps-what-if-we-are-not-able-to-find-programs-for-our-tasks">PS: What if we are not able to find programs for our tasks</h3>
+<p>In Section 1, we assume that we will be able to find programs for our task. But many times, we may not have it installed. In such cases, we can search our distribution&rsquo;s package manager e.g <code>apt-get</code> for Ubuntu or <code>yum</code> or <code>dnf</code> for CentOS / Fedora.</p>
+<p>In Ubuntu, we can search all available packages in the repositories using <code>apt-cache search $KEYWORD</code>.</p>
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>Ensuring that a shell script runs exactly once</title>
       <link>https://rrampage.github.io/2018/11/06/ensuring-that-a-shell-script-runs-exactly-once/</link>

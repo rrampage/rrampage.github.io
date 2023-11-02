@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>git on A Random Walk</title>
+    <link>https://rrampage.github.io/tags/git/</link>
+    <description>Recent content in git on A Random Walk</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 22 Nov 2018 10:44:36 +0000</lastBuildDate><atom:link href="https://rrampage.github.io/tags/git/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Git Tagging Tutorial</title>
+      <link>https://rrampage.github.io/2018/11/22/git-tagging-tutorial/</link>
+      <pubDate>Thu, 22 Nov 2018 10:44:36 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/2018/11/22/git-tagging-tutorial/</guid>
+      <description>How to create tags in your git repo from command line</description>
+      <content:encoded><![CDATA[<p>I read a post on <a href="https://dev.to/zellwk/git-tags--37a">dev.to</a> which shows how to create git tags using GUI-based git clients. I think that tags are useful to know even when using the git cli.</p>
+<h2 id="what-are-tags">What are tags</h2>
+<p>Tags are specific points in your code history which are useful to re-visit later e.g
+you just released a new version of your app. You can tag the commit as <code>v1.0</code> using <strong><code>git tag v1.0</code></strong>. Anytime you want to reproduce bugs encountered on that version,  simply do <strong><code>git checkout v1.0</code></strong> and investigate.</p>
+<h2 id="how-to-use-git-tag-better">How to use <code>git tag</code> better</h2>
+<h3 id="checkout-code-to-the-tag">Checkout code to the tag</h3>
+<p>The tag is linked to the specific commit and not to a branch. When you checkout the tag, git tells you that you are in &ldquo;detached HEAD&rdquo; state. Do not worry, all it means is that you need to create a new branch if you want to retain any changes you make after checking out the tag.</p>
+<p>Create a new branch exactly at the commit of the tag using <strong><code>git checkout -b BRANCH_NAME TAG_NAME</code></strong></p>
+<h3 id="make-your-tag-more-informational">Make your tag more informational!</h3>
+<p>You can add more information using <strong><code>git tag -a TAG_NAME -m 'MESSAGE'</code></strong>
+The tag information can be viewed without having to checkout the tag using <strong><code>git show TAG_NAME</code></strong>.</p>
+<h3 id="create-tag-at-a-particular-commit">Create tag at a particular commit</h3>
+<p>You do not always have to be at the HEAD or in the tip of the branch to create a tag. If you want to create tag say 5 commits before HEAD, you can use <code>git log</code> to get the correct commit hash e.g <strong><code>git log --pretty=oneline -10</code></strong> which shows the last 10 commits on the current branch.</p>
+<p>Then, create tag using <strong><code>git tag -a TAG_NAME -m 'MESSAGE' COMMIT_HASH</code></strong></p>
+<h3 id="list-and-delete-tags">List and Delete tags</h3>
+<p>Listing all tags is simply: <strong><code>git tag</code></strong>
+Similarly, delete a tag using <strong><code>git tag -d TAG_NAME</code></strong></p>
+<h3 id="share-your-tag-with-others">Share your tag with others!</h3>
+<p>The tag created is not pushed to remote automatically. If you want your tags to be used by other contributors too, you need to push them using <strong><code>git push origin TAG_NAME</code></strong></p>
+<h3 id="sign-your-tags">Sign your tags!</h3>
+<p>If you are working on a major project and want to show without any doubt that you have worked on the release, you can sign it using your GPG private key as <strong><code>git tag -s TAG_NAME -m 'MESSAGE'</code></strong>. Anyone who runs <strong><code>git show TAG_NAME</code></strong> on the tag will also see your public key signature along with the tag information.</p>
+<p>They can additionally verify the tag using <strong><code>git tag -v TAG_NAME</code></strong>. This checks using your public key whether the signature is indeed yours.</p>
+<h2 id="tags-vs-branches">Tags vs Branches</h2>
+<p>Why use tags when you have branches? Because branches can change and tags are linked to a specific commit. Thus, marking releases with a tag will give you the state of code when the particular software release was done.</p>
+<h2 id="summary">Summary</h2>
+<ul>
+<li>Tags are great way to remember specific commits</li>
+<li>It is good to add a message to the tag so that people can easily see why you tagged a particular commit</li>
+</ul>
+<h2 id="references">References</h2>
+<p>The Git book chapters:</p>
+<ul>
+<li><a href="https://git-scm.com/book/en/v2/Git-Basics-Tagging">Tagging</a></li>
+<li><a href="https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work">Signing</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Git: How to keep your fork updated with remote repository</title>
+      <link>https://rrampage.github.io/2018/11/09/git-how-to-keep-your-fork-updated-with-remote-repository/</link>
+      <pubDate>Fri, 09 Nov 2018 12:50:54 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/2018/11/09/git-how-to-keep-your-fork-updated-with-remote-repository/</guid>
+      <description>How to keep your Git fork updated with changes from remote</description>
+      <content:encoded><![CDATA[<p>This is useful when you have forked a repository (repo), cloned it to your local machine and want to keep it in sync with the original repo.</p>
+<h2 id="adding-the-remote-repo">Adding the remote repo</h2>
+<p>We can list the remote repositories for our repo with <strong><code>git remote -v</code></strong> and add the original repo as follows:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git remote add upstream LINK_TO_ORIGINAL_REPO
+</span></span></code></pre></div><p>Note that it is merely a convention to call it <strong><code>upstream</code></strong>. You can give any name you want.</p>
+<p>Check that the repo is added to your remote using <strong><code>git remote -v</code></strong>.</p>
+<h2 id="sync-with-remote">Sync with remote</h2>
+<ul>
+<li>Check if there are any changes in remote not on your fork using <strong><code>git fetch upstream</code></strong></li>
+<li>Checkout whichever branch you are interested ( <strong><code>git checkout $BRANCH</code></strong>)</li>
+<li>Merge with upstream using: <strong><code>git merge upstream/$BRANCH</code></strong></li>
+<li>Push your changes to origin if needed: <strong><code>git push origin $BRANCH</code></strong></li>
+</ul>
+<h2 id="removing-the-remote-repo">Removing the remote repo</h2>
+<p>If you no longer want to get changes from the remote repo, it is easy to remove it using <strong><code>git remote remove upstream</code></strong></p>
+<h2 id="references">References</h2>
+<p>Github&rsquo;s <a href="https://help.github.com/articles/syncing-a-fork/">help page</a></p>
+]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>

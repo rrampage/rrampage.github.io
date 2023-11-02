@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>python | A Random Walk</title>
+<title>wireguard | A Random Walk</title>
 <meta name="keywords" content="">
 <meta name="description" content="A Random Walk - Raunak Ramakrishnan">
 <meta name="author" content="Raunak">
-<link rel="canonical" href="https://rrampage.github.io/tags/python/">
+<link rel="canonical" href="https://rrampage.github.io/tags/wireguard/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.3583c276be8b676922334220eddb70a58dd857f110640a70a4641bbbc371cae2.css" integrity="sha256-NYPCdr6LZ2kiM0Ig7dtwpY3YV/EQZApwpGQbu8NxyuI=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://rrampage.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
@@ -18,7 +18,7 @@
 <link rel="mask-icon" href="https://rrampage.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://rrampage.github.io/tags/python/rss.xml">
+<link rel="alternate" type="application/rss+xml" href="https://rrampage.github.io/tags/wireguard/rss.xml">
 <noscript>
     <style>
         #theme-toggle,
@@ -55,13 +55,13 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="python" />
+</noscript><meta property="og:title" content="wireguard" />
 <meta property="og:description" content="A Random Walk - Raunak Ramakrishnan" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://rrampage.github.io/tags/python/" /><meta property="og:site_name" content="A Random Walk" />
+<meta property="og:url" content="https://rrampage.github.io/tags/wireguard/" /><meta property="og:site_name" content="A Random Walk" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="python"/>
+<meta name="twitter:title" content="wireguard"/>
 <meta name="twitter:description" content="A Random Walk - Raunak Ramakrishnan"/>
 
 </head>
@@ -132,75 +132,23 @@
 <main class="main"> 
 <header class="page-header">
   <h1>
-    python
+    wireguard
   </h1>
 </header>
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2>Bash Command Completion - Finding all the cats in your $PATH!
+    <h2>Easy VPN using Wireguard
     </h2>
   </header>
   <div class="entry-content">
-    <p>Today, I was curious to find out how many programs ending with cat I had on my system. I remember using cat, zcat and wanted to know if there are similar programs. Pressing TAB after cat only gives programs which start with cat.
-1. apropos In my last post, I had mentioned that apropos is a way to search for what programs are available on your system. The search string for apropos can be any regex. So, apropos &#39;cat$&#39; should solve the problem. cat$ means all words ending with ‘cat’
-The output has
-STAILQ_CONCAT (3) - implementations of singly-linked lists, singly-linked tail queues, lists and tail queues OPENSSL_strlcat (3ssl) - Memory allocation functions .. bzcat (1) - decompresses files to stdout cat (1) - concatenate files and print on the standard output fc-cat (1) - read font information cache files gencat (1) - Generate message catalog Clearly, the top 2 do not look like programs. Why is apropos then returning them?...</p>
+    <p>Why Wireguard and How does it work? Simple (one config file on server and client and one command to run) Small codebase (5000 LOC) unlike OpenVPN and IPSEC Scheduled to be merged into Linux kernel soon Wireguard works by creating a tunnel to the server using a separate network interface on your machine. You do not need to worry about Proxy settings and all your applications will work without issue.
+Installation and Key Generation Do this on both server and client machines
+#Installation: For both machines sudo apt install wireguard wireguard-tools openresolv # openresolv is in case you are using systemd-resolved which is default for DNS resolution on Ubuntu # Generate private and public key pair : For both machines umask 077 wg genkey | tee privatekey | wg pubkey &gt; publickey Configure Server Create file called /etc/wireguard/wg0.conf
+[Interface] PrivateKey = &lt;Private Key&gt; ListenPort = &lt;UDP Port to listen on, by default it is 51820&gt; Address = 192.168.2.1/24, fd86:ea04:1115::1/64 ListenPort = 51820 PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; ip6tables -A FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE; ip6tables -D FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE SaveConfig = true [Peer] PublicKey = &lt;Client Public Key&gt; AllowedIPs = 192....</p>
   </div>
-  <footer class="entry-footer">November 15 2018   4 min</footer>
-  <a class="entry-link" aria-label="post link to Bash Command Completion - Finding all the cats in your $PATH!" href="https://rrampage.github.io/2018/11/15/bash-command-completion-finding-all-the-cats-in-your-path/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2>Algorithms: Gray Binary Code
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Gray binary code is a way of expressing binary numbers such that consecutive numbers differ in exactly 1 digit. For example, in our conventional binary system, the numbers are
-000 001 010 011 100 101 110 111 and so on In Gray, they are:
-000 001 011 010 110 111 101 100 and so on In first system, when we go from ‘001’ to ‘010’, there are 2 changes namely the unit’s place becomes ‘0’ from ‘1’ and the next digit becomes ‘1’ from ‘0’. But in Gray’s system, ‘001’ becomes ‘011’ where there is only 1 change (that of 2nd digit).
-Gray codes are used in error correction in communication.
-Generating Gray codes of length n Is there a property we can use for easily generating the Gray codes of a given length? Yes! In our previous example, we generated all the Gray codes for n=3. Ignoring the most significant bit (MSB), notice how the 4th and 5th numbers are equal in their first 2 digits, as are the 3rd and 6th, 2nd and 7th and 1st and 8th....</p>
-  </div>
-  <footer class="entry-footer">August 18 2018   4 min</footer>
-  <a class="entry-link" aria-label="post link to Algorithms: Gray Binary Code" href="https://rrampage.github.io/2018/08/18/algorithms-gray-binary-code/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2>100 Days Of Code
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>I have started the 100 days of code challenge. I intend to use this time to check out new languages and frameworks and solve some fun problems.
-I will update this post with my logs.
-Aug 13 2018 D0 : Algorithms for calculating number of combinations and generating them in a lexicographical increasing order. Blog
-Aug 14 2018 D1 : Working on algorithm for generating all permutations. First I managed to generate all possible r repetitions of n i.e n^r. Next, I read up and wrote code on Heap’s algorithm. I am still not sure of the intuition behind the algorithm. Also, it does not generate the permutations in lexicographical increasing order.
-Aug 15 2018 D2 : Learned and implemented an algorithm that generates all permutations in a lexicographical order. It is not as efficient as Heap’s algorithm.
-Aug 16 2018 D3 : Stumbled across the game of Set. Wrote a small python script which generates all solutions of any given game....</p>
-  </div>
-  <footer class="entry-footer">August 13 2018   4 min</footer>
-  <a class="entry-link" aria-label="post link to 100 Days Of Code" href="https://rrampage.github.io/2018/08/13/100-days-of-code/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2>Snake case to camel case and back using regular expressions and Python
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Snake case and Camel case are conventions of naming variables, functions and classes. Most teams and projects prescribe a particular case in their style guides.
-Examples of camel case:
-MyClass MyClassFactory MyClassFactoryBuilder MyClassFactoryBuilderImpl myInstance myInstance2 abc patternMatcher Examples of snake case:
-add matrix_add diagonal_matrix_add pseudo_inverse If we want to convert back and forth between these cases, we must look for the points of interest - the word boundaries. Camel case boundaries have the first letter capitalized while the snake case word boundaries have an _.
-Snake case to camel case Here is a regular expression for finding out the _ and the first letter in the next word:
-(.*?)_([a-zA-Z]) This regex has 2 parts:
-(.*?) finds everything upto the _.
-The ‘.’ means any character. ‘*’ stands for match 0 or more instances ‘?’ stands for non-greedy match. We must use ‘?’ in the pattern because the regex engine will try to match as much as possible by default. So, if we use just (....</p>
-  </div>
-  <footer class="entry-footer">May 9 2018   3 min</footer>
-  <a class="entry-link" aria-label="post link to Snake case to camel case and back using regular expressions and Python" href="https://rrampage.github.io/2018/05/09/snake-case-to-camel-case-and-back-using-regular-expressions-and-python/"></a>
+  <footer class="entry-footer">December 14 2018   3 min</footer>
+  <a class="entry-link" aria-label="post link to Easy VPN using Wireguard" href="https://rrampage.github.io/2018/12/14/easy-vpn-using-wireguard/"></a>
 </article>
     </main>
     

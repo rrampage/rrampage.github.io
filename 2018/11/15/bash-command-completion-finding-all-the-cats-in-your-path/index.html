@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Bash Command Completion - Finding all the cats in your $PATH! | A Random Walk</title>
+<meta name="keywords" content="bash, linux, python">
+<meta name="description" content="How to search for programs on the terminal">
+<meta name="author" content="Raunak">
+<link rel="canonical" href="https://rrampage.github.io/2018/11/15/bash-command-completion-finding-all-the-cats-in-your-path/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3583c276be8b676922334220eddb70a58dd857f110640a70a4641bbbc371cae2.css" integrity="sha256-NYPCdr6LZ2kiM0Ig7dtwpY3YV/EQZApwpGQbu8NxyuI=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://rrampage.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://rrampage.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://rrampage.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://rrampage.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Bash Command Completion - Finding all the cats in your $PATH!" />
+<meta property="og:description" content="How to search for programs on the terminal" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://rrampage.github.io/2018/11/15/bash-command-completion-finding-all-the-cats-in-your-path/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2018-11-15T09:39:37+00:00" />
+<meta property="article:modified_time" content="2018-11-15T09:39:37+00:00" /><meta property="og:site_name" content="A Random Walk" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Bash Command Completion - Finding all the cats in your $PATH!"/>
+<meta name="twitter:description" content="How to search for programs on the terminal"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://rrampage.github.io/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Bash Command Completion - Finding all the cats in your $PATH!",
+      "item": "https://rrampage.github.io/2018/11/15/bash-command-completion-finding-all-the-cats-in-your-path/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Bash Command Completion - Finding all the cats in your $PATH!",
+  "name": "Bash Command Completion - Finding all the cats in your $PATH!",
+  "description": "How to search for programs on the terminal",
+  "keywords": [
+    "bash", "linux", "python"
+  ],
+  "articleBody": "Today, I was curious to find out how many programs ending with cat I had on my system. I remember using cat, zcat and wanted to know if there are similar programs. Pressing TAB after cat only gives programs which start with cat.\n1. apropos In my last post, I had mentioned that apropos is a way to search for what programs are available on your system. The search string for apropos can be any regex. So, apropos 'cat$' should solve the problem. cat$ means all words ending with ‘cat’\nThe output has\nSTAILQ_CONCAT (3) - implementations of singly-linked lists, singly-linked tail queues, lists and tail queues OPENSSL_strlcat (3ssl) - Memory allocation functions .. bzcat (1) - decompresses files to stdout cat (1) - concatenate files and print on the standard output fc-cat (1) - read font information cache files gencat (1) - Generate message catalog Clearly, the top 2 do not look like programs. Why is apropos then returning them? Let’s have a look at the apropos manual\nman apropos # apropos - search the manual page names and descriptions So apropos searches the man pages. And looks like there are man pages for other things and not just programs…\nDigging deeper, let’s try manual for the man pages!\nman man # The table below shows the section numbers of the manual followed by the types of pages they contain. # 1 Executable programs or shell commands # 2 System calls (functions provided by the kernel) # 3 Library calls (functions within program libraries) # 4 Special files (usually found in /dev) # 5 File formats and conventions eg /etc/passwd # 6 Games # 7 Miscellaneous (including macro packages and conventions), e.g. man(7), groff(7) # 8 System administration commands (usually only for root) # 9 Kernel routines [Non standard] Ok. We are interested in are executable programs i.e section 1 of the man pages. apropos has a way to limit which sections we search using-s flag. apropos -s 1 'cat$' gives us all programs ending with name cat which have an entry in the man pages but it does not show us any programs which do not have a man page.\n2. List all programs on your path The way Bash knows which programs can be called directly by their name (e.g ls) and not by their full path (e.g /usr/bin/ls) is by looking at the $PATH environment variable.\n** Listing all executable files on path **\nHere’s a small bash snippet which lists the executable files in PATH (let’s call it paths.sh)\n#!/bin/bash # The directories in $PATH are separated by \":\", so we split by it to get individual directories for pdir in $(echo \"$PATH\" | tr \":\" \"\\n\") do # We `find` all files in the directory which are executable and print the filename find \"$pdir\" -maxdepth 1 -executable -type f -printf \"%f\\n\" done If you prefer Python, here’s a small Python program for the same (let’s call it paths.py)\nfrom itertools import chain import os path_dirs = os.environ['PATH'].split(':') # Split PATH by ':' print(path_dirs) all_files = chain(*(os.walk(p) for p in path_dirs)) # Iterable of all files in the directories contained in PATH is_exec = lambda x : os.access(x, os.X_OK) # Function to check if a filename is executable execs = chain(*([f for f in fs if is_exec(os.path.join(r,f))] for r,_,fs in all_files)) for x in execs: print(x) Running either our Bash or Python scripts will give us the correct output!\nsh paths.sh | grep 'cat$' python3 paths.py | grep 'cat$' 3. Power of Bash Completion! When I press TAB TAB after typing a letter, I get a list of suggestions. How does Bash do that? The Bash manual says that it uses complete and compgen built-ins for suggesting completions.\ncompgen generates completions using a list of words (-W) or list of commands (-c). The latter is of particular interest to us. compgen -c prints every executable on our path and all shell built-ins and shell-functions.\ncompgen --help prints following message: compgen: compgen [-abcdefgjksuv] [-o option] [-A action] [-G globpat] [-W wordlist] [-F function] [-C command] [-X filterpat] [-P prefix] [-S suffix] [word] Display possible completions depending on the options.\nThe options stand for:\na : aliases b : shell builtins c : executable commands d : directories in current directory e : export variables f : files in current directory g : groups in system j : pending jobs (in background / stopped) k : Bash keywords s : System services u : users v : All shell variables So compgen -c | grep 'cat$' should give us every single executable ending with cat.\nEpilogue Diving into this rabbit-hole has given me a better understanding of how Bash completion works, how apropos finds relevant programs and why man pages are organized into various sections.\n",
+  "wordCount" : "798",
+  "inLanguage": "en",
+  "datePublished": "2018-11-15T09:39:37.302Z",
+  "dateModified": "2018-11-15T09:39:37.302Z",
+  "author":{
+    "@type": "Person",
+    "name": "Raunak"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://rrampage.github.io/2018/11/15/bash-command-completion-finding-all-the-cats-in-your-path/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "A Random Walk",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://rrampage.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://rrampage.github.io/" accesskey="h" title="A Random Walk (Alt + H)">A Random Walk</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://rrampage.github.io/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/archives" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Bash Command Completion - Finding all the cats in your $PATH!
+    </h1>
+    <div class="post-description">
+      How to search for programs on the terminal
+    </div>
+    <div class="post-meta">November 15 2018   4 min
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-apropos">1. <code>apropos</code></a></li>
+    <li><a href="#2-list-all-programs-on-your-path">2. List all programs on your path</a></li>
+    <li><a href="#3-power-of-bash-completion">3. Power of Bash Completion!</a></li>
+    <li><a href="#epilogue">Epilogue</a></li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>Today, I was curious to find out <strong>how many programs ending with <code>cat</code></strong> I had on my system. I remember using <code>cat</code>, <code>zcat</code> and wanted to know if there are similar programs. Pressing TAB after <code>cat</code> only gives programs which start with <code>cat</code>.</p>
+<h2 id="1-apropos">1. <code>apropos</code><a hidden class="anchor" aria-hidden="true" href="#1-apropos">#</a></h2>
+<p>In my <a href="https://dev.to/rrampage/getting-help-in-the-terminal-4cmo">last post</a>, I had mentioned that apropos is a way to search for what programs are available on your system. The search string for <code>apropos</code> can be any regex. So, <code>apropos 'cat$'</code> should solve the problem. <code>cat$</code> means all words ending with &lsquo;cat&rsquo;</p>
+<p>The output has</p>
+<pre tabindex="0"><code>STAILQ_CONCAT (3)     - implementations of singly-linked lists, singly-linked tail queues, lists and tail queues
+OPENSSL_strlcat (3ssl) - Memory allocation functions
+..
+bzcat (1)            - decompresses files to stdout
+cat (1)              - concatenate files and print on the standard output
+fc-cat (1)           - read font information cache files
+gencat (1)           - Generate message catalog
+</code></pre><p>Clearly, the top 2 do not look like programs. Why is <code>apropos</code> then returning them?
+Let&rsquo;s have a look at the <code>apropos</code> manual</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">man apropos
+</span></span><span class="line"><span class="cl"><span class="c1"># apropos - search the manual page names and descriptions</span>
+</span></span></code></pre></div><p>So <code>apropos</code> searches the <code>man</code> pages. And looks like there are <code>man</code> pages for other things and not just programs&hellip;</p>
+<p>Digging deeper, let&rsquo;s try manual for the <code>man</code> pages!</p>
+<pre tabindex="0"><code>man man
+# The table below shows the section numbers of the manual followed by the types of pages they contain.
+#       1   Executable programs or shell commands
+#       2   System calls (functions provided by the kernel)
+#       3   Library calls (functions within program libraries)
+#       4   Special files (usually found in /dev)
+#       5   File formats and conventions eg /etc/passwd
+#       6   Games
+#       7   Miscellaneous (including macro packages and conventions), e.g. man(7), groff(7)
+#       8   System administration commands (usually only for root)
+#       9   Kernel routines [Non standard]
+</code></pre><p>Ok. We are interested in are executable programs i.e section 1 of the man pages. <code>apropos</code> has a way to limit which sections we search using<code>-s</code> flag.
+<strong><code>apropos -s 1 'cat$'</code></strong> gives us all programs ending with name <code>cat</code> which have an entry in the man pages but it does not show us any programs which do not have a man page.</p>
+<h2 id="2-list-all-programs-on-your-path">2. List all programs on your path<a hidden class="anchor" aria-hidden="true" href="#2-list-all-programs-on-your-path">#</a></h2>
+<p>The way Bash knows which programs can be called directly by their name (e.g <code>ls</code>) and not by their full path (e.g <code>/usr/bin/ls</code>) is by looking at the <code>$PATH</code> environment variable.</p>
+<p>** Listing all executable files on path **</p>
+<p>Here&rsquo;s a small bash snippet which lists the executable files in PATH (let&rsquo;s call it <code>paths.sh</code>)</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="c1"># The directories in $PATH are separated by &#34;:&#34;, so we split by it to get individual directories</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> pdir in <span class="k">$(</span><span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$PATH</span><span class="s2">&#34;</span> <span class="p">|</span> tr <span class="s2">&#34;:&#34;</span> <span class="s2">&#34;\n&#34;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># We `find` all files in the directory which are executable and print the filename</span>
+</span></span><span class="line"><span class="cl">    find <span class="s2">&#34;</span><span class="nv">$pdir</span><span class="s2">&#34;</span> -maxdepth <span class="m">1</span> -executable -type f -printf <span class="s2">&#34;%f\n&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span></code></pre></div><p>If you prefer Python, here&rsquo;s a small Python program for the same (let&rsquo;s call it <code>paths.py</code>)</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl"><span class="n">path_dirs</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PATH&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span> <span class="c1"># Split PATH by &#39;:&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">path_dirs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">all_files</span> <span class="o">=</span> <span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path_dirs</span><span class="p">))</span> <span class="c1"># Iterable of all files in the directories contained in PATH</span>
+</span></span><span class="line"><span class="cl"><span class="n">is_exec</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">X_OK</span><span class="p">)</span> <span class="c1"># Function to check if a filename is executable</span>
+</span></span><span class="line"><span class="cl"><span class="n">execs</span> <span class="o">=</span> <span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">([</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fs</span> <span class="k">if</span> <span class="n">is_exec</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">f</span><span class="p">))]</span> <span class="k">for</span> <span class="n">r</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">fs</span> <span class="ow">in</span> <span class="n">all_files</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">execs</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span></code></pre></div><p>Running either our Bash or Python scripts will give us the correct output!</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sh paths.sh <span class="p">|</span> grep <span class="s1">&#39;cat$&#39;</span>
+</span></span><span class="line"><span class="cl">python3 paths.py <span class="p">|</span> grep <span class="s1">&#39;cat$&#39;</span>
+</span></span></code></pre></div><h2 id="3-power-of-bash-completion">3. Power of Bash Completion!<a hidden class="anchor" aria-hidden="true" href="#3-power-of-bash-completion">#</a></h2>
+<p>When I press TAB TAB after typing a letter, I get a list of suggestions. How does Bash do that? The <a href="https://www.gnu.org/software/bash/manual/html_node/Programmable-Completion.html">Bash manual</a> says that it uses <code>complete</code> and <code>compgen</code> built-ins for suggesting completions.</p>
+<p><code>compgen</code> generates completions using a list of words (-W) or list of commands (-c). The latter is of particular interest to us. <code>compgen -c</code> prints every executable on our path and all shell built-ins and shell-functions.</p>
+<p><code>compgen --help</code> prints following message:
+<code>compgen: compgen [-abcdefgjksuv] [-o option] [-A action] [-G globpat] [-W wordlist]  [-F function] [-C command] [-X filterpat] [-P prefix] [-S suffix] [word] Display possible completions depending on the options.</code></p>
+<p>The options stand for:</p>
+<ul>
+<li>a : aliases</li>
+<li>b : shell builtins</li>
+<li><strong>c : executable commands</strong></li>
+<li>d : directories in current directory</li>
+<li>e : <strong>export</strong> variables</li>
+<li>f : files in current directory</li>
+<li>g : groups in system</li>
+<li>j : pending jobs (in background / stopped)</li>
+<li>k : Bash <strong>keywords</strong></li>
+<li>s : System services</li>
+<li>u : users</li>
+<li>v : All shell variables</li>
+</ul>
+<p>So <strong><code>compgen -c | grep 'cat$'</code></strong> should give us every single executable ending with <code>cat</code>.</p>
+<h2 id="epilogue">Epilogue<a hidden class="anchor" aria-hidden="true" href="#epilogue">#</a></h2>
+<p>Diving into this rabbit-hole has given me a better understanding of how Bash completion works, how apropos finds relevant programs and why man pages are organized into various sections.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://rrampage.github.io/tags/bash/">bash</a></li>
+      <li><a href="https://rrampage.github.io/tags/linux/">linux</a></li>
+      <li><a href="https://rrampage.github.io/tags/python/">python</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://rrampage.github.io/2018/11/22/git-tagging-tutorial/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>Git Tagging Tutorial</span>
+  </a>
+  <a class="next" href="https://rrampage.github.io/2018/11/11/command-line-productivity-tips-getting-help-in-the-terminal/">
+    <span class="title">Next »</span>
+    <br>
+    <span>Command-line productivity tips : Getting help in the terminal</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://rrampage.github.io/">A Random Walk</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

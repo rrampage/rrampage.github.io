@@ -6,7 +6,94 @@
     <description>Recent content in python on A Random Walk</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 18 Aug 2018 17:52:23 +0000</lastBuildDate><atom:link href="https://rrampage.github.io/tags/python/rss.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 15 Nov 2018 09:39:37 +0000</lastBuildDate><atom:link href="https://rrampage.github.io/tags/python/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bash Command Completion - Finding all the cats in your $PATH!</title>
+      <link>https://rrampage.github.io/2018/11/15/bash-command-completion-finding-all-the-cats-in-your-path/</link>
+      <pubDate>Thu, 15 Nov 2018 09:39:37 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/2018/11/15/bash-command-completion-finding-all-the-cats-in-your-path/</guid>
+      <description>How to search for programs on the terminal</description>
+      <content:encoded><![CDATA[<p>Today, I was curious to find out <strong>how many programs ending with <code>cat</code></strong> I had on my system. I remember using <code>cat</code>, <code>zcat</code> and wanted to know if there are similar programs. Pressing TAB after <code>cat</code> only gives programs which start with <code>cat</code>.</p>
+<h2 id="1-apropos">1. <code>apropos</code></h2>
+<p>In my <a href="https://dev.to/rrampage/getting-help-in-the-terminal-4cmo">last post</a>, I had mentioned that apropos is a way to search for what programs are available on your system. The search string for <code>apropos</code> can be any regex. So, <code>apropos 'cat$'</code> should solve the problem. <code>cat$</code> means all words ending with &lsquo;cat&rsquo;</p>
+<p>The output has</p>
+<pre tabindex="0"><code>STAILQ_CONCAT (3)     - implementations of singly-linked lists, singly-linked tail queues, lists and tail queues
+OPENSSL_strlcat (3ssl) - Memory allocation functions
+..
+bzcat (1)            - decompresses files to stdout
+cat (1)              - concatenate files and print on the standard output
+fc-cat (1)           - read font information cache files
+gencat (1)           - Generate message catalog
+</code></pre><p>Clearly, the top 2 do not look like programs. Why is <code>apropos</code> then returning them?
+Let&rsquo;s have a look at the <code>apropos</code> manual</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">man apropos
+</span></span><span class="line"><span class="cl"><span class="c1"># apropos - search the manual page names and descriptions</span>
+</span></span></code></pre></div><p>So <code>apropos</code> searches the <code>man</code> pages. And looks like there are <code>man</code> pages for other things and not just programs&hellip;</p>
+<p>Digging deeper, let&rsquo;s try manual for the <code>man</code> pages!</p>
+<pre tabindex="0"><code>man man
+# The table below shows the section numbers of the manual followed by the types of pages they contain.
+#       1   Executable programs or shell commands
+#       2   System calls (functions provided by the kernel)
+#       3   Library calls (functions within program libraries)
+#       4   Special files (usually found in /dev)
+#       5   File formats and conventions eg /etc/passwd
+#       6   Games
+#       7   Miscellaneous (including macro packages and conventions), e.g. man(7), groff(7)
+#       8   System administration commands (usually only for root)
+#       9   Kernel routines [Non standard]
+</code></pre><p>Ok. We are interested in are executable programs i.e section 1 of the man pages. <code>apropos</code> has a way to limit which sections we search using<code>-s</code> flag.
+<strong><code>apropos -s 1 'cat$'</code></strong> gives us all programs ending with name <code>cat</code> which have an entry in the man pages but it does not show us any programs which do not have a man page.</p>
+<h2 id="2-list-all-programs-on-your-path">2. List all programs on your path</h2>
+<p>The way Bash knows which programs can be called directly by their name (e.g <code>ls</code>) and not by their full path (e.g <code>/usr/bin/ls</code>) is by looking at the <code>$PATH</code> environment variable.</p>
+<p>** Listing all executable files on path **</p>
+<p>Here&rsquo;s a small bash snippet which lists the executable files in PATH (let&rsquo;s call it <code>paths.sh</code>)</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="c1"># The directories in $PATH are separated by &#34;:&#34;, so we split by it to get individual directories</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> pdir in <span class="k">$(</span><span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$PATH</span><span class="s2">&#34;</span> <span class="p">|</span> tr <span class="s2">&#34;:&#34;</span> <span class="s2">&#34;\n&#34;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># We `find` all files in the directory which are executable and print the filename</span>
+</span></span><span class="line"><span class="cl">    find <span class="s2">&#34;</span><span class="nv">$pdir</span><span class="s2">&#34;</span> -maxdepth <span class="m">1</span> -executable -type f -printf <span class="s2">&#34;%f\n&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span></code></pre></div><p>If you prefer Python, here&rsquo;s a small Python program for the same (let&rsquo;s call it <code>paths.py</code>)</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl"><span class="n">path_dirs</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PATH&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span> <span class="c1"># Split PATH by &#39;:&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">path_dirs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">all_files</span> <span class="o">=</span> <span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path_dirs</span><span class="p">))</span> <span class="c1"># Iterable of all files in the directories contained in PATH</span>
+</span></span><span class="line"><span class="cl"><span class="n">is_exec</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">X_OK</span><span class="p">)</span> <span class="c1"># Function to check if a filename is executable</span>
+</span></span><span class="line"><span class="cl"><span class="n">execs</span> <span class="o">=</span> <span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">([</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fs</span> <span class="k">if</span> <span class="n">is_exec</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">f</span><span class="p">))]</span> <span class="k">for</span> <span class="n">r</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">fs</span> <span class="ow">in</span> <span class="n">all_files</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">execs</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span></code></pre></div><p>Running either our Bash or Python scripts will give us the correct output!</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sh paths.sh <span class="p">|</span> grep <span class="s1">&#39;cat$&#39;</span>
+</span></span><span class="line"><span class="cl">python3 paths.py <span class="p">|</span> grep <span class="s1">&#39;cat$&#39;</span>
+</span></span></code></pre></div><h2 id="3-power-of-bash-completion">3. Power of Bash Completion!</h2>
+<p>When I press TAB TAB after typing a letter, I get a list of suggestions. How does Bash do that? The <a href="https://www.gnu.org/software/bash/manual/html_node/Programmable-Completion.html">Bash manual</a> says that it uses <code>complete</code> and <code>compgen</code> built-ins for suggesting completions.</p>
+<p><code>compgen</code> generates completions using a list of words (-W) or list of commands (-c). The latter is of particular interest to us. <code>compgen -c</code> prints every executable on our path and all shell built-ins and shell-functions.</p>
+<p><code>compgen --help</code> prints following message:
+<code>compgen: compgen [-abcdefgjksuv] [-o option] [-A action] [-G globpat] [-W wordlist]  [-F function] [-C command] [-X filterpat] [-P prefix] [-S suffix] [word] Display possible completions depending on the options.</code></p>
+<p>The options stand for:</p>
+<ul>
+<li>a : aliases</li>
+<li>b : shell builtins</li>
+<li><strong>c : executable commands</strong></li>
+<li>d : directories in current directory</li>
+<li>e : <strong>export</strong> variables</li>
+<li>f : files in current directory</li>
+<li>g : groups in system</li>
+<li>j : pending jobs (in background / stopped)</li>
+<li>k : Bash <strong>keywords</strong></li>
+<li>s : System services</li>
+<li>u : users</li>
+<li>v : All shell variables</li>
+</ul>
+<p>So <strong><code>compgen -c | grep 'cat$'</code></strong> should give us every single executable ending with <code>cat</code>.</p>
+<h2 id="epilogue">Epilogue</h2>
+<p>Diving into this rabbit-hole has given me a better understanding of how Bash completion works, how apropos finds relevant programs and why man pages are organized into various sections.</p>
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>Algorithms: Gray Binary Code</title>
       <link>https://rrampage.github.io/2018/08/18/algorithms-gray-binary-code/</link>

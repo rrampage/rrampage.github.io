@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Easy VPN using Wireguard | A Random Walk</title>
+<meta name="keywords" content="linux, wireguard">
+<meta name="description" content="Setup a painless VPN using Wireguard">
+<meta name="author" content="Raunak">
+<link rel="canonical" href="https://rrampage.github.io/2018/12/14/easy-vpn-using-wireguard/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3583c276be8b676922334220eddb70a58dd857f110640a70a4641bbbc371cae2.css" integrity="sha256-NYPCdr6LZ2kiM0Ig7dtwpY3YV/EQZApwpGQbu8NxyuI=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://rrampage.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://rrampage.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://rrampage.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://rrampage.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Easy VPN using Wireguard" />
+<meta property="og:description" content="Setup a painless VPN using Wireguard" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://rrampage.github.io/2018/12/14/easy-vpn-using-wireguard/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2018-12-14T11:48:44+00:00" />
+<meta property="article:modified_time" content="2018-12-14T11:48:44+00:00" /><meta property="og:site_name" content="A Random Walk" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Easy VPN using Wireguard"/>
+<meta name="twitter:description" content="Setup a painless VPN using Wireguard"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://rrampage.github.io/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Easy VPN using Wireguard",
+      "item": "https://rrampage.github.io/2018/12/14/easy-vpn-using-wireguard/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Easy VPN using Wireguard",
+  "name": "Easy VPN using Wireguard",
+  "description": "Setup a painless VPN using Wireguard",
+  "keywords": [
+    "linux", "wireguard"
+  ],
+  "articleBody": "Why Wireguard and How does it work? Simple (one config file on server and client and one command to run) Small codebase (5000 LOC) unlike OpenVPN and IPSEC Scheduled to be merged into Linux kernel soon Wireguard works by creating a tunnel to the server using a separate network interface on your machine. You do not need to worry about Proxy settings and all your applications will work without issue.\nInstallation and Key Generation Do this on both server and client machines\n#Installation: For both machines sudo apt install wireguard wireguard-tools openresolv # openresolv is in case you are using systemd-resolved which is default for DNS resolution on Ubuntu # Generate private and public key pair : For both machines umask 077 wg genkey | tee privatekey | wg pubkey \u003e publickey Configure Server Create file called /etc/wireguard/wg0.conf\n[Interface] PrivateKey = ListenPort = Address = 192.168.2.1/24, fd86:ea04:1115::1/64 ListenPort = 51820 PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; ip6tables -A FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE; ip6tables -D FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE SaveConfig = true [Peer] PublicKey = AllowedIPs = 192.168.2.2/32 Note that you have to paste the contents of the private key in the conf file, not the path. The PostUp sets up forwarding rules when the wiregaurd interface is started. PostDown deletes the rules when the interface is shutdown. Packet forwarding is essential if you want to use your server as a VPN to the general internet. Enable it on your server by adding the following to /etc/sysctl.conf and run sudo sysctl -p to reload the configuration changes.\n# Add to end of /etc/sysctl.conf net.ipv4.ip_forward=1 net.ipv6.conf.all.forwarding=1 Whitelist the UDP port so that it is reachable by client\nsudo ufw allow 51820/udp sudo ufw enable Configure Client Create file called /etc/wireguard/wg0.conf\n[Interface] PrivateKey = Address = 192.168.2.2/32 SaveConfig = true [Peer] PublicKey = AllowedIPs = 0.0.0.0/0, ::/0 Endpoint = Note that the Address in interface part of client must be within range of AllowedIPs in server’s config. If you are not using the server as a VPN, you can restrict the AllowedIPs section of client.\nStart Server and Client Run sudo wg-quick up wg0 Enable it to run as service on system startup using sudo systemctl enable wg-quick@wg0 If you want to stop, use sudo wg-quick down wg0\nTest connection # Ping Google ping -c3 8.8.8.8 sudo wg # shows tyou status of the wireguard connection Resources Whitepaper Adapted from OSX Android client More platforms ",
+  "wordCount" : "478",
+  "inLanguage": "en",
+  "datePublished": "2018-12-14T11:48:44.48Z",
+  "dateModified": "2018-12-14T11:48:44.48Z",
+  "author":{
+    "@type": "Person",
+    "name": "Raunak"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://rrampage.github.io/2018/12/14/easy-vpn-using-wireguard/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "A Random Walk",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://rrampage.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://rrampage.github.io/" accesskey="h" title="A Random Walk (Alt + H)">A Random Walk</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://rrampage.github.io/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/archives" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Easy VPN using Wireguard
+    </h1>
+    <div class="post-description">
+      Setup a painless VPN using Wireguard
+    </div>
+    <div class="post-meta">December 14 2018   3 min
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#why-wireguard-and-how-does-it-work">Why Wireguard and How does it work?</a></li>
+    <li><a href="#installation-and-key-generation">Installation and Key Generation</a></li>
+    <li><a href="#configure-server">Configure Server</a></li>
+    <li><a href="#configure-client">Configure Client</a></li>
+    <li><a href="#start-server-and-client">Start Server and Client</a></li>
+    <li><a href="#test-connection">Test connection</a></li>
+    <li><a href="#resources">Resources</a></li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="why-wireguard-and-how-does-it-work">Why Wireguard and How does it work?<a hidden class="anchor" aria-hidden="true" href="#why-wireguard-and-how-does-it-work">#</a></h2>
+<ul>
+<li>Simple (one config file on server and client and one command to run)</li>
+<li>Small codebase (5000 LOC) unlike OpenVPN and IPSEC</li>
+<li>Scheduled to be merged into Linux kernel soon</li>
+</ul>
+<p>Wireguard works by creating a tunnel to the server using a separate network interface on your machine.
+You do not need to worry about Proxy settings and all your applications will work without issue.</p>
+<h2 id="installation-and-key-generation">Installation and Key Generation<a hidden class="anchor" aria-hidden="true" href="#installation-and-key-generation">#</a></h2>
+<p>Do this on both server and client machines</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#Installation: For both machines</span>
+</span></span><span class="line"><span class="cl">sudo apt install wireguard wireguard-tools openresolv
+</span></span><span class="line"><span class="cl"><span class="c1"># openresolv is in case you are using systemd-resolved which is default for DNS resolution on Ubuntu</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Generate private and public key pair : For both machines</span>
+</span></span><span class="line"><span class="cl"><span class="nb">umask</span> <span class="m">077</span>
+</span></span><span class="line"><span class="cl">wg genkey <span class="p">|</span> tee privatekey <span class="p">|</span> wg pubkey &gt; publickey
+</span></span></code></pre></div><h2 id="configure-server">Configure Server<a hidden class="anchor" aria-hidden="true" href="#configure-server">#</a></h2>
+<p>Create file called <code>/etc/wireguard/wg0.conf</code></p>
+<pre tabindex="0"><code>[Interface]
+PrivateKey = &lt;Private Key&gt;
+ListenPort = &lt;UDP Port to listen on, by default it is 51820&gt;
+Address = 192.168.2.1/24, fd86:ea04:1115::1/64
+ListenPort = 51820
+PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; ip6tables -A FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE; ip6tables -D FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+SaveConfig = true
+
+[Peer]
+PublicKey = &lt;Client Public Key&gt;
+AllowedIPs = 192.168.2.2/32
+</code></pre><p>Note that you have to paste the <strong>contents</strong> of the private key in the conf file, not the path.
+The <strong>PostUp</strong> sets up forwarding rules when the wiregaurd interface is started. <strong>PostDown</strong> deletes the rules when the interface is shutdown.
+Packet forwarding is essential if you want to use your server as a VPN to the general internet. Enable it on your server by adding the following to <code>/etc/sysctl.conf</code> and run <code>sudo sysctl -p</code> to reload the configuration changes.</p>
+<pre tabindex="0"><code># Add to end of /etc/sysctl.conf
+net.ipv4.ip_forward=1
+net.ipv6.conf.all.forwarding=1
+</code></pre><p>Whitelist the UDP port so that it is reachable by client</p>
+<pre tabindex="0"><code>sudo ufw allow 51820/udp
+sudo ufw enable
+</code></pre><h2 id="configure-client">Configure Client<a hidden class="anchor" aria-hidden="true" href="#configure-client">#</a></h2>
+<p>Create file called <code>/etc/wireguard/wg0.conf</code></p>
+<pre tabindex="0"><code>[Interface]
+PrivateKey = &lt;Private Key&gt;
+Address = 192.168.2.2/32
+SaveConfig = true
+
+[Peer]
+PublicKey = &lt;Server Public Key&gt;
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = &lt;Server Public IP: Port e.g 23.23.23.23:2323&gt;
+</code></pre><p>Note that the <strong>Address</strong> in interface part of client must be within range of <strong>AllowedIPs</strong> in server&rsquo;s config.
+If you are not using the server as a VPN, you can restrict the <strong>AllowedIPs</strong> section of client.</p>
+<h2 id="start-server-and-client">Start Server and Client<a hidden class="anchor" aria-hidden="true" href="#start-server-and-client">#</a></h2>
+<p>Run <code>sudo wg-quick up wg0</code>
+Enable it to run as service on system startup using <code>sudo systemctl enable wg-quick@wg0</code>
+If you want to stop, use <code>sudo wg-quick down wg0</code></p>
+<h2 id="test-connection">Test connection<a hidden class="anchor" aria-hidden="true" href="#test-connection">#</a></h2>
+<pre tabindex="0"><code># Ping Google
+ping -c3 8.8.8.8
+sudo wg # shows tyou status of the wireguard connection
+</code></pre><h2 id="resources">Resources<a hidden class="anchor" aria-hidden="true" href="#resources">#</a></h2>
+<ul>
+<li><a href="https://www.wireguard.com/papers/wireguard.pdf">Whitepaper</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-create-a-point-to-point-vpn-with-wireguard-on-ubuntu-16-04">Adapted from</a></li>
+<li><a href="https://www.timdoug.com/log/2018/08/04/#wireguard_macos">OSX</a></li>
+<li><a href="https://play.google.com/store/apps/details?id=com.wireguard.android&amp;hl=en_US">Android client</a></li>
+<li><a href="https://www.wireguard.com/install/">More platforms</a></li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://rrampage.github.io/tags/linux/">linux</a></li>
+      <li><a href="https://rrampage.github.io/tags/wireguard/">wireguard</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://rrampage.github.io/2021/12/04/relearning-lua/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>Re-learning Lua</span>
+  </a>
+  <a class="next" href="https://rrampage.github.io/2018/11/22/git-tagging-tutorial/">
+    <span class="title">Next »</span>
+    <br>
+    <span>Git Tagging Tutorial</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://rrampage.github.io/">A Random Walk</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
