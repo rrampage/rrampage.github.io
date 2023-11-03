@@ -1759,6 +1759,147 @@ pseudo_inverse
     </item>
     
     <item>
+      <title>Markdown (and some Hugo) Tutorial</title>
+      <link>https://rrampage.github.io/2017/08/20/markdown-and-some-hugo-tutorial/</link>
+      <pubDate>Sun, 20 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://rrampage.github.io/2017/08/20/markdown-and-some-hugo-tutorial/</guid>
+      <description>&lt;h1 id=&#34;markdown-basics&#34;&gt;Markdown Basics&lt;/h1&gt;
+&lt;p&gt;You can write regular &lt;a href=&#34;http://markdowntutorial.com/&#34;&gt;markdown&lt;/a&gt; here and Jekyll will automatically convert it to a nice webpage.  I strongly encourage you to &lt;a href=&#34;http://markdowntutorial.com/&#34;&gt;take 5 minutes to learn how to write in markdown&lt;/a&gt; - it&amp;rsquo;ll teach you how to transform regular text into bold/italics/headings/tables/etc.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Here is some bold text&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;here-is-a-secondary-heading&#34;&gt;Here is a secondary heading&lt;/h2&gt;
+&lt;p&gt;Here&amp;rsquo;s a useless table:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;Number&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;Next number&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;Previous number&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Five&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Six&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Four&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Ten&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Eleven&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Nine&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Seven&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Eight&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Six&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Two&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Three&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;One&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;How about a yummy crepe?&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;http://s3-media3.fl.yelpcdn.com/bphoto/cQ1Yoa75m2yUFFbY2xwuqw/348s.jpg&#34; alt=&#34;Crepe&#34;  /&gt;
+&lt;/p&gt;
+&lt;h1 id=&#34;code-and-syntax-highlighting&#34;&gt;Code and Syntax highlighting&lt;/h1&gt;
+&lt;p&gt;The following are two code samples using syntax highlighting.&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<h1 id="markdown-basics">Markdown Basics</h1>
+<p>You can write regular <a href="http://markdowntutorial.com/">markdown</a> here and Jekyll will automatically convert it to a nice webpage.  I strongly encourage you to <a href="http://markdowntutorial.com/">take 5 minutes to learn how to write in markdown</a> - it&rsquo;ll teach you how to transform regular text into bold/italics/headings/tables/etc.</p>
+<p><strong>Here is some bold text</strong></p>
+<h2 id="here-is-a-secondary-heading">Here is a secondary heading</h2>
+<p>Here&rsquo;s a useless table:</p>
+<table>
+<thead>
+<tr>
+<th align="left">Number</th>
+<th align="left">Next number</th>
+<th align="left">Previous number</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Five</td>
+<td align="left">Six</td>
+<td align="left">Four</td>
+</tr>
+<tr>
+<td align="left">Ten</td>
+<td align="left">Eleven</td>
+<td align="left">Nine</td>
+</tr>
+<tr>
+<td align="left">Seven</td>
+<td align="left">Eight</td>
+<td align="left">Six</td>
+</tr>
+<tr>
+<td align="left">Two</td>
+<td align="left">Three</td>
+<td align="left">One</td>
+</tr>
+</tbody>
+</table>
+<p>How about a yummy crepe?</p>
+<p><img loading="lazy" src="http://s3-media3.fl.yelpcdn.com/bphoto/cQ1Yoa75m2yUFFbY2xwuqw/348s.jpg" alt="Crepe"  />
+</p>
+<h1 id="code-and-syntax-highlighting">Code and Syntax highlighting</h1>
+<p>The following are two code samples using syntax highlighting.</p>
+<p>The following is a code sample using triple backticks ( ``` ) code fencing provided in Hugo. This is client side highlighting and does not require any special installation.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">num1</span><span class="p">,</span> <span class="nx">num2</span><span class="p">,</span> <span class="nx">sum</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">num1</span> <span class="o">=</span> <span class="nx">prompt</span><span class="p">(</span><span class="s2">&#34;Enter first number&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">num2</span> <span class="o">=</span> <span class="nx">prompt</span><span class="p">(</span><span class="s2">&#34;Enter second number&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">sum</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">num1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">num2</span><span class="p">)</span> <span class="c1">// &#34;+&#34; means &#34;add&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">alert</span><span class="p">(</span><span class="s2">&#34;Sum = &#34;</span> <span class="o">+</span> <span class="nx">sum</span><span class="p">)</span>  <span class="c1">// &#34;+&#34; means combine into a string
+</span></span></span></code></pre></div><p>The following is a code sample using the &ldquo;highlight&rdquo; shortcode provided in Hugo. This is server side highlighting and requires Python and Pygments to be installed.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">num1</span><span class="p">,</span> <span class="nx">num2</span><span class="p">,</span> <span class="nx">sum</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">num1</span> <span class="o">=</span> <span class="nx">prompt</span><span class="p">(</span><span class="s2">&#34;Enter first number&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">num2</span> <span class="o">=</span> <span class="nx">prompt</span><span class="p">(</span><span class="s2">&#34;Enter second number&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">sum</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">num1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">num2</span><span class="p">)</span> <span class="c1">// &#34;+&#34; means &#34;add&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">alert</span><span class="p">(</span><span class="s2">&#34;Sum = &#34;</span> <span class="o">+</span> <span class="nx">sum</span><span class="p">)</span>  <span class="c1">// &#34;+&#34; means combine into a string
+</span></span></span></code></pre></div>
+<p>And here is the same code with line numbers:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="ln">1</span><span class="cl">    <span class="kd">var</span> <span class="nx">num1</span><span class="p">,</span> <span class="nx">num2</span><span class="p">,</span> <span class="nx">sum</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl">    <span class="nx">num1</span> <span class="o">=</span> <span class="nx">prompt</span><span class="p">(</span><span class="s2">&#34;Enter first number&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl">    <span class="nx">num2</span> <span class="o">=</span> <span class="nx">prompt</span><span class="p">(</span><span class="s2">&#34;Enter second number&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl">    <span class="nx">sum</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">num1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">num2</span><span class="p">)</span> <span class="c1">// &#34;+&#34; means &#34;add&#34;
+</span></span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="c1"></span>    <span class="nx">alert</span><span class="p">(</span><span class="s2">&#34;Sum = &#34;</span> <span class="o">+</span> <span class="nx">sum</span><span class="p">)</span>  <span class="c1">// &#34;+&#34; means combine into a string
+</span></span></span></code></pre></div>
+<h1 id="math-and-katex">Math and KaTeX</h1>
+<p>KaTeX can be used to generate complex math formulas server-side.</p>
+<p>$$
+\phi = \frac{(1+\sqrt{5})}{2} = 1.6180339887\cdots
+$$</p>
+<p>Additional details can be found on <a href="https://github.com/Khan/KaTeX">GitHub</a> or on the <a href="http://tiddlywiki.com/plugins/tiddlywiki/katex/">Wiki</a>.</p>
+<p>To load KaTeX on markdown pages, add <code>math: true</code> in front-matter of post. Read <a href="https://mertbakir.gitlab.io/hugo/math-typesetting-in-hugo/">this post</a> for more information</p>
+<!--more-->
+<h3 id="example-1">Example 1</h3>
+<p>If the text between $$ contains newlines it will rendered in display mode:</p>
+<pre tabindex="0"><code>$$
+f(x) = \int_{-\infty}^\infty\hat f(\xi)\,e^{2 \pi i \xi x}\,d\xi
+$$
+</code></pre><p>$$
+f(x) = \int_{-\infty}^\infty\hat f(\xi),e^{2 \pi i \xi x},d\xi
+$$</p>
+<h3 id="example-2">Example 2</h3>
+<pre tabindex="0"><code>$$
+\frac{1}{\Bigl(\sqrt{\phi \sqrt{5}}-\phi\Bigr) e^{\frac25 \pi}} = 1+\frac{e^{-2\pi}} {1+\frac{e^{-4\pi}} {1+\frac{e^{-6\pi}} {1+\frac{e^{-8\pi}} {1+\cdots} } } }
+$$
+</code></pre><p>​​$$
+\frac{1}{\Bigl(\sqrt{\phi \sqrt{5}}-\phi\Bigr) e^{\frac25 \pi}} = 1+\frac{e^{-2\pi}} {1+\frac{e^{-4\pi}} {1+\frac{e^{-6\pi}} {1+\frac{e^{-8\pi}} {1+\cdots} } } }
+$$
+​​</p>
+<h3 id="example-3">Example 3</h3>
+<pre tabindex="0"><code>$$
+1 +  \frac{q^2}{(1-q)}+\frac{q^6}{(1-q)(1-q^2)}+\cdots = \prod_{j=0}^{\infty}\frac{1}{(1-q^{5j+2})(1-q^{5j+3})}, \quad\quad \text{for }\lvert q\rvert&lt;1.
+$$
+</code></pre><p>$$
+1 +  \frac{q^2}{(1-q)}+\frac{q^6}{(1-q)(1-q^2)}+\cdots = \prod_{j=0}^{\infty}\frac{1}{(1-q^{5j+2})(1-q^{5j+3})}, \quad\quad \text{for }\lvert q\rvert&lt;1.
+$$</p>]]></content:encoded>
+    </item>
+    
+    <item>
       <title>Hello World</title>
       <link>https://rrampage.github.io/2014/03/03/hello-world/</link>
       <pubDate>Mon, 03 Mar 2014 22:38:33 +0530</pubDate>

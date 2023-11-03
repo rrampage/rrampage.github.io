@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Markdown (and some Hugo) Tutorial | A Random Walk</title>
+<meta name="keywords" content="example, markdown, math">
+<meta name="description" content="Markdown Basics
+You can write regular markdown here and Jekyll will automatically convert it to a nice webpage.  I strongly encourage you to take 5 minutes to learn how to write in markdown - it&rsquo;ll teach you how to transform regular text into bold/italics/headings/tables/etc.
+Here is some bold text
+Here is a secondary heading
+Here&rsquo;s a useless table:
+
+
+
+Number
+Next number
+Previous number
+
+
+
+
+Five
+Six
+Four
+
+
+Ten
+Eleven
+Nine
+
+
+Seven
+Eight
+Six
+
+
+Two
+Three
+One
+
+
+
+How about a yummy crepe?
+
+
+Code and Syntax highlighting
+The following are two code samples using syntax highlighting.">
+<meta name="author" content="Raunak">
+<link rel="canonical" href="https://rrampage.github.io/2017/08/20/markdown-and-some-hugo-tutorial/">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+
+
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3583c276be8b676922334220eddb70a58dd857f110640a70a4641bbbc371cae2.css" integrity="sha256-NYPCdr6LZ2kiM0Ig7dtwpY3YV/EQZApwpGQbu8NxyuI=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://rrampage.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://rrampage.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://rrampage.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://rrampage.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Markdown (and some Hugo) Tutorial" />
+<meta property="og:description" content="Markdown Basics
+You can write regular markdown here and Jekyll will automatically convert it to a nice webpage.  I strongly encourage you to take 5 minutes to learn how to write in markdown - it&rsquo;ll teach you how to transform regular text into bold/italics/headings/tables/etc.
+Here is some bold text
+Here is a secondary heading
+Here&rsquo;s a useless table:
+
+
+
+Number
+Next number
+Previous number
+
+
+
+
+Five
+Six
+Four
+
+
+Ten
+Eleven
+Nine
+
+
+Seven
+Eight
+Six
+
+
+Two
+Three
+One
+
+
+
+How about a yummy crepe?
+
+
+Code and Syntax highlighting
+The following are two code samples using syntax highlighting." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://rrampage.github.io/2017/08/20/markdown-and-some-hugo-tutorial/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2017-08-20T00:00:00+00:00" />
+<meta property="article:modified_time" content="2017-08-20T00:00:00+00:00" /><meta property="og:site_name" content="A Random Walk" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Markdown (and some Hugo) Tutorial"/>
+<meta name="twitter:description" content="Markdown Basics
+You can write regular markdown here and Jekyll will automatically convert it to a nice webpage.  I strongly encourage you to take 5 minutes to learn how to write in markdown - it&rsquo;ll teach you how to transform regular text into bold/italics/headings/tables/etc.
+Here is some bold text
+Here is a secondary heading
+Here&rsquo;s a useless table:
+
+
+
+Number
+Next number
+Previous number
+
+
+
+
+Five
+Six
+Four
+
+
+Ten
+Eleven
+Nine
+
+
+Seven
+Eight
+Six
+
+
+Two
+Three
+One
+
+
+
+How about a yummy crepe?
+
+
+Code and Syntax highlighting
+The following are two code samples using syntax highlighting."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://rrampage.github.io/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Markdown (and some Hugo) Tutorial",
+      "item": "https://rrampage.github.io/2017/08/20/markdown-and-some-hugo-tutorial/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Markdown (and some Hugo) Tutorial",
+  "name": "Markdown (and some Hugo) Tutorial",
+  "description": "Markdown Basics You can write regular markdown here and Jekyll will automatically convert it to a nice webpage. I strongly encourage you to take 5 minutes to learn how to write in markdown - it\u0026rsquo;ll teach you how to transform regular text into bold/italics/headings/tables/etc.\nHere is some bold text\nHere is a secondary heading Here\u0026rsquo;s a useless table:\nNumber Next number Previous number Five Six Four Ten Eleven Nine Seven Eight Six Two Three One How about a yummy crepe?\nCode and Syntax highlighting The following are two code samples using syntax highlighting.\n",
+  "keywords": [
+    "example", "markdown", "math"
+  ],
+  "articleBody": "Markdown Basics You can write regular markdown here and Jekyll will automatically convert it to a nice webpage. I strongly encourage you to take 5 minutes to learn how to write in markdown - it’ll teach you how to transform regular text into bold/italics/headings/tables/etc.\nHere is some bold text\nHere is a secondary heading Here’s a useless table:\nNumber Next number Previous number Five Six Four Ten Eleven Nine Seven Eight Six Two Three One How about a yummy crepe?\nCode and Syntax highlighting The following are two code samples using syntax highlighting.\nThe following is a code sample using triple backticks ( ``` ) code fencing provided in Hugo. This is client side highlighting and does not require any special installation.\nvar num1, num2, sum num1 = prompt(\"Enter first number\") num2 = prompt(\"Enter second number\") sum = parseInt(num1) + parseInt(num2) // \"+\" means \"add\" alert(\"Sum = \" + sum) // \"+\" means combine into a string The following is a code sample using the “highlight” shortcode provided in Hugo. This is server side highlighting and requires Python and Pygments to be installed.\nvar num1, num2, sum num1 = prompt(\"Enter first number\") num2 = prompt(\"Enter second number\") sum = parseInt(num1) + parseInt(num2) // \"+\" means \"add\" alert(\"Sum = \" + sum) // \"+\" means combine into a string And here is the same code with line numbers:\n1 var num1, num2, sum 2 num1 = prompt(\"Enter first number\") 3 num2 = prompt(\"Enter second number\") 4 sum = parseInt(num1) + parseInt(num2) // \"+\" means \"add\" 5 alert(\"Sum = \" + sum) // \"+\" means combine into a string Math and KaTeX KaTeX can be used to generate complex math formulas server-side.\n$$ \\phi = \\frac{(1+\\sqrt{5})}{2} = 1.6180339887\\cdots $$\nAdditional details can be found on GitHub or on the Wiki.\nTo load KaTeX on markdown pages, add math: true in front-matter of post. Read this post for more information\nExample 1 If the text between $$ contains newlines it will rendered in display mode:\n$$ f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi)\\,e^{2 \\pi i \\xi x}\\,d\\xi $$ $$ f(x) = \\int_{-\\infty}^\\infty\\hat f(\\xi),e^{2 \\pi i \\xi x},d\\xi $$\nExample 2 $$ \\frac{1}{\\Bigl(\\sqrt{\\phi \\sqrt{5}}-\\phi\\Bigr) e^{\\frac25 \\pi}} = 1+\\frac{e^{-2\\pi}} {1+\\frac{e^{-4\\pi}} {1+\\frac{e^{-6\\pi}} {1+\\frac{e^{-8\\pi}} {1+\\cdots} } } } $$ ​​$$ \\frac{1}{\\Bigl(\\sqrt{\\phi \\sqrt{5}}-\\phi\\Bigr) e^{\\frac25 \\pi}} = 1+\\frac{e^{-2\\pi}} {1+\\frac{e^{-4\\pi}} {1+\\frac{e^{-6\\pi}} {1+\\frac{e^{-8\\pi}} {1+\\cdots} } } } $$ ​​\nExample 3 $$ 1 + \\frac{q^2}{(1-q)}+\\frac{q^6}{(1-q)(1-q^2)}+\\cdots = \\prod_{j=0}^{\\infty}\\frac{1}{(1-q^{5j+2})(1-q^{5j+3})}, \\quad\\quad \\text{for }\\lvert q\\rvert\u003c1. $$ $$ 1 + \\frac{q^2}{(1-q)}+\\frac{q^6}{(1-q)(1-q^2)}+\\cdots = \\prod_{j=0}^{\\infty}\\frac{1}{(1-q^{5j+2})(1-q^{5j+3})}, \\quad\\quad \\text{for }\\lvert q\\rvert\u003c1. $$\n",
+  "wordCount" : "409",
+  "inLanguage": "en",
+  "datePublished": "2017-08-20T00:00:00Z",
+  "dateModified": "2017-08-20T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Raunak"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://rrampage.github.io/2017/08/20/markdown-and-some-hugo-tutorial/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "A Random Walk",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://rrampage.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://rrampage.github.io/" accesskey="h" title="A Random Walk (Alt + H)">A Random Walk</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://rrampage.github.io/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/archives" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Markdown (and some Hugo) Tutorial
+    </h1>
+    <div class="post-meta">August 20 2017   2 min
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#here-is-a-secondary-heading">Here is a secondary heading</a></li>
+  </ul>
+
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#example-1">Example 1</a></li>
+        <li><a href="#example-2">Example 2</a></li>
+        <li><a href="#example-3">Example 3</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h1 id="markdown-basics">Markdown Basics<a hidden class="anchor" aria-hidden="true" href="#markdown-basics">#</a></h1>
+<p>You can write regular <a href="http://markdowntutorial.com/">markdown</a> here and Jekyll will automatically convert it to a nice webpage.  I strongly encourage you to <a href="http://markdowntutorial.com/">take 5 minutes to learn how to write in markdown</a> - it&rsquo;ll teach you how to transform regular text into bold/italics/headings/tables/etc.</p>
+<p><strong>Here is some bold text</strong></p>
+<h2 id="here-is-a-secondary-heading">Here is a secondary heading<a hidden class="anchor" aria-hidden="true" href="#here-is-a-secondary-heading">#</a></h2>
+<p>Here&rsquo;s a useless table:</p>
+<table>
+<thead>
+<tr>
+<th align="left">Number</th>
+<th align="left">Next number</th>
+<th align="left">Previous number</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Five</td>
+<td align="left">Six</td>
+<td align="left">Four</td>
+</tr>
+<tr>
+<td align="left">Ten</td>
+<td align="left">Eleven</td>
+<td align="left">Nine</td>
+</tr>
+<tr>
+<td align="left">Seven</td>
+<td align="left">Eight</td>
+<td align="left">Six</td>
+</tr>
+<tr>
+<td align="left">Two</td>
+<td align="left">Three</td>
+<td align="left">One</td>
+</tr>
+</tbody>
+</table>
+<p>How about a yummy crepe?</p>
+<p><img loading="lazy" src="http://s3-media3.fl.yelpcdn.com/bphoto/cQ1Yoa75m2yUFFbY2xwuqw/348s.jpg" alt="Crepe"  />
+</p>
+<h1 id="code-and-syntax-highlighting">Code and Syntax highlighting<a hidden class="anchor" aria-hidden="true" href="#code-and-syntax-highlighting">#</a></h1>
+<p>The following are two code samples using syntax highlighting.</p>
+<p>The following is a code sample using triple backticks ( ``` ) code fencing provided in Hugo. This is client side highlighting and does not require any special installation.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">num1</span><span class="p">,</span> <span class="nx">num2</span><span class="p">,</span> <span class="nx">sum</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">num1</span> <span class="o">=</span> <span class="nx">prompt</span><span class="p">(</span><span class="s2">&#34;Enter first number&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">num2</span> <span class="o">=</span> <span class="nx">prompt</span><span class="p">(</span><span class="s2">&#34;Enter second number&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">sum</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">num1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">num2</span><span class="p">)</span> <span class="c1">// &#34;+&#34; means &#34;add&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">alert</span><span class="p">(</span><span class="s2">&#34;Sum = &#34;</span> <span class="o">+</span> <span class="nx">sum</span><span class="p">)</span>  <span class="c1">// &#34;+&#34; means combine into a string
+</span></span></span></code></pre></div><p>The following is a code sample using the &ldquo;highlight&rdquo; shortcode provided in Hugo. This is server side highlighting and requires Python and Pygments to be installed.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">num1</span><span class="p">,</span> <span class="nx">num2</span><span class="p">,</span> <span class="nx">sum</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">num1</span> <span class="o">=</span> <span class="nx">prompt</span><span class="p">(</span><span class="s2">&#34;Enter first number&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">num2</span> <span class="o">=</span> <span class="nx">prompt</span><span class="p">(</span><span class="s2">&#34;Enter second number&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">sum</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">num1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">num2</span><span class="p">)</span> <span class="c1">// &#34;+&#34; means &#34;add&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">alert</span><span class="p">(</span><span class="s2">&#34;Sum = &#34;</span> <span class="o">+</span> <span class="nx">sum</span><span class="p">)</span>  <span class="c1">// &#34;+&#34; means combine into a string
+</span></span></span></code></pre></div>
+<p>And here is the same code with line numbers:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="ln">1</span><span class="cl">    <span class="kd">var</span> <span class="nx">num1</span><span class="p">,</span> <span class="nx">num2</span><span class="p">,</span> <span class="nx">sum</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl">    <span class="nx">num1</span> <span class="o">=</span> <span class="nx">prompt</span><span class="p">(</span><span class="s2">&#34;Enter first number&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl">    <span class="nx">num2</span> <span class="o">=</span> <span class="nx">prompt</span><span class="p">(</span><span class="s2">&#34;Enter second number&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl">    <span class="nx">sum</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">num1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">num2</span><span class="p">)</span> <span class="c1">// &#34;+&#34; means &#34;add&#34;
+</span></span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="c1"></span>    <span class="nx">alert</span><span class="p">(</span><span class="s2">&#34;Sum = &#34;</span> <span class="o">+</span> <span class="nx">sum</span><span class="p">)</span>  <span class="c1">// &#34;+&#34; means combine into a string
+</span></span></span></code></pre></div>
+<h1 id="math-and-katex">Math and KaTeX<a hidden class="anchor" aria-hidden="true" href="#math-and-katex">#</a></h1>
+<p>KaTeX can be used to generate complex math formulas server-side.</p>
+<p>$$
+\phi = \frac{(1+\sqrt{5})}{2} = 1.6180339887\cdots
+$$</p>
+<p>Additional details can be found on <a href="https://github.com/Khan/KaTeX">GitHub</a> or on the <a href="http://tiddlywiki.com/plugins/tiddlywiki/katex/">Wiki</a>.</p>
+<p>To load KaTeX on markdown pages, add <code>math: true</code> in front-matter of post. Read <a href="https://mertbakir.gitlab.io/hugo/math-typesetting-in-hugo/">this post</a> for more information</p>
+<!--more-->
+<h3 id="example-1">Example 1<a hidden class="anchor" aria-hidden="true" href="#example-1">#</a></h3>
+<p>If the text between $$ contains newlines it will rendered in display mode:</p>
+<pre tabindex="0"><code>$$
+f(x) = \int_{-\infty}^\infty\hat f(\xi)\,e^{2 \pi i \xi x}\,d\xi
+$$
+</code></pre><p>$$
+f(x) = \int_{-\infty}^\infty\hat f(\xi),e^{2 \pi i \xi x},d\xi
+$$</p>
+<h3 id="example-2">Example 2<a hidden class="anchor" aria-hidden="true" href="#example-2">#</a></h3>
+<pre tabindex="0"><code>$$
+\frac{1}{\Bigl(\sqrt{\phi \sqrt{5}}-\phi\Bigr) e^{\frac25 \pi}} = 1+\frac{e^{-2\pi}} {1+\frac{e^{-4\pi}} {1+\frac{e^{-6\pi}} {1+\frac{e^{-8\pi}} {1+\cdots} } } }
+$$
+</code></pre><p>​​$$
+\frac{1}{\Bigl(\sqrt{\phi \sqrt{5}}-\phi\Bigr) e^{\frac25 \pi}} = 1+\frac{e^{-2\pi}} {1+\frac{e^{-4\pi}} {1+\frac{e^{-6\pi}} {1+\frac{e^{-8\pi}} {1+\cdots} } } }
+$$
+​​</p>
+<h3 id="example-3">Example 3<a hidden class="anchor" aria-hidden="true" href="#example-3">#</a></h3>
+<pre tabindex="0"><code>$$
+1 +  \frac{q^2}{(1-q)}+\frac{q^6}{(1-q)(1-q^2)}+\cdots = \prod_{j=0}^{\infty}\frac{1}{(1-q^{5j+2})(1-q^{5j+3})}, \quad\quad \text{for }\lvert q\rvert&lt;1.
+$$
+</code></pre><p>$$
+1 +  \frac{q^2}{(1-q)}+\frac{q^6}{(1-q)(1-q^2)}+\cdots = \prod_{j=0}^{\infty}\frac{1}{(1-q^{5j+2})(1-q^{5j+3})}, \quad\quad \text{for }\lvert q\rvert&lt;1.
+$$</p>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://rrampage.github.io/tags/example/">example</a></li>
+      <li><a href="https://rrampage.github.io/tags/markdown/">markdown</a></li>
+      <li><a href="https://rrampage.github.io/tags/math/">math</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://rrampage.github.io/2018/05/04/disk-space-debugging-checklist/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>Disk Space Debugging Checklist</span>
+  </a>
+  <a class="next" href="https://rrampage.github.io/2014/03/03/hello-world/">
+    <span class="title">Next »</span>
+    <br>
+    <span>Hello World</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://rrampage.github.io/">A Random Walk</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
