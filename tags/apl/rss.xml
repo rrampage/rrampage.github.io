@@ -6,8 +6,102 @@
     <description>Recent content in Apl on A Random Walk</description>
     <generator>Hugo -- 0.144.2</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 20 Feb 2025 22:38:33 +0530</lastBuildDate>
+    <lastBuildDate>Fri, 21 Feb 2025 16:13:02 +0530</lastBuildDate>
     <atom:link href="https://rrampage.github.io/tags/apl/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>An APL a day! - Put It In Reverse</title>
+      <link>https://rrampage.github.io/2025/02/21/an-apl-a-day-put-it-in-reverse/</link>
+      <pubDate>Fri, 21 Feb 2025 16:13:02 +0530</pubDate>
+      <guid>https://rrampage.github.io/2025/02/21/an-apl-a-day-put-it-in-reverse/</guid>
+      <description>&lt;p&gt;Without much ado, today&amp;rsquo;s problem - &lt;a href=&#34;https://apl.quest/psets/2023.html?goto=P2_Put_It_In_Reverse&#34;&gt;Put it in Reverse&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;The find function X⍷Y identifies the beginnings of occurrences of array X in array Y.&lt;/p&gt;
+&lt;p&gt;In this problem, you&amp;rsquo;re asked to return a result that identifies the endings of occurrences of array X in array Y. To keep things simple, X and Y will be at most rank 1, meaning they&amp;rsquo;ll either be vectors or scalars.&lt;/p&gt;
+&lt;p&gt;Write a function that:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;takes a scalar or vector left argument&lt;/li&gt;
+&lt;li&gt;takes a scalar or vector right argument&lt;/li&gt;
+&lt;li&gt;returns a Boolean result that is the same shape as the right argument where 1&amp;rsquo;s mark the ends of occurrences of the left argument in the right argument&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;examples&#34;&gt;Examples:&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-apl&#34; data-lang=&#34;apl&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;s1&#34;&gt;&amp;#39;abra&amp;#39;&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;findEnd&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;abracadabra&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;s1&#34;&gt;&amp;#39;issi&amp;#39;&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;findEnd&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;Mississippi&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;s1&#34;&gt;&amp;#39;bb&amp;#39;&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;findEnd&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;bbb bbb&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;42&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;findEnd&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;42&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;m&#34;&gt;42&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;findEnd&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;42&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;42&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;findEnd&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;42&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;s1&#34;&gt;&amp;#39;are&amp;#39;&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;aquatic&amp;#39;&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;findEnd&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;ducks&amp;#39;&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;are&amp;#39;&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;aquatic&amp;#39;&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;avians&amp;#39;&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;solution&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;details&gt;
+  &lt;summary&gt;See the solution&lt;/summary&gt;
+  &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-apl&#34; data-lang=&#34;apl&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;⌽&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;⌽&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;⍺&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;⍷⌽&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;⍵&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;We use ⍷ to find beginning of reversed array &lt;code&gt;⌽⍺&lt;/code&gt; in &lt;code&gt;⌽⍵&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;We reverse this to get the ending of ⍺ in ⍵&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Taking example &lt;code&gt;&#39;abra&#39; {⌽(⌽⍺)⍷⌽⍵} &#39;abracadabra&#39;&lt;/code&gt;&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>Without much ado, today&rsquo;s problem - <a href="https://apl.quest/psets/2023.html?goto=P2_Put_It_In_Reverse">Put it in Reverse</a></p>
+<p>The find function X⍷Y identifies the beginnings of occurrences of array X in array Y.</p>
+<p>In this problem, you&rsquo;re asked to return a result that identifies the endings of occurrences of array X in array Y. To keep things simple, X and Y will be at most rank 1, meaning they&rsquo;ll either be vectors or scalars.</p>
+<p>Write a function that:</p>
+<ul>
+<li>takes a scalar or vector left argument</li>
+<li>takes a scalar or vector right argument</li>
+<li>returns a Boolean result that is the same shape as the right argument where 1&rsquo;s mark the ends of occurrences of the left argument in the right argument</li>
+</ul>
+<h3 id="examples">Examples:</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-apl" data-lang="apl"><span class="line"><span class="cl">      <span class="s1">&#39;abra&#39;</span> <span class="nv">findEnd</span> <span class="s1">&#39;abracadabra&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">1</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;issi&#39;</span> <span class="nv">findEnd</span> <span class="s1">&#39;Mississippi&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">1</span> <span class="m">0</span> <span class="m">0</span> <span class="m">1</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;bb&#39;</span> <span class="nv">findEnd</span> <span class="s1">&#39;bbb bbb&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="m">0</span> <span class="m">1</span> <span class="m">1</span> <span class="m">0</span> <span class="m">0</span> <span class="m">1</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="p">(</span><span class="o">,</span><span class="m">42</span><span class="p">)</span> <span class="nv">findEnd</span> <span class="m">42</span>
+</span></span><span class="line"><span class="cl"><span class="m">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="m">42</span> <span class="nv">findEnd</span> <span class="m">42</span>
+</span></span><span class="line"><span class="cl"><span class="m">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="p">(</span><span class="o">,</span><span class="m">42</span><span class="p">)</span> <span class="nv">findEnd</span> <span class="o">,</span><span class="m">42</span>
+</span></span><span class="line"><span class="cl"><span class="m">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;are&#39;</span> <span class="s1">&#39;aquatic&#39;</span> <span class="nv">findEnd</span> <span class="s1">&#39;ducks&#39;</span> <span class="s1">&#39;are&#39;</span> <span class="s1">&#39;aquatic&#39;</span> <span class="s1">&#39;avians&#39;</span> 
+</span></span><span class="line"><span class="cl"><span class="m">0</span> <span class="m">0</span> <span class="m">1</span> <span class="m">0</span>
+</span></span></code></pre></div><h3 id="solution">Solution</h3>
+
+<details>
+  <summary>See the solution</summary>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-apl" data-lang="apl"><span class="line"><span class="cl"><span class="kt">{</span><span class="o">⌽</span><span class="p">(</span><span class="o">⌽</span><span class="bp">⍺</span><span class="p">)</span><span class="o">⍷⌽</span><span class="bp">⍵</span><span class="kt">}</span>
+</span></span></code></pre></div><ul>
+<li>We use ⍷ to find beginning of reversed array <code>⌽⍺</code> in <code>⌽⍵</code></li>
+<li>We reverse this to get the ending of ⍺ in ⍵</li>
+</ul>
+<p>Taking example <code>'abra' {⌽(⌽⍺)⍷⌽⍵} 'abracadabra'</code></p>
+<ul>
+<li>For <code>'abra' ⍷ 'abracadabra'</code>, we get <code>1 0 0 0 0 0 0 1 0 0 0</code> as <code>'abra</code> matches twice at index 1 and 8</li>
+<li>When we reverse &lsquo;abra&rsquo; and &lsquo;abracadabra&rsquo; and do a find, we get start index of &lsquo;arba&rsquo; in &lsquo;arbadacarba&rsquo; i.e <code>1 0 0 0 0 0 0 1 0 0 0</code></li>
+<li>Finally, when we reverse this array, we get end index of &lsquo;abra&rsquo; in &lsquo;abracadabra&rsquo; i.e <code>0 0 0 1 0 0 0 0 0 0 1</code></li>
+</ul>
+</details>
+
+]]></content:encoded>
+    </item>
     <item>
       <title>An APL a day! - Elimination Sort</title>
       <link>https://rrampage.github.io/2025/02/20/an-apl-a-day-elimination-sort/</link>

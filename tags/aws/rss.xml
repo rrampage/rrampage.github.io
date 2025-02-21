@@ -27,7 +27,10 @@
 <p>Go ahead and play this game. Each level contains multiple hints with links to S3 API documentation.</p>
 <p>Below is a walk through you can refer to if you are stuck on any level. Make sure that you try for a bit before seeing here :)</p>
 <h2 id="walk-through-spoilers">Walk through (Spoilers)</h2>
-<h3 id="level-1"><a href="http://s3game-level1.s3-website.us-east-2.amazonaws.com/level1.html">Level 1</a></h3>
+
+<details>
+  <summary>See the solution</summary>
+  <h3 id="level-1"><a href="http://s3game-level1.s3-website.us-east-2.amazonaws.com/level1.html">Level 1</a></h3>
 <h4 id="solution">Solution:</h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># List the objects in bucket</span>
 </span></span><span class="line"><span class="cl">aws s3 ls s3://s3game-level1
@@ -149,6 +152,8 @@ curl &lsquo;<a href="https://s3game-level9-781xtls2quvy.s3.us-east-2.amazonaws.c
 <p>S3 supports both <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">server side</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html">client side encryption</a>.</p>
 <h3 id="victory---level-12">VICTORY! - <a href="https://s3game-level12-bk0m5ax5n92o.s3.us-east-2.amazonaws.com/level12.html">Level 12</a></h3>
 <p>Congrats! You have cleared the game!</p>
+</details>
+
 ]]></content:encoded>
     </item>
   </channel>

@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>An APL a day! - Put It In Reverse | A Random Walk</title>
+<meta name="keywords" content="apl">
+<meta name="description" content="Without much ado, today&rsquo;s problem - Put it in Reverse
+The find function X⍷Y identifies the beginnings of occurrences of array X in array Y.
+In this problem, you&rsquo;re asked to return a result that identifies the endings of occurrences of array X in array Y. To keep things simple, X and Y will be at most rank 1, meaning they&rsquo;ll either be vectors or scalars.
+Write a function that:
+
+takes a scalar or vector left argument
+takes a scalar or vector right argument
+returns a Boolean result that is the same shape as the right argument where 1&rsquo;s mark the ends of occurrences of the left argument in the right argument
+
+Examples:
+      &#39;abra&#39; findEnd &#39;abracadabra&#39;
+0 0 0 1 0 0 0 0 0 0 1
+
+      &#39;issi&#39; findEnd &#39;Mississippi&#39;
+0 0 0 0 1 0 0 1 0 0 0
+
+      &#39;bb&#39; findEnd &#39;bbb bbb&#39;
+0 1 1 0 0 1 1
+
+      (,42) findEnd 42
+0
+
+      42 findEnd 42
+1
+
+      (,42) findEnd ,42
+1
+
+      &#39;are&#39; &#39;aquatic&#39; findEnd &#39;ducks&#39; &#39;are&#39; &#39;aquatic&#39; &#39;avians&#39; 
+0 0 1 0
+Solution
+
+
+  See the solution
+  {⌽(⌽⍺)⍷⌽⍵}
+
+We use ⍷ to find beginning of reversed array ⌽⍺ in ⌽⍵
+We reverse this to get the ending of ⍺ in ⍵
+
+Taking example &#39;abra&#39; {⌽(⌽⍺)⍷⌽⍵} &#39;abracadabra&#39;">
+<meta name="author" content="Raunak">
+<link rel="canonical" href="https://rrampage.github.io/2025/02/21/an-apl-a-day-put-it-in-reverse/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://rrampage.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://rrampage.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://rrampage.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://rrampage.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://rrampage.github.io/2025/02/21/an-apl-a-day-put-it-in-reverse/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="An APL a day! - Put It In Reverse" />
+<meta property="og:description" content="Without much ado, today&rsquo;s problem - Put it in Reverse
+The find function X⍷Y identifies the beginnings of occurrences of array X in array Y.
+In this problem, you&rsquo;re asked to return a result that identifies the endings of occurrences of array X in array Y. To keep things simple, X and Y will be at most rank 1, meaning they&rsquo;ll either be vectors or scalars.
+Write a function that:
+
+takes a scalar or vector left argument
+takes a scalar or vector right argument
+returns a Boolean result that is the same shape as the right argument where 1&rsquo;s mark the ends of occurrences of the left argument in the right argument
+
+Examples:
+      &#39;abra&#39; findEnd &#39;abracadabra&#39;
+0 0 0 1 0 0 0 0 0 0 1
+
+      &#39;issi&#39; findEnd &#39;Mississippi&#39;
+0 0 0 0 1 0 0 1 0 0 0
+
+      &#39;bb&#39; findEnd &#39;bbb bbb&#39;
+0 1 1 0 0 1 1
+
+      (,42) findEnd 42
+0
+
+      42 findEnd 42
+1
+
+      (,42) findEnd ,42
+1
+
+      &#39;are&#39; &#39;aquatic&#39; findEnd &#39;ducks&#39; &#39;are&#39; &#39;aquatic&#39; &#39;avians&#39; 
+0 0 1 0
+Solution
+
+
+  See the solution
+  {⌽(⌽⍺)⍷⌽⍵}
+
+We use ⍷ to find beginning of reversed array ⌽⍺ in ⌽⍵
+We reverse this to get the ending of ⍺ in ⍵
+
+Taking example &#39;abra&#39; {⌽(⌽⍺)⍷⌽⍵} &#39;abracadabra&#39;" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://rrampage.github.io/2025/02/21/an-apl-a-day-put-it-in-reverse/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2025-02-21T16:13:02+05:30" />
+<meta property="article:modified_time" content="2025-02-21T16:13:02+05:30" /><meta property="og:site_name" content="A Random Walk" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="An APL a day! - Put It In Reverse"/>
+<meta name="twitter:description" content="Without much ado, today&rsquo;s problem - Put it in Reverse
+The find function X⍷Y identifies the beginnings of occurrences of array X in array Y.
+In this problem, you&rsquo;re asked to return a result that identifies the endings of occurrences of array X in array Y. To keep things simple, X and Y will be at most rank 1, meaning they&rsquo;ll either be vectors or scalars.
+Write a function that:
+
+takes a scalar or vector left argument
+takes a scalar or vector right argument
+returns a Boolean result that is the same shape as the right argument where 1&rsquo;s mark the ends of occurrences of the left argument in the right argument
+
+Examples:
+      &#39;abra&#39; findEnd &#39;abracadabra&#39;
+0 0 0 1 0 0 0 0 0 0 1
+
+      &#39;issi&#39; findEnd &#39;Mississippi&#39;
+0 0 0 0 1 0 0 1 0 0 0
+
+      &#39;bb&#39; findEnd &#39;bbb bbb&#39;
+0 1 1 0 0 1 1
+
+      (,42) findEnd 42
+0
+
+      42 findEnd 42
+1
+
+      (,42) findEnd ,42
+1
+
+      &#39;are&#39; &#39;aquatic&#39; findEnd &#39;ducks&#39; &#39;are&#39; &#39;aquatic&#39; &#39;avians&#39; 
+0 0 1 0
+Solution
+
+
+  See the solution
+  {⌽(⌽⍺)⍷⌽⍵}
+
+We use ⍷ to find beginning of reversed array ⌽⍺ in ⌽⍵
+We reverse this to get the ending of ⍺ in ⍵
+
+Taking example &#39;abra&#39; {⌽(⌽⍺)⍷⌽⍵} &#39;abracadabra&#39;"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://rrampage.github.io/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "An APL a day! - Put It In Reverse",
+      "item": "https://rrampage.github.io/2025/02/21/an-apl-a-day-put-it-in-reverse/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "An APL a day! - Put It In Reverse",
+  "name": "An APL a day! - Put It In Reverse",
+  "description": "Without much ado, today\u0026rsquo;s problem - Put it in Reverse\nThe find function X⍷Y identifies the beginnings of occurrences of array X in array Y.\nIn this problem, you\u0026rsquo;re asked to return a result that identifies the endings of occurrences of array X in array Y. To keep things simple, X and Y will be at most rank 1, meaning they\u0026rsquo;ll either be vectors or scalars.\nWrite a function that:\ntakes a scalar or vector left argument takes a scalar or vector right argument returns a Boolean result that is the same shape as the right argument where 1\u0026rsquo;s mark the ends of occurrences of the left argument in the right argument Examples: \u0026#39;abra\u0026#39; findEnd \u0026#39;abracadabra\u0026#39; 0 0 0 1 0 0 0 0 0 0 1 \u0026#39;issi\u0026#39; findEnd \u0026#39;Mississippi\u0026#39; 0 0 0 0 1 0 0 1 0 0 0 \u0026#39;bb\u0026#39; findEnd \u0026#39;bbb bbb\u0026#39; 0 1 1 0 0 1 1 (,42) findEnd 42 0 42 findEnd 42 1 (,42) findEnd ,42 1 \u0026#39;are\u0026#39; \u0026#39;aquatic\u0026#39; findEnd \u0026#39;ducks\u0026#39; \u0026#39;are\u0026#39; \u0026#39;aquatic\u0026#39; \u0026#39;avians\u0026#39; 0 0 1 0 Solution See the solution {⌽(⌽⍺)⍷⌽⍵} We use ⍷ to find beginning of reversed array ⌽⍺ in ⌽⍵ We reverse this to get the ending of ⍺ in ⍵ Taking example 'abra' {⌽(⌽⍺)⍷⌽⍵} 'abracadabra'\n",
+  "keywords": [
+    "apl"
+  ],
+  "articleBody": "Without much ado, today’s problem - Put it in Reverse\nThe find function X⍷Y identifies the beginnings of occurrences of array X in array Y.\nIn this problem, you’re asked to return a result that identifies the endings of occurrences of array X in array Y. To keep things simple, X and Y will be at most rank 1, meaning they’ll either be vectors or scalars.\nWrite a function that:\ntakes a scalar or vector left argument takes a scalar or vector right argument returns a Boolean result that is the same shape as the right argument where 1’s mark the ends of occurrences of the left argument in the right argument Examples: 'abra' findEnd 'abracadabra' 0 0 0 1 0 0 0 0 0 0 1 'issi' findEnd 'Mississippi' 0 0 0 0 1 0 0 1 0 0 0 'bb' findEnd 'bbb bbb' 0 1 1 0 0 1 1 (,42) findEnd 42 0 42 findEnd 42 1 (,42) findEnd ,42 1 'are' 'aquatic' findEnd 'ducks' 'are' 'aquatic' 'avians' 0 0 1 0 Solution See the solution {⌽(⌽⍺)⍷⌽⍵} We use ⍷ to find beginning of reversed array ⌽⍺ in ⌽⍵ We reverse this to get the ending of ⍺ in ⍵ Taking example 'abra' {⌽(⌽⍺)⍷⌽⍵} 'abracadabra'\nFor 'abra' ⍷ 'abracadabra', we get 1 0 0 0 0 0 0 1 0 0 0 as 'abra matches twice at index 1 and 8 When we reverse ‘abra’ and ‘abracadabra’ and do a find, we get start index of ‘arba’ in ‘arbadacarba’ i.e 1 0 0 0 0 0 0 1 0 0 0 Finally, when we reverse this array, we get end index of ‘abra’ in ‘abracadabra’ i.e 0 0 0 1 0 0 0 0 0 0 1 ",
+  "wordCount" : "290",
+  "inLanguage": "en",
+  "datePublished": "2025-02-21T16:13:02+05:30",
+  "dateModified": "2025-02-21T16:13:02+05:30",
+  "author":{
+    "@type": "Person",
+    "name": "Raunak"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://rrampage.github.io/2025/02/21/an-apl-a-day-put-it-in-reverse/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "A Random Walk",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://rrampage.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://rrampage.github.io/" accesskey="h" title="A Random Walk (Alt + H)">A Random Walk</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://rrampage.github.io/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/archives" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/atom.xml" title="RSS">
+                    <span>RSS</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      An APL a day! - Put It In Reverse
+    </h1>
+    <div class="post-meta"><span title='2025-02-21 16:13:02 +0530 IST'>February 21 2025</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Raunak
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#examples">Examples:</a></li>
+        <li><a href="#solution">Solution</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>Without much ado, today&rsquo;s problem - <a href="https://apl.quest/psets/2023.html?goto=P2_Put_It_In_Reverse">Put it in Reverse</a></p>
+<p>The find function X⍷Y identifies the beginnings of occurrences of array X in array Y.</p>
+<p>In this problem, you&rsquo;re asked to return a result that identifies the endings of occurrences of array X in array Y. To keep things simple, X and Y will be at most rank 1, meaning they&rsquo;ll either be vectors or scalars.</p>
+<p>Write a function that:</p>
+<ul>
+<li>takes a scalar or vector left argument</li>
+<li>takes a scalar or vector right argument</li>
+<li>returns a Boolean result that is the same shape as the right argument where 1&rsquo;s mark the ends of occurrences of the left argument in the right argument</li>
+</ul>
+<h3 id="examples">Examples:<a hidden class="anchor" aria-hidden="true" href="#examples">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-apl" data-lang="apl"><span class="line"><span class="cl">      <span class="s1">&#39;abra&#39;</span> <span class="nv">findEnd</span> <span class="s1">&#39;abracadabra&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">1</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;issi&#39;</span> <span class="nv">findEnd</span> <span class="s1">&#39;Mississippi&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">1</span> <span class="m">0</span> <span class="m">0</span> <span class="m">1</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;bb&#39;</span> <span class="nv">findEnd</span> <span class="s1">&#39;bbb bbb&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="m">0</span> <span class="m">1</span> <span class="m">1</span> <span class="m">0</span> <span class="m">0</span> <span class="m">1</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="p">(</span><span class="o">,</span><span class="m">42</span><span class="p">)</span> <span class="nv">findEnd</span> <span class="m">42</span>
+</span></span><span class="line"><span class="cl"><span class="m">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="m">42</span> <span class="nv">findEnd</span> <span class="m">42</span>
+</span></span><span class="line"><span class="cl"><span class="m">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="p">(</span><span class="o">,</span><span class="m">42</span><span class="p">)</span> <span class="nv">findEnd</span> <span class="o">,</span><span class="m">42</span>
+</span></span><span class="line"><span class="cl"><span class="m">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;are&#39;</span> <span class="s1">&#39;aquatic&#39;</span> <span class="nv">findEnd</span> <span class="s1">&#39;ducks&#39;</span> <span class="s1">&#39;are&#39;</span> <span class="s1">&#39;aquatic&#39;</span> <span class="s1">&#39;avians&#39;</span> 
+</span></span><span class="line"><span class="cl"><span class="m">0</span> <span class="m">0</span> <span class="m">1</span> <span class="m">0</span>
+</span></span></code></pre></div><h3 id="solution">Solution<a hidden class="anchor" aria-hidden="true" href="#solution">#</a></h3>
+
+<details>
+  <summary>See the solution</summary>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-apl" data-lang="apl"><span class="line"><span class="cl"><span class="kt">{</span><span class="o">⌽</span><span class="p">(</span><span class="o">⌽</span><span class="bp">⍺</span><span class="p">)</span><span class="o">⍷⌽</span><span class="bp">⍵</span><span class="kt">}</span>
+</span></span></code></pre></div><ul>
+<li>We use ⍷ to find beginning of reversed array <code>⌽⍺</code> in <code>⌽⍵</code></li>
+<li>We reverse this to get the ending of ⍺ in ⍵</li>
+</ul>
+<p>Taking example <code>'abra' {⌽(⌽⍺)⍷⌽⍵} 'abracadabra'</code></p>
+<ul>
+<li>For <code>'abra' ⍷ 'abracadabra'</code>, we get <code>1 0 0 0 0 0 0 1 0 0 0</code> as <code>'abra</code> matches twice at index 1 and 8</li>
+<li>When we reverse &lsquo;abra&rsquo; and &lsquo;abracadabra&rsquo; and do a find, we get start index of &lsquo;arba&rsquo; in &lsquo;arbadacarba&rsquo; i.e <code>1 0 0 0 0 0 0 1 0 0 0</code></li>
+<li>Finally, when we reverse this array, we get end index of &lsquo;abra&rsquo; in &lsquo;abracadabra&rsquo; i.e <code>0 0 0 1 0 0 0 0 0 0 1</code></li>
+</ul>
+</details>
+
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://rrampage.github.io/tags/apl/">Apl</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://rrampage.github.io/2025/02/20/an-apl-a-day-elimination-sort/">
+    <span class="title">Next »</span>
+    <br>
+    <span>An APL a day! - Elimination Sort</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="https://rrampage.github.io/">Raunak</a></span> · 
+
+    <div class="rc-scout-wrapper"><div class="rc-scout" data-scout-rendered="true"><p class="rc-scout__text"><i class="rc-scout__logo"></i> Want to become a better programmer? <a class="rc-scout__link" href="https://www.recurse.com/scout/click?t=dc1368250f74593c8379862b3ff43ccc">Join the Recurse Center!</a></p></div> <style class="rc-scout__style" type="text/css">.rc-scout { display: block; padding: 0; border: 0; margin: 0; } .rc-scout__text { display: block; padding: 0; border: 0; margin: 0; height: 100%; font-size: 100%; } .rc-scout__logo { display: inline-block; padding: 0; border: 0; margin: 0; width: 0.85em; height: 0.85em; background: no-repeat center url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2012%2015%22%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%2212%22%20height%3D%2210%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%221%22%20y%3D%221%22%20width%3D%2210%22%20height%3D%228%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%228%22%20height%3D%226%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%222%22%20y%3D%223%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%224%22%20y%3D%223%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%226%22%20y%3D%223%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%223%22%20y%3D%225%22%20width%3D%222%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%226%22%20y%3D%225%22%20width%3D%222%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%224%22%20y%3D%229%22%20width%3D%224%22%20height%3D%223%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%221%22%20y%3D%2211%22%20width%3D%2210%22%20height%3D%224%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%220%22%20y%3D%2212%22%20width%3D%2212%22%20height%3D%223%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%222%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%223%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%224%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%225%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%226%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%227%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%228%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%229%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3C%2Fsvg%3E'); } .rc-scout__link:link, .rc-scout__link:visited { color: #3dc06c; text-decoration: underline; } .rc-scout__link:hover, .rc-scout__link:active { color: #4e8b1d; }</style></div>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
