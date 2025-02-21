@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Apl on A Random Walk</title>
+    <link>https://rrampage.github.io/tags/apl/</link>
+    <description>Recent content in Apl on A Random Walk</description>
+    <generator>Hugo -- 0.144.2</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 20 Feb 2025 22:38:33 +0530</lastBuildDate>
+    <atom:link href="https://rrampage.github.io/tags/apl/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>An APL a day! - Elimination Sort</title>
+      <link>https://rrampage.github.io/2025/02/20/an-apl-a-day-elimination-sort/</link>
+      <pubDate>Thu, 20 Feb 2025 22:38:33 +0530</pubDate>
+      <guid>https://rrampage.github.io/2025/02/20/an-apl-a-day-elimination-sort/</guid>
+      <description>&lt;p&gt;I&amp;rsquo;ve started dabbling with APL. It has been a lot of fun solving the &lt;a href=&#34;https://challenge.dyalog.com/&#34;&gt;current batch of challenges&lt;/a&gt;. &lt;a href=&#34;https://web.archive.org/web/20250210194607/https://challenge.dyalog.com/?goto=welcome&#34;&gt;Archive&lt;/a&gt;. I loved how each challenge focuses on a small set of operators and makes us use them in various (devious!) combinations to solve the problems. I&amp;rsquo;m going through some of the older challenges to learn about more operators.&lt;/p&gt;
+&lt;p&gt;The past challenges can be found at &lt;a href=&#34;https://apl.quest/&#34;&gt;APL Quest&lt;/a&gt;. Today, we&amp;rsquo;ll be solving the first problem from the 2023 challenge. Use &lt;a href=&#34;https://tryapl.org/&#34;&gt;tryapl.org&lt;/a&gt; as an online interactive REPL.&lt;/p&gt;
+&lt;h2 id=&#34;elimination-sort&#34;&gt;&lt;a href=&#34;https://apl.quest/psets/2023.html?goto=P1_Elimination_Sort&#34;&gt;Elimination Sort&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;An &amp;ldquo;Elimination Sort&amp;rdquo; is a somewhat farcical sorting algorithm which starts with the leftmost element and keeps subsequent elements that are at least as large as the previous kept element, discarding all other elements. For example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-apl&#34; data-lang=&#34;apl&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;EliminationSort&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;6&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;4&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Write a function that:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;takes a non-empty numeric vector right argument&lt;/li&gt;
+&lt;li&gt;returns an &amp;ldquo;Elimination-sorted&amp;rdquo; vector of the right argument&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Hint: The progressive-maxima idiomatic phrase ⌈, the greater or equal function ≥, and the replicate function / could be helpful in solving this problem.&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>I&rsquo;ve started dabbling with APL. It has been a lot of fun solving the <a href="https://challenge.dyalog.com/">current batch of challenges</a>. <a href="https://web.archive.org/web/20250210194607/https://challenge.dyalog.com/?goto=welcome">Archive</a>. I loved how each challenge focuses on a small set of operators and makes us use them in various (devious!) combinations to solve the problems. I&rsquo;m going through some of the older challenges to learn about more operators.</p>
+<p>The past challenges can be found at <a href="https://apl.quest/">APL Quest</a>. Today, we&rsquo;ll be solving the first problem from the 2023 challenge. Use <a href="https://tryapl.org/">tryapl.org</a> as an online interactive REPL.</p>
+<h2 id="elimination-sort"><a href="https://apl.quest/psets/2023.html?goto=P1_Elimination_Sort">Elimination Sort</a></h2>
+<p>An &ldquo;Elimination Sort&rdquo; is a somewhat farcical sorting algorithm which starts with the leftmost element and keeps subsequent elements that are at least as large as the previous kept element, discarding all other elements. For example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-apl" data-lang="apl"><span class="line"><span class="cl"><span class="nv">EliminationSort</span> <span class="m">1</span> <span class="m">3</span> <span class="m">7</span> <span class="m">3</span> <span class="m">5</span> <span class="m">8</span> <span class="m">5</span> <span class="m">8</span> <span class="m">1</span> <span class="m">6</span> <span class="m">1</span> <span class="m">8</span> <span class="m">1</span> <span class="m">10</span> <span class="m">8</span> <span class="m">4</span> <span class="m">3</span> <span class="m">4</span> <span class="m">1</span> <span class="m">4</span>
+</span></span><span class="line"><span class="cl"><span class="m">1</span> <span class="m">3</span> <span class="m">7</span> <span class="m">8</span> <span class="m">8</span> <span class="m">8</span> <span class="m">10</span> 
+</span></span></code></pre></div><p>Write a function that:</p>
+<ul>
+<li>takes a non-empty numeric vector right argument</li>
+<li>returns an &ldquo;Elimination-sorted&rdquo; vector of the right argument</li>
+</ul>
+<p>Hint: The progressive-maxima idiomatic phrase ⌈, the greater or equal function ≥, and the replicate function / could be helpful in solving this problem.</p>
+<h3 id="examples">Examples</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-apl" data-lang="apl"><span class="line"><span class="cl">      <span class="nv">EliminationSort</span> <span class="o">⍳</span><span class="m">10</span>
+</span></span><span class="line"><span class="cl"><span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span> <span class="m">5</span> <span class="m">6</span> <span class="m">7</span> <span class="m">8</span> <span class="m">9</span> <span class="m">10</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="nv">EliminationSort</span> <span class="m">2</span> <span class="m">1</span> <span class="m">4</span> <span class="m">3</span> <span class="m">6</span> <span class="m">5</span> <span class="m">8</span> <span class="m">7</span> <span class="m">10</span> <span class="m">9</span>
+</span></span><span class="line"><span class="cl"><span class="m">2</span> <span class="m">4</span> <span class="m">6</span> <span class="m">8</span> <span class="m">10</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="nv">EliminationSort</span> <span class="m">1000</span> <span class="m">2500</span> <span class="m">1333</span> <span class="m">1969</span> <span class="m">3141</span> <span class="m">2345</span> <span class="m">3141</span> <span class="m">4291.9</span> <span class="m">4291.8</span> <span class="m">4292</span>
+</span></span><span class="line"><span class="cl"><span class="m">1000</span> <span class="m">2500</span> <span class="m">3141</span> <span class="m">3141</span> <span class="m">4291.9</span> <span class="m">4292</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="nv">EliminationSort</span> <span class="m">1</span> <span class="m">3</span> <span class="m">7</span> <span class="m">3</span> <span class="m">5</span> <span class="m">8</span> <span class="m">5</span> <span class="m">8</span> <span class="m">1</span> <span class="m">6</span> <span class="m">1</span> <span class="m">8</span> <span class="m">1</span> <span class="m">10</span> <span class="m">8</span> <span class="m">4</span> <span class="m">3</span> <span class="m">4</span> <span class="m">1</span> <span class="m">4</span>
+</span></span><span class="line"><span class="cl"><span class="m">1</span> <span class="m">3</span> <span class="m">7</span> <span class="m">8</span> <span class="m">8</span> <span class="m">8</span> <span class="m">10</span>
+</span></span></code></pre></div><h3 id="solution">Solution</h3>
+
+<details>
+  <summary>See the solution</summary>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-apl" data-lang="apl"><span class="line"><span class="cl"><span class="kt">{</span><span class="p">(</span><span class="bp">⍵</span><span class="o">=⌈</span><span class="na">\</span><span class="bp">⍵</span><span class="p">)</span><span class="na">/</span><span class="bp">⍵</span><span class="kt">}</span>
+</span></span></code></pre></div><ul>
+<li><code>⌈\⍵</code> to generate a <code>scan</code> of running maximum
+<ul>
+<li>e.g for <code>⌈\2 1 4 3 6 5 8 7 10 9</code> gives <code>2 2 4 4 6 6 8 8 10 10</code></li>
+</ul>
+</li>
+<li>Compare with ⍵ to only get those indices where the actual element exists
+<ul>
+<li><code>{(⍵=⌈\⍵)} 2 1 4 3 6 5 8 7 10 9</code> gives <code>1 0 1 0 1 0 1 0 1 0</code></li>
+</ul>
+</li>
+<li>Finally, <a href="https://aplwiki.com/wiki/Replicate">replicate</a> (/) to get only the required elements
+<ul>
+<li><code>{(⍵=⌈\⍵)/⍵} 2 1 4 3 6 5 8 7 10 9</code> gives <code>2 4 6 8 10</code></li>
+</ul>
+</li>
+</ul>
+</details>
+
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

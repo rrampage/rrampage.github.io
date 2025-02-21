@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>aws on A Random Walk</title>
+    <title>Aws on A Random Walk</title>
     <link>https://rrampage.github.io/tags/aws/</link>
-    <description>Recent content in aws on A Random Walk</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Aws on A Random Walk</description>
+    <generator>Hugo -- 0.144.2</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 04 Jun 2020 16:09:34 +0000</lastBuildDate><atom:link href="https://rrampage.github.io/tags/aws/rss.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 04 Jun 2020 16:09:34 +0000</lastBuildDate>
+    <atom:link href="https://rrampage.github.io/tags/aws/rss.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>S3 Game</title>
       <link>https://rrampage.github.io/2020/06/04/s3-game/</link>
       <pubDate>Thu, 04 Jun 2020 16:09:34 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2020/06/04/s3-game/</guid>
       <description>Level up your S3 skills by playing this game!</description>
       <content:encoded><![CDATA[<h2 id="introduction">Introduction</h2>
@@ -22,21 +22,21 @@
 <li>A browser</li>
 <li><a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html">aws cli</a></li>
 </ul>
-<h3 id="click-herehttps3game-level1s3-websiteus-east-2amazonawscom-to-play"><strong>CLICK <a href="http://s3game-level1.s3-website.us-east-2.amazonaws.com/">HERE</a> TO PLAY!</strong></h3>
+<h3 id="click"><strong>CLICK <a href="http://s3game-level1.s3-website.us-east-2.amazonaws.com/">HERE</a> TO PLAY!</strong></h3>
 <p>Each level consists of finding a &ldquo;treasure&rdquo; object and getting to the next level using the secret code in the &ldquo;treasure&rdquo;.</p>
 <p>Go ahead and play this game. Each level contains multiple hints with links to S3 API documentation.</p>
 <p>Below is a walk through you can refer to if you are stuck on any level. Make sure that you try for a bit before seeing here :)</p>
 <h2 id="walk-through-spoilers">Walk through (Spoilers)</h2>
-<h3 id="level-1https3game-level1s3-websiteus-east-2amazonawscomlevel1html"><a href="http://s3game-level1.s3-website.us-east-2.amazonaws.com/level1.html">Level 1</a></h3>
+<h3 id="level-1"><a href="http://s3game-level1.s3-website.us-east-2.amazonaws.com/level1.html">Level 1</a></h3>
 <h4 id="solution">Solution:</h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># List the objects in bucket</span>
 </span></span><span class="line"><span class="cl">aws s3 ls s3://s3game-level1
 </span></span></code></pre></div><p>Visit the <a href="http://s3game-level1.s3-website.us-east-2.amazonaws.com/treasure1">treasure object</a></p>
-<h3 id="level-2httpss3game-level2s3us-east-2amazonawscomlevel2-748l6b6xwzl6html"><a href="https://s3game-level2.s3.us-east-2.amazonaws.com/level2-748l6b6xwzl6.html">Level 2</a></h3>
+<h3 id="level-2"><a href="https://s3game-level2.s3.us-east-2.amazonaws.com/level2-748l6b6xwzl6.html">Level 2</a></h3>
 <h4 id="solution-1">Solution:</h4>
 <p>Just get the treasure2 object either using browser or aws s3 : <a href="https://s3game-level2.s3.us-east-2.amazonaws.com/treasure2">https://s3game-level2.s3.us-east-2.amazonaws.com/treasure2</a>
 Make sure to save the Access and Secret key somewhere</p>
-<h3 id="level-3httpss3game-level3s3us-east-2amazonawscomlevel3-76qp7mlpzyg1html"><a href="https://s3game-level3.s3.us-east-2.amazonaws.com/level3-76qp7mlpzyg1.html">Level 3</a></h3>
+<h3 id="level-3"><a href="https://s3game-level3.s3.us-east-2.amazonaws.com/level3-76qp7mlpzyg1.html">Level 3</a></h3>
 <p>Create an AWS profile &ldquo;tmp&rdquo; with the access and secret key obtained from previous level. You will need to use this for almost every level from here on.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">aws configure --profile tmp
 </span></span><span class="line"><span class="cl">&gt; AWS Access Key ID
@@ -48,7 +48,7 @@ Make sure to save the Access and Secret key somewhere</p>
 </span></span><span class="line"><span class="cl">cat treasure3_has_no_secret_code
 </span></span><span class="line"><span class="cl"><span class="c1"># The object data itself does not have the secret code. It is present in the metadata</span>
 </span></span><span class="line"><span class="cl">aws s3api head-object --bucket s3game-level3 --key treasure3_has_no_secret_code --profile tmp
-</span></span></code></pre></div><h3 id="level-4httpss3game-level4-k73045aztqlns3us-east-2amazonawscomlevel4html"><a href="https://s3game-level4-k73045aztqln.s3.us-east-2.amazonaws.com/level4.html">Level 4</a></h3>
+</span></span></code></pre></div><h3 id="level-4"><a href="https://s3game-level4-k73045aztqln.s3.us-east-2.amazonaws.com/level4.html">Level 4</a></h3>
 <ul>
 <li><a href="https://s3game-level4-k73045aztqln.s3.us-east-2.amazonaws.com/level4-hint2.html">Hint</a></li>
 </ul>
@@ -63,9 +63,8 @@ Make sure to save the Access and Secret key somewhere</p>
 </span></span></code></pre></div><h4 id="takeaway">Takeaway:</h4>
 <blockquote>
 <p>Object in S3, including its metadata, is immutable. When you edit object&rsquo;s metadata, you are actually overwriting the object with a copy of itself, with its metadata modified.
-In contrast, tags are subresources. They are managed separately and can be modified without modifying the object itself.</p>
-</blockquote>
-<h3 id="level-5httpss3game-level5-8v95e5rv7z4is3us-east-2amazonawscomlevel5html"><a href="https://s3game-level5-8v95e5rv7z4i.s3.us-east-2.amazonaws.com/level5.html">Level 5</a></h3>
+In contrast, tags are subresources. They are managed separately and can be modified without modifying the object itself.</p></blockquote>
+<h3 id="level-5"><a href="https://s3game-level5-8v95e5rv7z4i.s3.us-east-2.amazonaws.com/level5.html">Level 5</a></h3>
 <ul>
 <li><a href="https://s3game-level5-8v95e5rv7z4i.s3.us-east-2.amazonaws.com/level5-hint2.html">Hint</a></li>
 <li><a href="https://s3game-level5-8v95e5rv7z4i.s3.us-east-2.amazonaws.com/level5-hint3.html">Hint</a></li>
@@ -81,9 +80,8 @@ In contrast, tags are subresources. They are managed separately and can be modif
 <p>S3 versioning keeps multiple variants of an object in the same bucket.
 If you enable versioning for a bucket, S3 automatically generates a unique version ID for the object being stored.
 In one bucket you can have two objects with the same key, but different version IDs.
-Check if versioning is enabled using: <code>aws s3api get-bucket-versioning --bucket my-bucket</code></p>
-</blockquote>
-<h3 id="level-6httpss3game-level6-vjv45x1gux81s3us-east-2amazonawscomlevel6html"><a href="https://s3game-level6-vjv45x1gux81.s3.us-east-2.amazonaws.com/level6.html">Level 6</a></h3>
+Check if versioning is enabled using: <code>aws s3api get-bucket-versioning --bucket my-bucket</code></p></blockquote>
+<h3 id="level-6"><a href="https://s3game-level6-vjv45x1gux81.s3.us-east-2.amazonaws.com/level6.html">Level 6</a></h3>
 <ul>
 <li><a href="https://s3game-level6-vjv45x1gux81.s3.us-east-2.amazonaws.com/level6-hint2.html">Hint</a></li>
 </ul>
@@ -92,7 +90,7 @@ Check if versioning is enabled using: <code>aws s3api get-bucket-versioning --bu
 </span></span><span class="line"><span class="cl">aws s3api list-objects --bucket s3game-level6-vjv45x1gux81 --profile tmp
 </span></span><span class="line"><span class="cl"><span class="c1"># Now, do the select on s3select.csv.gz</span>
 </span></span><span class="line"><span class="cl">aws s3api <span class="k">select</span>-object-content --bucket s3game-level6-vjv45x1gux81 --key s3select.csv.gz --expression <span class="s2">&#34;SELECT s.Answer FROM s3object s WHERE Category = &#39;TREASURE&#39;&#34;</span> --expression-type sql --input-serialization <span class="s1">&#39;{&#34;CSV&#34;: {&#34;FileHeaderInfo&#34;: &#34;USE&#34;, &#34;FieldDelimiter&#34;: &#34;;&#34;}, &#34;CompressionType&#34;: &#34;GZIP&#34;}&#39;</span> --output-serialization <span class="s1">&#39;{&#34;CSV&#34;: {}}&#39;</span> --profile tmp treasure6
-</span></span></code></pre></div><h3 id="level-7httpss3game-level7-zhovpo4j8588s3us-east-2amazonawscomlevel7html"><a href="https://s3game-level7-zhovpo4j8588.s3.us-east-2.amazonaws.com/level7.html">Level 7</a></h3>
+</span></span></code></pre></div><h3 id="level-7"><a href="https://s3game-level7-zhovpo4j8588.s3.us-east-2.amazonaws.com/level7.html">Level 7</a></h3>
 <ul>
 <li><a href="https://s3game-level7-zhovpo4j8588.s3.us-east-2.amazonaws.com/level7-hint2.html">Hint</a></li>
 </ul>
@@ -105,9 +103,8 @@ Check if versioning is enabled using: <code>aws s3api get-bucket-versioning --bu
 <p>Pre-signed URLs are a powerful feature of S3. From the <a href="https://boto3.amazonaws.com/v1/documentation/api/latest/guide/s3-presigned-urls.html">docs</a>:</p>
 <blockquote>
 <p>A presigned URL is generated by an AWS user who has access to the object. The generated URL is then given to the unauthorized user. The presigned URL can be entered in a browser or used by a program or HTML webpage. The credentials used by the presigned URL are those of the AWS user who generated the URL.</p>
-<p>A presigned URL remains valid for a <strong>limited period of time</strong> which is specified when the URL is generated.</p>
-</blockquote>
-<h3 id="level-8httpss3game-level8-v6g8tp7ra2lds3us-east-2amazonawscomlevel8html"><a href="https://s3game-level8-v6g8tp7ra2ld.s3.us-east-2.amazonaws.com/level8.html">Level 8</a></h3>
+<p>A presigned URL remains valid for a <strong>limited period of time</strong> which is specified when the URL is generated.</p></blockquote>
+<h3 id="level-8"><a href="https://s3game-level8-v6g8tp7ra2ld.s3.us-east-2.amazonaws.com/level8.html">Level 8</a></h3>
 <h4 id="solution-7">Solution</h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># List objects</span>
 </span></span><span class="line"><span class="cl">aws s3api list-objects --bucket s3game-level8-v6g8tp7ra2ld --profile tmp
@@ -119,7 +116,7 @@ Check if versioning is enabled using: <code>aws s3api get-bucket-versioning --bu
 <li>In such cases, you can restrict public access for the objects in the bucket as they can be accessed using Cloudfront</li>
 <li>Ensure that your bucket does not allow unprivileged users to list all objects in the bucket</li>
 </ul>
-<h3 id="level-9httpss3game-level9-781xtls2quvys3us-east-2amazonawscomlevel9html"><a href="https://s3game-level9-781xtls2quvy.s3.us-east-2.amazonaws.com/level9.html">Level 9</a></h3>
+<h3 id="level-9"><a href="https://s3game-level9-781xtls2quvy.s3.us-east-2.amazonaws.com/level9.html">Level 9</a></h3>
 <ul>
 <li><a href="https://s3game-level9-781xtls2quvy.s3.us-east-2.amazonaws.com/level9-hint2.html">Hint</a></li>
 </ul>
@@ -127,7 +124,7 @@ Check if versioning is enabled using: <code>aws s3api get-bucket-versioning --bu
 <h4 id="solution-8">Solution</h4>
 <p>All we need to do is curl with a &ndash;refer given in policy
 curl &lsquo;<a href="https://s3game-level9-781xtls2quvy.s3.us-east-2.amazonaws.com/treasure9_referer'">https://s3game-level9-781xtls2quvy.s3.us-east-2.amazonaws.com/treasure9_referer'</a> &ndash;refer &lsquo;<a href="http://s3game.treasure">http://s3game.treasure</a>&rsquo;</p>
-<h3 id="level-10httpss3game-level10-gac6tf83erp6s3us-east-2amazonawscomlevel10html"><a href="https://s3game-level10-gac6tf83erp6.s3.us-east-2.amazonaws.com/level10.html">Level 10</a></h3>
+<h3 id="level-10"><a href="https://s3game-level10-gac6tf83erp6.s3.us-east-2.amazonaws.com/level10.html">Level 10</a></h3>
 <p>Here, we need to fetch an object which is in Infrequent Access storage.</p>
 <h4 id="solution-9">Solution</h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># We can use the powerful query param of aws cli to just fetch those objects which are in infrequent access storgae</span>
@@ -140,9 +137,8 @@ curl &lsquo;<a href="https://s3game-level9-781xtls2quvy.s3.us-east-2.amazonaws.c
 <li>Intelligent-Tiering for data with unknown or changing access patterns</li>
 <li>Standard-Infrequent Access (Standard-IA) and One Zone-Infrequent Access (One Zone-IA) for long-lived, but less frequently accessed data</li>
 <li>Glacier and Glacier Deep Archive for long-term archive</li>
-</ul>
-</blockquote>
-<h3 id="level-11httpss3game-level11-djq30a807iyqs3us-east-2amazonawscomlevel11html"><a href="https://s3game-level11-djq30a807iyq.s3.us-east-2.amazonaws.com/level11.html">Level 11</a></h3>
+</ul></blockquote>
+<h3 id="level-11"><a href="https://s3game-level11-djq30a807iyq.s3.us-east-2.amazonaws.com/level11.html">Level 11</a></h3>
 <p>Here we need to fetch an object which has been encrypted using client side encryption and uploaded to S3. This means that we can not fetch the object unless we have the encryption key.</p>
 <h4 id="solution-10">Solution</h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># The encryption key is given in the hint</span>
@@ -151,10 +147,9 @@ curl &lsquo;<a href="https://s3game-level9-781xtls2quvy.s3.us-east-2.amazonaws.c
 </span></span><span class="line"><span class="cl">aws s3api get-object --bucket s3game-level11-djq30a807iyq --key treasure11_encryption --sse-customer-key <span class="s1">&#39;UkXp2s5v8y/B?E(H+MbPeShVmYq3t6w9&#39;</span> --sse-customer-algorithm AES256 --profile tmp treasure11_encryption
 </span></span></code></pre></div><h4 id="takeaway-5">Takeaway</h4>
 <p>S3 supports both <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">server side</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html">client side encryption</a>.</p>
-<h3 id="victory---level-12httpss3game-level12-bk0m5ax5n92os3us-east-2amazonawscomlevel12html">VICTORY! - <a href="https://s3game-level12-bk0m5ax5n92o.s3.us-east-2.amazonaws.com/level12.html">Level 12</a></h3>
+<h3 id="victory---level-12">VICTORY! - <a href="https://s3game-level12-bk0m5ax5n92o.s3.us-east-2.amazonaws.com/level12.html">Level 12</a></h3>
 <p>Congrats! You have cleared the game!</p>
 ]]></content:encoded>
     </item>
-    
   </channel>
 </rss>

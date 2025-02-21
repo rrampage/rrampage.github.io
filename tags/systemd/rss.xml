@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>systemd on A Random Walk</title>
+    <title>Systemd on A Random Walk</title>
     <link>https://rrampage.github.io/tags/systemd/</link>
-    <description>Recent content in systemd on A Random Walk</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Systemd on A Random Walk</description>
+    <generator>Hugo -- 0.144.2</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 25 May 2020 17:32:54 +0000</lastBuildDate><atom:link href="https://rrampage.github.io/tags/systemd/rss.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 25 May 2020 17:32:54 +0000</lastBuildDate>
+    <atom:link href="https://rrampage.github.io/tags/systemd/rss.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Webhook to auto-deploy on git push to Github</title>
       <link>https://rrampage.github.io/2020/05/25/webhook-to-auto-deploy-on-git-push-to-github/</link>
       <pubDate>Mon, 25 May 2020 17:32:54 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2020/05/25/webhook-to-auto-deploy-on-git-push-to-github/</guid>
       <description>Use git push webhook to run CI or auto-deploy</description>
       <content:encoded><![CDATA[<h2 id="what-is-a-webhook">What is a webhook?</h2>
 <p>A <a href="https://en.wikipedia.org/wiki/Webhook">webhook</a> is an endpoint on your server which allows you to execute a particular task. Webhooks are usually triggered by some event. A good use-case for a webhook is running tests on a dedicated test server or deploying your latest <code>master</code> branch to staging/production.</p>
 <p><a href="https://developer.github.com/webhooks/">Github</a> / <a href="https://docs.gitlab.com/ee/user/project/integrations/webhooks.html">Gitlab</a> / Bitbucket allow you to specify a webhook URL in your repository settings. Github triggers the webhook which sends the event data on every push.</p>
-<h2 id="webhookhttpsgithubcomadnanhwebhook-server"><a href="https://github.com/adnanh/webhook">Webhook</a> server</h2>
+<h2 id="webhook-server"><a href="https://github.com/adnanh/webhook">Webhook</a> server</h2>
 <p><a href="https://github.com/adnanh/webhook">Webhook</a> is a very useful golang project which runs any script you specify when a particular endpoint is hit.</p>
 <p>Download and extract the binary for your operating system from the <a href="https://github.com/adnanh/webhook/releases">releases page</a>. For Linux, it is <a href="https://github.com/adnanh/webhook/releases/download/2.7.0/webhook-linux-amd64.tar.gz">here</a>.</p>
 <p>The program takes as config a <strong><code>hooks.json</code></strong> file:</p>
@@ -127,6 +127,5 @@ WantedBy=default.target
 </code></pre><p>Do <code>systemctl --user daemon-reload</code> and <code>systemctl --user start webhook.service</code>. You can <code>systemctl --user enable webhook.service</code> to ensure that the service always runs when your machine is booted.</p>
 ]]></content:encoded>
     </item>
-    
   </channel>
 </rss>

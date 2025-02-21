@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>awk on A Random Walk</title>
+    <title>Awk on A Random Walk</title>
     <link>https://rrampage.github.io/tags/awk/</link>
-    <description>Recent content in awk on A Random Walk</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Awk on A Random Walk</description>
+    <generator>Hugo -- 0.144.2</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 26 May 2018 13:58:58 +0000</lastBuildDate><atom:link href="https://rrampage.github.io/tags/awk/rss.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 26 May 2018 13:58:58 +0000</lastBuildDate>
+    <atom:link href="https://rrampage.github.io/tags/awk/rss.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Awk - A useful little language</title>
       <link>https://rrampage.github.io/2018/05/26/awk-a-useful-little-language/</link>
       <pubDate>Sat, 26 May 2018 13:58:58 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/05/26/awk-a-useful-little-language/</guid>
       <description>Speed up text processing tasks with Awk</description>
       <content:encoded><![CDATA[<p>Awk is a small but capable programming language which is used for processing text. It was developed by Aho, Weinberger, Kerninghan at Bell Labs.</p>
@@ -86,6 +86,5 @@ Average population per zip code: 33241.3
 </ul>
 ]]></content:encoded>
     </item>
-    
   </channel>
 </rss>

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>lua on A Random Walk</title>
+    <title>Lua on A Random Walk</title>
     <link>https://rrampage.github.io/tags/lua/</link>
-    <description>Recent content in lua on A Random Walk</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Lua on A Random Walk</description>
+    <generator>Hugo -- 0.144.2</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 04 Dec 2021 00:00:00 +0530</lastBuildDate><atom:link href="https://rrampage.github.io/tags/lua/rss.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 04 Dec 2021 00:00:00 +0530</lastBuildDate>
+    <atom:link href="https://rrampage.github.io/tags/lua/rss.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Re-learning Lua</title>
       <link>https://rrampage.github.io/2021/12/04/relearning-lua/</link>
       <pubDate>Sat, 04 Dec 2021 00:00:00 +0530</pubDate>
-      
       <guid>https://rrampage.github.io/2021/12/04/relearning-lua/</guid>
       <description>Lua Basics</description>
       <content:encoded><![CDATA[<h2 id="lua---basics">Lua - Basics</h2>
@@ -66,6 +66,5 @@
 </span></span><span class="line"><span class="cl"><span class="kr">return</span> <span class="p">{[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="p">{[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">123</span><span class="p">,[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="mi">3</span><span class="p">},[</span><span class="s2">&#34;v&#34;</span><span class="p">]</span><span class="o">=</span><span class="p">{[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">2</span><span class="p">,[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="mi">6</span><span class="p">,[</span><span class="mi">3</span><span class="p">]</span><span class="o">=</span><span class="mi">7</span><span class="p">},[</span><span class="s2">&#34;a&#34;</span><span class="p">]</span><span class="o">=</span><span class="p">{[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">,[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="mi">2</span><span class="p">,[</span><span class="mi">3</span><span class="p">]</span><span class="o">=</span><span class="mi">3</span><span class="p">},[</span><span class="kc">true</span><span class="p">]</span><span class="o">=</span><span class="mi">123</span><span class="p">}</span>
 </span></span></code></pre></div>]]></content:encoded>
     </item>
-    
   </channel>
 </rss>

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>example on A Random Walk</title>
+    <title>Example on A Random Walk</title>
     <link>https://rrampage.github.io/tags/example/</link>
-    <description>Recent content in example on A Random Walk</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Example on A Random Walk</description>
+    <generator>Hugo -- 0.144.2</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 20 Aug 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://rrampage.github.io/tags/example/rss.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 20 Aug 2017 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://rrampage.github.io/tags/example/rss.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Markdown (and some Hugo) Tutorial</title>
       <link>https://rrampage.github.io/2017/08/20/markdown-and-some-hugo-tutorial/</link>
       <pubDate>Sun, 20 Aug 2017 00:00:00 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2017/08/20/markdown-and-some-hugo-tutorial/</guid>
       <description>&lt;h1 id=&#34;markdown-basics&#34;&gt;Markdown Basics&lt;/h1&gt;
 &lt;p&gt;You can write regular &lt;a href=&#34;http://markdowntutorial.com/&#34;&gt;markdown&lt;/a&gt; here and Jekyll will automatically convert it to a nice webpage.  I strongly encourage you to &lt;a href=&#34;http://markdowntutorial.com/&#34;&gt;take 5 minutes to learn how to write in markdown&lt;/a&gt; - it&amp;rsquo;ll teach you how to transform regular text into bold/italics/headings/tables/etc.&lt;/p&gt;
@@ -19,35 +19,35 @@
 &lt;h2 id=&#34;here-is-a-secondary-heading&#34;&gt;Here is a secondary heading&lt;/h2&gt;
 &lt;p&gt;Here&amp;rsquo;s a useless table:&lt;/p&gt;
 &lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th align=&#34;left&#34;&gt;Number&lt;/th&gt;
-&lt;th align=&#34;left&#34;&gt;Next number&lt;/th&gt;
-&lt;th align=&#34;left&#34;&gt;Previous number&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Five&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Six&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Four&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Ten&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Eleven&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Nine&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Seven&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Eight&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Six&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Two&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Three&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;One&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;Number&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;Next number&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;Previous number&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Five&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Six&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Four&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Ten&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Eleven&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Nine&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Seven&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Eight&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Six&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Two&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Three&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;One&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;How about a yummy crepe?&lt;/p&gt;
 &lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;http://s3-media3.fl.yelpcdn.com/bphoto/cQ1Yoa75m2yUFFbY2xwuqw/348s.jpg&#34; alt=&#34;Crepe&#34;  /&gt;
@@ -60,35 +60,35 @@
 <h2 id="here-is-a-secondary-heading">Here is a secondary heading</h2>
 <p>Here&rsquo;s a useless table:</p>
 <table>
-<thead>
-<tr>
-<th align="left">Number</th>
-<th align="left">Next number</th>
-<th align="left">Previous number</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left">Five</td>
-<td align="left">Six</td>
-<td align="left">Four</td>
-</tr>
-<tr>
-<td align="left">Ten</td>
-<td align="left">Eleven</td>
-<td align="left">Nine</td>
-</tr>
-<tr>
-<td align="left">Seven</td>
-<td align="left">Eight</td>
-<td align="left">Six</td>
-</tr>
-<tr>
-<td align="left">Two</td>
-<td align="left">Three</td>
-<td align="left">One</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Number</th>
+          <th style="text-align: left">Next number</th>
+          <th style="text-align: left">Previous number</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">Five</td>
+          <td style="text-align: left">Six</td>
+          <td style="text-align: left">Four</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Ten</td>
+          <td style="text-align: left">Eleven</td>
+          <td style="text-align: left">Nine</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Seven</td>
+          <td style="text-align: left">Eight</td>
+          <td style="text-align: left">Six</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Two</td>
+          <td style="text-align: left">Three</td>
+          <td style="text-align: left">One</td>
+      </tr>
+  </tbody>
 </table>
 <p>How about a yummy crepe?</p>
 <p><img loading="lazy" src="http://s3-media3.fl.yelpcdn.com/bphoto/cQ1Yoa75m2yUFFbY2xwuqw/348s.jpg" alt="Crepe"  />
@@ -147,6 +147,5 @@ $$
 1 +  \frac{q^2}{(1-q)}+\frac{q^6}{(1-q)(1-q^2)}+\cdots = \prod_{j=0}^{\infty}\frac{1}{(1-q^{5j+2})(1-q^{5j+3})}, \quad\quad \text{for }\lvert q\rvert&lt;1.
 $$</p>]]></content:encoded>
     </item>
-    
   </channel>
 </rss>

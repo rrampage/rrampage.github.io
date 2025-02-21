@@ -10,9 +10,7 @@
 <meta name="description" content="Posts - A Random Walk">
 <meta name="author" content="Raunak">
 <link rel="canonical" href="https://rrampage.github.io/post/">
-
-
-<link crossorigin="anonymous" href="/assets/css/stylesheet.33f3fb1eac0de5022ccd0963d8a04389671938d819c222a9e0909c05c5f62ca2.css" integrity="sha256-M/P7HqwN5QIszQlj2KBDiWcZONgZwiKp4JCcBcX2LKI=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://rrampage.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://rrampage.github.io/favicon-32x32.png">
@@ -21,6 +19,7 @@
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
 <link rel="alternate" type="application/rss+xml" href="https://rrampage.github.io/post/rss.xml">
+<link rel="alternate" hreflang="en" href="https://rrampage.github.io/post/">
 <noscript>
     <style>
         #theme-toggle,
@@ -38,7 +37,7 @@
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -61,7 +60,6 @@
 <meta property="og:description" content="A Random Walk - Raunak Ramakrishnan" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://rrampage.github.io/post/" /><meta property="og:site_name" content="A Random Walk" />
-
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Posts"/>
 <meta name="twitter:description" content="A Random Walk - Raunak Ramakrishnan"/>
@@ -160,7 +158,25 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Git: How to keep your fork updated with remote repository
+    <h2 class="entry-hint-parent">Command-line productivity tips : Getting help in the terminal
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>The command-line is often a daunting place for beginners. With nothing but a blinking cursor and an unfriendly dark screen staring back at you, despair sets in.
+Here are a few things to do if you are stuck:
+1. How to find programs for specific tasks Many times, you want to do a particular task but you do not remember the name of the program which does that. Many shell utilities are not easy to remember at first with their cryptic 2 letter names.
+Worry not, there is a command called apropos to help you out!
+For example, you want to show a file with line numbers. You know that there is a program but have forgotten its name. You can just type apropos -a line number to get a list of programs. We use -a flag so that apropos will only return those programs which have the words line AND number in their description.
+On my computer, it gives the following output:
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2018-11-11 17:30:30.427 +0000 UTC'>November 11 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Raunak</footer>
+  <a class="entry-link" aria-label="post link to Command-line productivity tips : Getting help in the terminal" href="https://rrampage.github.io/2018/11/11/command-line-productivity-tips-getting-help-in-the-terminal/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Git: How to keep your fork updated with remote repository
     </h2>
   </header>
   <div class="entry-content">
@@ -168,42 +184,45 @@
 Adding the remote repo We can list the remote repositories for our repo with git remote -v and add the original repo as follows:
 git remote add upstream LINK_TO_ORIGINAL_REPO Note that it is merely a convention to call it upstream. You can give any name you want.
 Check that the repo is added to your remote using git remote -v.
-Sync with remote Check if there are any changes in remote not on your fork using git fetch upstream Checkout whichever branch you are interested ( git checkout $BRANCH) Merge with upstream using: git merge upstream/$BRANCH Push your changes to origin if needed: git push origin $BRANCH Removing the remote repo If you no longer want to get changes from the remote repo, it is easy to remove it using git remote remove upstream...</p>
+Sync with remote Check if there are any changes in remote not on your fork using git fetch upstream Checkout whichever branch you are interested ( git checkout $BRANCH) Merge with upstream using: git merge upstream/$BRANCH Push your changes to origin if needed: git push origin $BRANCH Removing the remote repo If you no longer want to get changes from the remote repo, it is easy to remove it using git remote remove upstream
+...</p>
   </div>
-  <footer class="entry-footer">November 9 2018   1 min</footer>
+  <footer class="entry-footer"><span title='2018-11-09 12:50:54.3 +0000 UTC'>November 9 2018</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Raunak</footer>
   <a class="entry-link" aria-label="post link to Git: How to keep your fork updated with remote repository" href="https://rrampage.github.io/2018/11/09/git-how-to-keep-your-fork-updated-with-remote-repository/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Ensuring that a shell script runs exactly once
+    <h2 class="entry-hint-parent">Ensuring that a shell script runs exactly once
     </h2>
   </header>
   <div class="entry-content">
     <p>Many times, we have shell scripts which perform some important stuff like inserting into database, mailing reports, etc which we want to run exactly one instance of.
 Enter locks! A simple solution is to create a “lock file” and check if the file exists when the script starts. If the file is already created, it means another instance of that program is running, so we can fail with message “Try again later!”. Once the script completes running, it will clean-up and delete the lock file.
-LOCK_FILE=a.lock if [ -f &#34;$LOCK_FILE&#34; ]; then # Lock file already exists, exit the script echo &#34;An instance of this script is already running&#34; exit 1 fi # Create the lock file echo &#34;Locked&#34; &gt; &#34;$LOCK_FILE&#34; # Do the normal stuff # clean-up before exit rm &#34;$LOCK_FILE&#34; This looks promising but there are issues with this approach. What happens if the script does not end correctly i.e it exits because of some failure before it reaches the clean-up part of the code?...</p>
+LOCK_FILE=a.lock if [ -f &#34;$LOCK_FILE&#34; ]; then # Lock file already exists, exit the script echo &#34;An instance of this script is already running&#34; exit 1 fi # Create the lock file echo &#34;Locked&#34; &gt; &#34;$LOCK_FILE&#34; # Do the normal stuff # clean-up before exit rm &#34;$LOCK_FILE&#34; This looks promising but there are issues with this approach. What happens if the script does not end correctly i.e it exits because of some failure before it reaches the clean-up part of the code? Or if it gets forcibly terminated with Ctrl&#43;C or kill command? In both these cases, the created lock file will not be deleted. So next time you run the script, you will always get an error and will have to manually delete the file.
+...</p>
   </div>
-  <footer class="entry-footer">November 6 2018   4 min</footer>
+  <footer class="entry-footer"><span title='2018-11-06 18:53:23.63 +0000 UTC'>November 6 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Raunak</footer>
   <a class="entry-link" aria-label="post link to Ensuring that a shell script runs exactly once" href="https://rrampage.github.io/2018/11/06/ensuring-that-a-shell-script-runs-exactly-once/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Surviving the Linux OOM Killer
+    <h2 class="entry-hint-parent">Surviving the Linux OOM Killer
     </h2>
   </header>
   <div class="entry-content">
     <p>When your Linux machine runs out of memory, Out of Memory (OOM) killer is called by kernel to free some memory. It is often encountered on servers which have a number of memory intensive processes running. In this post, we dig a little deeper into when does OOM killer get called, how it decides which process to kill and if we can prevent it from killing important processes like databases.
-How does OOM Killer choose which process to kill? The Linux kernel gives a score to each running process called oom_score which shows how likely it is to be terminated in case of low available memory. The score is proportional to the amount of memory used by the process. The score is 10 x percent of memory used by process. So the maximum score is 100% x 10 = 1000. In addition, if a process is running as a privileged user, it gets a slightly lower oom_score as compared to same memory usage by a normal user process....</p>
+How does OOM Killer choose which process to kill? The Linux kernel gives a score to each running process called oom_score which shows how likely it is to be terminated in case of low available memory. The score is proportional to the amount of memory used by the process. The score is 10 x percent of memory used by process. So the maximum score is 100% x 10 = 1000. In addition, if a process is running as a privileged user, it gets a slightly lower oom_score as compared to same memory usage by a normal user process. In earlier versions of Linux ( v2.6.32 kernel), there was a more elaborate heuristic which calculated this score.
+...</p>
   </div>
-  <footer class="entry-footer">October 4 2018   4 min</footer>
+  <footer class="entry-footer"><span title='2018-10-04 15:48:41.1 +0000 UTC'>October 4 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Raunak</footer>
   <a class="entry-link" aria-label="post link to Surviving the Linux OOM Killer" href="https://rrampage.github.io/2018/10/04/surviving-the-linux-oom-killer/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Algorithms: Gray Binary Code
+    <h2 class="entry-hint-parent">Algorithms: Gray Binary Code
     </h2>
   </header>
   <div class="entry-content">
@@ -211,15 +230,16 @@ How does OOM Killer choose which process to kill? The Linux kernel gives a score
 000 001 010 011 100 101 110 111 and so on In Gray, they are:
 000 001 011 010 110 111 101 100 and so on In first system, when we go from ‘001’ to ‘010’, there are 2 changes namely the unit’s place becomes ‘0’ from ‘1’ and the next digit becomes ‘1’ from ‘0’. But in Gray’s system, ‘001’ becomes ‘011’ where there is only 1 change (that of 2nd digit).
 Gray codes are used in error correction in communication.
-Generating Gray codes of length n Is there a property we can use for easily generating the Gray codes of a given length? Yes! In our previous example, we generated all the Gray codes for n=3. Ignoring the most significant bit (MSB), notice how the 4th and 5th numbers are equal in their first 2 digits, as are the 3rd and 6th, 2nd and 7th and 1st and 8th....</p>
+Generating Gray codes of length n Is there a property we can use for easily generating the Gray codes of a given length? Yes! In our previous example, we generated all the Gray codes for n=3. Ignoring the most significant bit (MSB), notice how the 4th and 5th numbers are equal in their first 2 digits, as are the 3rd and 6th, 2nd and 7th and 1st and 8th. The last 4 numbers are reflection of the first 4 if we ignore the last digit. But the last digit is 0 for the 1st 4 numbers and 1 for the last 4… We have a recursive formulation.
+...</p>
   </div>
-  <footer class="entry-footer">August 18 2018   4 min</footer>
+  <footer class="entry-footer"><span title='2018-08-18 17:52:23.566 +0000 UTC'>August 18 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Raunak</footer>
   <a class="entry-link" aria-label="post link to Algorithms: Gray Binary Code" href="https://rrampage.github.io/2018/08/18/algorithms-gray-binary-code/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>100 Days Of Code
+    <h2 class="entry-hint-parent">100 Days Of Code
     </h2>
   </header>
   <div class="entry-content">
@@ -228,30 +248,33 @@ I will update this post with my logs.
 Aug 13 2018 D0 : Algorithms for calculating number of combinations and generating them in a lexicographical increasing order. Blog
 Aug 14 2018 D1 : Working on algorithm for generating all permutations. First I managed to generate all possible r repetitions of n i.e n^r. Next, I read up and wrote code on Heap’s algorithm. I am still not sure of the intuition behind the algorithm. Also, it does not generate the permutations in lexicographical increasing order.
 Aug 15 2018 D2 : Learned and implemented an algorithm that generates all permutations in a lexicographical order. It is not as efficient as Heap’s algorithm.
-Aug 16 2018 D3 : Stumbled across the game of Set. Wrote a small python script which generates all solutions of any given game....</p>
+Aug 16 2018 D3 : Stumbled across the game of Set. Wrote a small python script which generates all solutions of any given game.
+Aug 17 2018 D4 : Learning to use Puppeteer.js along with Google Cloud Functions. This dev.to post was very useful in getting me started.
+...</p>
   </div>
-  <footer class="entry-footer">August 13 2018   4 min</footer>
+  <footer class="entry-footer"><span title='2018-08-13 13:40:27.01 +0000 UTC'>August 13 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Raunak</footer>
   <a class="entry-link" aria-label="post link to 100 Days Of Code" href="https://rrampage.github.io/2018/08/13/100-days-of-code/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Algorithms: Generating Combinations
+    <h2 class="entry-hint-parent">Algorithms: Generating Combinations
     </h2>
   </header>
   <div class="entry-content">
     <p>In how many different ways can we select r objects from a collection of n objects? In mathematics, this is called combinations.
 The formula for the number of combinations is: where, n! denotes the factorial of a number that is the product of all numbers from 1 to n (inclusive).
 Prelude : A function for calculating factorial of a number public static long factorial(int n) { long res = 1L; for (int i = 1; i &lt;= n; i&#43;&#43;) { res *= i; } return res; } Calculating Combinations That was simple! Let us now move on to calculating the number of combinations given n and r
-public static long combinations(int n, int r) { if (r &lt; 0) { return 0; } long res = 1L; if (r &gt; n - r) { r = n - r; } for (int i = 0; i &lt; r; i&#43;&#43;) { res *= (n - i); res /= (i &#43; 1); } return res; } What does this algorithm do?...</p>
+public static long combinations(int n, int r) { if (r &lt; 0) { return 0; } long res = 1L; if (r &gt; n - r) { r = n - r; } for (int i = 0; i &lt; r; i&#43;&#43;) { res *= (n - i); res /= (i &#43; 1); } return res; } What does this algorithm do? Recall that we need to find n!/r!(n-r)! which will be of the form n(n-1)...(n-r&#43;1)/1.2...r. Similar to factorial, we initialize the result as 1 and multiply by n-i and divide by i&#43;1. Will this result in a fractional number? No. This is because first, we multiply by n and divide by 1. Next, we multiply by n-1 and divide by 2. Now, either n or n-1 have to be even (as they are consecutive numbers). Similarly, next when we divide by 3, one of n,n-1 and n-2 must be divisible by 3.
+...</p>
   </div>
-  <footer class="entry-footer">August 12 2018   8 min</footer>
+  <footer class="entry-footer"><span title='2018-08-12 20:20:11.98 +0000 UTC'>August 12 2018</span>&nbsp;·&nbsp;8 min&nbsp;·&nbsp;Raunak</footer>
   <a class="entry-link" aria-label="post link to Algorithms: Generating Combinations" href="https://rrampage.github.io/2018/08/12/algorithms-generating-combinations/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Awk - A useful little language
+    <h2 class="entry-hint-parent">Awk - A useful little language
     </h2>
   </header>
   <div class="entry-content">
@@ -259,59 +282,44 @@ public static long combinations(int n, int r) { if (r &lt; 0) { return 0; } long
 Julia Evans made an awesome Awk comic: Awk scans input file as a sequence of lines and splits each line into fields. The field separator is usually whitespace but you can customize it to any character.
 An awk program is a sequence of pattern-action pairs i.e for each line, it checks if it matches the pattern and if yes, it performs the associated action on the line. Awk can be used interactively or to run saved programs.
 Here is what Awk does written in Python-like pseudocode:
-initialize() # Initializes variables in BEGIN block for line in input_lines: # Awk divides file / input into a list of lines for condition, action in conditions: # A program is a list of condition-action pairs if condition(line): #match line against condition action() #perform action on match Here are some small snippets of Awk:...</p>
+initialize() # Initializes variables in BEGIN block for line in input_lines: # Awk divides file / input into a list of lines for condition, action in conditions: # A program is a list of condition-action pairs if condition(line): #match line against condition action() #perform action on match Here are some small snippets of Awk:
+Example - Hello World! You can run awk programs inline or through a file:
+...</p>
   </div>
-  <footer class="entry-footer">May 26 2018   4 min</footer>
+  <footer class="entry-footer"><span title='2018-05-26 13:58:58.741 +0000 UTC'>May 26 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Raunak</footer>
   <a class="entry-link" aria-label="post link to Awk - A useful little language" href="https://rrampage.github.io/2018/05/26/awk-a-useful-little-language/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>JVM Primer Part 2 - Debugging memory issues
+    <h2 class="entry-hint-parent">JVM Primer Part 2 - Debugging memory issues
     </h2>
   </header>
   <div class="entry-content">
     <p>This is part 2 of my series on JVM Memory management and debugging. Read part 1 here
 In this post, we will cover symptoms of memory issues for JVM-based applications, which tools we can use to diagnose them and how we can fix them.
 Symptoms Here are a few symptoms of memory issues:
-Poor application performance Abnormal memory usage OutOfMemory errors (OOME) Poor Application Performance Application not performing to expected level Long response times Dropping client requests Stuck threads Service unavailability Large gaps in timestamps in application logs Causes of memory problems: Misconfigured memory Old generation memory space is sized smaller than live-set of objects. This triggers a major garbage collection (GC), resulting in larger pauses. Code cache is smaller than generated compiled code footprint Young generation is not sized appropriately leading to premature promotion of objects PermGen / Metaspace not sized correctly leading to full GC Memory leaks - Unintentional retention of objects in memory spaces Unintentional references to set of objects in heap Not dereferencing classloader instances appropriateky Not releasing native resources appropriately Excessive use of finalizers Objects with finalizers may delay their own GC Finalizer thread needs to invoke finalize() method of the instances before reclaiming them There can only be 1 Finalizer thread....</p>
+Poor application performance Abnormal memory usage OutOfMemory errors (OOME) Poor Application Performance Application not performing to expected level Long response times Dropping client requests Stuck threads Service unavailability Large gaps in timestamps in application logs Causes of memory problems: Misconfigured memory Old generation memory space is sized smaller than live-set of objects. This triggers a major garbage collection (GC), resulting in larger pauses. Code cache is smaller than generated compiled code footprint Young generation is not sized appropriately leading to premature promotion of objects PermGen / Metaspace not sized correctly leading to full GC Memory leaks - Unintentional retention of objects in memory spaces Unintentional references to set of objects in heap Not dereferencing classloader instances appropriateky Not releasing native resources appropriately Excessive use of finalizers Objects with finalizers may delay their own GC Finalizer thread needs to invoke finalize() method of the instances before reclaiming them There can only be 1 Finalizer thread. If it does not keep up with rate at which objects become available for finalization, JVM fails with OOME Pending finalizer objects are essentially accumulated garbage Finalizers deprecated in Java 9 Explicit GC calls System.gc() and diagnostic data collections can cause long pauses -XX:&#43;DisableExplicitGC can disable System.gc() calls -XX:&#43;PrintClassHistogram also calls an explicit GC when receiving kill -3 signal OutOfMemoryError Hierarchy : Throwable -&gt; Error -&gt; VirtualMachineError -&gt; OutOfMemoryError (Unchecked exception) Thrown when JVM runs out of space in various memory spaces or cannot proceed further with process execution. Some of the possibilities: Heap space full JVM already invoked full GC but could not free up space Heap may be sized smaller than app footprint or app is unnecessarily holding on to some set of objects in heap GC overhead limit exceeded Too many GCs with very less space claimed Application threads not getting any CPU cycles Requested array size exceeds VM limit PermGen space / Metaspace / compressed class space Full GC invoked but unable to free space in Metaspace and application is attempting to load more classes Metaspace by default “unlimited” but can be controlled by MaxMetaspaceSize. By default, 1 GB reserved for compressed class space Make sure that -Xnoclassgc is not in use as it prevents unloading of classes Native memory - out of swap space / stack trace with native method Native space used for Java thread stacks, loaded jars, zips, native libraries, native resources like files; mem allocated from native code Unable to allocate more native memory or to create new threads or native memory leaks Running 32 bit JVM on 64 bit machine puts 4 GB limit on process size Position of Java heap can put a cap on max size of native heap. Can be controlled by option -XX:HeapBaseMinAddress=n to specify address native heap should be based at CodeCache warnings warning message printed by JVM saying CodeCache full, compiler has been disabled. No OOME when code cache is full Emergency cleanup undertaken by Sweeper. This may discard compiled code and JIT may need to perform optimizations again Ensure appropriate size of CC using ReservedCodeCacheSize option Direct Buffer Memory ByteBuffer.allocateDirect(N) : Direct buffers which are garbage collected using phantom references and a reference queue Unlimited memory by default but can be controlled by -XX:MaxDirectMemorySize=n Used by Java NIO. Heap ByteBuffer for I/O uses temporary direct ByteBuffer Diagnostic Data, Data Collection and Analysis Tools Troubleshooting Memory leaks Confirm memory leak
+...</p>
   </div>
-  <footer class="entry-footer">May 16 2018   6 min</footer>
+  <footer class="entry-footer"><span title='2018-05-16 11:53:42.021 +0000 UTC'>May 16 2018</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;Raunak</footer>
   <a class="entry-link" aria-label="post link to JVM Primer Part 2 - Debugging memory issues" href="https://rrampage.github.io/2018/05/16/jvm-primer-part-2-debugging-memory-issues/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>A Primer on JVM Memory Management and Troubleshooting - 1
+    <h2 class="entry-hint-parent">A Primer on JVM Memory Management and Troubleshooting - 1
     </h2>
   </header>
   <div class="entry-content">
     <p>This series is a summary of Oracle’s JVM troubleshooting course which gives an overview on JVM memory management, Hotspot VM’s garbage collection options, various memory errors and how to troubleshoot them.
 In this post (part 1), we will have a look at how JVM manages memory and its different garbage collectors.
 You can find Part 2 here
-JVM Memory Management Overview The JVM provides automatic memory management to free the programmer from manually managing memory. New objects are allocated on heap memory. A root set consists of pointers to external memory, static variables, threads, JNI references and internal JVM structures. Objects directly reachable from the root set must be kept in heap. Objects reachable from any of the reachable objects must also be in heap. This group of objects are the only ones which can be used by a program. The unreachable objects (garbage) are removed using a process called garbage collection (GC). Reachable objects are compacted i.e moved to contiguous space in heap....</p>
+JVM Memory Management Overview The JVM provides automatic memory management to free the programmer from manually managing memory. New objects are allocated on heap memory. A root set consists of pointers to external memory, static variables, threads, JNI references and internal JVM structures. Objects directly reachable from the root set must be kept in heap. Objects reachable from any of the reachable objects must also be in heap. This group of objects are the only ones which can be used by a program. The unreachable objects (garbage) are removed using a process called garbage collection (GC). Reachable objects are compacted i.e moved to contiguous space in heap. This is important as otherwise, the heap will become fragmented.
+...</p>
   </div>
-  <footer class="entry-footer">May 15 2018   4 min</footer>
+  <footer class="entry-footer"><span title='2018-05-15 14:14:49.746 +0000 UTC'>May 15 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Raunak</footer>
   <a class="entry-link" aria-label="post link to A Primer on JVM Memory Management and Troubleshooting - 1" href="https://rrampage.github.io/2018/05/15/a-primer-on-jvm-memory-management-and-troubleshooting-1/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Snake case to camel case and back using regular expressions and Python
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Snake case and Camel case are conventions of naming variables, functions and classes. Most teams and projects prescribe a particular case in their style guides.
-Examples of camel case:
-MyClass MyClassFactory MyClassFactoryBuilder MyClassFactoryBuilderImpl myInstance myInstance2 abc patternMatcher Examples of snake case:
-add matrix_add diagonal_matrix_add pseudo_inverse If we want to convert back and forth between these cases, we must look for the points of interest - the word boundaries. Camel case boundaries have the first letter capitalized while the snake case word boundaries have an _.
-Snake case to camel case Here is a regular expression for finding out the _ and the first letter in the next word:
-(.*?)_([a-zA-Z]) This regex has 2 parts:
-(.*?) finds everything upto the _.
-The ‘.’ means any character. ‘*’ stands for match 0 or more instances ‘?’ stands for non-greedy match. We must use ‘?’ in the pattern because the regex engine will try to match as much as possible by default. So, if we use just (....</p>
-  </div>
-  <footer class="entry-footer">May 9 2018   3 min</footer>
-  <a class="entry-link" aria-label="post link to Snake case to camel case and back using regular expressions and Python" href="https://rrampage.github.io/2018/05/09/snake-case-to-camel-case-and-back-using-regular-expressions-and-python/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
@@ -325,7 +333,13 @@ The ‘.’ means any character. ‘*’ stands for match 0 or more instances �
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href="https://rrampage.github.io/">A Random Walk</a></span>
+        <span>&copy; 2025 <a href="https://rrampage.github.io/">A Random Walk</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
 </footer>
 <a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">

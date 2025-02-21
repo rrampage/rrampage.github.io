@@ -5,14 +5,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>til | A Random Walk</title>
+<title>Til | A Random Walk</title>
 <meta name="keywords" content="">
 <meta name="description" content="A Random Walk - Raunak Ramakrishnan">
 <meta name="author" content="Raunak">
 <link rel="canonical" href="https://rrampage.github.io/tags/til/">
-
-
-<link crossorigin="anonymous" href="/assets/css/stylesheet.33f3fb1eac0de5022ccd0963d8a04389671938d819c222a9e0909c05c5f62ca2.css" integrity="sha256-M/P7HqwN5QIszQlj2KBDiWcZONgZwiKp4JCcBcX2LKI=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://rrampage.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://rrampage.github.io/favicon-32x32.png">
@@ -21,6 +19,7 @@
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
 <link rel="alternate" type="application/rss+xml" href="https://rrampage.github.io/tags/til/rss.xml">
+<link rel="alternate" hreflang="en" href="https://rrampage.github.io/tags/til/">
 <noscript>
     <style>
         #theme-toggle,
@@ -38,7 +37,7 @@
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -57,13 +56,12 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="til" />
+</noscript><meta property="og:title" content="Til" />
 <meta property="og:description" content="A Random Walk - Raunak Ramakrishnan" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://rrampage.github.io/tags/til/" /><meta property="og:site_name" content="A Random Walk" />
-
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="til"/>
+<meta name="twitter:title" content="Til"/>
 <meta name="twitter:description" content="A Random Walk - Raunak Ramakrishnan"/>
 
 </head>
@@ -139,26 +137,33 @@
 <main class="main"> 
 <header class="page-header">
   <h1>
-    til
+    Til
   </h1>
 </header>
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2>Bash function to add TILs
+    <h2 class="entry-hint-parent">Bash function to add TILs
     </h2>
   </header>
   <div class="entry-content">
     <p>til snippet Here’s a snippet I use in my .bashrc file to quickly write down and review TILs (Today I learned):
-TIL_FILE=&#34;$HOME/my-notes-repo/til.md&#34; til () { # checks if the function has been called without any argument if [[ -z $1 ]]; then # opens the file in my editor, setting the cursor to the last line # useful to review latest entries or to write a longer entry vim &#43; &#34;$TIL_FILE&#34;; else # adds a line with today&#39;s date, a TAB and all arguments supplied (&#34;$@&#34;) echo -e &#34;- $( date &#39;&#43;%F&#39; ):\t$@&#34; &gt;&gt; &#34;$TIL_FILE&#34;; fi } How to use: til to open the file. I use this to review what I learned today or if I need to write a longer, multiline entry til CONTENT to append a line to the file e.g til grep --line-buffered to immediately print especially when tailing files will add this: - 2020-05-23: grep --line-buffered to immediately print especially when tailing files Explanation on the function In case you missed the comments in the function, here’s an explanation of what the various lines do:...</p>
+TIL_FILE=&#34;$HOME/my-notes-repo/til.md&#34; til () { # checks if the function has been called without any argument if [[ -z $1 ]]; then # opens the file in my editor, setting the cursor to the last line # useful to review latest entries or to write a longer entry vim &#43; &#34;$TIL_FILE&#34;; else # adds a line with today&#39;s date, a TAB and all arguments supplied (&#34;$@&#34;) echo -e &#34;- $( date &#39;&#43;%F&#39; ):\t$@&#34; &gt;&gt; &#34;$TIL_FILE&#34;; fi } How to use: til to open the file. I use this to review what I learned today or if I need to write a longer, multiline entry til CONTENT to append a line to the file e.g til grep --line-buffered to immediately print especially when tailing files will add this: - 2020-05-23: grep --line-buffered to immediately print especially when tailing files Explanation on the function In case you missed the comments in the function, here’s an explanation of what the various lines do:
+...</p>
   </div>
-  <footer class="entry-footer">May 23 2020   2 min</footer>
+  <footer class="entry-footer"><span title='2020-05-23 12:42:20.645 +0000 UTC'>May 23 2020</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Raunak</footer>
   <a class="entry-link" aria-label="post link to Bash function to add TILs" href="https://rrampage.github.io/2020/05/23/bash-function-to-add-tils/"></a>
 </article>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href="https://rrampage.github.io/">A Random Walk</a></span>
+        <span>&copy; 2025 <a href="https://rrampage.github.io/">A Random Walk</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
 </footer>
 <a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">

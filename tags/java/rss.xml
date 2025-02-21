@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>java on A Random Walk</title>
+    <title>Java on A Random Walk</title>
     <link>https://rrampage.github.io/tags/java/</link>
-    <description>Recent content in java on A Random Walk</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Java on A Random Walk</description>
+    <generator>Hugo -- 0.144.2</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 18 Aug 2018 17:52:23 +0000</lastBuildDate><atom:link href="https://rrampage.github.io/tags/java/rss.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 18 Aug 2018 17:52:23 +0000</lastBuildDate>
+    <atom:link href="https://rrampage.github.io/tags/java/rss.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Algorithms: Gray Binary Code</title>
       <link>https://rrampage.github.io/2018/08/18/algorithms-gray-binary-code/</link>
       <pubDate>Sat, 18 Aug 2018 17:52:23 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/08/18/algorithms-gray-binary-code/</guid>
       <description>Gray Binary Code - A different way of ordering numbers</description>
       <content:encoded><![CDATA[<p><a href="https://en.wikipedia.org/wiki/Gray_code">Gray binary code</a> is a way of expressing binary numbers such that consecutive numbers differ in exactly 1 digit.
@@ -104,12 +104,10 @@ G(n) = n xor n/2</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
 </span></span></span></code></pre></div>]]></content:encoded>
     </item>
-    
     <item>
       <title>100 Days Of Code</title>
       <link>https://rrampage.github.io/2018/08/13/100-days-of-code/</link>
       <pubDate>Mon, 13 Aug 2018 13:40:27 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/08/13/100-days-of-code/</guid>
       <description>My 100 Days Of Code Challenge</description>
       <content:encoded><![CDATA[<p>I have started the <a href="https://www.100daysofcode.com/">100 days of code challenge</a>.
@@ -157,12 +155,10 @@ I intend to use this time to check out new languages and frameworks and solve so
 <p>Have started working once again. I am putting this on hiatus till I find more time. Meanwhile, I will continue posting blog posts on my learning.</p>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>JVM Primer Part 2 - Debugging memory issues</title>
       <link>https://rrampage.github.io/2018/05/16/jvm-primer-part-2-debugging-memory-issues/</link>
       <pubDate>Wed, 16 May 2018 11:53:42 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/05/16/jvm-primer-part-2-debugging-memory-issues/</guid>
       <description>JVM Primer - Debugging memory issues</description>
       <content:encoded><![CDATA[<p>This is part 2 of my series on JVM Memory management and debugging.
@@ -344,17 +340,16 @@ Read part 1 <a href="https://dev.to/rrampage/a-primer-on-jvm-memory-management-a
 <p>In this series, we have taken a look at how the JVM manages memory and how the garbage collection process works. We have also gone through how to diagnose memory issues, which tools to use to collect and analyze diagnostic information and some JVM options which can affect application performance.</p>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>A Primer on JVM Memory Management and Troubleshooting - 1</title>
       <link>https://rrampage.github.io/2018/05/15/a-primer-on-jvm-memory-management-and-troubleshooting-1/</link>
       <pubDate>Tue, 15 May 2018 14:14:49 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/05/15/a-primer-on-jvm-memory-management-and-troubleshooting-1/</guid>
-      <description>This series is a summary of Oracle&amp;rsquo;s JVM troubleshooting course which gives an overview on JVM memory management, Hotspot VM&amp;rsquo;s garbage collection options, various memory errors and how to troubleshoot them.
-In this post (part 1), we will have a look at how JVM manages memory and its different garbage collectors.
-You can find Part 2 here
-JVM Memory Management Overview The JVM provides automatic memory management to free the programmer from manually managing memory. New objects are allocated on heap memory. A root set consists of pointers to external memory, static variables, threads, JNI references and internal JVM structures. Objects directly reachable from the root set must be kept in heap. Objects reachable from any of the reachable objects must also be in heap. This group of objects are the only ones which can be used by a program. The unreachable objects (garbage) are removed using a process called garbage collection (GC). Reachable objects are compacted i.e moved to contiguous space in heap.</description>
+      <description>&lt;p&gt;This series is a summary of Oracle&amp;rsquo;s &lt;a href=&#34;https://apexapps.oracle.com/pls/apex/f?p=44785:149:105166169953256::NO:RP,149:P149_EVENT_ID:5552&#34;&gt;JVM troubleshooting course&lt;/a&gt; which gives an overview on JVM memory management, Hotspot VM&amp;rsquo;s garbage collection options, various memory errors and how to troubleshoot them.&lt;/p&gt;
+&lt;p&gt;In this post (part 1), we will have a look at how JVM manages memory and its different garbage collectors.&lt;/p&gt;
+&lt;p&gt;You can find Part 2 &lt;a href=&#34;https://dev.to/rrampage/jvm-primer-part-2---debugging-performance-issues-1od&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;jvm-memory-management-overview&#34;&gt;JVM Memory Management Overview&lt;/h3&gt;
+&lt;p&gt;The JVM provides automatic memory management to free the programmer from manually managing memory. New objects are allocated on heap memory. A &lt;strong&gt;root set&lt;/strong&gt; consists of pointers to external memory, static variables, threads, &lt;a href=&#34;https://en.wikipedia.org/wiki/Java_Native_Interface&#34;&gt;JNI&lt;/a&gt; references and internal JVM structures. Objects directly reachable from the root set must be kept in heap. Objects reachable from any of the reachable objects must also be in heap. This group of objects are the only ones which can be used by a program. The unreachable objects (garbage) are removed using a process called &lt;strong&gt;garbage collection (GC)&lt;/strong&gt;. Reachable objects are &lt;strong&gt;compacted&lt;/strong&gt; i.e moved to contiguous space in heap. This is important as otherwise, the heap will become &lt;a href=&#34;https://en.wikipedia.org/wiki/Fragmentation_(computing)&#34;&gt;fragmented&lt;/a&gt;.&lt;/p&gt;</description>
       <content:encoded><![CDATA[<p>This series is a summary of Oracle&rsquo;s <a href="https://apexapps.oracle.com/pls/apex/f?p=44785:149:105166169953256::NO:RP,149:P149_EVENT_ID:5552">JVM troubleshooting course</a> which gives an overview on JVM memory management, Hotspot VM&rsquo;s garbage collection options, various memory errors and how to troubleshoot them.</p>
 <p>In this post (part 1), we will have a look at how JVM manages memory and its different garbage collectors.</p>
 <p>You can find Part 2 <a href="https://dev.to/rrampage/jvm-primer-part-2---debugging-performance-issues-1od">here</a></p>
@@ -459,6 +454,5 @@ Memory spaces in JVM prior to JDK 8</p>
 </ul>
 ]]></content:encoded>
     </item>
-    
   </channel>
 </rss>

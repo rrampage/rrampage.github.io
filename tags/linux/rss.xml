@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>linux on A Random Walk</title>
+    <title>Linux on A Random Walk</title>
     <link>https://rrampage.github.io/tags/linux/</link>
-    <description>Recent content in linux on A Random Walk</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Linux on A Random Walk</description>
+    <generator>Hugo -- 0.144.2</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 25 May 2020 17:32:54 +0000</lastBuildDate><atom:link href="https://rrampage.github.io/tags/linux/rss.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 25 May 2020 17:32:54 +0000</lastBuildDate>
+    <atom:link href="https://rrampage.github.io/tags/linux/rss.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Webhook to auto-deploy on git push to Github</title>
       <link>https://rrampage.github.io/2020/05/25/webhook-to-auto-deploy-on-git-push-to-github/</link>
       <pubDate>Mon, 25 May 2020 17:32:54 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2020/05/25/webhook-to-auto-deploy-on-git-push-to-github/</guid>
       <description>Use git push webhook to run CI or auto-deploy</description>
       <content:encoded><![CDATA[<h2 id="what-is-a-webhook">What is a webhook?</h2>
 <p>A <a href="https://en.wikipedia.org/wiki/Webhook">webhook</a> is an endpoint on your server which allows you to execute a particular task. Webhooks are usually triggered by some event. A good use-case for a webhook is running tests on a dedicated test server or deploying your latest <code>master</code> branch to staging/production.</p>
 <p><a href="https://developer.github.com/webhooks/">Github</a> / <a href="https://docs.gitlab.com/ee/user/project/integrations/webhooks.html">Gitlab</a> / Bitbucket allow you to specify a webhook URL in your repository settings. Github triggers the webhook which sends the event data on every push.</p>
-<h2 id="webhookhttpsgithubcomadnanhwebhook-server"><a href="https://github.com/adnanh/webhook">Webhook</a> server</h2>
+<h2 id="webhook-server"><a href="https://github.com/adnanh/webhook">Webhook</a> server</h2>
 <p><a href="https://github.com/adnanh/webhook">Webhook</a> is a very useful golang project which runs any script you specify when a particular endpoint is hit.</p>
 <p>Download and extract the binary for your operating system from the <a href="https://github.com/adnanh/webhook/releases">releases page</a>. For Linux, it is <a href="https://github.com/adnanh/webhook/releases/download/2.7.0/webhook-linux-amd64.tar.gz">here</a>.</p>
 <p>The program takes as config a <strong><code>hooks.json</code></strong> file:</p>
@@ -127,12 +127,10 @@ WantedBy=default.target
 </code></pre><p>Do <code>systemctl --user daemon-reload</code> and <code>systemctl --user start webhook.service</code>. You can <code>systemctl --user enable webhook.service</code> to ensure that the service always runs when your machine is booted.</p>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Setting display brightness on Linux from the command line</title>
       <link>https://rrampage.github.io/2020/05/19/setting-display-brightness-on-linux-from-the-command-line/</link>
       <pubDate>Tue, 19 May 2020 16:10:26 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2020/05/19/setting-display-brightness-on-linux-from-the-command-line/</guid>
       <description>Auto-adjust the brightness on display in Linux</description>
       <content:encoded><![CDATA[<h2 id="setting-display-brightness-using-xrandr">Setting display brightness using <code>xrandr</code></h2>
@@ -162,12 +160,10 @@ Here&rsquo;s what I do to adjust it: <code>echo 1800 &gt; /sys/class/backlight/i
 </ul>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Easy VPN using Wireguard</title>
       <link>https://rrampage.github.io/2018/12/14/easy-vpn-using-wireguard/</link>
       <pubDate>Fri, 14 Dec 2018 11:48:44 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/12/14/easy-vpn-using-wireguard/</guid>
       <description>Setup a painless VPN using Wireguard</description>
       <content:encoded><![CDATA[<h2 id="why-wireguard-and-how-does-it-work">Why Wireguard and How does it work?</h2>
@@ -240,12 +236,10 @@ sudo wg # shows tyou status of the wireguard connection
 </ul>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Bash Command Completion - Finding all the cats in your $PATH!</title>
       <link>https://rrampage.github.io/2018/11/15/bash-command-completion-finding-all-the-cats-in-your-path/</link>
       <pubDate>Thu, 15 Nov 2018 09:39:37 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/11/15/bash-command-completion-finding-all-the-cats-in-your-path/</guid>
       <description>How to search for programs on the terminal</description>
       <content:encoded><![CDATA[<p>Today, I was curious to find out <strong>how many programs ending with <code>cat</code></strong> I had on my system. I remember using <code>cat</code>, <code>zcat</code> and wanted to know if there are similar programs. Pressing TAB after <code>cat</code> only gives programs which start with <code>cat</code>.</p>
@@ -327,12 +321,10 @@ Let&rsquo;s have a look at the <code>apropos</code> manual</p>
 <p>Diving into this rabbit-hole has given me a better understanding of how Bash completion works, how apropos finds relevant programs and why man pages are organized into various sections.</p>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Command-line productivity tips : Getting help in the terminal</title>
       <link>https://rrampage.github.io/2018/11/11/command-line-productivity-tips-getting-help-in-the-terminal/</link>
       <pubDate>Sun, 11 Nov 2018 17:30:30 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/11/11/command-line-productivity-tips-getting-help-in-the-terminal/</guid>
       <description>What to do when you are stuck in the command-line</description>
       <content:encoded><![CDATA[<p>The command-line is often a daunting place for beginners. With nothing but a blinking cursor and an unfriendly dark screen staring back at you, despair sets in.</p>
@@ -439,12 +431,10 @@ Let&rsquo;s have a look at the <code>apropos</code> manual</p>
 <p>In Ubuntu, we can search all available packages in the repositories using <code>apt-cache search $KEYWORD</code>.</p>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Ensuring that a shell script runs exactly once</title>
       <link>https://rrampage.github.io/2018/11/06/ensuring-that-a-shell-script-runs-exactly-once/</link>
       <pubDate>Tue, 06 Nov 2018 18:53:23 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/11/06/ensuring-that-a-shell-script-runs-exactly-once/</guid>
       <description>How to ensure that only one instance of a shell script runs at a time</description>
       <content:encoded><![CDATA[<p>Many times, we have shell scripts which perform some important stuff like inserting into database, mailing reports, etc which we want to run exactly one instance of.</p>
@@ -495,12 +485,10 @@ Let&rsquo;s have a look at the <code>apropos</code> manual</p>
 </ul>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Surviving the Linux OOM Killer</title>
       <link>https://rrampage.github.io/2018/10/04/surviving-the-linux-oom-killer/</link>
       <pubDate>Thu, 04 Oct 2018 15:48:41 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/10/04/surviving-the-linux-oom-killer/</guid>
       <description>How OOM Killer frees memory</description>
       <content:encoded><![CDATA[<p>When your Linux machine runs out of memory, <strong>Out of Memory (OOM) killer</strong> is called by kernel to free some memory. It is often encountered on servers which have a number of memory intensive processes running. In this post, we dig a little deeper into when does OOM killer get called, how it decides which process to kill and if we can prevent it from killing important processes like databases.</p>
@@ -535,12 +523,10 @@ Let&rsquo;s have a look at the <code>apropos</code> manual</p>
 </ol>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Disk Space Debugging Checklist</title>
       <link>https://rrampage.github.io/2018/05/04/disk-space-debugging-checklist/</link>
       <pubDate>Fri, 04 May 2018 00:00:00 +0530</pubDate>
-      
       <guid>https://rrampage.github.io/2018/05/04/disk-space-debugging-checklist/</guid>
       <description>Checklist for debugging disk issues on Linux servers</description>
       <content:encoded><![CDATA[<p>Many times, smoothly running processes stop working mysteriously. You open the logs and see what is happening, only to find that even the logs have stopped updating. But the process itself is running. You SSH to the server and type cd TAB. Bash weeps &ldquo;Unable to create temporary file&rdquo;. The machine is out of disk space&hellip;</p>
@@ -556,6 +542,5 @@ Let&rsquo;s have a look at the <code>apropos</code> manual</p>
 <p>Let me know if there are some other tools I am missing out on and your experiences dealing with disk space issues!</p>
 ]]></content:encoded>
     </item>
-    
   </channel>
 </rss>

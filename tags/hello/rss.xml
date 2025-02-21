@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>hello on A Random Walk</title>
+    <title>Hello on A Random Walk</title>
     <link>https://rrampage.github.io/tags/hello/</link>
-    <description>Recent content in hello on A Random Walk</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Hello on A Random Walk</description>
+    <generator>Hugo -- 0.144.2</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 03 Mar 2014 22:38:33 +0530</lastBuildDate><atom:link href="https://rrampage.github.io/tags/hello/rss.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 03 Mar 2014 22:38:33 +0530</lastBuildDate>
+    <atom:link href="https://rrampage.github.io/tags/hello/rss.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Hello World</title>
       <link>https://rrampage.github.io/2014/03/03/hello-world/</link>
       <pubDate>Mon, 03 Mar 2014 22:38:33 +0530</pubDate>
-      
       <guid>https://rrampage.github.io/2014/03/03/hello-world/</guid>
-      <description>Hello World!</description>
+      <description>&lt;p&gt;&lt;strong&gt;Hello World!&lt;/strong&gt;&lt;/p&gt;</description>
       <content:encoded><![CDATA[<p><strong>Hello World!</strong></p>
 ]]></content:encoded>
     </item>
-    
   </channel>
 </rss>

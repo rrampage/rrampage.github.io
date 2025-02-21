@@ -4,7 +4,8 @@
     <title>Categories on A Random Walk</title>
     <link>https://rrampage.github.io/categories/</link>
     <description>Recent content in Categories on A Random Walk</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en</language><atom:link href="https://rrampage.github.io/categories/rss.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- 0.144.2</generator>
+    <language>en</language>
+    <atom:link href="https://rrampage.github.io/categories/rss.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

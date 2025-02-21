@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>bash on A Random Walk</title>
+    <title>Bash on A Random Walk</title>
     <link>https://rrampage.github.io/tags/bash/</link>
-    <description>Recent content in bash on A Random Walk</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Bash on A Random Walk</description>
+    <generator>Hugo -- 0.144.2</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 25 May 2020 17:32:54 +0000</lastBuildDate><atom:link href="https://rrampage.github.io/tags/bash/rss.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 25 May 2020 17:32:54 +0000</lastBuildDate>
+    <atom:link href="https://rrampage.github.io/tags/bash/rss.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Webhook to auto-deploy on git push to Github</title>
       <link>https://rrampage.github.io/2020/05/25/webhook-to-auto-deploy-on-git-push-to-github/</link>
       <pubDate>Mon, 25 May 2020 17:32:54 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2020/05/25/webhook-to-auto-deploy-on-git-push-to-github/</guid>
       <description>Use git push webhook to run CI or auto-deploy</description>
       <content:encoded><![CDATA[<h2 id="what-is-a-webhook">What is a webhook?</h2>
 <p>A <a href="https://en.wikipedia.org/wiki/Webhook">webhook</a> is an endpoint on your server which allows you to execute a particular task. Webhooks are usually triggered by some event. A good use-case for a webhook is running tests on a dedicated test server or deploying your latest <code>master</code> branch to staging/production.</p>
 <p><a href="https://developer.github.com/webhooks/">Github</a> / <a href="https://docs.gitlab.com/ee/user/project/integrations/webhooks.html">Gitlab</a> / Bitbucket allow you to specify a webhook URL in your repository settings. Github triggers the webhook which sends the event data on every push.</p>
-<h2 id="webhookhttpsgithubcomadnanhwebhook-server"><a href="https://github.com/adnanh/webhook">Webhook</a> server</h2>
+<h2 id="webhook-server"><a href="https://github.com/adnanh/webhook">Webhook</a> server</h2>
 <p><a href="https://github.com/adnanh/webhook">Webhook</a> is a very useful golang project which runs any script you specify when a particular endpoint is hit.</p>
 <p>Download and extract the binary for your operating system from the <a href="https://github.com/adnanh/webhook/releases">releases page</a>. For Linux, it is <a href="https://github.com/adnanh/webhook/releases/download/2.7.0/webhook-linux-amd64.tar.gz">here</a>.</p>
 <p>The program takes as config a <strong><code>hooks.json</code></strong> file:</p>
@@ -127,12 +127,10 @@ WantedBy=default.target
 </code></pre><p>Do <code>systemctl --user daemon-reload</code> and <code>systemctl --user start webhook.service</code>. You can <code>systemctl --user enable webhook.service</code> to ensure that the service always runs when your machine is booted.</p>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Bash function to add TILs</title>
       <link>https://rrampage.github.io/2020/05/23/bash-function-to-add-tils/</link>
       <pubDate>Sat, 23 May 2020 12:42:20 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2020/05/23/bash-function-to-add-tils/</guid>
       <description>Add TIL to a `til.md` file from the command line</description>
       <content:encoded><![CDATA[<h2 id="til-snippet"><code>til</code> snippet</h2>
@@ -168,12 +166,10 @@ WantedBy=default.target
 </ul>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Bash Command Completion - Finding all the cats in your $PATH!</title>
       <link>https://rrampage.github.io/2018/11/15/bash-command-completion-finding-all-the-cats-in-your-path/</link>
       <pubDate>Thu, 15 Nov 2018 09:39:37 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/11/15/bash-command-completion-finding-all-the-cats-in-your-path/</guid>
       <description>How to search for programs on the terminal</description>
       <content:encoded><![CDATA[<p>Today, I was curious to find out <strong>how many programs ending with <code>cat</code></strong> I had on my system. I remember using <code>cat</code>, <code>zcat</code> and wanted to know if there are similar programs. Pressing TAB after <code>cat</code> only gives programs which start with <code>cat</code>.</p>
@@ -255,12 +251,10 @@ Let&rsquo;s have a look at the <code>apropos</code> manual</p>
 <p>Diving into this rabbit-hole has given me a better understanding of how Bash completion works, how apropos finds relevant programs and why man pages are organized into various sections.</p>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Command-line productivity tips : Getting help in the terminal</title>
       <link>https://rrampage.github.io/2018/11/11/command-line-productivity-tips-getting-help-in-the-terminal/</link>
       <pubDate>Sun, 11 Nov 2018 17:30:30 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/11/11/command-line-productivity-tips-getting-help-in-the-terminal/</guid>
       <description>What to do when you are stuck in the command-line</description>
       <content:encoded><![CDATA[<p>The command-line is often a daunting place for beginners. With nothing but a blinking cursor and an unfriendly dark screen staring back at you, despair sets in.</p>
@@ -367,12 +361,10 @@ Let&rsquo;s have a look at the <code>apropos</code> manual</p>
 <p>In Ubuntu, we can search all available packages in the repositories using <code>apt-cache search $KEYWORD</code>.</p>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Ensuring that a shell script runs exactly once</title>
       <link>https://rrampage.github.io/2018/11/06/ensuring-that-a-shell-script-runs-exactly-once/</link>
       <pubDate>Tue, 06 Nov 2018 18:53:23 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/11/06/ensuring-that-a-shell-script-runs-exactly-once/</guid>
       <description>How to ensure that only one instance of a shell script runs at a time</description>
       <content:encoded><![CDATA[<p>Many times, we have shell scripts which perform some important stuff like inserting into database, mailing reports, etc which we want to run exactly one instance of.</p>
@@ -423,12 +415,10 @@ Let&rsquo;s have a look at the <code>apropos</code> manual</p>
 </ul>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Awk - A useful little language</title>
       <link>https://rrampage.github.io/2018/05/26/awk-a-useful-little-language/</link>
       <pubDate>Sat, 26 May 2018 13:58:58 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/05/26/awk-a-useful-little-language/</guid>
       <description>Speed up text processing tasks with Awk</description>
       <content:encoded><![CDATA[<p>Awk is a small but capable programming language which is used for processing text. It was developed by Aho, Weinberger, Kerninghan at Bell Labs.</p>
@@ -503,6 +493,5 @@ Average population per zip code: 33241.3
 </ul>
 ]]></content:encoded>
     </item>
-    
   </channel>
 </rss>

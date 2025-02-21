@@ -4,14 +4,81 @@
     <title>A Random Walk</title>
     <link>https://rrampage.github.io/</link>
     <description>Recent content on A Random Walk</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo -- 0.144.2</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 04 Dec 2021 00:00:00 +0530</lastBuildDate><atom:link href="https://rrampage.github.io/rss.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 20 Feb 2025 22:38:33 +0530</lastBuildDate>
+    <atom:link href="https://rrampage.github.io/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>An APL a day! - Elimination Sort</title>
+      <link>https://rrampage.github.io/2025/02/20/an-apl-a-day-elimination-sort/</link>
+      <pubDate>Thu, 20 Feb 2025 22:38:33 +0530</pubDate>
+      <guid>https://rrampage.github.io/2025/02/20/an-apl-a-day-elimination-sort/</guid>
+      <description>&lt;p&gt;I&amp;rsquo;ve started dabbling with APL. It has been a lot of fun solving the &lt;a href=&#34;https://challenge.dyalog.com/&#34;&gt;current batch of challenges&lt;/a&gt;. &lt;a href=&#34;https://web.archive.org/web/20250210194607/https://challenge.dyalog.com/?goto=welcome&#34;&gt;Archive&lt;/a&gt;. I loved how each challenge focuses on a small set of operators and makes us use them in various (devious!) combinations to solve the problems. I&amp;rsquo;m going through some of the older challenges to learn about more operators.&lt;/p&gt;
+&lt;p&gt;The past challenges can be found at &lt;a href=&#34;https://apl.quest/&#34;&gt;APL Quest&lt;/a&gt;. Today, we&amp;rsquo;ll be solving the first problem from the 2023 challenge. Use &lt;a href=&#34;https://tryapl.org/&#34;&gt;tryapl.org&lt;/a&gt; as an online interactive REPL.&lt;/p&gt;
+&lt;h2 id=&#34;elimination-sort&#34;&gt;&lt;a href=&#34;https://apl.quest/psets/2023.html?goto=P1_Elimination_Sort&#34;&gt;Elimination Sort&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;An &amp;ldquo;Elimination Sort&amp;rdquo; is a somewhat farcical sorting algorithm which starts with the leftmost element and keeps subsequent elements that are at least as large as the previous kept element, discarding all other elements. For example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-apl&#34; data-lang=&#34;apl&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;EliminationSort&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;6&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;4&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Write a function that:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;takes a non-empty numeric vector right argument&lt;/li&gt;
+&lt;li&gt;returns an &amp;ldquo;Elimination-sorted&amp;rdquo; vector of the right argument&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Hint: The progressive-maxima idiomatic phrase ⌈, the greater or equal function ≥, and the replicate function / could be helpful in solving this problem.&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>I&rsquo;ve started dabbling with APL. It has been a lot of fun solving the <a href="https://challenge.dyalog.com/">current batch of challenges</a>. <a href="https://web.archive.org/web/20250210194607/https://challenge.dyalog.com/?goto=welcome">Archive</a>. I loved how each challenge focuses on a small set of operators and makes us use them in various (devious!) combinations to solve the problems. I&rsquo;m going through some of the older challenges to learn about more operators.</p>
+<p>The past challenges can be found at <a href="https://apl.quest/">APL Quest</a>. Today, we&rsquo;ll be solving the first problem from the 2023 challenge. Use <a href="https://tryapl.org/">tryapl.org</a> as an online interactive REPL.</p>
+<h2 id="elimination-sort"><a href="https://apl.quest/psets/2023.html?goto=P1_Elimination_Sort">Elimination Sort</a></h2>
+<p>An &ldquo;Elimination Sort&rdquo; is a somewhat farcical sorting algorithm which starts with the leftmost element and keeps subsequent elements that are at least as large as the previous kept element, discarding all other elements. For example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-apl" data-lang="apl"><span class="line"><span class="cl"><span class="nv">EliminationSort</span> <span class="m">1</span> <span class="m">3</span> <span class="m">7</span> <span class="m">3</span> <span class="m">5</span> <span class="m">8</span> <span class="m">5</span> <span class="m">8</span> <span class="m">1</span> <span class="m">6</span> <span class="m">1</span> <span class="m">8</span> <span class="m">1</span> <span class="m">10</span> <span class="m">8</span> <span class="m">4</span> <span class="m">3</span> <span class="m">4</span> <span class="m">1</span> <span class="m">4</span>
+</span></span><span class="line"><span class="cl"><span class="m">1</span> <span class="m">3</span> <span class="m">7</span> <span class="m">8</span> <span class="m">8</span> <span class="m">8</span> <span class="m">10</span> 
+</span></span></code></pre></div><p>Write a function that:</p>
+<ul>
+<li>takes a non-empty numeric vector right argument</li>
+<li>returns an &ldquo;Elimination-sorted&rdquo; vector of the right argument</li>
+</ul>
+<p>Hint: The progressive-maxima idiomatic phrase ⌈, the greater or equal function ≥, and the replicate function / could be helpful in solving this problem.</p>
+<h3 id="examples">Examples</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-apl" data-lang="apl"><span class="line"><span class="cl">      <span class="nv">EliminationSort</span> <span class="o">⍳</span><span class="m">10</span>
+</span></span><span class="line"><span class="cl"><span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span> <span class="m">5</span> <span class="m">6</span> <span class="m">7</span> <span class="m">8</span> <span class="m">9</span> <span class="m">10</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="nv">EliminationSort</span> <span class="m">2</span> <span class="m">1</span> <span class="m">4</span> <span class="m">3</span> <span class="m">6</span> <span class="m">5</span> <span class="m">8</span> <span class="m">7</span> <span class="m">10</span> <span class="m">9</span>
+</span></span><span class="line"><span class="cl"><span class="m">2</span> <span class="m">4</span> <span class="m">6</span> <span class="m">8</span> <span class="m">10</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="nv">EliminationSort</span> <span class="m">1000</span> <span class="m">2500</span> <span class="m">1333</span> <span class="m">1969</span> <span class="m">3141</span> <span class="m">2345</span> <span class="m">3141</span> <span class="m">4291.9</span> <span class="m">4291.8</span> <span class="m">4292</span>
+</span></span><span class="line"><span class="cl"><span class="m">1000</span> <span class="m">2500</span> <span class="m">3141</span> <span class="m">3141</span> <span class="m">4291.9</span> <span class="m">4292</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="nv">EliminationSort</span> <span class="m">1</span> <span class="m">3</span> <span class="m">7</span> <span class="m">3</span> <span class="m">5</span> <span class="m">8</span> <span class="m">5</span> <span class="m">8</span> <span class="m">1</span> <span class="m">6</span> <span class="m">1</span> <span class="m">8</span> <span class="m">1</span> <span class="m">10</span> <span class="m">8</span> <span class="m">4</span> <span class="m">3</span> <span class="m">4</span> <span class="m">1</span> <span class="m">4</span>
+</span></span><span class="line"><span class="cl"><span class="m">1</span> <span class="m">3</span> <span class="m">7</span> <span class="m">8</span> <span class="m">8</span> <span class="m">8</span> <span class="m">10</span>
+</span></span></code></pre></div><h3 id="solution">Solution</h3>
+
+<details>
+  <summary>See the solution</summary>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-apl" data-lang="apl"><span class="line"><span class="cl"><span class="kt">{</span><span class="p">(</span><span class="bp">⍵</span><span class="o">=⌈</span><span class="na">\</span><span class="bp">⍵</span><span class="p">)</span><span class="na">/</span><span class="bp">⍵</span><span class="kt">}</span>
+</span></span></code></pre></div><ul>
+<li><code>⌈\⍵</code> to generate a <code>scan</code> of running maximum
+<ul>
+<li>e.g for <code>⌈\2 1 4 3 6 5 8 7 10 9</code> gives <code>2 2 4 4 6 6 8 8 10 10</code></li>
+</ul>
+</li>
+<li>Compare with ⍵ to only get those indices where the actual element exists
+<ul>
+<li><code>{(⍵=⌈\⍵)} 2 1 4 3 6 5 8 7 10 9</code> gives <code>1 0 1 0 1 0 1 0 1 0</code></li>
+</ul>
+</li>
+<li>Finally, <a href="https://aplwiki.com/wiki/Replicate">replicate</a> (/) to get only the required elements
+<ul>
+<li><code>{(⍵=⌈\⍵)/⍵} 2 1 4 3 6 5 8 7 10 9</code> gives <code>2 4 6 8 10</code></li>
+</ul>
+</li>
+</ul>
+</details>
+
+]]></content:encoded>
+    </item>
     <item>
       <title>Re-learning Lua</title>
       <link>https://rrampage.github.io/2021/12/04/relearning-lua/</link>
       <pubDate>Sat, 04 Dec 2021 00:00:00 +0530</pubDate>
-      
       <guid>https://rrampage.github.io/2021/12/04/relearning-lua/</guid>
       <description>Lua Basics</description>
       <content:encoded><![CDATA[<h2 id="lua---basics">Lua - Basics</h2>
@@ -66,12 +133,10 @@
 </span></span><span class="line"><span class="cl"><span class="kr">return</span> <span class="p">{[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="p">{[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">123</span><span class="p">,[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="mi">3</span><span class="p">},[</span><span class="s2">&#34;v&#34;</span><span class="p">]</span><span class="o">=</span><span class="p">{[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">2</span><span class="p">,[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="mi">6</span><span class="p">,[</span><span class="mi">3</span><span class="p">]</span><span class="o">=</span><span class="mi">7</span><span class="p">},[</span><span class="s2">&#34;a&#34;</span><span class="p">]</span><span class="o">=</span><span class="p">{[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">,[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="mi">2</span><span class="p">,[</span><span class="mi">3</span><span class="p">]</span><span class="o">=</span><span class="mi">3</span><span class="p">},[</span><span class="kc">true</span><span class="p">]</span><span class="o">=</span><span class="mi">123</span><span class="p">}</span>
 </span></span></code></pre></div>]]></content:encoded>
     </item>
-    
     <item>
       <title>S3 Game</title>
       <link>https://rrampage.github.io/2020/06/04/s3-game/</link>
       <pubDate>Thu, 04 Jun 2020 16:09:34 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2020/06/04/s3-game/</guid>
       <description>Level up your S3 skills by playing this game!</description>
       <content:encoded><![CDATA[<h2 id="introduction">Introduction</h2>
@@ -82,21 +147,21 @@
 <li>A browser</li>
 <li><a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html">aws cli</a></li>
 </ul>
-<h3 id="click-herehttps3game-level1s3-websiteus-east-2amazonawscom-to-play"><strong>CLICK <a href="http://s3game-level1.s3-website.us-east-2.amazonaws.com/">HERE</a> TO PLAY!</strong></h3>
+<h3 id="click"><strong>CLICK <a href="http://s3game-level1.s3-website.us-east-2.amazonaws.com/">HERE</a> TO PLAY!</strong></h3>
 <p>Each level consists of finding a &ldquo;treasure&rdquo; object and getting to the next level using the secret code in the &ldquo;treasure&rdquo;.</p>
 <p>Go ahead and play this game. Each level contains multiple hints with links to S3 API documentation.</p>
 <p>Below is a walk through you can refer to if you are stuck on any level. Make sure that you try for a bit before seeing here :)</p>
 <h2 id="walk-through-spoilers">Walk through (Spoilers)</h2>
-<h3 id="level-1https3game-level1s3-websiteus-east-2amazonawscomlevel1html"><a href="http://s3game-level1.s3-website.us-east-2.amazonaws.com/level1.html">Level 1</a></h3>
+<h3 id="level-1"><a href="http://s3game-level1.s3-website.us-east-2.amazonaws.com/level1.html">Level 1</a></h3>
 <h4 id="solution">Solution:</h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># List the objects in bucket</span>
 </span></span><span class="line"><span class="cl">aws s3 ls s3://s3game-level1
 </span></span></code></pre></div><p>Visit the <a href="http://s3game-level1.s3-website.us-east-2.amazonaws.com/treasure1">treasure object</a></p>
-<h3 id="level-2httpss3game-level2s3us-east-2amazonawscomlevel2-748l6b6xwzl6html"><a href="https://s3game-level2.s3.us-east-2.amazonaws.com/level2-748l6b6xwzl6.html">Level 2</a></h3>
+<h3 id="level-2"><a href="https://s3game-level2.s3.us-east-2.amazonaws.com/level2-748l6b6xwzl6.html">Level 2</a></h3>
 <h4 id="solution-1">Solution:</h4>
 <p>Just get the treasure2 object either using browser or aws s3 : <a href="https://s3game-level2.s3.us-east-2.amazonaws.com/treasure2">https://s3game-level2.s3.us-east-2.amazonaws.com/treasure2</a>
 Make sure to save the Access and Secret key somewhere</p>
-<h3 id="level-3httpss3game-level3s3us-east-2amazonawscomlevel3-76qp7mlpzyg1html"><a href="https://s3game-level3.s3.us-east-2.amazonaws.com/level3-76qp7mlpzyg1.html">Level 3</a></h3>
+<h3 id="level-3"><a href="https://s3game-level3.s3.us-east-2.amazonaws.com/level3-76qp7mlpzyg1.html">Level 3</a></h3>
 <p>Create an AWS profile &ldquo;tmp&rdquo; with the access and secret key obtained from previous level. You will need to use this for almost every level from here on.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">aws configure --profile tmp
 </span></span><span class="line"><span class="cl">&gt; AWS Access Key ID
@@ -108,7 +173,7 @@ Make sure to save the Access and Secret key somewhere</p>
 </span></span><span class="line"><span class="cl">cat treasure3_has_no_secret_code
 </span></span><span class="line"><span class="cl"><span class="c1"># The object data itself does not have the secret code. It is present in the metadata</span>
 </span></span><span class="line"><span class="cl">aws s3api head-object --bucket s3game-level3 --key treasure3_has_no_secret_code --profile tmp
-</span></span></code></pre></div><h3 id="level-4httpss3game-level4-k73045aztqlns3us-east-2amazonawscomlevel4html"><a href="https://s3game-level4-k73045aztqln.s3.us-east-2.amazonaws.com/level4.html">Level 4</a></h3>
+</span></span></code></pre></div><h3 id="level-4"><a href="https://s3game-level4-k73045aztqln.s3.us-east-2.amazonaws.com/level4.html">Level 4</a></h3>
 <ul>
 <li><a href="https://s3game-level4-k73045aztqln.s3.us-east-2.amazonaws.com/level4-hint2.html">Hint</a></li>
 </ul>
@@ -123,9 +188,8 @@ Make sure to save the Access and Secret key somewhere</p>
 </span></span></code></pre></div><h4 id="takeaway">Takeaway:</h4>
 <blockquote>
 <p>Object in S3, including its metadata, is immutable. When you edit object&rsquo;s metadata, you are actually overwriting the object with a copy of itself, with its metadata modified.
-In contrast, tags are subresources. They are managed separately and can be modified without modifying the object itself.</p>
-</blockquote>
-<h3 id="level-5httpss3game-level5-8v95e5rv7z4is3us-east-2amazonawscomlevel5html"><a href="https://s3game-level5-8v95e5rv7z4i.s3.us-east-2.amazonaws.com/level5.html">Level 5</a></h3>
+In contrast, tags are subresources. They are managed separately and can be modified without modifying the object itself.</p></blockquote>
+<h3 id="level-5"><a href="https://s3game-level5-8v95e5rv7z4i.s3.us-east-2.amazonaws.com/level5.html">Level 5</a></h3>
 <ul>
 <li><a href="https://s3game-level5-8v95e5rv7z4i.s3.us-east-2.amazonaws.com/level5-hint2.html">Hint</a></li>
 <li><a href="https://s3game-level5-8v95e5rv7z4i.s3.us-east-2.amazonaws.com/level5-hint3.html">Hint</a></li>
@@ -141,9 +205,8 @@ In contrast, tags are subresources. They are managed separately and can be modif
 <p>S3 versioning keeps multiple variants of an object in the same bucket.
 If you enable versioning for a bucket, S3 automatically generates a unique version ID for the object being stored.
 In one bucket you can have two objects with the same key, but different version IDs.
-Check if versioning is enabled using: <code>aws s3api get-bucket-versioning --bucket my-bucket</code></p>
-</blockquote>
-<h3 id="level-6httpss3game-level6-vjv45x1gux81s3us-east-2amazonawscomlevel6html"><a href="https://s3game-level6-vjv45x1gux81.s3.us-east-2.amazonaws.com/level6.html">Level 6</a></h3>
+Check if versioning is enabled using: <code>aws s3api get-bucket-versioning --bucket my-bucket</code></p></blockquote>
+<h3 id="level-6"><a href="https://s3game-level6-vjv45x1gux81.s3.us-east-2.amazonaws.com/level6.html">Level 6</a></h3>
 <ul>
 <li><a href="https://s3game-level6-vjv45x1gux81.s3.us-east-2.amazonaws.com/level6-hint2.html">Hint</a></li>
 </ul>
@@ -152,7 +215,7 @@ Check if versioning is enabled using: <code>aws s3api get-bucket-versioning --bu
 </span></span><span class="line"><span class="cl">aws s3api list-objects --bucket s3game-level6-vjv45x1gux81 --profile tmp
 </span></span><span class="line"><span class="cl"><span class="c1"># Now, do the select on s3select.csv.gz</span>
 </span></span><span class="line"><span class="cl">aws s3api <span class="k">select</span>-object-content --bucket s3game-level6-vjv45x1gux81 --key s3select.csv.gz --expression <span class="s2">&#34;SELECT s.Answer FROM s3object s WHERE Category = &#39;TREASURE&#39;&#34;</span> --expression-type sql --input-serialization <span class="s1">&#39;{&#34;CSV&#34;: {&#34;FileHeaderInfo&#34;: &#34;USE&#34;, &#34;FieldDelimiter&#34;: &#34;;&#34;}, &#34;CompressionType&#34;: &#34;GZIP&#34;}&#39;</span> --output-serialization <span class="s1">&#39;{&#34;CSV&#34;: {}}&#39;</span> --profile tmp treasure6
-</span></span></code></pre></div><h3 id="level-7httpss3game-level7-zhovpo4j8588s3us-east-2amazonawscomlevel7html"><a href="https://s3game-level7-zhovpo4j8588.s3.us-east-2.amazonaws.com/level7.html">Level 7</a></h3>
+</span></span></code></pre></div><h3 id="level-7"><a href="https://s3game-level7-zhovpo4j8588.s3.us-east-2.amazonaws.com/level7.html">Level 7</a></h3>
 <ul>
 <li><a href="https://s3game-level7-zhovpo4j8588.s3.us-east-2.amazonaws.com/level7-hint2.html">Hint</a></li>
 </ul>
@@ -165,9 +228,8 @@ Check if versioning is enabled using: <code>aws s3api get-bucket-versioning --bu
 <p>Pre-signed URLs are a powerful feature of S3. From the <a href="https://boto3.amazonaws.com/v1/documentation/api/latest/guide/s3-presigned-urls.html">docs</a>:</p>
 <blockquote>
 <p>A presigned URL is generated by an AWS user who has access to the object. The generated URL is then given to the unauthorized user. The presigned URL can be entered in a browser or used by a program or HTML webpage. The credentials used by the presigned URL are those of the AWS user who generated the URL.</p>
-<p>A presigned URL remains valid for a <strong>limited period of time</strong> which is specified when the URL is generated.</p>
-</blockquote>
-<h3 id="level-8httpss3game-level8-v6g8tp7ra2lds3us-east-2amazonawscomlevel8html"><a href="https://s3game-level8-v6g8tp7ra2ld.s3.us-east-2.amazonaws.com/level8.html">Level 8</a></h3>
+<p>A presigned URL remains valid for a <strong>limited period of time</strong> which is specified when the URL is generated.</p></blockquote>
+<h3 id="level-8"><a href="https://s3game-level8-v6g8tp7ra2ld.s3.us-east-2.amazonaws.com/level8.html">Level 8</a></h3>
 <h4 id="solution-7">Solution</h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># List objects</span>
 </span></span><span class="line"><span class="cl">aws s3api list-objects --bucket s3game-level8-v6g8tp7ra2ld --profile tmp
@@ -179,7 +241,7 @@ Check if versioning is enabled using: <code>aws s3api get-bucket-versioning --bu
 <li>In such cases, you can restrict public access for the objects in the bucket as they can be accessed using Cloudfront</li>
 <li>Ensure that your bucket does not allow unprivileged users to list all objects in the bucket</li>
 </ul>
-<h3 id="level-9httpss3game-level9-781xtls2quvys3us-east-2amazonawscomlevel9html"><a href="https://s3game-level9-781xtls2quvy.s3.us-east-2.amazonaws.com/level9.html">Level 9</a></h3>
+<h3 id="level-9"><a href="https://s3game-level9-781xtls2quvy.s3.us-east-2.amazonaws.com/level9.html">Level 9</a></h3>
 <ul>
 <li><a href="https://s3game-level9-781xtls2quvy.s3.us-east-2.amazonaws.com/level9-hint2.html">Hint</a></li>
 </ul>
@@ -187,7 +249,7 @@ Check if versioning is enabled using: <code>aws s3api get-bucket-versioning --bu
 <h4 id="solution-8">Solution</h4>
 <p>All we need to do is curl with a &ndash;refer given in policy
 curl &lsquo;<a href="https://s3game-level9-781xtls2quvy.s3.us-east-2.amazonaws.com/treasure9_referer'">https://s3game-level9-781xtls2quvy.s3.us-east-2.amazonaws.com/treasure9_referer'</a> &ndash;refer &lsquo;<a href="http://s3game.treasure">http://s3game.treasure</a>&rsquo;</p>
-<h3 id="level-10httpss3game-level10-gac6tf83erp6s3us-east-2amazonawscomlevel10html"><a href="https://s3game-level10-gac6tf83erp6.s3.us-east-2.amazonaws.com/level10.html">Level 10</a></h3>
+<h3 id="level-10"><a href="https://s3game-level10-gac6tf83erp6.s3.us-east-2.amazonaws.com/level10.html">Level 10</a></h3>
 <p>Here, we need to fetch an object which is in Infrequent Access storage.</p>
 <h4 id="solution-9">Solution</h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># We can use the powerful query param of aws cli to just fetch those objects which are in infrequent access storgae</span>
@@ -200,9 +262,8 @@ curl &lsquo;<a href="https://s3game-level9-781xtls2quvy.s3.us-east-2.amazonaws.c
 <li>Intelligent-Tiering for data with unknown or changing access patterns</li>
 <li>Standard-Infrequent Access (Standard-IA) and One Zone-Infrequent Access (One Zone-IA) for long-lived, but less frequently accessed data</li>
 <li>Glacier and Glacier Deep Archive for long-term archive</li>
-</ul>
-</blockquote>
-<h3 id="level-11httpss3game-level11-djq30a807iyqs3us-east-2amazonawscomlevel11html"><a href="https://s3game-level11-djq30a807iyq.s3.us-east-2.amazonaws.com/level11.html">Level 11</a></h3>
+</ul></blockquote>
+<h3 id="level-11"><a href="https://s3game-level11-djq30a807iyq.s3.us-east-2.amazonaws.com/level11.html">Level 11</a></h3>
 <p>Here we need to fetch an object which has been encrypted using client side encryption and uploaded to S3. This means that we can not fetch the object unless we have the encryption key.</p>
 <h4 id="solution-10">Solution</h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># The encryption key is given in the hint</span>
@@ -211,22 +272,29 @@ curl &lsquo;<a href="https://s3game-level9-781xtls2quvy.s3.us-east-2.amazonaws.c
 </span></span><span class="line"><span class="cl">aws s3api get-object --bucket s3game-level11-djq30a807iyq --key treasure11_encryption --sse-customer-key <span class="s1">&#39;UkXp2s5v8y/B?E(H+MbPeShVmYq3t6w9&#39;</span> --sse-customer-algorithm AES256 --profile tmp treasure11_encryption
 </span></span></code></pre></div><h4 id="takeaway-5">Takeaway</h4>
 <p>S3 supports both <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">server side</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html">client side encryption</a>.</p>
-<h3 id="victory---level-12httpss3game-level12-bk0m5ax5n92os3us-east-2amazonawscomlevel12html">VICTORY! - <a href="https://s3game-level12-bk0m5ax5n92o.s3.us-east-2.amazonaws.com/level12.html">Level 12</a></h3>
+<h3 id="victory---level-12">VICTORY! - <a href="https://s3game-level12-bk0m5ax5n92o.s3.us-east-2.amazonaws.com/level12.html">Level 12</a></h3>
 <p>Congrats! You have cleared the game!</p>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>NPM and Node tips to make your dev machine (slightly) safer</title>
       <link>https://rrampage.github.io/2020/05/28/npm-and-node-tips-to-make-your-dev-machine-slightly-safer/</link>
       <pubDate>Thu, 28 May 2020 10:42:07 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2020/05/28/npm-and-node-tips-to-make-your-dev-machine-slightly-safer/</guid>
-      <description>NPM is used as a convenient cross-platform package manager for a lot of developer tools. For many tools, the defacto way to install is npm install -g $TOOL. But installing anything via npm allows it to run untrusted code on your machine.
-Here are a few tips to minimize the risk:
-1. NEVER run npm as sudo/root Node&amp;rsquo;s official documentation recommends not installing global packages as sudo/root. If you have already installed node through nvm ignore this step. If you use a system installed node e.g using Ubuntu&amp;rsquo;s apt-get, read through this guide for Linux/Mac or npm-g-nosudo which is a shell script for Linux.
-If you are lazy (like me), here&amp;rsquo;s a summary from the linked guide: mkdir -p &amp;#34;${HOME}/.npm-packages&amp;#34; &amp;amp;&amp;amp; npm config set prefix &amp;#34;${HOME}/.npm-packages&amp;#34; Add this to your .bashrc or .zshrc:
-NPM_PACKAGES=&amp;#34;${HOME}/.npm-packages&amp;#34; export PATH=&amp;#34;$PATH:$NPM_PACKAGES/bin&amp;#34; # Preserve MANPATH if you already defined it somewhere in your config. # Otherwise, fall back to `manpath` so we can inherit from `/etc/manpath`. export MANPATH=&amp;#34;${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man&amp;#34; 2.</description>
+      <description>&lt;p&gt;NPM is used as a convenient cross-platform package manager for &lt;a href=&#34;https://hackernoon.com/the-best-of-npm-install-g-9ab9d749eeb1&#34;&gt;a lot of developer tools&lt;/a&gt;. For many tools, the defacto way to install is &lt;strong&gt;&lt;code&gt;npm install -g $TOOL&lt;/code&gt;&lt;/strong&gt;. But installing anything via npm allows it to run untrusted code on your machine.&lt;/p&gt;
+&lt;p&gt;Here are a few tips to minimize the risk:&lt;/p&gt;
+&lt;h2 id=&#34;1-never-run-npm-as-sudoroot&#34;&gt;1. NEVER run npm as sudo/root&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally&#34;&gt;Node&amp;rsquo;s official documentation&lt;/a&gt; recommends not installing global packages as sudo/root. If you have already installed node through &lt;code&gt;nvm&lt;/code&gt; ignore this step. If you use a system installed &lt;code&gt;node&lt;/code&gt; e.g using Ubuntu&amp;rsquo;s apt-get, read through &lt;strong&gt;&lt;a href=&#34;https://github.com/sindresorhus/guides/blob/master/npm-global-without-sudo.md&#34;&gt;this guide&lt;/a&gt;&lt;/strong&gt; for Linux/Mac or &lt;a href=&#34;https://github.com/glenpike/npm-g_nosudo&#34;&gt;npm-g-nosudo&lt;/a&gt; which is a shell script for Linux.&lt;/p&gt;
+&lt;h3 id=&#34;if-you-are-lazy-like-me-heres-a-summary-from-the-linked-guide&#34;&gt;If you are lazy (like me), here&amp;rsquo;s a summary from the linked guide:&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mkdir -p &lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;HOME&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;/.npm-packages&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; npm config &lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt; prefix &lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;HOME&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;/.npm-packages&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Add this to your &lt;code&gt;.bashrc&lt;/code&gt; or &lt;code&gt;.zshrc&lt;/code&gt;:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;NPM_PACKAGES=&amp;#34;${HOME}/.npm-packages&amp;#34;
+export PATH=&amp;#34;$PATH:$NPM_PACKAGES/bin&amp;#34;
+# Preserve MANPATH if you already defined it somewhere in your config.
+# Otherwise, fall back to `manpath` so we can inherit from `/etc/manpath`.
+export MANPATH=&amp;#34;${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;2-installuse-node-using-nvm-or-asdf&#34;&gt;2. Install/Use node using &lt;code&gt;nvm&lt;/code&gt; or &lt;code&gt;asdf&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally&#34;&gt;Node&amp;rsquo;s official documentation&lt;/a&gt; recommends installing node as an unprivileged user using a node version manager.&lt;/p&gt;</description>
       <content:encoded><![CDATA[<p>NPM is used as a convenient cross-platform package manager for <a href="https://hackernoon.com/the-best-of-npm-install-g-9ab9d749eeb1">a lot of developer tools</a>. For many tools, the defacto way to install is <strong><code>npm install -g $TOOL</code></strong>. But installing anything via npm allows it to run untrusted code on your machine.</p>
 <p>Here are a few tips to minimize the risk:</p>
 <h2 id="1-never-run-npm-as-sudoroot">1. NEVER run npm as sudo/root</h2>
@@ -270,7 +338,7 @@ Remove any unnecessary packages with <strong><code>npm uninstall -g $TOOL</code>
 You can check your shell history/scripts folders to see if you actually use many of the global packages.</p>
 <h2 id="4-audit-your-packages">4. Audit your packages</h2>
 <p>Run <strong><code>npm audit</code></strong> in your project regularly to see if <a href="https://docs.npmjs.com/auditing-package-dependencies-for-security-vulnerabilities">any dependencies are vulnerable</a>. This only works for your development projects, not global packages.</p>
-<h3 id="a-hacky-wayhttpsstackoverflowcoma53619858-to-npm-audit--global-packages"><a href="https://stackoverflow.com/a/53619858">A (hacky) way</a> to <code>npm audit</code>  global packages:</h3>
+<h3 id="a-hacky-way-to-npm-audit--global-packages"><a href="https://stackoverflow.com/a/53619858">A (hacky) way</a> to <code>npm audit</code>  global packages:</h3>
 <ul>
 <li>Run <code>npm</code>. The last line will show the folder of the global npm packages e.g <code>$HOME/.npm-packages/lib/node_modules/npm</code></li>
 <li>Go to <code>$HOME/.npm-packages/lib</code> and run <code>npm init -y</code> and then run <code>npm i --package-lock-only</code>. These steps are required as <code>npm audit</code> checks for <code>package.json</code> and <code>package-lock.json</code></li>
@@ -281,29 +349,25 @@ You can check your shell history/scripts folders to see if you actually use many
 <p>Many times, it is not necessary to have a tool installed globally e.g <code>create-react-app</code>. Node 6+ comes with <code>npx</code> which allows you to temporarily download and run scripts. The benefits of using <code>npx</code> over <code>npm install -g</code> are beautifully explained in <a href="https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b">this post</a>.</p>
 <p>A gist of the article:</p>
 <blockquote>
-<p>Calling npx <command> when <command> isn’t already in your $PATH will automatically install a package with that name from the npm registry for you, and invoke it. When it’s done, the installed package won’t be anywhere in your globals, so you won’t have to worry about pollution in the long-term.</p>
-</blockquote>
+<p>Calling npx <command> when <command> isn’t already in your $PATH will automatically install a package with that name from the npm registry for you, and invoke it. When it’s done, the installed package won’t be anywhere in your globals, so you won’t have to worry about pollution in the long-term.</p></blockquote>
 <blockquote>
-<p>This feature is ideal for things like generators, too. Tools like yeoman or create-react-app only ever get called once in a blue moon. <strong>By the time you run them again, they’ll already be far out of date, so you end up having to run an install every time you want to use them anyway.</strong></p>
-</blockquote>
+<p>This feature is ideal for things like generators, too. Tools like yeoman or create-react-app only ever get called once in a blue moon. <strong>By the time you run them again, they’ll already be far out of date, so you end up having to run an install every time you want to use them anyway.</strong></p></blockquote>
 <h2 id="bonus--use-deno-for-developer-tools">Bonus : Use Deno for developer tools</h2>
 <p>I think a project like <a href="https://deno.land/">deno</a> with good sandbox capabilities and <a href="https://deno.land/manual/getting_started/permissions">limited permisisons</a> is the best choice for a lot of developer tools currently made using Node. Read <a href="https://www.jeremymorgan.com/blog/programming/what-is-deno/">this post</a> for more details on why everyone is talking about Deno.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>Does this solve all security issues of <code>node</code>/<code>npm</code> on your machine? No! There are a <a href="https://blog.npmjs.org/post/180565383195/details-about-the-event-stream-incident">lot</a> <a href="https://blog.npmjs.org/post/185397814280/plot-to-steal-cryptocurrency-foiled-by-the-npm">of</a> <a href="https://blog.npmjs.org/post/175824896885/incident-report-npm-inc-operations-incident-of">ways</a> in which a malicious attacker can compromise your machine/project. This only prevents a bad npm tool from getting root access and removes globally installed npm tools with known insecure dependencies.</p>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Webhook to auto-deploy on git push to Github</title>
       <link>https://rrampage.github.io/2020/05/25/webhook-to-auto-deploy-on-git-push-to-github/</link>
       <pubDate>Mon, 25 May 2020 17:32:54 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2020/05/25/webhook-to-auto-deploy-on-git-push-to-github/</guid>
       <description>Use git push webhook to run CI or auto-deploy</description>
       <content:encoded><![CDATA[<h2 id="what-is-a-webhook">What is a webhook?</h2>
 <p>A <a href="https://en.wikipedia.org/wiki/Webhook">webhook</a> is an endpoint on your server which allows you to execute a particular task. Webhooks are usually triggered by some event. A good use-case for a webhook is running tests on a dedicated test server or deploying your latest <code>master</code> branch to staging/production.</p>
 <p><a href="https://developer.github.com/webhooks/">Github</a> / <a href="https://docs.gitlab.com/ee/user/project/integrations/webhooks.html">Gitlab</a> / Bitbucket allow you to specify a webhook URL in your repository settings. Github triggers the webhook which sends the event data on every push.</p>
-<h2 id="webhookhttpsgithubcomadnanhwebhook-server"><a href="https://github.com/adnanh/webhook">Webhook</a> server</h2>
+<h2 id="webhook-server"><a href="https://github.com/adnanh/webhook">Webhook</a> server</h2>
 <p><a href="https://github.com/adnanh/webhook">Webhook</a> is a very useful golang project which runs any script you specify when a particular endpoint is hit.</p>
 <p>Download and extract the binary for your operating system from the <a href="https://github.com/adnanh/webhook/releases">releases page</a>. For Linux, it is <a href="https://github.com/adnanh/webhook/releases/download/2.7.0/webhook-linux-amd64.tar.gz">here</a>.</p>
 <p>The program takes as config a <strong><code>hooks.json</code></strong> file:</p>
@@ -413,12 +477,10 @@ WantedBy=default.target
 </code></pre><p>Do <code>systemctl --user daemon-reload</code> and <code>systemctl --user start webhook.service</code>. You can <code>systemctl --user enable webhook.service</code> to ensure that the service always runs when your machine is booted.</p>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Bash function to add TILs</title>
       <link>https://rrampage.github.io/2020/05/23/bash-function-to-add-tils/</link>
       <pubDate>Sat, 23 May 2020 12:42:20 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2020/05/23/bash-function-to-add-tils/</guid>
       <description>Add TIL to a `til.md` file from the command line</description>
       <content:encoded><![CDATA[<h2 id="til-snippet"><code>til</code> snippet</h2>
@@ -454,12 +516,10 @@ WantedBy=default.target
 </ul>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Setting display brightness on Linux from the command line</title>
       <link>https://rrampage.github.io/2020/05/19/setting-display-brightness-on-linux-from-the-command-line/</link>
       <pubDate>Tue, 19 May 2020 16:10:26 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2020/05/19/setting-display-brightness-on-linux-from-the-command-line/</guid>
       <description>Auto-adjust the brightness on display in Linux</description>
       <content:encoded><![CDATA[<h2 id="setting-display-brightness-using-xrandr">Setting display brightness using <code>xrandr</code></h2>
@@ -489,12 +549,10 @@ Here&rsquo;s what I do to adjust it: <code>echo 1800 &gt; /sys/class/backlight/i
 </ul>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Easy VPN using Wireguard</title>
       <link>https://rrampage.github.io/2018/12/14/easy-vpn-using-wireguard/</link>
       <pubDate>Fri, 14 Dec 2018 11:48:44 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/12/14/easy-vpn-using-wireguard/</guid>
       <description>Setup a painless VPN using Wireguard</description>
       <content:encoded><![CDATA[<h2 id="why-wireguard-and-how-does-it-work">Why Wireguard and How does it work?</h2>
@@ -567,12 +625,10 @@ sudo wg # shows tyou status of the wireguard connection
 </ul>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Git Tagging Tutorial</title>
       <link>https://rrampage.github.io/2018/11/22/git-tagging-tutorial/</link>
       <pubDate>Thu, 22 Nov 2018 10:44:36 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/11/22/git-tagging-tutorial/</guid>
       <description>How to create tags in your git repo from command line</description>
       <content:encoded><![CDATA[<p>I read a post on <a href="https://dev.to/zellwk/git-tags--37a">dev.to</a> which shows how to create git tags using GUI-based git clients. I think that tags are useful to know even when using the git cli.</p>
@@ -612,12 +668,10 @@ Similarly, delete a tag using <strong><code>git tag -d TAG_NAME</code></strong><
 </ul>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Bash Command Completion - Finding all the cats in your $PATH!</title>
       <link>https://rrampage.github.io/2018/11/15/bash-command-completion-finding-all-the-cats-in-your-path/</link>
       <pubDate>Thu, 15 Nov 2018 09:39:37 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/11/15/bash-command-completion-finding-all-the-cats-in-your-path/</guid>
       <description>How to search for programs on the terminal</description>
       <content:encoded><![CDATA[<p>Today, I was curious to find out <strong>how many programs ending with <code>cat</code></strong> I had on my system. I remember using <code>cat</code>, <code>zcat</code> and wanted to know if there are similar programs. Pressing TAB after <code>cat</code> only gives programs which start with <code>cat</code>.</p>
@@ -699,12 +753,10 @@ Let&rsquo;s have a look at the <code>apropos</code> manual</p>
 <p>Diving into this rabbit-hole has given me a better understanding of how Bash completion works, how apropos finds relevant programs and why man pages are organized into various sections.</p>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Command-line productivity tips : Getting help in the terminal</title>
       <link>https://rrampage.github.io/2018/11/11/command-line-productivity-tips-getting-help-in-the-terminal/</link>
       <pubDate>Sun, 11 Nov 2018 17:30:30 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/11/11/command-line-productivity-tips-getting-help-in-the-terminal/</guid>
       <description>What to do when you are stuck in the command-line</description>
       <content:encoded><![CDATA[<p>The command-line is often a daunting place for beginners. With nothing but a blinking cursor and an unfriendly dark screen staring back at you, despair sets in.</p>
@@ -811,12 +863,10 @@ Let&rsquo;s have a look at the <code>apropos</code> manual</p>
 <p>In Ubuntu, we can search all available packages in the repositories using <code>apt-cache search $KEYWORD</code>.</p>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Git: How to keep your fork updated with remote repository</title>
       <link>https://rrampage.github.io/2018/11/09/git-how-to-keep-your-fork-updated-with-remote-repository/</link>
       <pubDate>Fri, 09 Nov 2018 12:50:54 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/11/09/git-how-to-keep-your-fork-updated-with-remote-repository/</guid>
       <description>How to keep your Git fork updated with changes from remote</description>
       <content:encoded><![CDATA[<p>This is useful when you have forked a repository (repo), cloned it to your local machine and want to keep it in sync with the original repo.</p>
@@ -838,12 +888,10 @@ Let&rsquo;s have a look at the <code>apropos</code> manual</p>
 <p>Github&rsquo;s <a href="https://help.github.com/articles/syncing-a-fork/">help page</a></p>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Ensuring that a shell script runs exactly once</title>
       <link>https://rrampage.github.io/2018/11/06/ensuring-that-a-shell-script-runs-exactly-once/</link>
       <pubDate>Tue, 06 Nov 2018 18:53:23 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/11/06/ensuring-that-a-shell-script-runs-exactly-once/</guid>
       <description>How to ensure that only one instance of a shell script runs at a time</description>
       <content:encoded><![CDATA[<p>Many times, we have shell scripts which perform some important stuff like inserting into database, mailing reports, etc which we want to run exactly one instance of.</p>
@@ -894,12 +942,10 @@ Let&rsquo;s have a look at the <code>apropos</code> manual</p>
 </ul>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Surviving the Linux OOM Killer</title>
       <link>https://rrampage.github.io/2018/10/04/surviving-the-linux-oom-killer/</link>
       <pubDate>Thu, 04 Oct 2018 15:48:41 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/10/04/surviving-the-linux-oom-killer/</guid>
       <description>How OOM Killer frees memory</description>
       <content:encoded><![CDATA[<p>When your Linux machine runs out of memory, <strong>Out of Memory (OOM) killer</strong> is called by kernel to free some memory. It is often encountered on servers which have a number of memory intensive processes running. In this post, we dig a little deeper into when does OOM killer get called, how it decides which process to kill and if we can prevent it from killing important processes like databases.</p>
@@ -934,12 +980,10 @@ Let&rsquo;s have a look at the <code>apropos</code> manual</p>
 </ol>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Algorithms: Gray Binary Code</title>
       <link>https://rrampage.github.io/2018/08/18/algorithms-gray-binary-code/</link>
       <pubDate>Sat, 18 Aug 2018 17:52:23 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/08/18/algorithms-gray-binary-code/</guid>
       <description>Gray Binary Code - A different way of ordering numbers</description>
       <content:encoded><![CDATA[<p><a href="https://en.wikipedia.org/wiki/Gray_code">Gray binary code</a> is a way of expressing binary numbers such that consecutive numbers differ in exactly 1 digit.
@@ -1032,12 +1076,10 @@ G(n) = n xor n/2</p>
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
 </span></span></span></code></pre></div>]]></content:encoded>
     </item>
-    
     <item>
       <title>100 Days Of Code</title>
       <link>https://rrampage.github.io/2018/08/13/100-days-of-code/</link>
       <pubDate>Mon, 13 Aug 2018 13:40:27 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/08/13/100-days-of-code/</guid>
       <description>My 100 Days Of Code Challenge</description>
       <content:encoded><![CDATA[<p>I have started the <a href="https://www.100daysofcode.com/">100 days of code challenge</a>.
@@ -1085,12 +1127,10 @@ I intend to use this time to check out new languages and frameworks and solve so
 <p>Have started working once again. I am putting this on hiatus till I find more time. Meanwhile, I will continue posting blog posts on my learning.</p>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Algorithms: Generating Combinations</title>
       <link>https://rrampage.github.io/2018/08/12/algorithms-generating-combinations/</link>
       <pubDate>Sun, 12 Aug 2018 20:20:11 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/08/12/algorithms-generating-combinations/</guid>
       <description>Generate combinations of n numbers taken r at a time</description>
       <content:encoded><![CDATA[<p>In how many different ways can we select <code>r</code> objects from a collection of <code>n</code> objects? In mathematics, this is called <a href="https://en.wikipedia.org/wiki/Combination">combinations</a>.</p>
@@ -1231,12 +1271,10 @@ where, <code>n!</code> denotes the factorial of a number that is the product of 
 <p>Regarding this problem statement of generating combinations, I had some trouble initially moving from <code>r=2</code> case to the general one. It took me some time to find the correct termination condition. I am happy that the final algorithm is relatively compact. I also want to do a proof of correctness for this algorithm later.</p>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Awk - A useful little language</title>
       <link>https://rrampage.github.io/2018/05/26/awk-a-useful-little-language/</link>
       <pubDate>Sat, 26 May 2018 13:58:58 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/05/26/awk-a-useful-little-language/</guid>
       <description>Speed up text processing tasks with Awk</description>
       <content:encoded><![CDATA[<p>Awk is a small but capable programming language which is used for processing text. It was developed by Aho, Weinberger, Kerninghan at Bell Labs.</p>
@@ -1311,12 +1349,10 @@ Average population per zip code: 33241.3
 </ul>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>JVM Primer Part 2 - Debugging memory issues</title>
       <link>https://rrampage.github.io/2018/05/16/jvm-primer-part-2-debugging-memory-issues/</link>
       <pubDate>Wed, 16 May 2018 11:53:42 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/05/16/jvm-primer-part-2-debugging-memory-issues/</guid>
       <description>JVM Primer - Debugging memory issues</description>
       <content:encoded><![CDATA[<p>This is part 2 of my series on JVM Memory management and debugging.
@@ -1498,17 +1534,16 @@ Read part 1 <a href="https://dev.to/rrampage/a-primer-on-jvm-memory-management-a
 <p>In this series, we have taken a look at how the JVM manages memory and how the garbage collection process works. We have also gone through how to diagnose memory issues, which tools to use to collect and analyze diagnostic information and some JVM options which can affect application performance.</p>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>A Primer on JVM Memory Management and Troubleshooting - 1</title>
       <link>https://rrampage.github.io/2018/05/15/a-primer-on-jvm-memory-management-and-troubleshooting-1/</link>
       <pubDate>Tue, 15 May 2018 14:14:49 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/05/15/a-primer-on-jvm-memory-management-and-troubleshooting-1/</guid>
-      <description>This series is a summary of Oracle&amp;rsquo;s JVM troubleshooting course which gives an overview on JVM memory management, Hotspot VM&amp;rsquo;s garbage collection options, various memory errors and how to troubleshoot them.
-In this post (part 1), we will have a look at how JVM manages memory and its different garbage collectors.
-You can find Part 2 here
-JVM Memory Management Overview The JVM provides automatic memory management to free the programmer from manually managing memory. New objects are allocated on heap memory. A root set consists of pointers to external memory, static variables, threads, JNI references and internal JVM structures. Objects directly reachable from the root set must be kept in heap. Objects reachable from any of the reachable objects must also be in heap. This group of objects are the only ones which can be used by a program. The unreachable objects (garbage) are removed using a process called garbage collection (GC). Reachable objects are compacted i.e moved to contiguous space in heap.</description>
+      <description>&lt;p&gt;This series is a summary of Oracle&amp;rsquo;s &lt;a href=&#34;https://apexapps.oracle.com/pls/apex/f?p=44785:149:105166169953256::NO:RP,149:P149_EVENT_ID:5552&#34;&gt;JVM troubleshooting course&lt;/a&gt; which gives an overview on JVM memory management, Hotspot VM&amp;rsquo;s garbage collection options, various memory errors and how to troubleshoot them.&lt;/p&gt;
+&lt;p&gt;In this post (part 1), we will have a look at how JVM manages memory and its different garbage collectors.&lt;/p&gt;
+&lt;p&gt;You can find Part 2 &lt;a href=&#34;https://dev.to/rrampage/jvm-primer-part-2---debugging-performance-issues-1od&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;jvm-memory-management-overview&#34;&gt;JVM Memory Management Overview&lt;/h3&gt;
+&lt;p&gt;The JVM provides automatic memory management to free the programmer from manually managing memory. New objects are allocated on heap memory. A &lt;strong&gt;root set&lt;/strong&gt; consists of pointers to external memory, static variables, threads, &lt;a href=&#34;https://en.wikipedia.org/wiki/Java_Native_Interface&#34;&gt;JNI&lt;/a&gt; references and internal JVM structures. Objects directly reachable from the root set must be kept in heap. Objects reachable from any of the reachable objects must also be in heap. This group of objects are the only ones which can be used by a program. The unreachable objects (garbage) are removed using a process called &lt;strong&gt;garbage collection (GC)&lt;/strong&gt;. Reachable objects are &lt;strong&gt;compacted&lt;/strong&gt; i.e moved to contiguous space in heap. This is important as otherwise, the heap will become &lt;a href=&#34;https://en.wikipedia.org/wiki/Fragmentation_(computing)&#34;&gt;fragmented&lt;/a&gt;.&lt;/p&gt;</description>
       <content:encoded><![CDATA[<p>This series is a summary of Oracle&rsquo;s <a href="https://apexapps.oracle.com/pls/apex/f?p=44785:149:105166169953256::NO:RP,149:P149_EVENT_ID:5552">JVM troubleshooting course</a> which gives an overview on JVM memory management, Hotspot VM&rsquo;s garbage collection options, various memory errors and how to troubleshoot them.</p>
 <p>In this post (part 1), we will have a look at how JVM manages memory and its different garbage collectors.</p>
 <p>You can find Part 2 <a href="https://dev.to/rrampage/jvm-primer-part-2---debugging-performance-issues-1od">here</a></p>
@@ -1613,12 +1648,10 @@ Memory spaces in JVM prior to JDK 8</p>
 </ul>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Snake case to camel case and back using regular expressions and Python</title>
       <link>https://rrampage.github.io/2018/05/09/snake-case-to-camel-case-and-back-using-regular-expressions-and-python/</link>
       <pubDate>Wed, 09 May 2018 00:10:00 +0530</pubDate>
-      
       <guid>https://rrampage.github.io/2018/05/09/snake-case-to-camel-case-and-back-using-regular-expressions-and-python/</guid>
       <description>Convert back and forth between snake and camel case using Python and the re module</description>
       <content:encoded><![CDATA[<p><a href="https://en.wikipedia.org/wiki/Snake_case">Snake case</a> and <a href="https://en.wikipedia.org/wiki/Camel_case">Camel case</a> are conventions of naming variables, functions and classes. Most teams and projects prescribe a particular case in their style guides.</p>
@@ -1704,12 +1737,10 @@ pseudo_inverse
 </span></span><span class="line"><span class="cl"><span class="c1"># [&#39;my_class&#39;, &#39;my_class_factory&#39;, &#39;my_class_factory_builder&#39;, &#39;my_class_factory_builder_impl&#39;, &#39;my_instance&#39;, &#39;my_instance2&#39;, &#39;abc&#39;, &#39;pattern_matcher&#39;]</span>
 </span></span></code></pre></div>]]></content:encoded>
     </item>
-    
     <item>
       <title>Cargo refused to build my project - A Rust debugging story!</title>
       <link>https://rrampage.github.io/2018/05/09/cargo-refused-to-build-my-project-a-rust-debugging-story/</link>
       <pubDate>Wed, 09 May 2018 00:00:00 +0530</pubDate>
-      
       <guid>https://rrampage.github.io/2018/05/09/cargo-refused-to-build-my-project-a-rust-debugging-story/</guid>
       <description>An afternoon of debugging!</description>
       <content:encoded><![CDATA[<h3 id="background">Background</h3>
@@ -1736,12 +1767,10 @@ pseudo_inverse
 </span></span></code></pre></div><p>Now, <code>cargo build</code> works without issues.</p>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Disk Space Debugging Checklist</title>
       <link>https://rrampage.github.io/2018/05/04/disk-space-debugging-checklist/</link>
       <pubDate>Fri, 04 May 2018 00:00:00 +0530</pubDate>
-      
       <guid>https://rrampage.github.io/2018/05/04/disk-space-debugging-checklist/</guid>
       <description>Checklist for debugging disk issues on Linux servers</description>
       <content:encoded><![CDATA[<p>Many times, smoothly running processes stop working mysteriously. You open the logs and see what is happening, only to find that even the logs have stopped updating. But the process itself is running. You SSH to the server and type cd TAB. Bash weeps &ldquo;Unable to create temporary file&rdquo;. The machine is out of disk space&hellip;</p>
@@ -1757,12 +1786,10 @@ pseudo_inverse
 <p>Let me know if there are some other tools I am missing out on and your experiences dealing with disk space issues!</p>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>Markdown (and some Hugo) Tutorial</title>
       <link>https://rrampage.github.io/2017/08/20/markdown-and-some-hugo-tutorial/</link>
       <pubDate>Sun, 20 Aug 2017 00:00:00 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2017/08/20/markdown-and-some-hugo-tutorial/</guid>
       <description>&lt;h1 id=&#34;markdown-basics&#34;&gt;Markdown Basics&lt;/h1&gt;
 &lt;p&gt;You can write regular &lt;a href=&#34;http://markdowntutorial.com/&#34;&gt;markdown&lt;/a&gt; here and Jekyll will automatically convert it to a nice webpage.  I strongly encourage you to &lt;a href=&#34;http://markdowntutorial.com/&#34;&gt;take 5 minutes to learn how to write in markdown&lt;/a&gt; - it&amp;rsquo;ll teach you how to transform regular text into bold/italics/headings/tables/etc.&lt;/p&gt;
@@ -1770,35 +1797,35 @@ pseudo_inverse
 &lt;h2 id=&#34;here-is-a-secondary-heading&#34;&gt;Here is a secondary heading&lt;/h2&gt;
 &lt;p&gt;Here&amp;rsquo;s a useless table:&lt;/p&gt;
 &lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th align=&#34;left&#34;&gt;Number&lt;/th&gt;
-&lt;th align=&#34;left&#34;&gt;Next number&lt;/th&gt;
-&lt;th align=&#34;left&#34;&gt;Previous number&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Five&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Six&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Four&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Ten&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Eleven&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Nine&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Seven&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Eight&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Six&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Two&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Three&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;One&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;Number&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;Next number&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;Previous number&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Five&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Six&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Four&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Ten&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Eleven&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Nine&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Seven&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Eight&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Six&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Two&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Three&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;One&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;How about a yummy crepe?&lt;/p&gt;
 &lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;http://s3-media3.fl.yelpcdn.com/bphoto/cQ1Yoa75m2yUFFbY2xwuqw/348s.jpg&#34; alt=&#34;Crepe&#34;  /&gt;
@@ -1811,35 +1838,35 @@ pseudo_inverse
 <h2 id="here-is-a-secondary-heading">Here is a secondary heading</h2>
 <p>Here&rsquo;s a useless table:</p>
 <table>
-<thead>
-<tr>
-<th align="left">Number</th>
-<th align="left">Next number</th>
-<th align="left">Previous number</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left">Five</td>
-<td align="left">Six</td>
-<td align="left">Four</td>
-</tr>
-<tr>
-<td align="left">Ten</td>
-<td align="left">Eleven</td>
-<td align="left">Nine</td>
-</tr>
-<tr>
-<td align="left">Seven</td>
-<td align="left">Eight</td>
-<td align="left">Six</td>
-</tr>
-<tr>
-<td align="left">Two</td>
-<td align="left">Three</td>
-<td align="left">One</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left">Number</th>
+          <th style="text-align: left">Next number</th>
+          <th style="text-align: left">Previous number</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">Five</td>
+          <td style="text-align: left">Six</td>
+          <td style="text-align: left">Four</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Ten</td>
+          <td style="text-align: left">Eleven</td>
+          <td style="text-align: left">Nine</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Seven</td>
+          <td style="text-align: left">Eight</td>
+          <td style="text-align: left">Six</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Two</td>
+          <td style="text-align: left">Three</td>
+          <td style="text-align: left">One</td>
+      </tr>
+  </tbody>
 </table>
 <p>How about a yummy crepe?</p>
 <p><img loading="lazy" src="http://s3-media3.fl.yelpcdn.com/bphoto/cQ1Yoa75m2yUFFbY2xwuqw/348s.jpg" alt="Crepe"  />
@@ -1898,26 +1925,56 @@ $$
 1 +  \frac{q^2}{(1-q)}+\frac{q^6}{(1-q)(1-q^2)}+\cdots = \prod_{j=0}^{\infty}\frac{1}{(1-q^{5j+2})(1-q^{5j+3})}, \quad\quad \text{for }\lvert q\rvert&lt;1.
 $$</p>]]></content:encoded>
     </item>
-    
     <item>
       <title>Hello World</title>
       <link>https://rrampage.github.io/2014/03/03/hello-world/</link>
       <pubDate>Mon, 03 Mar 2014 22:38:33 +0530</pubDate>
-      
       <guid>https://rrampage.github.io/2014/03/03/hello-world/</guid>
-      <description>Hello World!</description>
+      <description>&lt;p&gt;&lt;strong&gt;Hello World!&lt;/strong&gt;&lt;/p&gt;</description>
       <content:encoded><![CDATA[<p><strong>Hello World!</strong></p>
 ]]></content:encoded>
     </item>
-    
     <item>
       <title>About</title>
       <link>https://rrampage.github.io/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/about/</guid>
-      <description>About this blog: the delights and frustrations of programming new things I learn/stumble across while coding interesting concepts/resources I come across trying to explain a few topics About Me I am a software developer. I work on mostly backend stuff. I blog occasionally here or crosspost to dev.to. You can reach out to me via various websites in the footer.
-💬 Ask me about &amp;hellip; Bash, sed, awk, GNU Make, jq Linux Postgres/MySQL/SQLite Java/Kotlin, JOOQ, Dropwizard Solr &amp;amp; Elasticsearch ArangoDB Nginx &amp;amp; Openresty State machines, Regexes, State charts 📫 How to reach me: Mastodon LinkedIn Twitter Software powering this blog: Hugo Theme - PaperMod Github pages </description>
+      <description>&lt;h4 id=&#34;about-this-blog&#34;&gt;About this blog:&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;the delights and frustrations of programming&lt;/li&gt;
+&lt;li&gt;new things I learn/stumble across while coding&lt;/li&gt;
+&lt;li&gt;interesting concepts/resources I come across&lt;/li&gt;
+&lt;li&gt;trying to explain a few topics&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;about-me&#34;&gt;About Me&lt;/h4&gt;
+&lt;p&gt;I am a software developer. I work on mostly backend stuff.
+I blog occasionally &lt;a href=&#34;https://rrampage.github.io&#34;&gt;here&lt;/a&gt; or crosspost to &lt;a href=&#34;https://dev.to/rrampage&#34;&gt;dev.to&lt;/a&gt;. You can reach out to me via various websites in the footer.&lt;/p&gt;
+&lt;h4 id=&#34;-ask-me-about-&#34;&gt;💬 Ask me about &amp;hellip;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Bash, sed, awk, GNU Make, jq&lt;/li&gt;
+&lt;li&gt;Linux&lt;/li&gt;
+&lt;li&gt;Postgres/MySQL/SQLite&lt;/li&gt;
+&lt;li&gt;Java/Kotlin, JOOQ, Dropwizard&lt;/li&gt;
+&lt;li&gt;Solr &amp;amp; Elasticsearch&lt;/li&gt;
+&lt;li&gt;ArangoDB&lt;/li&gt;
+&lt;li&gt;Nginx &amp;amp; Openresty&lt;/li&gt;
+&lt;li&gt;State machines, Regexes, State charts&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;-how-to-reach-me&#34;&gt;📫 How to reach me:&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://hachyderm.io/@bit&#34;&gt;Mastodon&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://in.linkedin.com/in/raunak1&#34;&gt;LinkedIn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://twitter.com/QuixoticCoder&#34;&gt;Twitter&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;software-powering-this-blog&#34;&gt;Software powering this blog:&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/adityatelange/hugo-PaperMod/&#34;&gt;Theme - PaperMod&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/rrampage/rrampage.github.io&#34;&gt;Github pages&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description>
       <content:encoded><![CDATA[<h4 id="about-this-blog">About this blog:</h4>
 <ul>
 <li>the delights and frustrations of programming</li>
@@ -1956,8 +2013,5 @@ I blog occasionally <a href="https://rrampage.github.io">here</a> or crosspost t
 </ul>
 ]]></content:encoded>
     </item>
-    
-    
-    
   </channel>
 </rss>

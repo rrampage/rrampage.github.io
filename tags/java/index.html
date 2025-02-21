@@ -5,14 +5,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>java | A Random Walk</title>
+<title>Java | A Random Walk</title>
 <meta name="keywords" content="">
 <meta name="description" content="A Random Walk - Raunak Ramakrishnan">
 <meta name="author" content="Raunak">
 <link rel="canonical" href="https://rrampage.github.io/tags/java/">
-
-
-<link crossorigin="anonymous" href="/assets/css/stylesheet.33f3fb1eac0de5022ccd0963d8a04389671938d819c222a9e0909c05c5f62ca2.css" integrity="sha256-M/P7HqwN5QIszQlj2KBDiWcZONgZwiKp4JCcBcX2LKI=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://rrampage.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://rrampage.github.io/favicon-32x32.png">
@@ -21,6 +19,7 @@
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
 <link rel="alternate" type="application/rss+xml" href="https://rrampage.github.io/tags/java/rss.xml">
+<link rel="alternate" hreflang="en" href="https://rrampage.github.io/tags/java/">
 <noscript>
     <style>
         #theme-toggle,
@@ -38,7 +37,7 @@
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -57,13 +56,12 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="java" />
+</noscript><meta property="og:title" content="Java" />
 <meta property="og:description" content="A Random Walk - Raunak Ramakrishnan" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://rrampage.github.io/tags/java/" /><meta property="og:site_name" content="A Random Walk" />
-
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="java"/>
+<meta name="twitter:title" content="Java"/>
 <meta name="twitter:description" content="A Random Walk - Raunak Ramakrishnan"/>
 
 </head>
@@ -139,13 +137,13 @@
 <main class="main"> 
 <header class="page-header">
   <h1>
-    java
+    Java
   </h1>
 </header>
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2>Algorithms: Gray Binary Code
+    <h2 class="entry-hint-parent">Algorithms: Gray Binary Code
     </h2>
   </header>
   <div class="entry-content">
@@ -153,15 +151,16 @@
 000 001 010 011 100 101 110 111 and so on In Gray, they are:
 000 001 011 010 110 111 101 100 and so on In first system, when we go from ‘001’ to ‘010’, there are 2 changes namely the unit’s place becomes ‘0’ from ‘1’ and the next digit becomes ‘1’ from ‘0’. But in Gray’s system, ‘001’ becomes ‘011’ where there is only 1 change (that of 2nd digit).
 Gray codes are used in error correction in communication.
-Generating Gray codes of length n Is there a property we can use for easily generating the Gray codes of a given length? Yes! In our previous example, we generated all the Gray codes for n=3. Ignoring the most significant bit (MSB), notice how the 4th and 5th numbers are equal in their first 2 digits, as are the 3rd and 6th, 2nd and 7th and 1st and 8th....</p>
+Generating Gray codes of length n Is there a property we can use for easily generating the Gray codes of a given length? Yes! In our previous example, we generated all the Gray codes for n=3. Ignoring the most significant bit (MSB), notice how the 4th and 5th numbers are equal in their first 2 digits, as are the 3rd and 6th, 2nd and 7th and 1st and 8th. The last 4 numbers are reflection of the first 4 if we ignore the last digit. But the last digit is 0 for the 1st 4 numbers and 1 for the last 4… We have a recursive formulation.
+...</p>
   </div>
-  <footer class="entry-footer">August 18 2018   4 min</footer>
+  <footer class="entry-footer"><span title='2018-08-18 17:52:23.566 +0000 UTC'>August 18 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Raunak</footer>
   <a class="entry-link" aria-label="post link to Algorithms: Gray Binary Code" href="https://rrampage.github.io/2018/08/18/algorithms-gray-binary-code/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2>100 Days Of Code
+    <h2 class="entry-hint-parent">100 Days Of Code
     </h2>
   </header>
   <div class="entry-content">
@@ -170,45 +169,55 @@ I will update this post with my logs.
 Aug 13 2018 D0 : Algorithms for calculating number of combinations and generating them in a lexicographical increasing order. Blog
 Aug 14 2018 D1 : Working on algorithm for generating all permutations. First I managed to generate all possible r repetitions of n i.e n^r. Next, I read up and wrote code on Heap’s algorithm. I am still not sure of the intuition behind the algorithm. Also, it does not generate the permutations in lexicographical increasing order.
 Aug 15 2018 D2 : Learned and implemented an algorithm that generates all permutations in a lexicographical order. It is not as efficient as Heap’s algorithm.
-Aug 16 2018 D3 : Stumbled across the game of Set. Wrote a small python script which generates all solutions of any given game....</p>
+Aug 16 2018 D3 : Stumbled across the game of Set. Wrote a small python script which generates all solutions of any given game.
+Aug 17 2018 D4 : Learning to use Puppeteer.js along with Google Cloud Functions. This dev.to post was very useful in getting me started.
+...</p>
   </div>
-  <footer class="entry-footer">August 13 2018   4 min</footer>
+  <footer class="entry-footer"><span title='2018-08-13 13:40:27.01 +0000 UTC'>August 13 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Raunak</footer>
   <a class="entry-link" aria-label="post link to 100 Days Of Code" href="https://rrampage.github.io/2018/08/13/100-days-of-code/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2>JVM Primer Part 2 - Debugging memory issues
+    <h2 class="entry-hint-parent">JVM Primer Part 2 - Debugging memory issues
     </h2>
   </header>
   <div class="entry-content">
     <p>This is part 2 of my series on JVM Memory management and debugging. Read part 1 here
 In this post, we will cover symptoms of memory issues for JVM-based applications, which tools we can use to diagnose them and how we can fix them.
 Symptoms Here are a few symptoms of memory issues:
-Poor application performance Abnormal memory usage OutOfMemory errors (OOME) Poor Application Performance Application not performing to expected level Long response times Dropping client requests Stuck threads Service unavailability Large gaps in timestamps in application logs Causes of memory problems: Misconfigured memory Old generation memory space is sized smaller than live-set of objects. This triggers a major garbage collection (GC), resulting in larger pauses. Code cache is smaller than generated compiled code footprint Young generation is not sized appropriately leading to premature promotion of objects PermGen / Metaspace not sized correctly leading to full GC Memory leaks - Unintentional retention of objects in memory spaces Unintentional references to set of objects in heap Not dereferencing classloader instances appropriateky Not releasing native resources appropriately Excessive use of finalizers Objects with finalizers may delay their own GC Finalizer thread needs to invoke finalize() method of the instances before reclaiming them There can only be 1 Finalizer thread....</p>
+Poor application performance Abnormal memory usage OutOfMemory errors (OOME) Poor Application Performance Application not performing to expected level Long response times Dropping client requests Stuck threads Service unavailability Large gaps in timestamps in application logs Causes of memory problems: Misconfigured memory Old generation memory space is sized smaller than live-set of objects. This triggers a major garbage collection (GC), resulting in larger pauses. Code cache is smaller than generated compiled code footprint Young generation is not sized appropriately leading to premature promotion of objects PermGen / Metaspace not sized correctly leading to full GC Memory leaks - Unintentional retention of objects in memory spaces Unintentional references to set of objects in heap Not dereferencing classloader instances appropriateky Not releasing native resources appropriately Excessive use of finalizers Objects with finalizers may delay their own GC Finalizer thread needs to invoke finalize() method of the instances before reclaiming them There can only be 1 Finalizer thread. If it does not keep up with rate at which objects become available for finalization, JVM fails with OOME Pending finalizer objects are essentially accumulated garbage Finalizers deprecated in Java 9 Explicit GC calls System.gc() and diagnostic data collections can cause long pauses -XX:&#43;DisableExplicitGC can disable System.gc() calls -XX:&#43;PrintClassHistogram also calls an explicit GC when receiving kill -3 signal OutOfMemoryError Hierarchy : Throwable -&gt; Error -&gt; VirtualMachineError -&gt; OutOfMemoryError (Unchecked exception) Thrown when JVM runs out of space in various memory spaces or cannot proceed further with process execution. Some of the possibilities: Heap space full JVM already invoked full GC but could not free up space Heap may be sized smaller than app footprint or app is unnecessarily holding on to some set of objects in heap GC overhead limit exceeded Too many GCs with very less space claimed Application threads not getting any CPU cycles Requested array size exceeds VM limit PermGen space / Metaspace / compressed class space Full GC invoked but unable to free space in Metaspace and application is attempting to load more classes Metaspace by default “unlimited” but can be controlled by MaxMetaspaceSize. By default, 1 GB reserved for compressed class space Make sure that -Xnoclassgc is not in use as it prevents unloading of classes Native memory - out of swap space / stack trace with native method Native space used for Java thread stacks, loaded jars, zips, native libraries, native resources like files; mem allocated from native code Unable to allocate more native memory or to create new threads or native memory leaks Running 32 bit JVM on 64 bit machine puts 4 GB limit on process size Position of Java heap can put a cap on max size of native heap. Can be controlled by option -XX:HeapBaseMinAddress=n to specify address native heap should be based at CodeCache warnings warning message printed by JVM saying CodeCache full, compiler has been disabled. No OOME when code cache is full Emergency cleanup undertaken by Sweeper. This may discard compiled code and JIT may need to perform optimizations again Ensure appropriate size of CC using ReservedCodeCacheSize option Direct Buffer Memory ByteBuffer.allocateDirect(N) : Direct buffers which are garbage collected using phantom references and a reference queue Unlimited memory by default but can be controlled by -XX:MaxDirectMemorySize=n Used by Java NIO. Heap ByteBuffer for I/O uses temporary direct ByteBuffer Diagnostic Data, Data Collection and Analysis Tools Troubleshooting Memory leaks Confirm memory leak
+...</p>
   </div>
-  <footer class="entry-footer">May 16 2018   6 min</footer>
+  <footer class="entry-footer"><span title='2018-05-16 11:53:42.021 +0000 UTC'>May 16 2018</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;Raunak</footer>
   <a class="entry-link" aria-label="post link to JVM Primer Part 2 - Debugging memory issues" href="https://rrampage.github.io/2018/05/16/jvm-primer-part-2-debugging-memory-issues/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2>A Primer on JVM Memory Management and Troubleshooting - 1
+    <h2 class="entry-hint-parent">A Primer on JVM Memory Management and Troubleshooting - 1
     </h2>
   </header>
   <div class="entry-content">
     <p>This series is a summary of Oracle’s JVM troubleshooting course which gives an overview on JVM memory management, Hotspot VM’s garbage collection options, various memory errors and how to troubleshoot them.
 In this post (part 1), we will have a look at how JVM manages memory and its different garbage collectors.
 You can find Part 2 here
-JVM Memory Management Overview The JVM provides automatic memory management to free the programmer from manually managing memory. New objects are allocated on heap memory. A root set consists of pointers to external memory, static variables, threads, JNI references and internal JVM structures. Objects directly reachable from the root set must be kept in heap. Objects reachable from any of the reachable objects must also be in heap. This group of objects are the only ones which can be used by a program. The unreachable objects (garbage) are removed using a process called garbage collection (GC). Reachable objects are compacted i.e moved to contiguous space in heap....</p>
+JVM Memory Management Overview The JVM provides automatic memory management to free the programmer from manually managing memory. New objects are allocated on heap memory. A root set consists of pointers to external memory, static variables, threads, JNI references and internal JVM structures. Objects directly reachable from the root set must be kept in heap. Objects reachable from any of the reachable objects must also be in heap. This group of objects are the only ones which can be used by a program. The unreachable objects (garbage) are removed using a process called garbage collection (GC). Reachable objects are compacted i.e moved to contiguous space in heap. This is important as otherwise, the heap will become fragmented.
+...</p>
   </div>
-  <footer class="entry-footer">May 15 2018   4 min</footer>
+  <footer class="entry-footer"><span title='2018-05-15 14:14:49.746 +0000 UTC'>May 15 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Raunak</footer>
   <a class="entry-link" aria-label="post link to A Primer on JVM Memory Management and Troubleshooting - 1" href="https://rrampage.github.io/2018/05/15/a-primer-on-jvm-memory-management-and-troubleshooting-1/"></a>
 </article>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href="https://rrampage.github.io/">A Random Walk</a></span>
+        <span>&copy; 2025 <a href="https://rrampage.github.io/">A Random Walk</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
 </footer>
 <a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">

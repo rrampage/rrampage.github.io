@@ -5,14 +5,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>javascript | A Random Walk</title>
+<title>Javascript | A Random Walk</title>
 <meta name="keywords" content="">
 <meta name="description" content="A Random Walk - Raunak Ramakrishnan">
 <meta name="author" content="Raunak">
 <link rel="canonical" href="https://rrampage.github.io/tags/javascript/">
-
-
-<link crossorigin="anonymous" href="/assets/css/stylesheet.33f3fb1eac0de5022ccd0963d8a04389671938d819c222a9e0909c05c5f62ca2.css" integrity="sha256-M/P7HqwN5QIszQlj2KBDiWcZONgZwiKp4JCcBcX2LKI=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://rrampage.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://rrampage.github.io/favicon-32x32.png">
@@ -21,6 +19,7 @@
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
 <link rel="alternate" type="application/rss+xml" href="https://rrampage.github.io/tags/javascript/rss.xml">
+<link rel="alternate" hreflang="en" href="https://rrampage.github.io/tags/javascript/">
 <noscript>
     <style>
         #theme-toggle,
@@ -38,7 +37,7 @@
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -57,13 +56,12 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="javascript" />
+</noscript><meta property="og:title" content="Javascript" />
 <meta property="og:description" content="A Random Walk - Raunak Ramakrishnan" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://rrampage.github.io/tags/javascript/" /><meta property="og:site_name" content="A Random Walk" />
-
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="javascript"/>
+<meta name="twitter:title" content="Javascript"/>
 <meta name="twitter:description" content="A Random Walk - Raunak Ramakrishnan"/>
 
 </head>
@@ -139,13 +137,13 @@
 <main class="main"> 
 <header class="page-header">
   <h1>
-    javascript
+    Javascript
   </h1>
 </header>
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2>NPM and Node tips to make your dev machine (slightly) safer
+    <h2 class="entry-hint-parent">NPM and Node tips to make your dev machine (slightly) safer
     </h2>
   </header>
   <div class="entry-content">
@@ -153,15 +151,22 @@
 Here are a few tips to minimize the risk:
 1. NEVER run npm as sudo/root Node’s official documentation recommends not installing global packages as sudo/root. If you have already installed node through nvm ignore this step. If you use a system installed node e.g using Ubuntu’s apt-get, read through this guide for Linux/Mac or npm-g-nosudo which is a shell script for Linux.
 If you are lazy (like me), here’s a summary from the linked guide: mkdir -p &#34;${HOME}/.npm-packages&#34; &amp;&amp; npm config set prefix &#34;${HOME}/.npm-packages&#34; Add this to your .bashrc or .zshrc:
-NPM_PACKAGES=&#34;${HOME}/.npm-packages&#34; export PATH=&#34;$PATH:$NPM_PACKAGES/bin&#34; # Preserve MANPATH if you already defined it somewhere in your config. # Otherwise, fall back to `manpath` so we can inherit from `/etc/manpath`. export MANPATH=&#34;${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man&#34; 2....</p>
+NPM_PACKAGES=&#34;${HOME}/.npm-packages&#34; export PATH=&#34;$PATH:$NPM_PACKAGES/bin&#34; # Preserve MANPATH if you already defined it somewhere in your config. # Otherwise, fall back to `manpath` so we can inherit from `/etc/manpath`. export MANPATH=&#34;${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man&#34; 2. Install/Use node using nvm or asdf Node’s official documentation recommends installing node as an unprivileged user using a node version manager.
+...</p>
   </div>
-  <footer class="entry-footer">May 28 2020   4 min</footer>
+  <footer class="entry-footer"><span title='2020-05-28 10:42:07.736 +0000 UTC'>May 28 2020</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Raunak</footer>
   <a class="entry-link" aria-label="post link to NPM and Node tips to make your dev machine (slightly) safer" href="https://rrampage.github.io/2020/05/28/npm-and-node-tips-to-make-your-dev-machine-slightly-safer/"></a>
 </article>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href="https://rrampage.github.io/">A Random Walk</a></span>
+        <span>&copy; 2025 <a href="https://rrampage.github.io/">A Random Walk</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
 </footer>
 <a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">

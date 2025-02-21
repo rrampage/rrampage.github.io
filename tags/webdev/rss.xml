@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>webdev on A Random Walk</title>
+    <title>Webdev on A Random Walk</title>
     <link>https://rrampage.github.io/tags/webdev/</link>
-    <description>Recent content in webdev on A Random Walk</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Webdev on A Random Walk</description>
+    <generator>Hugo -- 0.144.2</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 13 Aug 2018 13:40:27 +0000</lastBuildDate><atom:link href="https://rrampage.github.io/tags/webdev/rss.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 13 Aug 2018 13:40:27 +0000</lastBuildDate>
+    <atom:link href="https://rrampage.github.io/tags/webdev/rss.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>100 Days Of Code</title>
       <link>https://rrampage.github.io/2018/08/13/100-days-of-code/</link>
       <pubDate>Mon, 13 Aug 2018 13:40:27 +0000</pubDate>
-      
       <guid>https://rrampage.github.io/2018/08/13/100-days-of-code/</guid>
       <description>My 100 Days Of Code Challenge</description>
       <content:encoded><![CDATA[<p>I have started the <a href="https://www.100daysofcode.com/">100 days of code challenge</a>.
@@ -59,6 +59,5 @@ I intend to use this time to check out new languages and frameworks and solve so
 <p>Have started working once again. I am putting this on hiatus till I find more time. Meanwhile, I will continue posting blog posts on my learning.</p>
 ]]></content:encoded>
     </item>
-    
   </channel>
 </rss>

@@ -5,14 +5,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>lua | A Random Walk</title>
+<title>Lua | A Random Walk</title>
 <meta name="keywords" content="">
 <meta name="description" content="A Random Walk - Raunak Ramakrishnan">
 <meta name="author" content="Raunak">
 <link rel="canonical" href="https://rrampage.github.io/tags/lua/">
-
-
-<link crossorigin="anonymous" href="/assets/css/stylesheet.33f3fb1eac0de5022ccd0963d8a04389671938d819c222a9e0909c05c5f62ca2.css" integrity="sha256-M/P7HqwN5QIszQlj2KBDiWcZONgZwiKp4JCcBcX2LKI=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://rrampage.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://rrampage.github.io/favicon-32x32.png">
@@ -21,6 +19,7 @@
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
 <link rel="alternate" type="application/rss+xml" href="https://rrampage.github.io/tags/lua/rss.xml">
+<link rel="alternate" hreflang="en" href="https://rrampage.github.io/tags/lua/">
 <noscript>
     <style>
         #theme-toggle,
@@ -38,7 +37,7 @@
                 --secondary: rgb(155, 156, 157);
                 --tertiary: rgb(65, 66, 68);
                 --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
+                --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
             }
@@ -57,13 +56,12 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="lua" />
+</noscript><meta property="og:title" content="Lua" />
 <meta property="og:description" content="A Random Walk - Raunak Ramakrishnan" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://rrampage.github.io/tags/lua/" /><meta property="og:site_name" content="A Random Walk" />
-
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="lua"/>
+<meta name="twitter:title" content="Lua"/>
 <meta name="twitter:description" content="A Random Walk - Raunak Ramakrishnan"/>
 
 </head>
@@ -139,25 +137,31 @@
 <main class="main"> 
 <header class="page-header">
   <h1>
-    lua
+    Lua
   </h1>
 </header>
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
-    <h2>Re-learning Lua
+    <h2 class="entry-hint-parent">Re-learning Lua
     </h2>
   </header>
   <div class="entry-content">
-    <p>Lua - Basics for x = 0, 10, 1 do print(x) end -- for loop with range and step. step if not given is assumed to be 1 -- Tables are the soul of Lua. They double up as arrays and hashes a = {} b = {1, 2, 3} b[1] -- b[1] will return 1 as indexing for arrays is from 1 c = {[0]={123,3},[&#34;a&#34;]={1,2,3},v={2,6,7}} -- We can have a &#34;0&#34;th index by adding the 1st element as [0]=value -- Adding keys which are not valid identifiers in Lua needs to be done by wrapping key in [] -- If a key is a valid identifier, we can access using `.` e.g c.a for above code vs c[0] for k,v in pairs(c) do print(type(k)) end -- iterates through k/v in table and prints type of key Print a table as valid Lua code function printTable(tbl) -- Specify function vars as local else they become global local s = &#34;{&#34; local fst = true for k,v in pairs(tbl) do local tk = type(k) local tv = type(v) if not fst then s = s ....</p>
+    <p>Lua - Basics for x = 0, 10, 1 do print(x) end -- for loop with range and step. step if not given is assumed to be 1 -- Tables are the soul of Lua. They double up as arrays and hashes a = {} b = {1, 2, 3} b[1] -- b[1] will return 1 as indexing for arrays is from 1 c = {[0]={123,3},[&#34;a&#34;]={1,2,3},v={2,6,7}} -- We can have a &#34;0&#34;th index by adding the 1st element as [0]=value -- Adding keys which are not valid identifiers in Lua needs to be done by wrapping key in [] -- If a key is a valid identifier, we can access using `.` e.g c.a for above code vs c[0] for k,v in pairs(c) do print(type(k)) end -- iterates through k/v in table and prints type of key Print a table as valid Lua code function printTable(tbl) -- Specify function vars as local else they become global local s = &#34;{&#34; local fst = true for k,v in pairs(tbl) do local tk = type(k) local tv = type(v) if not fst then s = s .. &#34;,&#34; else fst = false end if tk == &#34;number&#34; or tk == &#34;boolean&#34; then s = s .. &#34;[&#34; .. tostring(k) .. &#34;]=&#34; else s = s .. &#39;[&#34;&#39; .. k .. &#39;&#34;]=&#39; end if tv == &#34;table&#34; then s = s .. printTable(v) elseif tv == &#34;number&#34; or tv == &#34;boolean&#34; then s = s .. tostring(v) elseif tv == &#34;string&#34; then s = s .. &#39;&#34;&#39; .. v .. &#39;&#34;&#39; else s = s .. vt end end s = s .. &#34;}&#34; return s end sv = printTable({[0]={123,3},[&#34;a&#34;]={1,2,3},v={2,6,7},[true]=123}) print(sv) -- posts.lua (saved table) can be read from another lua file as posts=require(&#34;posts&#34;) return {[0]={[1]=123,[2]=3},[&#34;v&#34;]={[1]=2,[2]=6,[3]=7},[&#34;a&#34;]={[1]=1,[2]=2,[3]=3},[true]=123} </p>
   </div>
-  <footer class="entry-footer">December 4 2021   2 min</footer>
+  <footer class="entry-footer"><span title='2021-12-04 00:00:00 +0530 IST'>December 4 2021</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Raunak</footer>
   <a class="entry-link" aria-label="post link to Re-learning Lua" href="https://rrampage.github.io/2021/12/04/relearning-lua/"></a>
 </article>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href="https://rrampage.github.io/">A Random Walk</a></span>
+        <span>&copy; 2025 <a href="https://rrampage.github.io/">A Random Walk</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
 </footer>
 <a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
