@@ -10,7 +10,7 @@
 <meta name="description" content="A Random Walk - Raunak Ramakrishnan">
 <meta name="author" content="Raunak">
 <link rel="canonical" href="https://rrampage.github.io/tags/linux/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.7aaf01c70cfab7bd82e4fad5fd71b6a9c97fbfe30ff65c1dd4360a5678e5e7ed.css" integrity="sha256-eq8Bxwz6t72C5PrV/XG2qcl/v&#43;MP9lwd1DYKVnjl5&#43;0=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://rrampage.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://rrampage.github.io/favicon-32x32.png">
@@ -137,7 +137,7 @@
 <main class="main"> 
 <header class="page-header">
   <h1>
-    Linux
+    linux
   </h1>
 </header>
 
@@ -158,7 +158,7 @@ The hello.sh script.
 Start webhook server as webhook -hooks hooks.json -hotreload -logfile webhooks.log. The server will run on port 9000 by default. You can check if everything is working by running curl http://localhost:9000/hooks/hello-world. This will print “Hello!” in the log file.
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2020-05-25 17:32:54.151 +0000 UTC'>May 25 2020</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Raunak</footer>
+  <footer class="entry-footer"><span title='2020-05-25 17:32:54.151 +0000 UTC'>May 25 2020</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;617 words</footer>
   <a class="entry-link" aria-label="post link to Webhook to auto-deploy on git push to Github" href="https://rrampage.github.io/2020/05/25/webhook-to-auto-deploy-on-git-push-to-github/"></a>
 </article>
 
@@ -176,7 +176,7 @@ Screen 0: minimum 320 x 200, current 1920 x 1080, maximum 16384 x 16384 eDP-1 co
 Adjusting backlight brightness vs perceived brightness If xrandr is unable to find backlight, it only changes “perceived” brightness i.e it does software color correction. If we want to save battery, we will need to reduce the backlight brightness.
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2020-05-19 16:10:26.229 +0000 UTC'>May 19 2020</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Raunak</footer>
+  <footer class="entry-footer"><span title='2020-05-19 16:10:26.229 +0000 UTC'>May 19 2020</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;288 words</footer>
   <a class="entry-link" aria-label="post link to Setting display brightness on Linux from the command line" href="https://rrampage.github.io/2020/05/19/setting-display-brightness-on-linux-from-the-command-line/"></a>
 </article>
 
@@ -192,7 +192,7 @@ Installation and Key Generation Do this on both server and client machines
 [Interface] PrivateKey = &lt;Private Key&gt; ListenPort = &lt;UDP Port to listen on, by default it is 51820&gt; Address = 192.168.2.1/24, fd86:ea04:1115::1/64 ListenPort = 51820 PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; ip6tables -A FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE; ip6tables -D FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE SaveConfig = true [Peer] PublicKey = &lt;Client Public Key&gt; AllowedIPs = 192.168.2.2/32 Note that you have to paste the contents of the private key in the conf file, not the path. The PostUp sets up forwarding rules when the wiregaurd interface is started. PostDown deletes the rules when the interface is shutdown. Packet forwarding is essential if you want to use your server as a VPN to the general internet. Enable it on your server by adding the following to /etc/sysctl.conf and run sudo sysctl -p to reload the configuration changes.
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2018-12-14 11:48:44.48 +0000 UTC'>December 14 2018</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Raunak</footer>
+  <footer class="entry-footer"><span title='2018-12-14 11:48:44.48 +0000 UTC'>December 14 2018</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;478 words</footer>
   <a class="entry-link" aria-label="post link to Easy VPN using Wireguard" href="https://rrampage.github.io/2018/12/14/easy-vpn-using-wireguard/"></a>
 </article>
 
@@ -208,7 +208,7 @@ The output has
 STAILQ_CONCAT (3) - implementations of singly-linked lists, singly-linked tail queues, lists and tail queues OPENSSL_strlcat (3ssl) - Memory allocation functions .. bzcat (1) - decompresses files to stdout cat (1) - concatenate files and print on the standard output fc-cat (1) - read font information cache files gencat (1) - Generate message catalog Clearly, the top 2 do not look like programs. Why is apropos then returning them? Let’s have a look at the apropos manual
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2018-11-15 09:39:37.302 +0000 UTC'>November 15 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Raunak</footer>
+  <footer class="entry-footer"><span title='2018-11-15 09:39:37.302 +0000 UTC'>November 15 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;798 words</footer>
   <a class="entry-link" aria-label="post link to Bash Command Completion - Finding all the cats in your $PATH!" href="https://rrampage.github.io/2018/11/15/bash-command-completion-finding-all-the-cats-in-your-path/"></a>
 </article>
 
@@ -226,7 +226,7 @@ For example, you want to show a file with line numbers. You know that there is a
 On my computer, it gives the following output:
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2018-11-11 17:30:30.427 +0000 UTC'>November 11 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Raunak</footer>
+  <footer class="entry-footer"><span title='2018-11-11 17:30:30.427 +0000 UTC'>November 11 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;842 words</footer>
   <a class="entry-link" aria-label="post link to Command-line productivity tips : Getting help in the terminal" href="https://rrampage.github.io/2018/11/11/command-line-productivity-tips-getting-help-in-the-terminal/"></a>
 </article>
 
@@ -241,7 +241,7 @@ Enter locks! A simple solution is to create a “lock file” and check if the f
 LOCK_FILE=a.lock if [ -f &#34;$LOCK_FILE&#34; ]; then # Lock file already exists, exit the script echo &#34;An instance of this script is already running&#34; exit 1 fi # Create the lock file echo &#34;Locked&#34; &gt; &#34;$LOCK_FILE&#34; # Do the normal stuff # clean-up before exit rm &#34;$LOCK_FILE&#34; This looks promising but there are issues with this approach. What happens if the script does not end correctly i.e it exits because of some failure before it reaches the clean-up part of the code? Or if it gets forcibly terminated with Ctrl&#43;C or kill command? In both these cases, the created lock file will not be deleted. So next time you run the script, you will always get an error and will have to manually delete the file.
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2018-11-06 18:53:23.63 +0000 UTC'>November 6 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Raunak</footer>
+  <footer class="entry-footer"><span title='2018-11-06 18:53:23.63 +0000 UTC'>November 6 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;747 words</footer>
   <a class="entry-link" aria-label="post link to Ensuring that a shell script runs exactly once" href="https://rrampage.github.io/2018/11/06/ensuring-that-a-shell-script-runs-exactly-once/"></a>
 </article>
 
@@ -255,7 +255,7 @@ LOCK_FILE=a.lock if [ -f &#34;$LOCK_FILE&#34; ]; then # Lock file already exists
 How does OOM Killer choose which process to kill? The Linux kernel gives a score to each running process called oom_score which shows how likely it is to be terminated in case of low available memory. The score is proportional to the amount of memory used by the process. The score is 10 x percent of memory used by process. So the maximum score is 100% x 10 = 1000. In addition, if a process is running as a privileged user, it gets a slightly lower oom_score as compared to same memory usage by a normal user process. In earlier versions of Linux ( v2.6.32 kernel), there was a more elaborate heuristic which calculated this score.
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2018-10-04 15:48:41.1 +0000 UTC'>October 4 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Raunak</footer>
+  <footer class="entry-footer"><span title='2018-10-04 15:48:41.1 +0000 UTC'>October 4 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;671 words</footer>
   <a class="entry-link" aria-label="post link to Surviving the Linux OOM Killer" href="https://rrampage.github.io/2018/10/04/surviving-the-linux-oom-killer/"></a>
 </article>
 
@@ -270,7 +270,7 @@ Here is a checklist to make disk space debugging easier, using standard Linux ut
 df -h command gives you an overview in a readable format about the number of disks mounted and their total and available capacities. To get an idea of which folders/directories are eating up the maximum space, try out du -ch / | sort -h | tail -n 30. This gives you the 30 most space consuming directories. If you already know which directories generate maximum disk output e.g logs and temp files, you can replace the ‘/’ with your directory (DIR) and run the command as du -ch DIR | sort -h | tail -n 30 Now that we have identified the directories with maximum space consumed, we may need to delete some files and get our process going again. The rm command is your friend here. You can delete old logs and temporary files to free up space. Many times, the culprit is a single large file which is already in use by a program e.g catalina.out by Apache Tomcat. If you want to free up space without shutting down the process, the truncate command will help you out. Example: truncate -s0 BIG_LOG.log. This will truncate the file to 0 bytes and still allow the other process to use it without issues (standard Unix permissions apply) Sometimes, you delete files and still, the space does not seem to be recovered. This can be because some process is still holding on to the file descriptor of the deleted file. Once these processes are stopped, the space will be recovered. The lsof command will help you out here. It stands for list open files. You can find out which processes are using deleted files as follows: lsof | grep deleted | grep OLD_FILENAME. The lsof command gives you the process name and the process id so you can run kill on the process. If you do not know the name of the deleted file, you can still run lsof | grep deleted and see the output to check for any familiar file / process. Finally, keep in mind that disk space is one of the metrics you should monitor on your server. This checklist must be used in a pinch. If you find yourself constantly having disk space issues, the solution is to set up periodic deletion/rotation of old log files, alerts when the disk space reaches a particular threshold or to increase the disk size if your processes require a lot of disk space e.g Kafka, MySQL and other databases.
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2018-05-04 00:00:00 +0530 IST'>May 4 2018</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Raunak</footer>
+  <footer class="entry-footer"><span title='2018-05-04 00:00:00 +0530 IST'>May 4 2018</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;513 words</footer>
   <a class="entry-link" aria-label="post link to Disk Space Debugging Checklist" href="https://rrampage.github.io/2018/05/04/disk-space-debugging-checklist/"></a>
 </article>
     </main>

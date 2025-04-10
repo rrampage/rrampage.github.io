@@ -6,8 +6,176 @@
     <description>Recent content on A Random Walk</description>
     <generator>Hugo -- 0.144.2</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 21 Feb 2025 16:13:02 +0530</lastBuildDate>
+    <lastBuildDate>Thu, 06 Mar 2025 14:40:15 +0530</lastBuildDate>
     <atom:link href="https://rrampage.github.io/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HTML toggle headings using Details Summary element and some CSS</title>
+      <link>https://rrampage.github.io/2025/03/06/html-toggle-headings-using-details-summary-element-and-some-css/</link>
+      <pubDate>Thu, 06 Mar 2025 14:40:15 +0530</pubDate>
+      <guid>https://rrampage.github.io/2025/03/06/html-toggle-headings-using-details-summary-element-and-some-css/</guid>
+      <description>&lt;h2 id=&#34;overview-of-the-html-details-tag&#34;&gt;Overview of the HTML &lt;code&gt;details&lt;/code&gt; tag&lt;/h2&gt;
+&lt;p&gt;The &lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details&#34;&gt;&lt;code&gt;details&lt;/code&gt; tag&lt;/a&gt; creates a toggleable element which we can use to hide sensitive information like spoilers. It has a &lt;code&gt;summary&lt;/code&gt; attribute which is visible to the reader and a button which they can click to show then content.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;details&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;summary&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;Spoilers!&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;summary&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  Lot of sensitive information!
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;details&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;creating-toggle-headings-using-summary-and-html-heading-tags&#34;&gt;Creating Toggle Headings using &lt;code&gt;summary&lt;/code&gt; and HTML heading tags&lt;/h2&gt;
+&lt;p&gt;Since &lt;code&gt;summary&lt;/code&gt; is an HTML element, we can nest other HTML elements in it. If we want to create something like Notion&amp;rsquo;s toggle headings (&lt;code&gt;/toggleh1&lt;/code&gt;), we can do something like&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;details&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;summary&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;h3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;Spoilers!&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;h3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;summary&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  Spoilers
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;details&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This shows the &lt;code&gt;&amp;lt;h3&amp;gt;&lt;/code&gt; header but below the taggle i.e not inline. See &lt;a href=&#34;https://jsfiddle.net/3ht4n0jm/&#34;&gt;this fiddle&lt;/a&gt; for the minimal example. Searching for this led me to this &lt;a href=&#34;https://css-tricks.com/two-issues-styling-the-details-element-and-how-to-solve-them/&#34;&gt;article&lt;/a&gt; which suggested this CSS fix to the problem&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-css&#34; data-lang=&#34;css&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;details&lt;/span&gt; &lt;span class=&#34;nt&#34;&gt;summary&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;k&#34;&gt;display&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;inline&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This CSS snippet inlines all children of the &lt;code&gt;details summary&lt;/code&gt; element.&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s the &lt;a href=&#34;https://jsfiddle.net/0yjpcLef/&#34;&gt;fix&lt;/a&gt; in action!&lt;/p&gt;
+&lt;h2 id=&#34;using-the-details-element-in-hugo-markdown&#34;&gt;Using the &lt;code&gt;details&lt;/code&gt; element in Hugo markdown&lt;/h2&gt;
+&lt;p&gt;Since version 0.140, Hugo has supported &lt;code&gt;details&lt;/code&gt; as a &lt;a href=&#34;https://gohugo.io/shortcodes/details/&#34;&gt;shortcode&lt;/a&gt;. We can put arbitrary HTML in the summary e.g&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<h2 id="overview-of-the-html-details-tag">Overview of the HTML <code>details</code> tag</h2>
+<p>The <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details"><code>details</code> tag</a> creates a toggleable element which we can use to hide sensitive information like spoilers. It has a <code>summary</code> attribute which is visible to the reader and a button which they can click to show then content.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">details</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">summary</span><span class="p">&gt;</span>Spoilers!<span class="p">&lt;/</span><span class="nt">summary</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  Lot of sensitive information!
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">details</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="creating-toggle-headings-using-summary-and-html-heading-tags">Creating Toggle Headings using <code>summary</code> and HTML heading tags</h2>
+<p>Since <code>summary</code> is an HTML element, we can nest other HTML elements in it. If we want to create something like Notion&rsquo;s toggle headings (<code>/toggleh1</code>), we can do something like</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">details</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">summary</span><span class="p">&gt;&lt;</span><span class="nt">h3</span><span class="p">&gt;</span>Spoilers!<span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;&lt;/</span><span class="nt">summary</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  Spoilers
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">details</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>This shows the <code>&lt;h3&gt;</code> header but below the taggle i.e not inline. See <a href="https://jsfiddle.net/3ht4n0jm/">this fiddle</a> for the minimal example. Searching for this led me to this <a href="https://css-tricks.com/two-issues-styling-the-details-element-and-how-to-solve-them/">article</a> which suggested this CSS fix to the problem</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="nt">details</span> <span class="nt">summary</span> <span class="o">&gt;</span> <span class="o">*</span> <span class="p">{</span> 
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="kc">inline</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>This CSS snippet inlines all children of the <code>details summary</code> element.</p>
+<p>Here&rsquo;s the <a href="https://jsfiddle.net/0yjpcLef/">fix</a> in action!</p>
+<h2 id="using-the-details-element-in-hugo-markdown">Using the <code>details</code> element in Hugo markdown</h2>
+<p>Since version 0.140, Hugo has supported <code>details</code> as a <a href="https://gohugo.io/shortcodes/details/">shortcode</a>. We can put arbitrary HTML in the summary e.g</p>
+<p>{{&lt; details summary=&quot;&lt;h3&gt;Major Spoilers!&lt;/h3&gt;&quot; &gt;}}<br>
+{{&lt; /details &gt;}}</p>
+<h2 id="using-a-custom-hugo-shortcodes-to-generate-toggle-headings">Using a custom Hugo Shortcodes to generate toggle headings</h2>
+<p>I created a custom shortcode called <code>tog</code> with <code>tag</code> and <code>summary</code> attributes to support toggle headers. Here it is in action! Also linked is a <a href="https://gist.github.com/rrampage/66af5cb88147bd07cb79cb1b3c8ba46b">gist</a> with the minimal necessary HTML + CSS to create and use toggle headings in Hugo.</p>
+<details>
+  <summary>
+    
+    
+    <h3>Shortcode HTML</h3>
+  </summary>
+  <div>
+    
+
+
+Create the following HTML in `tog.html` in the `layouts/shortcodes` directory
+
+&lt;details><br>
+  &lt;summary><br>
+    {{ $tag := .Get "tag" | default "h3" }}<br>
+    {{ $heading := printf "<%s>%s</%s>" $tag (.Get "summary") $tag | safeHTML }}<br>
+    {{ $heading }}<br>
+  &lt;/summary><br>
+  &lt;div><br>
+    {{ .Inner }}
+  &lt;/div><br>
+&lt;/details><br>
+
+  </div>
+</details>
+<details>
+  <summary>
+    
+    
+    <h4>Usage</h4>
+  </summary>
+  <div>
+    <br>
+{{&lt; tog tag="h4" summary="Usage" >}}<br>
+{{&lt; /tog >}}<br>
+
+  </div>
+</details>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>An APL a day! - Caesar Salad</title>
+      <link>https://rrampage.github.io/2025/02/24/an-apl-a-day-caesar-salad/</link>
+      <pubDate>Mon, 24 Feb 2025 02:15:00 +0530</pubDate>
+      <guid>https://rrampage.github.io/2025/02/24/an-apl-a-day-caesar-salad/</guid>
+      <description>&lt;p&gt;Today&amp;rsquo;s problem - &lt;a href=&#34;https://apl.quest/psets/2023.html?goto=P3_Caesar_Salad&#34;&gt;Caesar Salad&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;A Caesar cipher, also known as a shift cipher, is one of the simplest encryption techniques. In a Caesar cipher, each letter in the plaintext is replaced by a letter some fixed number of positions away in the alphabet, effectively &amp;ldquo;shifting&amp;rdquo; the alphabet.&lt;/p&gt;
+&lt;p&gt;Write a function that:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;takes a single integer left argument representing the size of the shift
+takes a character vector right argument representing the plaintext message
+returns a result with the same shape as the right argument representing the encrypted message
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Notes:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Use &#39; &#39;,⎕A as the alphabet
+You can assume that the plaintext message will contain only characters found in the alphabet.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Hint: The rotate function ⌽ could be helpful in solving this problem.&lt;/p&gt;
+&lt;h2 id=&#34;examples&#34;&gt;Examples&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-apl&#34; data-lang=&#34;apl&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;m&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;caesar&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;HELLO WORLDS&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;LIPPSD&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;SVPHW&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;m&#34;&gt;¯4&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;caesar&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;HELLO WORLDS&amp;#39;&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;⍝ negative shifts are okay&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;DAHHKWSKNH&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;O&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;caesar&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;HELLO WORLDS&amp;#39;&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;⍝ no shift is okay&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;HELLO&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;WORLDS&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;m&#34;&gt;27&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;caesar&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;HELLO WORLDS&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;HELLO&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;WORLDS&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;m&#34;&gt;¯10&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;caesar&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;⍝ returns an empty vector&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;details&gt;
+  &lt;summary&gt;&lt;h3&gt;See the solution&lt;/h3&gt;&lt;/summary&gt;
+  &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-apl&#34; data-lang=&#34;apl&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;⍺&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;⌽&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;⎕A&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;sr&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;⎕A&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;⍸&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;⍵&lt;/span&gt;&lt;span class=&#34;sr&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Breaking it down:&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>Today&rsquo;s problem - <a href="https://apl.quest/psets/2023.html?goto=P3_Caesar_Salad">Caesar Salad</a></p>
+<p>A Caesar cipher, also known as a shift cipher, is one of the simplest encryption techniques. In a Caesar cipher, each letter in the plaintext is replaced by a letter some fixed number of positions away in the alphabet, effectively &ldquo;shifting&rdquo; the alphabet.</p>
+<p>Write a function that:</p>
+<pre><code>takes a single integer left argument representing the size of the shift
+takes a character vector right argument representing the plaintext message
+returns a result with the same shape as the right argument representing the encrypted message
+</code></pre>
+<p>Notes:</p>
+<pre><code>Use ' ',⎕A as the alphabet
+You can assume that the plaintext message will contain only characters found in the alphabet.
+</code></pre>
+<p>Hint: The rotate function ⌽ could be helpful in solving this problem.</p>
+<h2 id="examples">Examples</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-apl" data-lang="apl"><span class="line"><span class="cl">      <span class="m">4</span> <span class="nv">caesar</span> <span class="s1">&#39;HELLO WORLDS&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">LIPPSD</span> <span class="nv">SVPHW</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">      <span class="m">¯4</span> <span class="nv">caesar</span> <span class="s1">&#39;HELLO WORLDS&#39;</span> <span class="c1">⍝ negative shifts are okay</span>
+</span></span><span class="line"><span class="cl"><span class="nv">DAHHKWSKNH</span> <span class="nv">O</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="m">0</span> <span class="nv">caesar</span> <span class="s1">&#39;HELLO WORLDS&#39;</span> <span class="c1">⍝ no shift is okay</span>
+</span></span><span class="line"><span class="cl"><span class="nv">HELLO</span> <span class="nv">WORLDS</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="m">27</span> <span class="nv">caesar</span> <span class="s1">&#39;HELLO WORLDS&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">HELLO</span> <span class="nv">WORLDS</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="m">¯10</span> <span class="nv">caesar</span> <span class="s1">&#39;&#39;</span> <span class="c1">⍝ returns an empty vector</span>
+</span></span></code></pre></div><h2 id="solution">Solution</h2>
+
+<details>
+  <summary><h3>See the solution</h3></summary>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-apl" data-lang="apl"><span class="line"><span class="cl"><span class="kt">{</span><span class="p">(</span><span class="bp">⍺</span><span class="o">⌽</span><span class="s1">&#39; &#39;</span><span class="o">,</span><span class="nf">⎕A</span><span class="p">)</span><span class="sr">[</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">,</span><span class="nf">⎕A</span><span class="p">)</span> <span class="o">⍸</span><span class="bp">⍵</span><span class="sr">]</span><span class="kt">}</span>
+</span></span></code></pre></div><p>Breaking it down:</p>
+<ul>
+<li><strong>1. Define the alphabet:</strong> <code>' ',⎕A</code> creates our alphabet consisting of a space followed by the uppercase letters A-Z.</li>
+<li><strong>2. Find positions in the alphabet:</strong> <code>(' ',⎕A) ⍸⍵</code> uses the index-of (⍸) function to find the positions of each character in the input string (⍵) within our alphabet.</li>
+<li><strong>3. Create the shifted alphabet:</strong> <code>⍺⌽' ',⎕A</code> rotates our alphabet by the shift amount (⍺). The rotate function (⌽) shifts the entire alphabet by the specified number of positions.</li>
+<li><strong>4. Map to the new characters:</strong> Using the positions found in step 2, we index into the shifted alphabet: <code>(⍺⌽' ',⎕A)[...]</code> to get our encrypted message.</li>
+</ul>
+</details>
+
+]]></content:encoded>
+    </item>
     <item>
       <title>An APL a day! - Put It In Reverse</title>
       <link>https://rrampage.github.io/2025/02/21/an-apl-a-day-put-it-in-reverse/</link>
@@ -22,7 +190,7 @@
 &lt;li&gt;takes a scalar or vector right argument&lt;/li&gt;
 &lt;li&gt;returns a Boolean result that is the same shape as the right argument where 1&amp;rsquo;s mark the ends of occurrences of the left argument in the right argument&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;examples&#34;&gt;Examples:&lt;/h3&gt;
+&lt;h2 id=&#34;examples&#34;&gt;Examples:&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-apl&#34; data-lang=&#34;apl&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;s1&#34;&gt;&amp;#39;abra&amp;#39;&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;findEnd&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;abracadabra&amp;#39;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
@@ -43,7 +211,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;s1&#34;&gt;&amp;#39;are&amp;#39;&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;aquatic&amp;#39;&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;findEnd&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;ducks&amp;#39;&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;are&amp;#39;&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;aquatic&amp;#39;&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;avians&amp;#39;&lt;/span&gt; 
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;solution&#34;&gt;Solution&lt;/h3&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
 
 &lt;details&gt;
   &lt;summary&gt;See the solution&lt;/summary&gt;
@@ -62,7 +230,7 @@
 <li>takes a scalar or vector right argument</li>
 <li>returns a Boolean result that is the same shape as the right argument where 1&rsquo;s mark the ends of occurrences of the left argument in the right argument</li>
 </ul>
-<h3 id="examples">Examples:</h3>
+<h2 id="examples">Examples:</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-apl" data-lang="apl"><span class="line"><span class="cl">      <span class="s1">&#39;abra&#39;</span> <span class="nv">findEnd</span> <span class="s1">&#39;abracadabra&#39;</span>
 </span></span><span class="line"><span class="cl"><span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">1</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">1</span>
 </span></span><span class="line"><span class="cl">
@@ -83,7 +251,7 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">      <span class="s1">&#39;are&#39;</span> <span class="s1">&#39;aquatic&#39;</span> <span class="nv">findEnd</span> <span class="s1">&#39;ducks&#39;</span> <span class="s1">&#39;are&#39;</span> <span class="s1">&#39;aquatic&#39;</span> <span class="s1">&#39;avians&#39;</span> 
 </span></span><span class="line"><span class="cl"><span class="m">0</span> <span class="m">0</span> <span class="m">1</span> <span class="m">0</span>
-</span></span></code></pre></div><h3 id="solution">Solution</h3>
+</span></span></code></pre></div><h2 id="solution">Solution</h2>
 
 <details>
   <summary>See the solution</summary>
@@ -109,7 +277,7 @@
       <guid>https://rrampage.github.io/2025/02/20/an-apl-a-day-elimination-sort/</guid>
       <description>&lt;p&gt;I&amp;rsquo;ve started dabbling with APL. It has been a lot of fun solving the &lt;a href=&#34;https://challenge.dyalog.com/&#34;&gt;current batch of challenges&lt;/a&gt;. &lt;a href=&#34;https://web.archive.org/web/20250210194607/https://challenge.dyalog.com/?goto=welcome&#34;&gt;Archive&lt;/a&gt;. I loved how each challenge focuses on a small set of operators and makes us use them in various (devious!) combinations to solve the problems. I&amp;rsquo;m going through some of the older challenges to learn about more operators.&lt;/p&gt;
 &lt;p&gt;The past challenges can be found at &lt;a href=&#34;https://apl.quest/&#34;&gt;APL Quest&lt;/a&gt;. Today, we&amp;rsquo;ll be solving the first problem from the 2023 challenge. Use &lt;a href=&#34;https://tryapl.org/&#34;&gt;tryapl.org&lt;/a&gt; as an online interactive REPL.&lt;/p&gt;
-&lt;h2 id=&#34;elimination-sort&#34;&gt;&lt;a href=&#34;https://apl.quest/psets/2023.html?goto=P1_Elimination_Sort&#34;&gt;Elimination Sort&lt;/a&gt;&lt;/h2&gt;
+&lt;h1 id=&#34;elimination-sort&#34;&gt;&lt;a href=&#34;https://apl.quest/psets/2023.html?goto=P1_Elimination_Sort&#34;&gt;Elimination Sort&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;An &amp;ldquo;Elimination Sort&amp;rdquo; is a somewhat farcical sorting algorithm which starts with the leftmost element and keeps subsequent elements that are at least as large as the previous kept element, discarding all other elements. For example:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-apl&#34; data-lang=&#34;apl&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;EliminationSort&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;6&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;4&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; 
@@ -121,7 +289,7 @@
 &lt;p&gt;Hint: The progressive-maxima idiomatic phrase ⌈, the greater or equal function ≥, and the replicate function / could be helpful in solving this problem.&lt;/p&gt;</description>
       <content:encoded><![CDATA[<p>I&rsquo;ve started dabbling with APL. It has been a lot of fun solving the <a href="https://challenge.dyalog.com/">current batch of challenges</a>. <a href="https://web.archive.org/web/20250210194607/https://challenge.dyalog.com/?goto=welcome">Archive</a>. I loved how each challenge focuses on a small set of operators and makes us use them in various (devious!) combinations to solve the problems. I&rsquo;m going through some of the older challenges to learn about more operators.</p>
 <p>The past challenges can be found at <a href="https://apl.quest/">APL Quest</a>. Today, we&rsquo;ll be solving the first problem from the 2023 challenge. Use <a href="https://tryapl.org/">tryapl.org</a> as an online interactive REPL.</p>
-<h2 id="elimination-sort"><a href="https://apl.quest/psets/2023.html?goto=P1_Elimination_Sort">Elimination Sort</a></h2>
+<h1 id="elimination-sort"><a href="https://apl.quest/psets/2023.html?goto=P1_Elimination_Sort">Elimination Sort</a></h1>
 <p>An &ldquo;Elimination Sort&rdquo; is a somewhat farcical sorting algorithm which starts with the leftmost element and keeps subsequent elements that are at least as large as the previous kept element, discarding all other elements. For example:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-apl" data-lang="apl"><span class="line"><span class="cl"><span class="nv">EliminationSort</span> <span class="m">1</span> <span class="m">3</span> <span class="m">7</span> <span class="m">3</span> <span class="m">5</span> <span class="m">8</span> <span class="m">5</span> <span class="m">8</span> <span class="m">1</span> <span class="m">6</span> <span class="m">1</span> <span class="m">8</span> <span class="m">1</span> <span class="m">10</span> <span class="m">8</span> <span class="m">4</span> <span class="m">3</span> <span class="m">4</span> <span class="m">1</span> <span class="m">4</span>
 </span></span><span class="line"><span class="cl"><span class="m">1</span> <span class="m">3</span> <span class="m">7</span> <span class="m">8</span> <span class="m">8</span> <span class="m">8</span> <span class="m">10</span> 
@@ -131,7 +299,7 @@
 <li>returns an &ldquo;Elimination-sorted&rdquo; vector of the right argument</li>
 </ul>
 <p>Hint: The progressive-maxima idiomatic phrase ⌈, the greater or equal function ≥, and the replicate function / could be helpful in solving this problem.</p>
-<h3 id="examples">Examples</h3>
+<h2 id="examples">Examples</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-apl" data-lang="apl"><span class="line"><span class="cl">      <span class="nv">EliminationSort</span> <span class="o">⍳</span><span class="m">10</span>
 </span></span><span class="line"><span class="cl"><span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span> <span class="m">5</span> <span class="m">6</span> <span class="m">7</span> <span class="m">8</span> <span class="m">9</span> <span class="m">10</span>
 </span></span><span class="line"><span class="cl">
@@ -143,7 +311,7 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">      <span class="nv">EliminationSort</span> <span class="m">1</span> <span class="m">3</span> <span class="m">7</span> <span class="m">3</span> <span class="m">5</span> <span class="m">8</span> <span class="m">5</span> <span class="m">8</span> <span class="m">1</span> <span class="m">6</span> <span class="m">1</span> <span class="m">8</span> <span class="m">1</span> <span class="m">10</span> <span class="m">8</span> <span class="m">4</span> <span class="m">3</span> <span class="m">4</span> <span class="m">1</span> <span class="m">4</span>
 </span></span><span class="line"><span class="cl"><span class="m">1</span> <span class="m">3</span> <span class="m">7</span> <span class="m">8</span> <span class="m">8</span> <span class="m">8</span> <span class="m">10</span>
-</span></span></code></pre></div><h3 id="solution">Solution</h3>
+</span></span></code></pre></div><h2 id="solution">Solution</h2>
 
 <details>
   <summary>See the solution</summary>
@@ -2047,7 +2215,7 @@ $$</p>]]></content:encoded>
 &lt;/ul&gt;
 &lt;h4 id=&#34;about-me&#34;&gt;About Me&lt;/h4&gt;
 &lt;p&gt;I am a software developer. I work on mostly backend stuff.
-I blog occasionally &lt;a href=&#34;https://rrampage.github.io&#34;&gt;here&lt;/a&gt; or crosspost to &lt;a href=&#34;https://dev.to/rrampage&#34;&gt;dev.to&lt;/a&gt;. You can reach out to me via various websites in the footer.&lt;/p&gt;
+I blog occasionally &lt;a href=&#34;https://rrampage.github.io&#34;&gt;here&lt;/a&gt; or crosspost to &lt;a href=&#34;https://dev.to/rrampage&#34;&gt;dev.to&lt;/a&gt;.&lt;/p&gt;
 &lt;h4 id=&#34;-ask-me-about-&#34;&gt;💬 Ask me about &amp;hellip;&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;Bash, sed, awk, GNU Make, jq&lt;/li&gt;
@@ -2064,13 +2232,12 @@ I blog occasionally &lt;a href=&#34;https://rrampage.github.io&#34;&gt;here&lt;/
 &lt;li&gt;&lt;a href=&#34;https://hachyderm.io/@bit&#34;&gt;Mastodon&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://in.linkedin.com/in/raunak1&#34;&gt;LinkedIn&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://bsky.app/profile/rrampage.bsky.social&#34;&gt;Bluesky&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://twitter.com/QuixoticCoder&#34;&gt;Twitter&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h4 id=&#34;software-powering-this-blog&#34;&gt;Software powering this blog:&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/adityatelange/hugo-PaperMod/&#34;&gt;Theme - PaperMod&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Modified version of &lt;a href=&#34;https://github.com/adityatelange/hugo-PaperMod/&#34;&gt;PaperMod&lt;/a&gt; theme&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/rrampage/rrampage.github.io&#34;&gt;Github pages&lt;/a&gt;&lt;/li&gt;
@@ -2084,7 +2251,7 @@ I blog occasionally &lt;a href=&#34;https://rrampage.github.io&#34;&gt;here&lt;/
 </ul>
 <h4 id="about-me">About Me</h4>
 <p>I am a software developer. I work on mostly backend stuff.
-I blog occasionally <a href="https://rrampage.github.io">here</a> or crosspost to <a href="https://dev.to/rrampage">dev.to</a>. You can reach out to me via various websites in the footer.</p>
+I blog occasionally <a href="https://rrampage.github.io">here</a> or crosspost to <a href="https://dev.to/rrampage">dev.to</a>.</p>
 <h4 id="-ask-me-about-">💬 Ask me about &hellip;</h4>
 <ul>
 <li>Bash, sed, awk, GNU Make, jq</li>
@@ -2101,18 +2268,24 @@ I blog occasionally <a href="https://rrampage.github.io">here</a> or crosspost t
 <li><a href="https://hachyderm.io/@bit">Mastodon</a></li>
 <li><a href="https://in.linkedin.com/in/raunak1">LinkedIn</a></li>
 <li><a href="https://bsky.app/profile/rrampage.bsky.social">Bluesky</a></li>
-<li><a href="https://twitter.com/QuixoticCoder">Twitter</a></li>
 </ul>
 <h4 id="software-powering-this-blog">Software powering this blog:</h4>
 <ul>
 <li><a href="https://gohugo.io/">Hugo</a>
 <ul>
-<li><a href="https://github.com/adityatelange/hugo-PaperMod/">Theme - PaperMod</a></li>
+<li>Modified version of <a href="https://github.com/adityatelange/hugo-PaperMod/">PaperMod</a> theme</li>
 </ul>
 </li>
 <li><a href="https://github.com/rrampage/rrampage.github.io">Github pages</a></li>
 </ul>
 ]]></content:encoded>
+    </item>
+    <item>
+      <title>APL Scrapbook</title>
+      <link>https://rrampage.github.io/misc/apl-scrapbook/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://rrampage.github.io/misc/apl-scrapbook/</guid>
+      <description></description>
     </item>
   </channel>
 </rss>

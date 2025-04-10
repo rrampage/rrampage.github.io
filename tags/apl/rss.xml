@@ -6,8 +6,87 @@
     <description>Recent content in Apl on A Random Walk</description>
     <generator>Hugo -- 0.144.2</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 21 Feb 2025 16:13:02 +0530</lastBuildDate>
+    <lastBuildDate>Mon, 24 Feb 2025 02:15:00 +0530</lastBuildDate>
     <atom:link href="https://rrampage.github.io/tags/apl/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>An APL a day! - Caesar Salad</title>
+      <link>https://rrampage.github.io/2025/02/24/an-apl-a-day-caesar-salad/</link>
+      <pubDate>Mon, 24 Feb 2025 02:15:00 +0530</pubDate>
+      <guid>https://rrampage.github.io/2025/02/24/an-apl-a-day-caesar-salad/</guid>
+      <description>&lt;p&gt;Today&amp;rsquo;s problem - &lt;a href=&#34;https://apl.quest/psets/2023.html?goto=P3_Caesar_Salad&#34;&gt;Caesar Salad&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;A Caesar cipher, also known as a shift cipher, is one of the simplest encryption techniques. In a Caesar cipher, each letter in the plaintext is replaced by a letter some fixed number of positions away in the alphabet, effectively &amp;ldquo;shifting&amp;rdquo; the alphabet.&lt;/p&gt;
+&lt;p&gt;Write a function that:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;takes a single integer left argument representing the size of the shift
+takes a character vector right argument representing the plaintext message
+returns a result with the same shape as the right argument representing the encrypted message
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Notes:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Use &#39; &#39;,⎕A as the alphabet
+You can assume that the plaintext message will contain only characters found in the alphabet.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Hint: The rotate function ⌽ could be helpful in solving this problem.&lt;/p&gt;
+&lt;h2 id=&#34;examples&#34;&gt;Examples&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-apl&#34; data-lang=&#34;apl&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;m&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;caesar&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;HELLO WORLDS&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;LIPPSD&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;SVPHW&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;m&#34;&gt;¯4&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;caesar&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;HELLO WORLDS&amp;#39;&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;⍝ negative shifts are okay&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;DAHHKWSKNH&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;O&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;caesar&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;HELLO WORLDS&amp;#39;&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;⍝ no shift is okay&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;HELLO&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;WORLDS&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;m&#34;&gt;27&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;caesar&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;HELLO WORLDS&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;HELLO&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;WORLDS&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;m&#34;&gt;¯10&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;caesar&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;⍝ returns an empty vector&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+
+&lt;details&gt;
+  &lt;summary&gt;&lt;h3&gt;See the solution&lt;/h3&gt;&lt;/summary&gt;
+  &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-apl&#34; data-lang=&#34;apl&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;⍺&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;⌽&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;⎕A&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;sr&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;⎕A&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;⍸&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;⍵&lt;/span&gt;&lt;span class=&#34;sr&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Breaking it down:&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>Today&rsquo;s problem - <a href="https://apl.quest/psets/2023.html?goto=P3_Caesar_Salad">Caesar Salad</a></p>
+<p>A Caesar cipher, also known as a shift cipher, is one of the simplest encryption techniques. In a Caesar cipher, each letter in the plaintext is replaced by a letter some fixed number of positions away in the alphabet, effectively &ldquo;shifting&rdquo; the alphabet.</p>
+<p>Write a function that:</p>
+<pre><code>takes a single integer left argument representing the size of the shift
+takes a character vector right argument representing the plaintext message
+returns a result with the same shape as the right argument representing the encrypted message
+</code></pre>
+<p>Notes:</p>
+<pre><code>Use ' ',⎕A as the alphabet
+You can assume that the plaintext message will contain only characters found in the alphabet.
+</code></pre>
+<p>Hint: The rotate function ⌽ could be helpful in solving this problem.</p>
+<h2 id="examples">Examples</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-apl" data-lang="apl"><span class="line"><span class="cl">      <span class="m">4</span> <span class="nv">caesar</span> <span class="s1">&#39;HELLO WORLDS&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">LIPPSD</span> <span class="nv">SVPHW</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">      <span class="m">¯4</span> <span class="nv">caesar</span> <span class="s1">&#39;HELLO WORLDS&#39;</span> <span class="c1">⍝ negative shifts are okay</span>
+</span></span><span class="line"><span class="cl"><span class="nv">DAHHKWSKNH</span> <span class="nv">O</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="m">0</span> <span class="nv">caesar</span> <span class="s1">&#39;HELLO WORLDS&#39;</span> <span class="c1">⍝ no shift is okay</span>
+</span></span><span class="line"><span class="cl"><span class="nv">HELLO</span> <span class="nv">WORLDS</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="m">27</span> <span class="nv">caesar</span> <span class="s1">&#39;HELLO WORLDS&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">HELLO</span> <span class="nv">WORLDS</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="m">¯10</span> <span class="nv">caesar</span> <span class="s1">&#39;&#39;</span> <span class="c1">⍝ returns an empty vector</span>
+</span></span></code></pre></div><h2 id="solution">Solution</h2>
+
+<details>
+  <summary><h3>See the solution</h3></summary>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-apl" data-lang="apl"><span class="line"><span class="cl"><span class="kt">{</span><span class="p">(</span><span class="bp">⍺</span><span class="o">⌽</span><span class="s1">&#39; &#39;</span><span class="o">,</span><span class="nf">⎕A</span><span class="p">)</span><span class="sr">[</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">,</span><span class="nf">⎕A</span><span class="p">)</span> <span class="o">⍸</span><span class="bp">⍵</span><span class="sr">]</span><span class="kt">}</span>
+</span></span></code></pre></div><p>Breaking it down:</p>
+<ul>
+<li><strong>1. Define the alphabet:</strong> <code>' ',⎕A</code> creates our alphabet consisting of a space followed by the uppercase letters A-Z.</li>
+<li><strong>2. Find positions in the alphabet:</strong> <code>(' ',⎕A) ⍸⍵</code> uses the index-of (⍸) function to find the positions of each character in the input string (⍵) within our alphabet.</li>
+<li><strong>3. Create the shifted alphabet:</strong> <code>⍺⌽' ',⎕A</code> rotates our alphabet by the shift amount (⍺). The rotate function (⌽) shifts the entire alphabet by the specified number of positions.</li>
+<li><strong>4. Map to the new characters:</strong> Using the positions found in step 2, we index into the shifted alphabet: <code>(⍺⌽' ',⎕A)[...]</code> to get our encrypted message.</li>
+</ul>
+</details>
+
+]]></content:encoded>
+    </item>
     <item>
       <title>An APL a day! - Put It In Reverse</title>
       <link>https://rrampage.github.io/2025/02/21/an-apl-a-day-put-it-in-reverse/</link>
@@ -22,7 +101,7 @@
 &lt;li&gt;takes a scalar or vector right argument&lt;/li&gt;
 &lt;li&gt;returns a Boolean result that is the same shape as the right argument where 1&amp;rsquo;s mark the ends of occurrences of the left argument in the right argument&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;examples&#34;&gt;Examples:&lt;/h3&gt;
+&lt;h2 id=&#34;examples&#34;&gt;Examples:&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-apl&#34; data-lang=&#34;apl&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;s1&#34;&gt;&amp;#39;abra&amp;#39;&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;findEnd&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;abracadabra&amp;#39;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
@@ -43,7 +122,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;s1&#34;&gt;&amp;#39;are&amp;#39;&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;aquatic&amp;#39;&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;findEnd&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;ducks&amp;#39;&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;are&amp;#39;&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;aquatic&amp;#39;&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;avians&amp;#39;&lt;/span&gt; 
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;solution&#34;&gt;Solution&lt;/h3&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
 
 &lt;details&gt;
   &lt;summary&gt;See the solution&lt;/summary&gt;
@@ -62,7 +141,7 @@
 <li>takes a scalar or vector right argument</li>
 <li>returns a Boolean result that is the same shape as the right argument where 1&rsquo;s mark the ends of occurrences of the left argument in the right argument</li>
 </ul>
-<h3 id="examples">Examples:</h3>
+<h2 id="examples">Examples:</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-apl" data-lang="apl"><span class="line"><span class="cl">      <span class="s1">&#39;abra&#39;</span> <span class="nv">findEnd</span> <span class="s1">&#39;abracadabra&#39;</span>
 </span></span><span class="line"><span class="cl"><span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">1</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">1</span>
 </span></span><span class="line"><span class="cl">
@@ -83,7 +162,7 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">      <span class="s1">&#39;are&#39;</span> <span class="s1">&#39;aquatic&#39;</span> <span class="nv">findEnd</span> <span class="s1">&#39;ducks&#39;</span> <span class="s1">&#39;are&#39;</span> <span class="s1">&#39;aquatic&#39;</span> <span class="s1">&#39;avians&#39;</span> 
 </span></span><span class="line"><span class="cl"><span class="m">0</span> <span class="m">0</span> <span class="m">1</span> <span class="m">0</span>
-</span></span></code></pre></div><h3 id="solution">Solution</h3>
+</span></span></code></pre></div><h2 id="solution">Solution</h2>
 
 <details>
   <summary>See the solution</summary>
@@ -109,7 +188,7 @@
       <guid>https://rrampage.github.io/2025/02/20/an-apl-a-day-elimination-sort/</guid>
       <description>&lt;p&gt;I&amp;rsquo;ve started dabbling with APL. It has been a lot of fun solving the &lt;a href=&#34;https://challenge.dyalog.com/&#34;&gt;current batch of challenges&lt;/a&gt;. &lt;a href=&#34;https://web.archive.org/web/20250210194607/https://challenge.dyalog.com/?goto=welcome&#34;&gt;Archive&lt;/a&gt;. I loved how each challenge focuses on a small set of operators and makes us use them in various (devious!) combinations to solve the problems. I&amp;rsquo;m going through some of the older challenges to learn about more operators.&lt;/p&gt;
 &lt;p&gt;The past challenges can be found at &lt;a href=&#34;https://apl.quest/&#34;&gt;APL Quest&lt;/a&gt;. Today, we&amp;rsquo;ll be solving the first problem from the 2023 challenge. Use &lt;a href=&#34;https://tryapl.org/&#34;&gt;tryapl.org&lt;/a&gt; as an online interactive REPL.&lt;/p&gt;
-&lt;h2 id=&#34;elimination-sort&#34;&gt;&lt;a href=&#34;https://apl.quest/psets/2023.html?goto=P1_Elimination_Sort&#34;&gt;Elimination Sort&lt;/a&gt;&lt;/h2&gt;
+&lt;h1 id=&#34;elimination-sort&#34;&gt;&lt;a href=&#34;https://apl.quest/psets/2023.html?goto=P1_Elimination_Sort&#34;&gt;Elimination Sort&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;An &amp;ldquo;Elimination Sort&amp;rdquo; is a somewhat farcical sorting algorithm which starts with the leftmost element and keeps subsequent elements that are at least as large as the previous kept element, discarding all other elements. For example:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-apl&#34; data-lang=&#34;apl&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;EliminationSort&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;6&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;4&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; 
@@ -121,7 +200,7 @@
 &lt;p&gt;Hint: The progressive-maxima idiomatic phrase ⌈, the greater or equal function ≥, and the replicate function / could be helpful in solving this problem.&lt;/p&gt;</description>
       <content:encoded><![CDATA[<p>I&rsquo;ve started dabbling with APL. It has been a lot of fun solving the <a href="https://challenge.dyalog.com/">current batch of challenges</a>. <a href="https://web.archive.org/web/20250210194607/https://challenge.dyalog.com/?goto=welcome">Archive</a>. I loved how each challenge focuses on a small set of operators and makes us use them in various (devious!) combinations to solve the problems. I&rsquo;m going through some of the older challenges to learn about more operators.</p>
 <p>The past challenges can be found at <a href="https://apl.quest/">APL Quest</a>. Today, we&rsquo;ll be solving the first problem from the 2023 challenge. Use <a href="https://tryapl.org/">tryapl.org</a> as an online interactive REPL.</p>
-<h2 id="elimination-sort"><a href="https://apl.quest/psets/2023.html?goto=P1_Elimination_Sort">Elimination Sort</a></h2>
+<h1 id="elimination-sort"><a href="https://apl.quest/psets/2023.html?goto=P1_Elimination_Sort">Elimination Sort</a></h1>
 <p>An &ldquo;Elimination Sort&rdquo; is a somewhat farcical sorting algorithm which starts with the leftmost element and keeps subsequent elements that are at least as large as the previous kept element, discarding all other elements. For example:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-apl" data-lang="apl"><span class="line"><span class="cl"><span class="nv">EliminationSort</span> <span class="m">1</span> <span class="m">3</span> <span class="m">7</span> <span class="m">3</span> <span class="m">5</span> <span class="m">8</span> <span class="m">5</span> <span class="m">8</span> <span class="m">1</span> <span class="m">6</span> <span class="m">1</span> <span class="m">8</span> <span class="m">1</span> <span class="m">10</span> <span class="m">8</span> <span class="m">4</span> <span class="m">3</span> <span class="m">4</span> <span class="m">1</span> <span class="m">4</span>
 </span></span><span class="line"><span class="cl"><span class="m">1</span> <span class="m">3</span> <span class="m">7</span> <span class="m">8</span> <span class="m">8</span> <span class="m">8</span> <span class="m">10</span> 
@@ -131,7 +210,7 @@
 <li>returns an &ldquo;Elimination-sorted&rdquo; vector of the right argument</li>
 </ul>
 <p>Hint: The progressive-maxima idiomatic phrase ⌈, the greater or equal function ≥, and the replicate function / could be helpful in solving this problem.</p>
-<h3 id="examples">Examples</h3>
+<h2 id="examples">Examples</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-apl" data-lang="apl"><span class="line"><span class="cl">      <span class="nv">EliminationSort</span> <span class="o">⍳</span><span class="m">10</span>
 </span></span><span class="line"><span class="cl"><span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span> <span class="m">5</span> <span class="m">6</span> <span class="m">7</span> <span class="m">8</span> <span class="m">9</span> <span class="m">10</span>
 </span></span><span class="line"><span class="cl">
@@ -143,7 +222,7 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">      <span class="nv">EliminationSort</span> <span class="m">1</span> <span class="m">3</span> <span class="m">7</span> <span class="m">3</span> <span class="m">5</span> <span class="m">8</span> <span class="m">5</span> <span class="m">8</span> <span class="m">1</span> <span class="m">6</span> <span class="m">1</span> <span class="m">8</span> <span class="m">1</span> <span class="m">10</span> <span class="m">8</span> <span class="m">4</span> <span class="m">3</span> <span class="m">4</span> <span class="m">1</span> <span class="m">4</span>
 </span></span><span class="line"><span class="cl"><span class="m">1</span> <span class="m">3</span> <span class="m">7</span> <span class="m">8</span> <span class="m">8</span> <span class="m">8</span> <span class="m">10</span>
-</span></span></code></pre></div><h3 id="solution">Solution</h3>
+</span></span></code></pre></div><h2 id="solution">Solution</h2>
 
 <details>
   <summary>See the solution</summary>

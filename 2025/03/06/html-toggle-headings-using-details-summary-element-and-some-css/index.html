@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>HTML toggle headings using Details Summary element and some CSS | A Random Walk</title>
+<meta name="keywords" content="html, css">
+<meta name="description" content="Overview of the HTML details tag
+The details tag creates a toggleable element which we can use to hide sensitive information like spoilers. It has a summary attribute which is visible to the reader and a button which they can click to show then content.
+&lt;details&gt;
+  &lt;summary&gt;Spoilers!&lt;/summary&gt;
+  Lot of sensitive information!
+&lt;/details&gt;
+Creating Toggle Headings using summary and HTML heading tags
+Since summary is an HTML element, we can nest other HTML elements in it. If we want to create something like Notion&rsquo;s toggle headings (/toggleh1), we can do something like
+&lt;details&gt;
+  &lt;summary&gt;&lt;h3&gt;Spoilers!&lt;/h3&gt;&lt;/summary&gt;
+  Spoilers
+&lt;/details&gt;
+This shows the &lt;h3&gt; header but below the taggle i.e not inline. See this fiddle for the minimal example. Searching for this led me to this article which suggested this CSS fix to the problem
+details summary &gt; * { 
+  display: inline;
+}
+This CSS snippet inlines all children of the details summary element.
+Here&rsquo;s the fix in action!
+Using the details element in Hugo markdown
+Since version 0.140, Hugo has supported details as a shortcode. We can put arbitrary HTML in the summary e.g">
+<meta name="author" content="Raunak">
+<link rel="canonical" href="https://rrampage.github.io/2025/03/06/html-toggle-headings-using-details-summary-element-and-some-css/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.7aaf01c70cfab7bd82e4fad5fd71b6a9c97fbfe30ff65c1dd4360a5678e5e7ed.css" integrity="sha256-eq8Bxwz6t72C5PrV/XG2qcl/v&#43;MP9lwd1DYKVnjl5&#43;0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://rrampage.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://rrampage.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://rrampage.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://rrampage.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://rrampage.github.io/2025/03/06/html-toggle-headings-using-details-summary-element-and-some-css/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="HTML toggle headings using Details Summary element and some CSS" />
+<meta property="og:description" content="Overview of the HTML details tag
+The details tag creates a toggleable element which we can use to hide sensitive information like spoilers. It has a summary attribute which is visible to the reader and a button which they can click to show then content.
+&lt;details&gt;
+  &lt;summary&gt;Spoilers!&lt;/summary&gt;
+  Lot of sensitive information!
+&lt;/details&gt;
+Creating Toggle Headings using summary and HTML heading tags
+Since summary is an HTML element, we can nest other HTML elements in it. If we want to create something like Notion&rsquo;s toggle headings (/toggleh1), we can do something like
+&lt;details&gt;
+  &lt;summary&gt;&lt;h3&gt;Spoilers!&lt;/h3&gt;&lt;/summary&gt;
+  Spoilers
+&lt;/details&gt;
+This shows the &lt;h3&gt; header but below the taggle i.e not inline. See this fiddle for the minimal example. Searching for this led me to this article which suggested this CSS fix to the problem
+details summary &gt; * { 
+  display: inline;
+}
+This CSS snippet inlines all children of the details summary element.
+Here&rsquo;s the fix in action!
+Using the details element in Hugo markdown
+Since version 0.140, Hugo has supported details as a shortcode. We can put arbitrary HTML in the summary e.g" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://rrampage.github.io/2025/03/06/html-toggle-headings-using-details-summary-element-and-some-css/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2025-03-06T14:40:15+05:30" />
+<meta property="article:modified_time" content="2025-03-06T14:40:15+05:30" /><meta property="og:site_name" content="A Random Walk" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="HTML toggle headings using Details Summary element and some CSS"/>
+<meta name="twitter:description" content="Overview of the HTML details tag
+The details tag creates a toggleable element which we can use to hide sensitive information like spoilers. It has a summary attribute which is visible to the reader and a button which they can click to show then content.
+&lt;details&gt;
+  &lt;summary&gt;Spoilers!&lt;/summary&gt;
+  Lot of sensitive information!
+&lt;/details&gt;
+Creating Toggle Headings using summary and HTML heading tags
+Since summary is an HTML element, we can nest other HTML elements in it. If we want to create something like Notion&rsquo;s toggle headings (/toggleh1), we can do something like
+&lt;details&gt;
+  &lt;summary&gt;&lt;h3&gt;Spoilers!&lt;/h3&gt;&lt;/summary&gt;
+  Spoilers
+&lt;/details&gt;
+This shows the &lt;h3&gt; header but below the taggle i.e not inline. See this fiddle for the minimal example. Searching for this led me to this article which suggested this CSS fix to the problem
+details summary &gt; * { 
+  display: inline;
+}
+This CSS snippet inlines all children of the details summary element.
+Here&rsquo;s the fix in action!
+Using the details element in Hugo markdown
+Since version 0.140, Hugo has supported details as a shortcode. We can put arbitrary HTML in the summary e.g"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://rrampage.github.io/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "HTML toggle headings using Details Summary element and some CSS",
+      "item": "https://rrampage.github.io/2025/03/06/html-toggle-headings-using-details-summary-element-and-some-css/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "HTML toggle headings using Details Summary element and some CSS",
+  "name": "HTML toggle headings using Details Summary element and some CSS",
+  "description": "Overview of the HTML details tag The details tag creates a toggleable element which we can use to hide sensitive information like spoilers. It has a summary attribute which is visible to the reader and a button which they can click to show then content.\n\u0026lt;details\u0026gt; \u0026lt;summary\u0026gt;Spoilers!\u0026lt;/summary\u0026gt; Lot of sensitive information! \u0026lt;/details\u0026gt; Creating Toggle Headings using summary and HTML heading tags Since summary is an HTML element, we can nest other HTML elements in it. If we want to create something like Notion\u0026rsquo;s toggle headings (/toggleh1), we can do something like\n\u0026lt;details\u0026gt; \u0026lt;summary\u0026gt;\u0026lt;h3\u0026gt;Spoilers!\u0026lt;/h3\u0026gt;\u0026lt;/summary\u0026gt; Spoilers \u0026lt;/details\u0026gt; This shows the \u0026lt;h3\u0026gt; header but below the taggle i.e not inline. See this fiddle for the minimal example. Searching for this led me to this article which suggested this CSS fix to the problem\ndetails summary \u0026gt; * { display: inline; } This CSS snippet inlines all children of the details summary element.\nHere\u0026rsquo;s the fix in action!\nUsing the details element in Hugo markdown Since version 0.140, Hugo has supported details as a shortcode. We can put arbitrary HTML in the summary e.g\n",
+  "keywords": [
+    "html", "css"
+  ],
+  "articleBody": "Overview of the HTML details tag The details tag creates a toggleable element which we can use to hide sensitive information like spoilers. It has a summary attribute which is visible to the reader and a button which they can click to show then content.\n\u003cdetails\u003e \u003csummary\u003eSpoilers!\u003c/summary\u003e Lot of sensitive information! \u003c/details\u003e Creating Toggle Headings using summary and HTML heading tags Since summary is an HTML element, we can nest other HTML elements in it. If we want to create something like Notion’s toggle headings (/toggleh1), we can do something like\n\u003cdetails\u003e \u003csummary\u003e\u003ch3\u003eSpoilers!\u003c/h3\u003e\u003c/summary\u003e Spoilers \u003c/details\u003e This shows the header but below the taggle i.e not inline. See this fiddle for the minimal example. Searching for this led me to this article which suggested this CSS fix to the problem\ndetails summary \u003e * { display: inline; } This CSS snippet inlines all children of the details summary element.\nHere’s the fix in action!\nUsing the details element in Hugo markdown Since version 0.140, Hugo has supported details as a shortcode. We can put arbitrary HTML in the summary e.g\n{{\u003c details summary=\"Major Spoilers!\" \u003e}}\n{{\u003c /details \u003e}}\nUsing a custom Hugo Shortcodes to generate toggle headings I created a custom shortcode called tog with tag and summary attributes to support toggle headers. Here it is in action! Also linked is a gist with the minimal necessary HTML + CSS to create and use toggle headings in Hugo.\nShortcode HTML Create the following HTML in `tog.html` in the `layouts/shortcodes` directory {{ $tag := .Get \"tag\" | default \"h3\" }}\n{{ $heading := printf \"\u003c%s\u003e%s\u003c/%s\u003e\" $tag (.Get \"summary\") $tag | safeHTML }}\n{{ $heading }}\n{{ .Inner }} Usage {{\u003c tog tag=\"h4\" summary=\"Usage\" \u003e}}\n{{\u003c /tog \u003e}}\n",
+  "wordCount" : "292",
+  "inLanguage": "en",
+  "datePublished": "2025-03-06T14:40:15+05:30",
+  "dateModified": "2025-03-06T14:40:15+05:30",
+  "author":{
+    "@type": "Person",
+    "name": "Raunak"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://rrampage.github.io/2025/03/06/html-toggle-headings-using-details-summary-element-and-some-css/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "A Random Walk",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://rrampage.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://rrampage.github.io/" accesskey="h" title="A Random Walk (Alt + H)">A Random Walk</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://rrampage.github.io/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/archives" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://rrampage.github.io/atom.xml" title="RSS">
+                    <span>RSS</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      HTML toggle headings using Details Summary element and some CSS
+    </h1>
+    <div class="post-meta"><span title='2025-03-06 14:40:15 +0530 IST'>March 6 2025</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;292 words
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#overview-of-the-html-details-tag">Overview of the HTML <code>details</code> tag</a></li>
+    <li><a href="#creating-toggle-headings-using-summary-and-html-heading-tags">Creating Toggle Headings using <code>summary</code> and HTML heading tags</a></li>
+    <li><a href="#using-the-details-element-in-hugo-markdown">Using the <code>details</code> element in Hugo markdown</a></li>
+    <li><a href="#using-a-custom-hugo-shortcodes-to-generate-toggle-headings">Using a custom Hugo Shortcodes to generate toggle headings</a></li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="overview-of-the-html-details-tag">Overview of the HTML <code>details</code> tag<a hidden class="anchor" aria-hidden="true" href="#overview-of-the-html-details-tag">#</a></h2>
+<p>The <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details"><code>details</code> tag</a> creates a toggleable element which we can use to hide sensitive information like spoilers. It has a <code>summary</code> attribute which is visible to the reader and a button which they can click to show then content.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">details</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">summary</span><span class="p">&gt;</span>Spoilers!<span class="p">&lt;/</span><span class="nt">summary</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  Lot of sensitive information!
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">details</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="creating-toggle-headings-using-summary-and-html-heading-tags">Creating Toggle Headings using <code>summary</code> and HTML heading tags<a hidden class="anchor" aria-hidden="true" href="#creating-toggle-headings-using-summary-and-html-heading-tags">#</a></h2>
+<p>Since <code>summary</code> is an HTML element, we can nest other HTML elements in it. If we want to create something like Notion&rsquo;s toggle headings (<code>/toggleh1</code>), we can do something like</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">details</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">summary</span><span class="p">&gt;&lt;</span><span class="nt">h3</span><span class="p">&gt;</span>Spoilers!<span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;&lt;/</span><span class="nt">summary</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  Spoilers
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">details</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>This shows the <code>&lt;h3&gt;</code> header but below the taggle i.e not inline. See <a href="https://jsfiddle.net/3ht4n0jm/">this fiddle</a> for the minimal example. Searching for this led me to this <a href="https://css-tricks.com/two-issues-styling-the-details-element-and-how-to-solve-them/">article</a> which suggested this CSS fix to the problem</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="nt">details</span> <span class="nt">summary</span> <span class="o">&gt;</span> <span class="o">*</span> <span class="p">{</span> 
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="kc">inline</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>This CSS snippet inlines all children of the <code>details summary</code> element.</p>
+<p>Here&rsquo;s the <a href="https://jsfiddle.net/0yjpcLef/">fix</a> in action!</p>
+<h2 id="using-the-details-element-in-hugo-markdown">Using the <code>details</code> element in Hugo markdown<a hidden class="anchor" aria-hidden="true" href="#using-the-details-element-in-hugo-markdown">#</a></h2>
+<p>Since version 0.140, Hugo has supported <code>details</code> as a <a href="https://gohugo.io/shortcodes/details/">shortcode</a>. We can put arbitrary HTML in the summary e.g</p>
+<p>{{&lt; details summary=&quot;&lt;h3&gt;Major Spoilers!&lt;/h3&gt;&quot; &gt;}}<br>
+{{&lt; /details &gt;}}</p>
+<h2 id="using-a-custom-hugo-shortcodes-to-generate-toggle-headings">Using a custom Hugo Shortcodes to generate toggle headings<a hidden class="anchor" aria-hidden="true" href="#using-a-custom-hugo-shortcodes-to-generate-toggle-headings">#</a></h2>
+<p>I created a custom shortcode called <code>tog</code> with <code>tag</code> and <code>summary</code> attributes to support toggle headers. Here it is in action! Also linked is a <a href="https://gist.github.com/rrampage/66af5cb88147bd07cb79cb1b3c8ba46b">gist</a> with the minimal necessary HTML + CSS to create and use toggle headings in Hugo.</p>
+<details>
+  <summary>
+    
+    
+    <h3>Shortcode HTML</h3>
+  </summary>
+  <div>
+    
+
+
+Create the following HTML in `tog.html` in the `layouts/shortcodes` directory
+
+&lt;details><br>
+  &lt;summary><br>
+    {{ $tag := .Get "tag" | default "h3" }}<br>
+    {{ $heading := printf "<%s>%s</%s>" $tag (.Get "summary") $tag | safeHTML }}<br>
+    {{ $heading }}<br>
+  &lt;/summary><br>
+  &lt;div><br>
+    {{ .Inner }}
+  &lt;/div><br>
+&lt;/details><br>
+
+  </div>
+</details>
+<details>
+  <summary>
+    
+    
+    <h4>Usage</h4>
+  </summary>
+  <div>
+    <br>
+{{&lt; tog tag="h4" summary="Usage" >}}<br>
+{{&lt; /tog >}}<br>
+
+  </div>
+</details>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://rrampage.github.io/tags/html/">html</a></li>
+      <li><a href="https://rrampage.github.io/tags/css/">css</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://rrampage.github.io/2025/02/24/an-apl-a-day-caesar-salad/">
+    <span class="title">Next »</span>
+    <br>
+    <span>An APL a day! - Caesar Salad</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="https://rrampage.github.io/">Raunak</a></span> · 
+
+    <div class="rc-scout-wrapper"><div class="rc-scout" data-scout-rendered="true"><p class="rc-scout__text"><i class="rc-scout__logo"></i> Want to become a better programmer? <a class="rc-scout__link" href="https://www.recurse.com/scout/click?t=dc1368250f74593c8379862b3ff43ccc">Join the Recurse Center!</a></p></div> <style class="rc-scout__style" type="text/css">.rc-scout { display: block; padding: 0; border: 0; margin: 0; } .rc-scout__text { display: block; padding: 0; border: 0; margin: 0; height: 100%; font-size: 100%; } .rc-scout__logo { display: inline-block; padding: 0; border: 0; margin: 0; width: 0.85em; height: 0.85em; background: no-repeat center url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2012%2015%22%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%2212%22%20height%3D%2210%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%221%22%20y%3D%221%22%20width%3D%2210%22%20height%3D%228%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%228%22%20height%3D%226%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%222%22%20y%3D%223%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%224%22%20y%3D%223%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%226%22%20y%3D%223%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%223%22%20y%3D%225%22%20width%3D%222%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%226%22%20y%3D%225%22%20width%3D%222%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%224%22%20y%3D%229%22%20width%3D%224%22%20height%3D%223%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%221%22%20y%3D%2211%22%20width%3D%2210%22%20height%3D%224%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%220%22%20y%3D%2212%22%20width%3D%2212%22%20height%3D%223%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%222%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%223%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%224%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%225%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%226%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%227%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%228%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%229%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3C%2Fsvg%3E'); } .rc-scout__link:link, .rc-scout__link:visited { color: #3dc06c; text-decoration: underline; } .rc-scout__link:hover, .rc-scout__link:active { color: #4e8b1d; }</style></div>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

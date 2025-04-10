@@ -10,7 +10,7 @@
 <meta name="description" content="A Random Walk - Raunak Ramakrishnan">
 <meta name="author" content="Raunak">
 <link rel="canonical" href="https://rrampage.github.io/tags/bash/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.7aaf01c70cfab7bd82e4fad5fd71b6a9c97fbfe30ff65c1dd4360a5678e5e7ed.css" integrity="sha256-eq8Bxwz6t72C5PrV/XG2qcl/v&#43;MP9lwd1DYKVnjl5&#43;0=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://rrampage.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://rrampage.github.io/favicon-32x32.png">
@@ -137,7 +137,7 @@
 <main class="main"> 
 <header class="page-header">
   <h1>
-    Bash
+    bash
   </h1>
 </header>
 
@@ -158,7 +158,7 @@ The hello.sh script.
 Start webhook server as webhook -hooks hooks.json -hotreload -logfile webhooks.log. The server will run on port 9000 by default. You can check if everything is working by running curl http://localhost:9000/hooks/hello-world. This will print “Hello!” in the log file.
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2020-05-25 17:32:54.151 +0000 UTC'>May 25 2020</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Raunak</footer>
+  <footer class="entry-footer"><span title='2020-05-25 17:32:54.151 +0000 UTC'>May 25 2020</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;617 words</footer>
   <a class="entry-link" aria-label="post link to Webhook to auto-deploy on git push to Github" href="https://rrampage.github.io/2020/05/25/webhook-to-auto-deploy-on-git-push-to-github/"></a>
 </article>
 
@@ -172,7 +172,7 @@ Start webhook server as webhook -hooks hooks.json -hotreload -logfile webhooks.l
 TIL_FILE=&#34;$HOME/my-notes-repo/til.md&#34; til () { # checks if the function has been called without any argument if [[ -z $1 ]]; then # opens the file in my editor, setting the cursor to the last line # useful to review latest entries or to write a longer entry vim &#43; &#34;$TIL_FILE&#34;; else # adds a line with today&#39;s date, a TAB and all arguments supplied (&#34;$@&#34;) echo -e &#34;- $( date &#39;&#43;%F&#39; ):\t$@&#34; &gt;&gt; &#34;$TIL_FILE&#34;; fi } How to use: til to open the file. I use this to review what I learned today or if I need to write a longer, multiline entry til CONTENT to append a line to the file e.g til grep --line-buffered to immediately print especially when tailing files will add this: - 2020-05-23: grep --line-buffered to immediately print especially when tailing files Explanation on the function In case you missed the comments in the function, here’s an explanation of what the various lines do:
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2020-05-23 12:42:20.645 +0000 UTC'>May 23 2020</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Raunak</footer>
+  <footer class="entry-footer"><span title='2020-05-23 12:42:20.645 +0000 UTC'>May 23 2020</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;237 words</footer>
   <a class="entry-link" aria-label="post link to Bash function to add TILs" href="https://rrampage.github.io/2020/05/23/bash-function-to-add-tils/"></a>
 </article>
 
@@ -188,7 +188,7 @@ The output has
 STAILQ_CONCAT (3) - implementations of singly-linked lists, singly-linked tail queues, lists and tail queues OPENSSL_strlcat (3ssl) - Memory allocation functions .. bzcat (1) - decompresses files to stdout cat (1) - concatenate files and print on the standard output fc-cat (1) - read font information cache files gencat (1) - Generate message catalog Clearly, the top 2 do not look like programs. Why is apropos then returning them? Let’s have a look at the apropos manual
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2018-11-15 09:39:37.302 +0000 UTC'>November 15 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Raunak</footer>
+  <footer class="entry-footer"><span title='2018-11-15 09:39:37.302 +0000 UTC'>November 15 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;798 words</footer>
   <a class="entry-link" aria-label="post link to Bash Command Completion - Finding all the cats in your $PATH!" href="https://rrampage.github.io/2018/11/15/bash-command-completion-finding-all-the-cats-in-your-path/"></a>
 </article>
 
@@ -206,7 +206,7 @@ For example, you want to show a file with line numbers. You know that there is a
 On my computer, it gives the following output:
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2018-11-11 17:30:30.427 +0000 UTC'>November 11 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Raunak</footer>
+  <footer class="entry-footer"><span title='2018-11-11 17:30:30.427 +0000 UTC'>November 11 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;842 words</footer>
   <a class="entry-link" aria-label="post link to Command-line productivity tips : Getting help in the terminal" href="https://rrampage.github.io/2018/11/11/command-line-productivity-tips-getting-help-in-the-terminal/"></a>
 </article>
 
@@ -221,7 +221,7 @@ Enter locks! A simple solution is to create a “lock file” and check if the f
 LOCK_FILE=a.lock if [ -f &#34;$LOCK_FILE&#34; ]; then # Lock file already exists, exit the script echo &#34;An instance of this script is already running&#34; exit 1 fi # Create the lock file echo &#34;Locked&#34; &gt; &#34;$LOCK_FILE&#34; # Do the normal stuff # clean-up before exit rm &#34;$LOCK_FILE&#34; This looks promising but there are issues with this approach. What happens if the script does not end correctly i.e it exits because of some failure before it reaches the clean-up part of the code? Or if it gets forcibly terminated with Ctrl&#43;C or kill command? In both these cases, the created lock file will not be deleted. So next time you run the script, you will always get an error and will have to manually delete the file.
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2018-11-06 18:53:23.63 +0000 UTC'>November 6 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Raunak</footer>
+  <footer class="entry-footer"><span title='2018-11-06 18:53:23.63 +0000 UTC'>November 6 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;747 words</footer>
   <a class="entry-link" aria-label="post link to Ensuring that a shell script runs exactly once" href="https://rrampage.github.io/2018/11/06/ensuring-that-a-shell-script-runs-exactly-once/"></a>
 </article>
 
@@ -239,7 +239,7 @@ initialize() # Initializes variables in BEGIN block for line in input_lines: # A
 Example - Hello World! You can run awk programs inline or through a file:
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2018-05-26 13:58:58.741 +0000 UTC'>May 26 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Raunak</footer>
+  <footer class="entry-footer"><span title='2018-05-26 13:58:58.741 +0000 UTC'>May 26 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;716 words</footer>
   <a class="entry-link" aria-label="post link to Awk - A useful little language" href="https://rrampage.github.io/2018/05/26/awk-a-useful-little-language/"></a>
 </article>
     </main>

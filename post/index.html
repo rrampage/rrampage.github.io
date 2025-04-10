@@ -10,7 +10,7 @@
 <meta name="description" content="Posts - A Random Walk">
 <meta name="author" content="Raunak">
 <link rel="canonical" href="https://rrampage.github.io/post/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css" integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.7aaf01c70cfab7bd82e4fad5fd71b6a9c97fbfe30ff65c1dd4360a5678e5e7ed.css" integrity="sha256-eq8Bxwz6t72C5PrV/XG2qcl/v&#43;MP9lwd1DYKVnjl5&#43;0=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://rrampage.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://rrampage.github.io/favicon-32x32.png">
@@ -152,9 +152,45 @@
 <main class="main"> 
 <header class="page-header">
   <h1>
-    Posts
+    posts
   </h1>
 </header>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">HTML toggle headings using Details Summary element and some CSS
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Overview of the HTML details tag The details tag creates a toggleable element which we can use to hide sensitive information like spoilers. It has a summary attribute which is visible to the reader and a button which they can click to show then content.
+&lt;details&gt; &lt;summary&gt;Spoilers!&lt;/summary&gt; Lot of sensitive information! &lt;/details&gt; Creating Toggle Headings using summary and HTML heading tags Since summary is an HTML element, we can nest other HTML elements in it. If we want to create something like Notion’s toggle headings (/toggleh1), we can do something like
+&lt;details&gt; &lt;summary&gt;&lt;h3&gt;Spoilers!&lt;/h3&gt;&lt;/summary&gt; Spoilers &lt;/details&gt; This shows the &lt;h3&gt; header but below the taggle i.e not inline. See this fiddle for the minimal example. Searching for this led me to this article which suggested this CSS fix to the problem
+details summary &gt; * { display: inline; } This CSS snippet inlines all children of the details summary element.
+Here’s the fix in action!
+Using the details element in Hugo markdown Since version 0.140, Hugo has supported details as a shortcode. We can put arbitrary HTML in the summary e.g
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2025-03-06 14:40:15 +0530 IST'>March 6 2025</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;292 words</footer>
+  <a class="entry-link" aria-label="post link to HTML toggle headings using Details Summary element and some CSS" href="https://rrampage.github.io/2025/03/06/html-toggle-headings-using-details-summary-element-and-some-css/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">An APL a day! - Caesar Salad
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Today’s problem - Caesar Salad
+A Caesar cipher, also known as a shift cipher, is one of the simplest encryption techniques. In a Caesar cipher, each letter in the plaintext is replaced by a letter some fixed number of positions away in the alphabet, effectively “shifting” the alphabet.
+Write a function that:
+takes a single integer left argument representing the size of the shift takes a character vector right argument representing the plaintext message returns a result with the same shape as the right argument representing the encrypted message Notes:
+Use &#39; &#39;,⎕A as the alphabet You can assume that the plaintext message will contain only characters found in the alphabet. Hint: The rotate function ⌽ could be helpful in solving this problem.
+Examples 4 caesar &#39;HELLO WORLDS&#39; LIPPSD SVPHW ¯4 caesar &#39;HELLO WORLDS&#39; ⍝ negative shifts are okay DAHHKWSKNH O 0 caesar &#39;HELLO WORLDS&#39; ⍝ no shift is okay HELLO WORLDS 27 caesar &#39;HELLO WORLDS&#39; HELLO WORLDS ¯10 caesar &#39;&#39; ⍝ returns an empty vector Solution See the solution {(⍺⌽&#39; &#39;,⎕A)[(&#39; &#39;,⎕A) ⍸⍵]} Breaking it down:
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2025-02-24 02:15:00 +0530 IST'>February 24 2025</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;280 words</footer>
+  <a class="entry-link" aria-label="post link to An APL a day! - Caesar Salad" href="https://rrampage.github.io/2025/02/24/an-apl-a-day-caesar-salad/"></a>
+</article>
 
 <article class="post-entry"> 
   <header class="entry-header">
@@ -169,7 +205,7 @@ Write a function that:
 takes a scalar or vector left argument takes a scalar or vector right argument returns a Boolean result that is the same shape as the right argument where 1’s mark the ends of occurrences of the left argument in the right argument Examples: &#39;abra&#39; findEnd &#39;abracadabra&#39; 0 0 0 1 0 0 0 0 0 0 1 &#39;issi&#39; findEnd &#39;Mississippi&#39; 0 0 0 0 1 0 0 1 0 0 0 &#39;bb&#39; findEnd &#39;bbb bbb&#39; 0 1 1 0 0 1 1 (,42) findEnd 42 0 42 findEnd 42 1 (,42) findEnd ,42 1 &#39;are&#39; &#39;aquatic&#39; findEnd &#39;ducks&#39; &#39;are&#39; &#39;aquatic&#39; &#39;avians&#39; 0 0 1 0 Solution See the solution {⌽(⌽⍺)⍷⌽⍵} We use ⍷ to find beginning of reversed array ⌽⍺ in ⌽⍵ We reverse this to get the ending of ⍺ in ⍵ Taking example &#39;abra&#39; {⌽(⌽⍺)⍷⌽⍵} &#39;abracadabra&#39;
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2025-02-21 16:13:02 +0530 IST'>February 21 2025</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Raunak</footer>
+  <footer class="entry-footer"><span title='2025-02-21 16:13:02 +0530 IST'>February 21 2025</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;290 words</footer>
   <a class="entry-link" aria-label="post link to An APL a day! - Put It In Reverse" href="https://rrampage.github.io/2025/02/21/an-apl-a-day-put-it-in-reverse/"></a>
 </article>
 
@@ -186,7 +222,7 @@ EliminationSort 1 3 7 3 5 8 5 8 1 6 1 8 1 10 8 4 3 4 1 4 1 3 7 8 8 8 10 Write a 
 takes a non-empty numeric vector right argument returns an “Elimination-sorted” vector of the right argument Hint: The progressive-maxima idiomatic phrase ⌈, the greater or equal function ≥, and the replicate function / could be helpful in solving this problem.
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2025-02-20 22:38:33 +0530 IST'>February 20 2025</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Raunak</footer>
+  <footer class="entry-footer"><span title='2025-02-20 22:38:33 +0530 IST'>February 20 2025</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;364 words</footer>
   <a class="entry-link" aria-label="post link to An APL a day! - Elimination Sort" href="https://rrampage.github.io/2025/02/20/an-apl-a-day-elimination-sort/"></a>
 </article>
 
@@ -198,7 +234,7 @@ takes a non-empty numeric vector right argument returns an “Elimination-sorted
   <div class="entry-content">
     <p>Lua - Basics for x = 0, 10, 1 do print(x) end -- for loop with range and step. step if not given is assumed to be 1 -- Tables are the soul of Lua. They double up as arrays and hashes a = {} b = {1, 2, 3} b[1] -- b[1] will return 1 as indexing for arrays is from 1 c = {[0]={123,3},[&#34;a&#34;]={1,2,3},v={2,6,7}} -- We can have a &#34;0&#34;th index by adding the 1st element as [0]=value -- Adding keys which are not valid identifiers in Lua needs to be done by wrapping key in [] -- If a key is a valid identifier, we can access using `.` e.g c.a for above code vs c[0] for k,v in pairs(c) do print(type(k)) end -- iterates through k/v in table and prints type of key Print a table as valid Lua code function printTable(tbl) -- Specify function vars as local else they become global local s = &#34;{&#34; local fst = true for k,v in pairs(tbl) do local tk = type(k) local tv = type(v) if not fst then s = s .. &#34;,&#34; else fst = false end if tk == &#34;number&#34; or tk == &#34;boolean&#34; then s = s .. &#34;[&#34; .. tostring(k) .. &#34;]=&#34; else s = s .. &#39;[&#34;&#39; .. k .. &#39;&#34;]=&#39; end if tv == &#34;table&#34; then s = s .. printTable(v) elseif tv == &#34;number&#34; or tv == &#34;boolean&#34; then s = s .. tostring(v) elseif tv == &#34;string&#34; then s = s .. &#39;&#34;&#39; .. v .. &#39;&#34;&#39; else s = s .. vt end end s = s .. &#34;}&#34; return s end sv = printTable({[0]={123,3},[&#34;a&#34;]={1,2,3},v={2,6,7},[true]=123}) print(sv) -- posts.lua (saved table) can be read from another lua file as posts=require(&#34;posts&#34;) return {[0]={[1]=123,[2]=3},[&#34;v&#34;]={[1]=2,[2]=6,[3]=7},[&#34;a&#34;]={[1]=1,[2]=2,[3]=3},[true]=123} </p>
   </div>
-  <footer class="entry-footer"><span title='2021-12-04 00:00:00 +0530 IST'>December 4 2021</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Raunak</footer>
+  <footer class="entry-footer"><span title='2021-12-04 00:00:00 +0530 IST'>December 4 2021</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;293 words</footer>
   <a class="entry-link" aria-label="post link to Re-learning Lua" href="https://rrampage.github.io/2021/12/04/relearning-lua/"></a>
 </article>
 
@@ -217,7 +253,7 @@ Level 2 Solution: Just get the treasure2 object either using browser or aws s3 :
 Level 3 Create an AWS profile “tmp” with the access and secret key obtained from previous level. You will need to use this for almost every level from here on.
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2020-06-04 16:09:34.525 +0000 UTC'>June 4 2020</span>&nbsp;·&nbsp;5 min&nbsp;·&nbsp;Raunak</footer>
+  <footer class="entry-footer"><span title='2020-06-04 16:09:34.525 +0000 UTC'>June 4 2020</span>&nbsp;·&nbsp;5 min&nbsp;·&nbsp;993 words</footer>
   <a class="entry-link" aria-label="post link to S3 Game" href="https://rrampage.github.io/2020/06/04/s3-game/"></a>
 </article>
 
@@ -234,7 +270,7 @@ If you are lazy (like me), here’s a summary from the linked guide: mkdir -p &#
 NPM_PACKAGES=&#34;${HOME}/.npm-packages&#34; export PATH=&#34;$PATH:$NPM_PACKAGES/bin&#34; # Preserve MANPATH if you already defined it somewhere in your config. # Otherwise, fall back to `manpath` so we can inherit from `/etc/manpath`. export MANPATH=&#34;${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man&#34; 2. Install/Use node using nvm or asdf Node’s official documentation recommends installing node as an unprivileged user using a node version manager.
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2020-05-28 10:42:07.736 +0000 UTC'>May 28 2020</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Raunak</footer>
+  <footer class="entry-footer"><span title='2020-05-28 10:42:07.736 +0000 UTC'>May 28 2020</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;723 words</footer>
   <a class="entry-link" aria-label="post link to NPM and Node tips to make your dev machine (slightly) safer" href="https://rrampage.github.io/2020/05/28/npm-and-node-tips-to-make-your-dev-machine-slightly-safer/"></a>
 </article>
 
@@ -255,7 +291,7 @@ The hello.sh script.
 Start webhook server as webhook -hooks hooks.json -hotreload -logfile webhooks.log. The server will run on port 9000 by default. You can check if everything is working by running curl http://localhost:9000/hooks/hello-world. This will print “Hello!” in the log file.
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2020-05-25 17:32:54.151 +0000 UTC'>May 25 2020</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Raunak</footer>
+  <footer class="entry-footer"><span title='2020-05-25 17:32:54.151 +0000 UTC'>May 25 2020</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;617 words</footer>
   <a class="entry-link" aria-label="post link to Webhook to auto-deploy on git push to Github" href="https://rrampage.github.io/2020/05/25/webhook-to-auto-deploy-on-git-push-to-github/"></a>
 </article>
 
@@ -269,7 +305,7 @@ Start webhook server as webhook -hooks hooks.json -hotreload -logfile webhooks.l
 TIL_FILE=&#34;$HOME/my-notes-repo/til.md&#34; til () { # checks if the function has been called without any argument if [[ -z $1 ]]; then # opens the file in my editor, setting the cursor to the last line # useful to review latest entries or to write a longer entry vim &#43; &#34;$TIL_FILE&#34;; else # adds a line with today&#39;s date, a TAB and all arguments supplied (&#34;$@&#34;) echo -e &#34;- $( date &#39;&#43;%F&#39; ):\t$@&#34; &gt;&gt; &#34;$TIL_FILE&#34;; fi } How to use: til to open the file. I use this to review what I learned today or if I need to write a longer, multiline entry til CONTENT to append a line to the file e.g til grep --line-buffered to immediately print especially when tailing files will add this: - 2020-05-23: grep --line-buffered to immediately print especially when tailing files Explanation on the function In case you missed the comments in the function, here’s an explanation of what the various lines do:
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2020-05-23 12:42:20.645 +0000 UTC'>May 23 2020</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Raunak</footer>
+  <footer class="entry-footer"><span title='2020-05-23 12:42:20.645 +0000 UTC'>May 23 2020</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;237 words</footer>
   <a class="entry-link" aria-label="post link to Bash function to add TILs" href="https://rrampage.github.io/2020/05/23/bash-function-to-add-tils/"></a>
 </article>
 
@@ -287,7 +323,7 @@ Screen 0: minimum 320 x 200, current 1920 x 1080, maximum 16384 x 16384 eDP-1 co
 Adjusting backlight brightness vs perceived brightness If xrandr is unable to find backlight, it only changes “perceived” brightness i.e it does software color correction. If we want to save battery, we will need to reduce the backlight brightness.
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2020-05-19 16:10:26.229 +0000 UTC'>May 19 2020</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Raunak</footer>
+  <footer class="entry-footer"><span title='2020-05-19 16:10:26.229 +0000 UTC'>May 19 2020</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;288 words</footer>
   <a class="entry-link" aria-label="post link to Setting display brightness on Linux from the command line" href="https://rrampage.github.io/2020/05/19/setting-display-brightness-on-linux-from-the-command-line/"></a>
 </article>
 
@@ -303,7 +339,7 @@ Installation and Key Generation Do this on both server and client machines
 [Interface] PrivateKey = &lt;Private Key&gt; ListenPort = &lt;UDP Port to listen on, by default it is 51820&gt; Address = 192.168.2.1/24, fd86:ea04:1115::1/64 ListenPort = 51820 PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; ip6tables -A FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE; ip6tables -D FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE SaveConfig = true [Peer] PublicKey = &lt;Client Public Key&gt; AllowedIPs = 192.168.2.2/32 Note that you have to paste the contents of the private key in the conf file, not the path. The PostUp sets up forwarding rules when the wiregaurd interface is started. PostDown deletes the rules when the interface is shutdown. Packet forwarding is essential if you want to use your server as a VPN to the general internet. Enable it on your server by adding the following to /etc/sysctl.conf and run sudo sysctl -p to reload the configuration changes.
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2018-12-14 11:48:44.48 +0000 UTC'>December 14 2018</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Raunak</footer>
+  <footer class="entry-footer"><span title='2018-12-14 11:48:44.48 +0000 UTC'>December 14 2018</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;478 words</footer>
   <a class="entry-link" aria-label="post link to Easy VPN using Wireguard" href="https://rrampage.github.io/2018/12/14/easy-vpn-using-wireguard/"></a>
 </article>
 
@@ -319,15 +355,271 @@ How to use git tag better Checkout code to the tag The tag is linked to the spec
 Create a new branch exactly at the commit of the tag using git checkout -b BRANCH_NAME TAG_NAME
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2018-11-22 10:44:36.207 +0000 UTC'>November 22 2018</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Raunak</footer>
+  <footer class="entry-footer"><span title='2018-11-22 10:44:36.207 +0000 UTC'>November 22 2018</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;500 words</footer>
   <a class="entry-link" aria-label="post link to Git Tagging Tutorial" href="https://rrampage.github.io/2018/11/22/git-tagging-tutorial/"></a>
 </article>
-<footer class="page-footer">
-  <nav class="pagination">
-    <a class="next" href="https://rrampage.github.io/post/page/2/">Next&nbsp;&nbsp;»
-    </a>
-  </nav>
-</footer>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Bash Command Completion - Finding all the cats in your $PATH!
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Today, I was curious to find out how many programs ending with cat I had on my system. I remember using cat, zcat and wanted to know if there are similar programs. Pressing TAB after cat only gives programs which start with cat.
+1. apropos In my last post, I had mentioned that apropos is a way to search for what programs are available on your system. The search string for apropos can be any regex. So, apropos &#39;cat$&#39; should solve the problem. cat$ means all words ending with ‘cat’
+The output has
+STAILQ_CONCAT (3) - implementations of singly-linked lists, singly-linked tail queues, lists and tail queues OPENSSL_strlcat (3ssl) - Memory allocation functions .. bzcat (1) - decompresses files to stdout cat (1) - concatenate files and print on the standard output fc-cat (1) - read font information cache files gencat (1) - Generate message catalog Clearly, the top 2 do not look like programs. Why is apropos then returning them? Let’s have a look at the apropos manual
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2018-11-15 09:39:37.302 +0000 UTC'>November 15 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;798 words</footer>
+  <a class="entry-link" aria-label="post link to Bash Command Completion - Finding all the cats in your $PATH!" href="https://rrampage.github.io/2018/11/15/bash-command-completion-finding-all-the-cats-in-your-path/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Command-line productivity tips : Getting help in the terminal
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>The command-line is often a daunting place for beginners. With nothing but a blinking cursor and an unfriendly dark screen staring back at you, despair sets in.
+Here are a few things to do if you are stuck:
+1. How to find programs for specific tasks Many times, you want to do a particular task but you do not remember the name of the program which does that. Many shell utilities are not easy to remember at first with their cryptic 2 letter names.
+Worry not, there is a command called apropos to help you out!
+For example, you want to show a file with line numbers. You know that there is a program but have forgotten its name. You can just type apropos -a line number to get a list of programs. We use -a flag so that apropos will only return those programs which have the words line AND number in their description.
+On my computer, it gives the following output:
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2018-11-11 17:30:30.427 +0000 UTC'>November 11 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;842 words</footer>
+  <a class="entry-link" aria-label="post link to Command-line productivity tips : Getting help in the terminal" href="https://rrampage.github.io/2018/11/11/command-line-productivity-tips-getting-help-in-the-terminal/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Git: How to keep your fork updated with remote repository
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>This is useful when you have forked a repository (repo), cloned it to your local machine and want to keep it in sync with the original repo.
+Adding the remote repo We can list the remote repositories for our repo with git remote -v and add the original repo as follows:
+git remote add upstream LINK_TO_ORIGINAL_REPO Note that it is merely a convention to call it upstream. You can give any name you want.
+Check that the repo is added to your remote using git remote -v.
+Sync with remote Check if there are any changes in remote not on your fork using git fetch upstream Checkout whichever branch you are interested ( git checkout $BRANCH) Merge with upstream using: git merge upstream/$BRANCH Push your changes to origin if needed: git push origin $BRANCH Removing the remote repo If you no longer want to get changes from the remote repo, it is easy to remove it using git remote remove upstream
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2018-11-09 12:50:54.3 +0000 UTC'>November 9 2018</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;165 words</footer>
+  <a class="entry-link" aria-label="post link to Git: How to keep your fork updated with remote repository" href="https://rrampage.github.io/2018/11/09/git-how-to-keep-your-fork-updated-with-remote-repository/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Ensuring that a shell script runs exactly once
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Many times, we have shell scripts which perform some important stuff like inserting into database, mailing reports, etc which we want to run exactly one instance of.
+Enter locks! A simple solution is to create a “lock file” and check if the file exists when the script starts. If the file is already created, it means another instance of that program is running, so we can fail with message “Try again later!”. Once the script completes running, it will clean-up and delete the lock file.
+LOCK_FILE=a.lock if [ -f &#34;$LOCK_FILE&#34; ]; then # Lock file already exists, exit the script echo &#34;An instance of this script is already running&#34; exit 1 fi # Create the lock file echo &#34;Locked&#34; &gt; &#34;$LOCK_FILE&#34; # Do the normal stuff # clean-up before exit rm &#34;$LOCK_FILE&#34; This looks promising but there are issues with this approach. What happens if the script does not end correctly i.e it exits because of some failure before it reaches the clean-up part of the code? Or if it gets forcibly terminated with Ctrl&#43;C or kill command? In both these cases, the created lock file will not be deleted. So next time you run the script, you will always get an error and will have to manually delete the file.
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2018-11-06 18:53:23.63 +0000 UTC'>November 6 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;747 words</footer>
+  <a class="entry-link" aria-label="post link to Ensuring that a shell script runs exactly once" href="https://rrampage.github.io/2018/11/06/ensuring-that-a-shell-script-runs-exactly-once/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Surviving the Linux OOM Killer
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>When your Linux machine runs out of memory, Out of Memory (OOM) killer is called by kernel to free some memory. It is often encountered on servers which have a number of memory intensive processes running. In this post, we dig a little deeper into when does OOM killer get called, how it decides which process to kill and if we can prevent it from killing important processes like databases.
+How does OOM Killer choose which process to kill? The Linux kernel gives a score to each running process called oom_score which shows how likely it is to be terminated in case of low available memory. The score is proportional to the amount of memory used by the process. The score is 10 x percent of memory used by process. So the maximum score is 100% x 10 = 1000. In addition, if a process is running as a privileged user, it gets a slightly lower oom_score as compared to same memory usage by a normal user process. In earlier versions of Linux ( v2.6.32 kernel), there was a more elaborate heuristic which calculated this score.
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2018-10-04 15:48:41.1 +0000 UTC'>October 4 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;671 words</footer>
+  <a class="entry-link" aria-label="post link to Surviving the Linux OOM Killer" href="https://rrampage.github.io/2018/10/04/surviving-the-linux-oom-killer/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Algorithms: Gray Binary Code
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Gray binary code is a way of expressing binary numbers such that consecutive numbers differ in exactly 1 digit. For example, in our conventional binary system, the numbers are
+000 001 010 011 100 101 110 111 and so on In Gray, they are:
+000 001 011 010 110 111 101 100 and so on In first system, when we go from ‘001’ to ‘010’, there are 2 changes namely the unit’s place becomes ‘0’ from ‘1’ and the next digit becomes ‘1’ from ‘0’. But in Gray’s system, ‘001’ becomes ‘011’ where there is only 1 change (that of 2nd digit).
+Gray codes are used in error correction in communication.
+Generating Gray codes of length n Is there a property we can use for easily generating the Gray codes of a given length? Yes! In our previous example, we generated all the Gray codes for n=3. Ignoring the most significant bit (MSB), notice how the 4th and 5th numbers are equal in their first 2 digits, as are the 3rd and 6th, 2nd and 7th and 1st and 8th. The last 4 numbers are reflection of the first 4 if we ignore the last digit. But the last digit is 0 for the 1st 4 numbers and 1 for the last 4… We have a recursive formulation.
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2018-08-18 17:52:23.566 +0000 UTC'>August 18 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;700 words</footer>
+  <a class="entry-link" aria-label="post link to Algorithms: Gray Binary Code" href="https://rrampage.github.io/2018/08/18/algorithms-gray-binary-code/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">100 Days Of Code
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>I have started the 100 days of code challenge. I intend to use this time to check out new languages and frameworks and solve some fun problems.
+I will update this post with my logs.
+Aug 13 2018 D0 : Algorithms for calculating number of combinations and generating them in a lexicographical increasing order. Blog
+Aug 14 2018 D1 : Working on algorithm for generating all permutations. First I managed to generate all possible r repetitions of n i.e n^r. Next, I read up and wrote code on Heap’s algorithm. I am still not sure of the intuition behind the algorithm. Also, it does not generate the permutations in lexicographical increasing order.
+Aug 15 2018 D2 : Learned and implemented an algorithm that generates all permutations in a lexicographical order. It is not as efficient as Heap’s algorithm.
+Aug 16 2018 D3 : Stumbled across the game of Set. Wrote a small python script which generates all solutions of any given game.
+Aug 17 2018 D4 : Learning to use Puppeteer.js along with Google Cloud Functions. This dev.to post was very useful in getting me started.
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2018-08-13 13:40:27.01 +0000 UTC'>August 13 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;659 words</footer>
+  <a class="entry-link" aria-label="post link to 100 Days Of Code" href="https://rrampage.github.io/2018/08/13/100-days-of-code/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Algorithms: Generating Combinations
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>In how many different ways can we select r objects from a collection of n objects? In mathematics, this is called combinations.
+The formula for the number of combinations is: where, n! denotes the factorial of a number that is the product of all numbers from 1 to n (inclusive).
+Prelude : A function for calculating factorial of a number public static long factorial(int n) { long res = 1L; for (int i = 1; i &lt;= n; i&#43;&#43;) { res *= i; } return res; } Calculating Combinations That was simple! Let us now move on to calculating the number of combinations given n and r
+public static long combinations(int n, int r) { if (r &lt; 0) { return 0; } long res = 1L; if (r &gt; n - r) { r = n - r; } for (int i = 0; i &lt; r; i&#43;&#43;) { res *= (n - i); res /= (i &#43; 1); } return res; } What does this algorithm do? Recall that we need to find n!/r!(n-r)! which will be of the form n(n-1)...(n-r&#43;1)/1.2...r. Similar to factorial, we initialize the result as 1 and multiply by n-i and divide by i&#43;1. Will this result in a fractional number? No. This is because first, we multiply by n and divide by 1. Next, we multiply by n-1 and divide by 2. Now, either n or n-1 have to be even (as they are consecutive numbers). Similarly, next when we divide by 3, one of n,n-1 and n-2 must be divisible by 3.
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2018-08-12 20:20:11.98 +0000 UTC'>August 12 2018</span>&nbsp;·&nbsp;8 min&nbsp;·&nbsp;1668 words</footer>
+  <a class="entry-link" aria-label="post link to Algorithms: Generating Combinations" href="https://rrampage.github.io/2018/08/12/algorithms-generating-combinations/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Awk - A useful little language
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Awk is a small but capable programming language which is used for processing text. It was developed by Aho, Weinberger, Kerninghan at Bell Labs.
+Julia Evans made an awesome Awk comic: Awk scans input file as a sequence of lines and splits each line into fields. The field separator is usually whitespace but you can customize it to any character.
+An awk program is a sequence of pattern-action pairs i.e for each line, it checks if it matches the pattern and if yes, it performs the associated action on the line. Awk can be used interactively or to run saved programs.
+Here is what Awk does written in Python-like pseudocode:
+initialize() # Initializes variables in BEGIN block for line in input_lines: # Awk divides file / input into a list of lines for condition, action in conditions: # A program is a list of condition-action pairs if condition(line): #match line against condition action() #perform action on match Here are some small snippets of Awk:
+Example - Hello World! You can run awk programs inline or through a file:
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2018-05-26 13:58:58.741 +0000 UTC'>May 26 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;716 words</footer>
+  <a class="entry-link" aria-label="post link to Awk - A useful little language" href="https://rrampage.github.io/2018/05/26/awk-a-useful-little-language/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">JVM Primer Part 2 - Debugging memory issues
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>This is part 2 of my series on JVM Memory management and debugging. Read part 1 here
+In this post, we will cover symptoms of memory issues for JVM-based applications, which tools we can use to diagnose them and how we can fix them.
+Symptoms Here are a few symptoms of memory issues:
+Poor application performance Abnormal memory usage OutOfMemory errors (OOME) Poor Application Performance Application not performing to expected level Long response times Dropping client requests Stuck threads Service unavailability Large gaps in timestamps in application logs Causes of memory problems: Misconfigured memory Old generation memory space is sized smaller than live-set of objects. This triggers a major garbage collection (GC), resulting in larger pauses. Code cache is smaller than generated compiled code footprint Young generation is not sized appropriately leading to premature promotion of objects PermGen / Metaspace not sized correctly leading to full GC Memory leaks - Unintentional retention of objects in memory spaces Unintentional references to set of objects in heap Not dereferencing classloader instances appropriateky Not releasing native resources appropriately Excessive use of finalizers Objects with finalizers may delay their own GC Finalizer thread needs to invoke finalize() method of the instances before reclaiming them There can only be 1 Finalizer thread. If it does not keep up with rate at which objects become available for finalization, JVM fails with OOME Pending finalizer objects are essentially accumulated garbage Finalizers deprecated in Java 9 Explicit GC calls System.gc() and diagnostic data collections can cause long pauses -XX:&#43;DisableExplicitGC can disable System.gc() calls -XX:&#43;PrintClassHistogram also calls an explicit GC when receiving kill -3 signal OutOfMemoryError Hierarchy : Throwable -&gt; Error -&gt; VirtualMachineError -&gt; OutOfMemoryError (Unchecked exception) Thrown when JVM runs out of space in various memory spaces or cannot proceed further with process execution. Some of the possibilities: Heap space full JVM already invoked full GC but could not free up space Heap may be sized smaller than app footprint or app is unnecessarily holding on to some set of objects in heap GC overhead limit exceeded Too many GCs with very less space claimed Application threads not getting any CPU cycles Requested array size exceeds VM limit PermGen space / Metaspace / compressed class space Full GC invoked but unable to free space in Metaspace and application is attempting to load more classes Metaspace by default “unlimited” but can be controlled by MaxMetaspaceSize. By default, 1 GB reserved for compressed class space Make sure that -Xnoclassgc is not in use as it prevents unloading of classes Native memory - out of swap space / stack trace with native method Native space used for Java thread stacks, loaded jars, zips, native libraries, native resources like files; mem allocated from native code Unable to allocate more native memory or to create new threads or native memory leaks Running 32 bit JVM on 64 bit machine puts 4 GB limit on process size Position of Java heap can put a cap on max size of native heap. Can be controlled by option -XX:HeapBaseMinAddress=n to specify address native heap should be based at CodeCache warnings warning message printed by JVM saying CodeCache full, compiler has been disabled. No OOME when code cache is full Emergency cleanup undertaken by Sweeper. This may discard compiled code and JIT may need to perform optimizations again Ensure appropriate size of CC using ReservedCodeCacheSize option Direct Buffer Memory ByteBuffer.allocateDirect(N) : Direct buffers which are garbage collected using phantom references and a reference queue Unlimited memory by default but can be controlled by -XX:MaxDirectMemorySize=n Used by Java NIO. Heap ByteBuffer for I/O uses temporary direct ByteBuffer Diagnostic Data, Data Collection and Analysis Tools Troubleshooting Memory leaks Confirm memory leak
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2018-05-16 11:53:42.021 +0000 UTC'>May 16 2018</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;1076 words</footer>
+  <a class="entry-link" aria-label="post link to JVM Primer Part 2 - Debugging memory issues" href="https://rrampage.github.io/2018/05/16/jvm-primer-part-2-debugging-memory-issues/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">A Primer on JVM Memory Management and Troubleshooting - 1
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>This series is a summary of Oracle’s JVM troubleshooting course which gives an overview on JVM memory management, Hotspot VM’s garbage collection options, various memory errors and how to troubleshoot them.
+In this post (part 1), we will have a look at how JVM manages memory and its different garbage collectors.
+You can find Part 2 here
+JVM Memory Management Overview The JVM provides automatic memory management to free the programmer from manually managing memory. New objects are allocated on heap memory. A root set consists of pointers to external memory, static variables, threads, JNI references and internal JVM structures. Objects directly reachable from the root set must be kept in heap. Objects reachable from any of the reachable objects must also be in heap. This group of objects are the only ones which can be used by a program. The unreachable objects (garbage) are removed using a process called garbage collection (GC). Reachable objects are compacted i.e moved to contiguous space in heap. This is important as otherwise, the heap will become fragmented.
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2018-05-15 14:14:49.746 +0000 UTC'>May 15 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;798 words</footer>
+  <a class="entry-link" aria-label="post link to A Primer on JVM Memory Management and Troubleshooting - 1" href="https://rrampage.github.io/2018/05/15/a-primer-on-jvm-memory-management-and-troubleshooting-1/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Snake case to camel case and back using regular expressions and Python
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Snake case and Camel case are conventions of naming variables, functions and classes. Most teams and projects prescribe a particular case in their style guides.
+Examples of camel case:
+MyClass MyClassFactory MyClassFactoryBuilder MyClassFactoryBuilderImpl myInstance myInstance2 abc patternMatcher Examples of snake case:
+add matrix_add diagonal_matrix_add pseudo_inverse If we want to convert back and forth between these cases, we must look for the points of interest - the word boundaries. Camel case boundaries have the first letter capitalized while the snake case word boundaries have an _.
+Snake case to camel case Here is a regular expression for finding out the _ and the first letter in the next word:
+(.*?)_([a-zA-Z]) This regex has 2 parts:
+(.*?) finds everything upto the _.
+The ‘.’ means any character. ‘*’ stands for match 0 or more instances ‘?’ stands for non-greedy match. We must use ‘?’ in the pattern because the regex engine will try to match as much as possible by default. So, if we use just (.*), the whole word will be consumed and nothing will be left for the rest of the pattern. ‘()’ stand for a group. A group is a way of saving a part of the match for later. Together, they mean that find all characters upto the first ‘_’ and capture them in a group. ([a-zA-Z]) finds the first alphabet after the _. We need this to convert to upper case for Camel case.
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2018-05-09 00:10:00 +0530 IST'>May 9 2018</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;441 words</footer>
+  <a class="entry-link" aria-label="post link to Snake case to camel case and back using regular expressions and Python" href="https://rrampage.github.io/2018/05/09/snake-case-to-camel-case-and-back-using-regular-expressions-and-python/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Cargo refused to build my project - A Rust debugging story!
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Background Today, I resumed a rust project of mine after a long time. In order to check my last working code, I ran cargo run. But it refused to run with error message:
+....&#34;-Wl,-Bdynamic&#34; &#34;-l&#34; &#34;dl&#34; &#34;-l&#34; &#34;rt&#34; &#34;-l&#34; &#34;pthread&#34; &#34;-l&#34; &#34;pthread&#34; &#34;-l&#34; &#34;gcc_s&#34; &#34;-l&#34; &#34;c&#34; &#34;-l&#34; &#34;m&#34; &#34;-l&#34; &#34;rt&#34; &#34;-l&#34; &#34;pthread&#34; &#34;-l&#34; &#34;util&#34; &#34;-l&#34; &#34;util&#34; = note: /usr/bin/ld: cannot find Scrt1.o: No such file or directory collect2: error: ld returned 1 exit status Linker Issues! ld is used to link libraries. So, the error was not in the code but in the linking phase. I googled the error and the solution was to have build-essential package installed. But the package was already installed on my machine (it is one of the first packages I install on any development machine).
+Some more googling revealed that cargo uses the system cc linker to link to the C runtime. Running which cc gave me $HOME/anaconda3/bin/cc. This cc is part of my Anaconda root environment. (Anaconda is a package manager for scientific computing packages. It is a convenient way for installing multiple versions of packages in different environments).
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2018-05-09 00:00:00 +0530 IST'>May 9 2018</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;482 words</footer>
+  <a class="entry-link" aria-label="post link to Cargo refused to build my project - A Rust debugging story!" href="https://rrampage.github.io/2018/05/09/cargo-refused-to-build-my-project-a-rust-debugging-story/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Disk Space Debugging Checklist
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Many times, smoothly running processes stop working mysteriously. You open the logs and see what is happening, only to find that even the logs have stopped updating. But the process itself is running. You SSH to the server and type cd TAB. Bash weeps “Unable to create temporary file”. The machine is out of disk space…
+Here is a checklist to make disk space debugging easier, using standard Linux utilities so you can get started without having to install anything extra:
+df -h command gives you an overview in a readable format about the number of disks mounted and their total and available capacities. To get an idea of which folders/directories are eating up the maximum space, try out du -ch / | sort -h | tail -n 30. This gives you the 30 most space consuming directories. If you already know which directories generate maximum disk output e.g logs and temp files, you can replace the ‘/’ with your directory (DIR) and run the command as du -ch DIR | sort -h | tail -n 30 Now that we have identified the directories with maximum space consumed, we may need to delete some files and get our process going again. The rm command is your friend here. You can delete old logs and temporary files to free up space. Many times, the culprit is a single large file which is already in use by a program e.g catalina.out by Apache Tomcat. If you want to free up space without shutting down the process, the truncate command will help you out. Example: truncate -s0 BIG_LOG.log. This will truncate the file to 0 bytes and still allow the other process to use it without issues (standard Unix permissions apply) Sometimes, you delete files and still, the space does not seem to be recovered. This can be because some process is still holding on to the file descriptor of the deleted file. Once these processes are stopped, the space will be recovered. The lsof command will help you out here. It stands for list open files. You can find out which processes are using deleted files as follows: lsof | grep deleted | grep OLD_FILENAME. The lsof command gives you the process name and the process id so you can run kill on the process. If you do not know the name of the deleted file, you can still run lsof | grep deleted and see the output to check for any familiar file / process. Finally, keep in mind that disk space is one of the metrics you should monitor on your server. This checklist must be used in a pinch. If you find yourself constantly having disk space issues, the solution is to set up periodic deletion/rotation of old log files, alerts when the disk space reaches a particular threshold or to increase the disk size if your processes require a lot of disk space e.g Kafka, MySQL and other databases.
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2018-05-04 00:00:00 +0530 IST'>May 4 2018</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;513 words</footer>
+  <a class="entry-link" aria-label="post link to Disk Space Debugging Checklist" href="https://rrampage.github.io/2018/05/04/disk-space-debugging-checklist/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Markdown (and some Hugo) Tutorial
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Markdown Basics You can write regular markdown here and Jekyll will automatically convert it to a nice webpage. I strongly encourage you to take 5 minutes to learn how to write in markdown - it’ll teach you how to transform regular text into bold/italics/headings/tables/etc.
+Here is some bold text
+Here is a secondary heading Here’s a useless table:
+Number Next number Previous number Five Six Four Ten Eleven Nine Seven Eight Six Two Three One How about a yummy crepe?
+Code and Syntax highlighting The following are two code samples using syntax highlighting.
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2017-08-20 00:00:00 +0000 UTC'>August 20 2017</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;409 words</footer>
+  <a class="entry-link" aria-label="post link to Markdown (and some Hugo) Tutorial" href="https://rrampage.github.io/2017/08/20/markdown-and-some-hugo-tutorial/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Hello World
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Hello World!
+</p>
+  </div>
+  <footer class="entry-footer"><span title='2014-03-03 22:38:33 +0530 IST'>March 3 2014</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;2 words</footer>
+  <a class="entry-link" aria-label="post link to Hello World" href="https://rrampage.github.io/2014/03/03/hello-world/"></a>
+</article>
     </main>
     
 <footer class="footer">
