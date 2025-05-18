@@ -14,29 +14,6 @@
       <pubDate>Wed, 09 May 2018 00:00:00 +0530</pubDate>
       <guid>https://rrampage.github.io/2018/05/09/cargo-refused-to-build-my-project-a-rust-debugging-story/</guid>
       <description>An afternoon of debugging!</description>
-      <content:encoded><![CDATA[<h3 id="background">Background</h3>
-<p>Today, I resumed a <code>rust</code> project of mine after a long time. In order to check my last working code, I ran <code>cargo run</code>. But it refused to run with error message:</p>
-<pre tabindex="0"><code>....&#34;-Wl,-Bdynamic&#34; &#34;-l&#34; &#34;dl&#34; &#34;-l&#34; &#34;rt&#34; &#34;-l&#34; &#34;pthread&#34; &#34;-l&#34; &#34;pthread&#34; &#34;-l&#34; &#34;gcc_s&#34; &#34;-l&#34; &#34;c&#34; &#34;-l&#34; &#34;m&#34; &#34;-l&#34; &#34;rt&#34; &#34;-l&#34; &#34;pthread&#34; &#34;-l&#34; &#34;util&#34; &#34;-l&#34; &#34;util&#34;
-= note: /usr/bin/ld: cannot find Scrt1.o: No such file or directory
-          collect2: error: ld returned 1 exit status
-</code></pre><h3 id="linker-issues">Linker Issues!</h3>
-<p><code>ld</code> is used to link libraries. So, the error was not in the code but in the linking phase. I googled the error and the solution was to have <code>build-essential</code> package installed. But the package was already installed on my machine (it is one of the first packages I install on any development machine).</p>
-<p>Some more googling revealed that <code>cargo</code> uses the system <code>cc</code> linker to link to the C runtime. Running <code>which cc</code> gave me <code>$HOME/anaconda3/bin/cc</code>. This <code>cc</code> is part of my Anaconda root environment. (Anaconda is a package manager for scientific computing packages. It is a convenient way for installing multiple versions of packages in different environments).</p>
-<p>On Linux, the linker knows where to find the required libraries using the shared library cache. I ran <code>ldconfig -v</code> to refresh it and then try again. Same error!</p>
-<p>It is possible to explicitly list directories to include using <code>LD_LIBRARY_PATH</code> environment variable. I tried setting the <code>LD_LIBRARY_PATH</code> to point to the required directory and then run cargo as <code>LD_LIBRARY_PATH=DIR cargo build -v</code>. But it gave the same error.</p>
-<p>I thought that <code>cargo</code> must be setting the linker value somewhere, so instead let me try directly compiling with <code>rustc</code>. Even that gave the same error. With this, I eliminated the possibility of some environment variable only affecting <code>cargo</code>.</p>
-<h3 id="more-googling">More googling!</h3>
-<p>Further searching for the error with &ldquo;rust&rdquo; added showed me results of people having trouble cross-compiling. From this, I learned that cargo has different targets i.e different instruction sets (e,g x86-64, arm, x86, mips), different OSs (e.g linux, windows, freebsd) and different C runtimes (e.g glibc, musl, msvc). The Rust documentation on cargo mentioned that this is called a target triple. The <a href="https://doc.rust-lang.org/cargo/reference/"><strong>Cargo book</strong></a> mentioned that you can direct cargo to explicitly use a particular linker using RUSTFLAGS environment variable.</p>
-<p>Since I am only building for my machine, I had to find out the exact value of the target. Rust gives an exhaustive list of all supported targets by running <code>rustc --print target-list</code>. My target was <code>x86_64-unknown-linux-gnu</code>.</p>
-<p>It is possible to pass a linker to <code>cargo</code> explicitly as <code>RUSTFLAGS=&quot;-C linker=x86_64-unknown-linux-gnu&quot; cargo build -v</code>. It worked!</p>
-<h3 id="all-time-fix">All-time fix!</h3>
-<p>I do not want to do this every time I run <code>cargo</code>. The Cargo book says that cargo uses a global config file in <code>$HOME/.cargo/config</code>.</p>
-<p>I added the following to the file:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="c"># Specify which linker to use for this target</span>
-</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">target</span><span class="p">.</span><span class="nx">x86_64-unknown-linux-gnu</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="nx">linker</span> <span class="p">=</span> <span class="s2">&#34;x86_64-linux-gnu-gcc&#34;</span>
-</span></span></code></pre></div><p>Now, <code>cargo build</code> works without issues.</p>
-]]></content:encoded>
     </item>
   </channel>
 </rss>

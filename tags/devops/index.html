@@ -10,7 +10,7 @@
 <meta name="description" content="A Random Walk - Raunak Ramakrishnan">
 <meta name="author" content="Raunak">
 <link rel="canonical" href="https://rrampage.github.io/tags/devops/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.7aaf01c70cfab7bd82e4fad5fd71b6a9c97fbfe30ff65c1dd4360a5678e5e7ed.css" integrity="sha256-eq8Bxwz6t72C5PrV/XG2qcl/v&#43;MP9lwd1DYKVnjl5&#43;0=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.399495fb3e2af0da6bf2b752ba2c2983340790160edb9b7001a41a6a5e838547.css" integrity="sha256-OZSV&#43;z4q8Npr8rdSuiwpgzQHkBYO25twAaQaal6DhUc=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://rrampage.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://rrampage.github.io/favicon-32x32.png">
@@ -146,12 +146,13 @@
     <h2 class="entry-hint-parent">Surviving the Linux OOM Killer
     </h2>
   </header>
-  <div class="entry-content">
-    <p>When your Linux machine runs out of memory, Out of Memory (OOM) killer is called by kernel to free some memory. It is often encountered on servers which have a number of memory intensive processes running. In this post, we dig a little deeper into when does OOM killer get called, how it decides which process to kill and if we can prevent it from killing important processes like databases.
-How does OOM Killer choose which process to kill? The Linux kernel gives a score to each running process called oom_score which shows how likely it is to be terminated in case of low available memory. The score is proportional to the amount of memory used by the process. The score is 10 x percent of memory used by process. So the maximum score is 100% x 10 = 1000. In addition, if a process is running as a privileged user, it gets a slightly lower oom_score as compared to same memory usage by a normal user process. In earlier versions of Linux ( v2.6.32 kernel), there was a more elaborate heuristic which calculated this score.
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2018-10-04 15:48:41.1 +0000 UTC'>October 4 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;671 words</footer>
+  <footer class="entry-footer"><span title='2018-10-04 15:48:41.1 +0000 UTC'>2018-10-04</span>
+  
+<ul class="post-tags">
+	  <li><a href="/tags/linux">linux</a></li>
+	  <li><a href="/tags/devops">devops</a></li>
+</ul>
+</footer>
   <a class="entry-link" aria-label="post link to Surviving the Linux OOM Killer" href="https://rrampage.github.io/2018/10/04/surviving-the-linux-oom-killer/"></a>
 </article>
     </main>

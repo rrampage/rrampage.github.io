@@ -10,7 +10,7 @@
 <meta name="description" content="A Random Walk - Raunak Ramakrishnan">
 <meta name="author" content="Raunak">
 <link rel="canonical" href="https://rrampage.github.io/tags/jvm/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.7aaf01c70cfab7bd82e4fad5fd71b6a9c97fbfe30ff65c1dd4360a5678e5e7ed.css" integrity="sha256-eq8Bxwz6t72C5PrV/XG2qcl/v&#43;MP9lwd1DYKVnjl5&#43;0=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.399495fb3e2af0da6bf2b752ba2c2983340790160edb9b7001a41a6a5e838547.css" integrity="sha256-OZSV&#43;z4q8Npr8rdSuiwpgzQHkBYO25twAaQaal6DhUc=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://rrampage.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://rrampage.github.io/favicon-32x32.png">
@@ -146,14 +146,13 @@
     <h2 class="entry-hint-parent">JVM Primer Part 2 - Debugging memory issues
     </h2>
   </header>
-  <div class="entry-content">
-    <p>This is part 2 of my series on JVM Memory management and debugging. Read part 1 here
-In this post, we will cover symptoms of memory issues for JVM-based applications, which tools we can use to diagnose them and how we can fix them.
-Symptoms Here are a few symptoms of memory issues:
-Poor application performance Abnormal memory usage OutOfMemory errors (OOME) Poor Application Performance Application not performing to expected level Long response times Dropping client requests Stuck threads Service unavailability Large gaps in timestamps in application logs Causes of memory problems: Misconfigured memory Old generation memory space is sized smaller than live-set of objects. This triggers a major garbage collection (GC), resulting in larger pauses. Code cache is smaller than generated compiled code footprint Young generation is not sized appropriately leading to premature promotion of objects PermGen / Metaspace not sized correctly leading to full GC Memory leaks - Unintentional retention of objects in memory spaces Unintentional references to set of objects in heap Not dereferencing classloader instances appropriateky Not releasing native resources appropriately Excessive use of finalizers Objects with finalizers may delay their own GC Finalizer thread needs to invoke finalize() method of the instances before reclaiming them There can only be 1 Finalizer thread. If it does not keep up with rate at which objects become available for finalization, JVM fails with OOME Pending finalizer objects are essentially accumulated garbage Finalizers deprecated in Java 9 Explicit GC calls System.gc() and diagnostic data collections can cause long pauses -XX:&#43;DisableExplicitGC can disable System.gc() calls -XX:&#43;PrintClassHistogram also calls an explicit GC when receiving kill -3 signal OutOfMemoryError Hierarchy : Throwable -&gt; Error -&gt; VirtualMachineError -&gt; OutOfMemoryError (Unchecked exception) Thrown when JVM runs out of space in various memory spaces or cannot proceed further with process execution. Some of the possibilities: Heap space full JVM already invoked full GC but could not free up space Heap may be sized smaller than app footprint or app is unnecessarily holding on to some set of objects in heap GC overhead limit exceeded Too many GCs with very less space claimed Application threads not getting any CPU cycles Requested array size exceeds VM limit PermGen space / Metaspace / compressed class space Full GC invoked but unable to free space in Metaspace and application is attempting to load more classes Metaspace by default “unlimited” but can be controlled by MaxMetaspaceSize. By default, 1 GB reserved for compressed class space Make sure that -Xnoclassgc is not in use as it prevents unloading of classes Native memory - out of swap space / stack trace with native method Native space used for Java thread stacks, loaded jars, zips, native libraries, native resources like files; mem allocated from native code Unable to allocate more native memory or to create new threads or native memory leaks Running 32 bit JVM on 64 bit machine puts 4 GB limit on process size Position of Java heap can put a cap on max size of native heap. Can be controlled by option -XX:HeapBaseMinAddress=n to specify address native heap should be based at CodeCache warnings warning message printed by JVM saying CodeCache full, compiler has been disabled. No OOME when code cache is full Emergency cleanup undertaken by Sweeper. This may discard compiled code and JIT may need to perform optimizations again Ensure appropriate size of CC using ReservedCodeCacheSize option Direct Buffer Memory ByteBuffer.allocateDirect(N) : Direct buffers which are garbage collected using phantom references and a reference queue Unlimited memory by default but can be controlled by -XX:MaxDirectMemorySize=n Used by Java NIO. Heap ByteBuffer for I/O uses temporary direct ByteBuffer Diagnostic Data, Data Collection and Analysis Tools Troubleshooting Memory leaks Confirm memory leak
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2018-05-16 11:53:42.021 +0000 UTC'>May 16 2018</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;1076 words</footer>
+  <footer class="entry-footer"><span title='2018-05-16 11:53:42.021 +0000 UTC'>2018-05-16</span>
+  
+<ul class="post-tags">
+	  <li><a href="/tags/java">java</a></li>
+	  <li><a href="/tags/jvm">jvm</a></li>
+</ul>
+</footer>
   <a class="entry-link" aria-label="post link to JVM Primer Part 2 - Debugging memory issues" href="https://rrampage.github.io/2018/05/16/jvm-primer-part-2-debugging-memory-issues/"></a>
 </article>
 
@@ -162,14 +161,13 @@ Poor application performance Abnormal memory usage OutOfMemory errors (OOME) Poo
     <h2 class="entry-hint-parent">A Primer on JVM Memory Management and Troubleshooting - 1
     </h2>
   </header>
-  <div class="entry-content">
-    <p>This series is a summary of Oracle’s JVM troubleshooting course which gives an overview on JVM memory management, Hotspot VM’s garbage collection options, various memory errors and how to troubleshoot them.
-In this post (part 1), we will have a look at how JVM manages memory and its different garbage collectors.
-You can find Part 2 here
-JVM Memory Management Overview The JVM provides automatic memory management to free the programmer from manually managing memory. New objects are allocated on heap memory. A root set consists of pointers to external memory, static variables, threads, JNI references and internal JVM structures. Objects directly reachable from the root set must be kept in heap. Objects reachable from any of the reachable objects must also be in heap. This group of objects are the only ones which can be used by a program. The unreachable objects (garbage) are removed using a process called garbage collection (GC). Reachable objects are compacted i.e moved to contiguous space in heap. This is important as otherwise, the heap will become fragmented.
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2018-05-15 14:14:49.746 +0000 UTC'>May 15 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;798 words</footer>
+  <footer class="entry-footer"><span title='2018-05-15 14:14:49.746 +0000 UTC'>2018-05-15</span>
+  
+<ul class="post-tags">
+	  <li><a href="/tags/java">java</a></li>
+	  <li><a href="/tags/jvm">jvm</a></li>
+</ul>
+</footer>
   <a class="entry-link" aria-label="post link to A Primer on JVM Memory Management and Troubleshooting - 1" href="https://rrampage.github.io/2018/05/15/a-primer-on-jvm-memory-management-and-troubleshooting-1/"></a>
 </article>
     </main>

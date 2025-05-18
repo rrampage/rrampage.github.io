@@ -10,7 +10,7 @@
 <meta name="description" content="A Random Walk - Raunak Ramakrishnan">
 <meta name="author" content="Raunak">
 <link rel="canonical" href="https://rrampage.github.io/tags/wireguard/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.7aaf01c70cfab7bd82e4fad5fd71b6a9c97fbfe30ff65c1dd4360a5678e5e7ed.css" integrity="sha256-eq8Bxwz6t72C5PrV/XG2qcl/v&#43;MP9lwd1DYKVnjl5&#43;0=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.399495fb3e2af0da6bf2b752ba2c2983340790160edb9b7001a41a6a5e838547.css" integrity="sha256-OZSV&#43;z4q8Npr8rdSuiwpgzQHkBYO25twAaQaal6DhUc=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://rrampage.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://rrampage.github.io/favicon-32x32.png">
@@ -146,14 +146,13 @@
     <h2 class="entry-hint-parent">Easy VPN using Wireguard
     </h2>
   </header>
-  <div class="entry-content">
-    <p>Why Wireguard and How does it work? Simple (one config file on server and client and one command to run) Small codebase (5000 LOC) unlike OpenVPN and IPSEC Scheduled to be merged into Linux kernel soon Wireguard works by creating a tunnel to the server using a separate network interface on your machine. You do not need to worry about Proxy settings and all your applications will work without issue.
-Installation and Key Generation Do this on both server and client machines
-#Installation: For both machines sudo apt install wireguard wireguard-tools openresolv # openresolv is in case you are using systemd-resolved which is default for DNS resolution on Ubuntu # Generate private and public key pair : For both machines umask 077 wg genkey | tee privatekey | wg pubkey &gt; publickey Configure Server Create file called /etc/wireguard/wg0.conf
-[Interface] PrivateKey = &lt;Private Key&gt; ListenPort = &lt;UDP Port to listen on, by default it is 51820&gt; Address = 192.168.2.1/24, fd86:ea04:1115::1/64 ListenPort = 51820 PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; ip6tables -A FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE; ip6tables -D FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE SaveConfig = true [Peer] PublicKey = &lt;Client Public Key&gt; AllowedIPs = 192.168.2.2/32 Note that you have to paste the contents of the private key in the conf file, not the path. The PostUp sets up forwarding rules when the wiregaurd interface is started. PostDown deletes the rules when the interface is shutdown. Packet forwarding is essential if you want to use your server as a VPN to the general internet. Enable it on your server by adding the following to /etc/sysctl.conf and run sudo sysctl -p to reload the configuration changes.
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2018-12-14 11:48:44.48 +0000 UTC'>December 14 2018</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;478 words</footer>
+  <footer class="entry-footer"><span title='2018-12-14 11:48:44.48 +0000 UTC'>2018-12-14</span>
+  
+<ul class="post-tags">
+	  <li><a href="/tags/linux">linux</a></li>
+	  <li><a href="/tags/wireguard">wireguard</a></li>
+</ul>
+</footer>
   <a class="entry-link" aria-label="post link to Easy VPN using Wireguard" href="https://rrampage.github.io/2018/12/14/easy-vpn-using-wireguard/"></a>
 </article>
     </main>

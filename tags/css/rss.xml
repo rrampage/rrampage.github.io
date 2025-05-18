@@ -33,69 +33,6 @@
 &lt;p&gt;Here&amp;rsquo;s the &lt;a href=&#34;https://jsfiddle.net/0yjpcLef/&#34;&gt;fix&lt;/a&gt; in action!&lt;/p&gt;
 &lt;h2 id=&#34;using-the-details-element-in-hugo-markdown&#34;&gt;Using the &lt;code&gt;details&lt;/code&gt; element in Hugo markdown&lt;/h2&gt;
 &lt;p&gt;Since version 0.140, Hugo has supported &lt;code&gt;details&lt;/code&gt; as a &lt;a href=&#34;https://gohugo.io/shortcodes/details/&#34;&gt;shortcode&lt;/a&gt;. We can put arbitrary HTML in the summary e.g&lt;/p&gt;</description>
-      <content:encoded><![CDATA[<h2 id="overview-of-the-html-details-tag">Overview of the HTML <code>details</code> tag</h2>
-<p>The <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details"><code>details</code> tag</a> creates a toggleable element which we can use to hide sensitive information like spoilers. It has a <code>summary</code> attribute which is visible to the reader and a button which they can click to show then content.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">details</span><span class="p">&gt;</span>
-</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">summary</span><span class="p">&gt;</span>Spoilers!<span class="p">&lt;/</span><span class="nt">summary</span><span class="p">&gt;</span>
-</span></span><span class="line"><span class="cl">  Lot of sensitive information!
-</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">details</span><span class="p">&gt;</span>
-</span></span></code></pre></div><h2 id="creating-toggle-headings-using-summary-and-html-heading-tags">Creating Toggle Headings using <code>summary</code> and HTML heading tags</h2>
-<p>Since <code>summary</code> is an HTML element, we can nest other HTML elements in it. If we want to create something like Notion&rsquo;s toggle headings (<code>/toggleh1</code>), we can do something like</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">details</span><span class="p">&gt;</span>
-</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">summary</span><span class="p">&gt;&lt;</span><span class="nt">h3</span><span class="p">&gt;</span>Spoilers!<span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;&lt;/</span><span class="nt">summary</span><span class="p">&gt;</span>
-</span></span><span class="line"><span class="cl">  Spoilers
-</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">details</span><span class="p">&gt;</span>
-</span></span></code></pre></div><p>This shows the <code>&lt;h3&gt;</code> header but below the taggle i.e not inline. See <a href="https://jsfiddle.net/3ht4n0jm/">this fiddle</a> for the minimal example. Searching for this led me to this <a href="https://css-tricks.com/two-issues-styling-the-details-element-and-how-to-solve-them/">article</a> which suggested this CSS fix to the problem</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="nt">details</span> <span class="nt">summary</span> <span class="o">&gt;</span> <span class="o">*</span> <span class="p">{</span> 
-</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="kc">inline</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>This CSS snippet inlines all children of the <code>details summary</code> element.</p>
-<p>Here&rsquo;s the <a href="https://jsfiddle.net/0yjpcLef/">fix</a> in action!</p>
-<h2 id="using-the-details-element-in-hugo-markdown">Using the <code>details</code> element in Hugo markdown</h2>
-<p>Since version 0.140, Hugo has supported <code>details</code> as a <a href="https://gohugo.io/shortcodes/details/">shortcode</a>. We can put arbitrary HTML in the summary e.g</p>
-<p>{{&lt; details summary=&quot;&lt;h3&gt;Major Spoilers!&lt;/h3&gt;&quot; &gt;}}<br>
-{{&lt; /details &gt;}}</p>
-<h2 id="using-a-custom-hugo-shortcodes-to-generate-toggle-headings">Using a custom Hugo Shortcodes to generate toggle headings</h2>
-<p>I created a custom shortcode called <code>tog</code> with <code>tag</code> and <code>summary</code> attributes to support toggle headers. Here it is in action! Also linked is a <a href="https://gist.github.com/rrampage/66af5cb88147bd07cb79cb1b3c8ba46b">gist</a> with the minimal necessary HTML + CSS to create and use toggle headings in Hugo.</p>
-<details>
-  <summary>
-    
-    
-    <h3>Shortcode HTML</h3>
-  </summary>
-  <div>
-    
-
-
-Create the following HTML in `tog.html` in the `layouts/shortcodes` directory
-
-&lt;details><br>
-  &lt;summary><br>
-    {{ $tag := .Get "tag" | default "h3" }}<br>
-    {{ $heading := printf "<%s>%s</%s>" $tag (.Get "summary") $tag | safeHTML }}<br>
-    {{ $heading }}<br>
-  &lt;/summary><br>
-  &lt;div><br>
-    {{ .Inner }}
-  &lt;/div><br>
-&lt;/details><br>
-
-  </div>
-</details>
-<details>
-  <summary>
-    
-    
-    <h4>Usage</h4>
-  </summary>
-  <div>
-    <br>
-{{&lt; tog tag="h4" summary="Usage" >}}<br>
-{{&lt; /tog >}}<br>
-
-  </div>
-</details>
-]]></content:encoded>
     </item>
   </channel>
 </rss>

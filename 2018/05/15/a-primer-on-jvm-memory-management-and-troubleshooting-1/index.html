@@ -14,7 +14,7 @@ JVM Memory Management Overview
 The JVM provides automatic memory management to free the programmer from manually managing memory. New objects are allocated on heap memory. A root set consists of pointers to external memory, static variables, threads, JNI references and internal JVM structures. Objects directly reachable from the root set must be kept in heap. Objects reachable from any of the reachable objects must also be in heap. This group of objects are the only ones which can be used by a program. The unreachable objects (garbage) are removed using a process called garbage collection (GC). Reachable objects are compacted i.e moved to contiguous space in heap. This is important as otherwise, the heap will become fragmented.">
 <meta name="author" content="Raunak">
 <link rel="canonical" href="https://rrampage.github.io/2018/05/15/a-primer-on-jvm-memory-management-and-troubleshooting-1/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.7aaf01c70cfab7bd82e4fad5fd71b6a9c97fbfe30ff65c1dd4360a5678e5e7ed.css" integrity="sha256-eq8Bxwz6t72C5PrV/XG2qcl/v&#43;MP9lwd1DYKVnjl5&#43;0=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.399495fb3e2af0da6bf2b752ba2c2983340790160edb9b7001a41a6a5e838547.css" integrity="sha256-OZSV&#43;z4q8Npr8rdSuiwpgzQHkBYO25twAaQaal6DhUc=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://rrampage.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://rrampage.github.io/favicon-32x32.png">
@@ -209,7 +209,7 @@ The JVM provides automatic memory management to free the programmer from manuall
     <h1 class="post-title entry-hint-parent">
       A Primer on JVM Memory Management and Troubleshooting - 1
     </h1>
-    <div class="post-meta"><span title='2018-05-15 14:14:49.746 +0000 UTC'>May 15 2018</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;798 words
+    <div class="post-meta"><span title='2018-05-15 14:14:49.746 +0000 UTC'>2018-05-15</span>
 
 </div>
   </header> <div class="toc">

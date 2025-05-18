@@ -10,7 +10,7 @@
 <meta name="description" content="A Random Walk - Raunak Ramakrishnan">
 <meta name="author" content="Raunak">
 <link rel="canonical" href="https://rrampage.github.io/tags/til/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.7aaf01c70cfab7bd82e4fad5fd71b6a9c97fbfe30ff65c1dd4360a5678e5e7ed.css" integrity="sha256-eq8Bxwz6t72C5PrV/XG2qcl/v&#43;MP9lwd1DYKVnjl5&#43;0=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.399495fb3e2af0da6bf2b752ba2c2983340790160edb9b7001a41a6a5e838547.css" integrity="sha256-OZSV&#43;z4q8Npr8rdSuiwpgzQHkBYO25twAaQaal6DhUc=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://rrampage.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://rrampage.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://rrampage.github.io/favicon-32x32.png">
@@ -146,12 +146,13 @@
     <h2 class="entry-hint-parent">Bash function to add TILs
     </h2>
   </header>
-  <div class="entry-content">
-    <p>til snippet Here’s a snippet I use in my .bashrc file to quickly write down and review TILs (Today I learned):
-TIL_FILE=&#34;$HOME/my-notes-repo/til.md&#34; til () { # checks if the function has been called without any argument if [[ -z $1 ]]; then # opens the file in my editor, setting the cursor to the last line # useful to review latest entries or to write a longer entry vim &#43; &#34;$TIL_FILE&#34;; else # adds a line with today&#39;s date, a TAB and all arguments supplied (&#34;$@&#34;) echo -e &#34;- $( date &#39;&#43;%F&#39; ):\t$@&#34; &gt;&gt; &#34;$TIL_FILE&#34;; fi } How to use: til to open the file. I use this to review what I learned today or if I need to write a longer, multiline entry til CONTENT to append a line to the file e.g til grep --line-buffered to immediately print especially when tailing files will add this: - 2020-05-23: grep --line-buffered to immediately print especially when tailing files Explanation on the function In case you missed the comments in the function, here’s an explanation of what the various lines do:
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2020-05-23 12:42:20.645 +0000 UTC'>May 23 2020</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;237 words</footer>
+  <footer class="entry-footer"><span title='2020-05-23 12:42:20.645 +0000 UTC'>2020-05-23</span>
+  
+<ul class="post-tags">
+	  <li><a href="/tags/bash">bash</a></li>
+	  <li><a href="/tags/til">til</a></li>
+</ul>
+</footer>
   <a class="entry-link" aria-label="post link to Bash function to add TILs" href="https://rrampage.github.io/2020/05/23/bash-function-to-add-tils/"></a>
 </article>
     </main>
