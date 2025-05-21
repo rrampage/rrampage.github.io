@@ -2,12 +2,166 @@
   <title>A Random Walk</title>
   <link href="https://rrampage.github.io/atom.xml" rel="self"/>
   <link href="https://rrampage.github.io/"/>
-  <updated>2025-04-12T17:53:35+05:30</updated>
+  <updated>2025-05-20T14:44:24+05:30</updated>
   <id>https://rrampage.github.io/</id>
   <author>
     <name>Raunak</name>
   </author>
   <generator>Hugo -- gohugo.io</generator>
+  <entry>
+    <title type="html"><![CDATA[Bash - Oops I deleted my bin dir challenge]]></title>
+    <link href="https://rrampage.github.io/2025/05/20/bash-oops-i-deleted-my-bin-dir-challenge/"/>
+    <id>https://rrampage.github.io/2025/05/20/bash-oops-i-deleted-my-bin-dir-challenge/</id> 
+    <author>
+      <name>Raunak</name>
+    </author>
+    <published>2025-05-20T14:44:24+05:30</published>
+    <updated>2025-05-20T14:44:24+05:30</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://oops.cmdchallenge.com">Oops I deleted my bin dir</a> is a fun set of challenges to investigate a &ldquo;rogue&rdquo; process which has been deleting files on the system. It has deleted all programs from the <code>bin</code> directories like <code>ps</code>, <code>htop</code>, <code>lsof</code>. All we have left is a shell prompt&hellip;</p>
+<h2 id="bash-built-ins">Bash built-ins</h2>
+<p>In the challenge, the shell we are using is <code>bash</code>. Bash has many &ldquo;built-ins&rdquo; which are commands we can run without having to spawn a process and execute a binary i.e they are part of bash itself.</p>
+<p>The most useful one right now is <code>help</code> which lists all the bash built-ins and their arguments.
+Typing <code>help BUILTIN_NAME</code> will give more details about that built-in command.</p>
+
+<details>
+  <summary><h3>List of built-ins</h3></summary>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">job_spec <span class="o">[</span><span class="p">&amp;</span><span class="o">]</span>                                                                   <span class="nb">history</span> <span class="o">[</span>-c<span class="o">]</span> <span class="o">[</span>-d offset<span class="o">]</span> <span class="o">[</span>n<span class="o">]</span> or <span class="nb">history</span> -anrw <span class="o">[</span>filename<span class="o">]</span> or <span class="nb">history</span> -ps<span class="o">[</span>1/218<span class="o">]</span>
+</span></span><span class="line"><span class="cl"> <span class="o">((</span> expression <span class="o">))</span>                                                               <span class="k">if</span> COMMANDS<span class="p">;</span> <span class="k">then</span> COMMANDS<span class="p">;</span> <span class="o">[</span> <span class="k">elif</span> COMMANDS<span class="p">;</span> <span class="k">then</span> COMMANDS<span class="p">;</span> <span class="o">]</span>... <span class="o">[</span> <span class="k">else</span> COM&gt;
+</span></span><span class="line"><span class="cl"> . filename <span class="o">[</span>arguments<span class="o">]</span>                                                         <span class="nb">jobs</span> <span class="o">[</span>-lnprs<span class="o">]</span> <span class="o">[</span>jobspec ...<span class="o">]</span> or <span class="nb">jobs</span> -x <span class="nb">command</span> <span class="o">[</span>args<span class="o">]</span>
+</span></span><span class="line"><span class="cl"> :                                                                              <span class="nb">kill</span> <span class="o">[</span>-s sigspec <span class="p">|</span> -n signum <span class="p">|</span> -sigspec<span class="o">]</span> pid <span class="p">|</span> jobspec ... or <span class="nb">kill</span> -l <span class="o">[</span>sigs&gt;
+</span></span><span class="line"><span class="cl"> <span class="o">[</span> arg... <span class="o">]</span>                                                                     <span class="nb">let</span> arg <span class="o">[</span>arg ...<span class="o">]</span>
+</span></span><span class="line"><span class="cl"> <span class="o">[[</span> expression <span class="o">]]</span>                                                               <span class="nb">local</span> <span class="o">[</span>option<span class="o">]</span> name<span class="o">[=</span>value<span class="o">]</span> ...
+</span></span><span class="line"><span class="cl"> <span class="nb">alias</span> <span class="o">[</span>-p<span class="o">]</span> <span class="o">[</span>name<span class="o">[=</span>value<span class="o">]</span> ... <span class="o">]</span>                                                 <span class="nb">logout</span> <span class="o">[</span>n<span class="o">]</span>
+</span></span><span class="line"><span class="cl"> <span class="nb">bg</span> <span class="o">[</span>job_spec ...<span class="o">]</span>                                                              mapfile <span class="o">[</span>-d delim<span class="o">]</span> <span class="o">[</span>-n count<span class="o">]</span> <span class="o">[</span>-O origin<span class="o">]</span> <span class="o">[</span>-s count<span class="o">]</span> <span class="o">[</span>-t<span class="o">]</span> <span class="o">[</span>-u fd<span class="o">]</span> <span class="o">[</span>-C callb&gt;
+</span></span><span class="line"><span class="cl"> <span class="nb">bind</span> <span class="o">[</span>-lpsvPSVX<span class="o">]</span> <span class="o">[</span>-m keymap<span class="o">]</span> <span class="o">[</span>-f filename<span class="o">]</span> <span class="o">[</span>-q name<span class="o">]</span> <span class="o">[</span>-u name<span class="o">]</span> <span class="o">[</span>-r keyseq<span class="o">]</span> <span class="o">[</span>&gt;  <span class="nb">popd</span> <span class="o">[</span>-n<span class="o">]</span> <span class="o">[</span>+N <span class="p">|</span> -N<span class="o">]</span>
+</span></span><span class="line"><span class="cl"> <span class="nb">break</span> <span class="o">[</span>n<span class="o">]</span>                                                                      <span class="nb">printf</span> <span class="o">[</span>-v var<span class="o">]</span> format <span class="o">[</span>arguments<span class="o">]</span>
+</span></span><span class="line"><span class="cl"> <span class="nb">builtin</span> <span class="o">[</span>shell-builtin <span class="o">[</span>arg ...<span class="o">]]</span>                                              <span class="nb">pushd</span> <span class="o">[</span>-n<span class="o">]</span> <span class="o">[</span>+N <span class="p">|</span> -N <span class="p">|</span> dir<span class="o">]</span>
+</span></span><span class="line"><span class="cl"> <span class="nb">caller</span> <span class="o">[</span>expr<span class="o">]</span>                                                                  <span class="nb">pwd</span> <span class="o">[</span>-LP<span class="o">]</span>
+</span></span><span class="line"><span class="cl"> <span class="k">case</span> WORD in <span class="o">[</span>PATTERN <span class="o">[</span><span class="p">|</span> PATTERN<span class="o">]</span>...<span class="o">)</span> COMMANDS <span class="p">;;</span><span class="o">]</span>... <span class="k">esac</span>                     <span class="nb">read</span> <span class="o">[</span>-ers<span class="o">]</span> <span class="o">[</span>-a array<span class="o">]</span> <span class="o">[</span>-d delim<span class="o">]</span> <span class="o">[</span>-i text<span class="o">]</span> <span class="o">[</span>-n nchars<span class="o">]</span> <span class="o">[</span>-N nchars<span class="o">]</span> <span class="o">[</span>-p pro&gt;
+</span></span><span class="line"><span class="cl"> <span class="nb">cd</span> <span class="o">[</span>-L<span class="p">|</span><span class="o">[</span>-P <span class="o">[</span>-e<span class="o">]]</span> <span class="o">[</span>-@<span class="o">]]</span> <span class="o">[</span>dir<span class="o">]</span>                                                   readarray <span class="o">[</span>-d delim<span class="o">]</span> <span class="o">[</span>-n count<span class="o">]</span> <span class="o">[</span>-O origin<span class="o">]</span> <span class="o">[</span>-s count<span class="o">]</span> <span class="o">[</span>-t<span class="o">]</span> <span class="o">[</span>-u fd<span class="o">]</span> <span class="o">[</span>-C cal&gt;
+</span></span><span class="line"><span class="cl"> <span class="nb">command</span> <span class="o">[</span>-pVv<span class="o">]</span> <span class="nb">command</span> <span class="o">[</span>arg ...<span class="o">]</span>                                               <span class="nb">readonly</span> <span class="o">[</span>-aAf<span class="o">]</span> <span class="o">[</span>name<span class="o">[=</span>value<span class="o">]</span> ...<span class="o">]</span> or <span class="nb">readonly</span> -p
+</span></span><span class="line"><span class="cl"> <span class="nb">compgen</span> <span class="o">[</span>-abcdefgjksuv<span class="o">]</span> <span class="o">[</span>-o option<span class="o">]</span> <span class="o">[</span>-A action<span class="o">]</span> <span class="o">[</span>-G globpat<span class="o">]</span> <span class="o">[</span>-W wordlist<span class="o">]</span> <span class="o">[</span>&gt;  <span class="k">return</span> <span class="o">[</span>n<span class="o">]</span>
+</span></span><span class="line"><span class="cl"> <span class="nb">complete</span> <span class="o">[</span>-abcdefgjksuv<span class="o">]</span> <span class="o">[</span>-pr<span class="o">]</span> <span class="o">[</span>-DEI<span class="o">]</span> <span class="o">[</span>-o option<span class="o">]</span> <span class="o">[</span>-A action<span class="o">]</span> <span class="o">[</span>-G globpat<span class="o">]</span> <span class="o">[</span>&gt;  <span class="k">select</span> NAME <span class="o">[</span>in WORDS ... <span class="p">;</span><span class="o">]</span> <span class="k">do</span> COMMANDS<span class="p">;</span> <span class="k">done</span>
+</span></span><span class="line"><span class="cl"> compopt <span class="o">[</span>-o<span class="p">|</span>+o option<span class="o">]</span> <span class="o">[</span>-DEI<span class="o">]</span> <span class="o">[</span>name ...<span class="o">]</span>                                       <span class="nb">set</span> <span class="o">[</span>-abefhkmnptuvxBCHP<span class="o">]</span> <span class="o">[</span>-o option-name<span class="o">]</span> <span class="o">[</span>--<span class="o">]</span> <span class="o">[</span>arg ...<span class="o">]</span>
+</span></span><span class="line"><span class="cl"> <span class="k">continue</span> <span class="o">[</span>n<span class="o">]</span>                                                                   <span class="nb">shift</span> <span class="o">[</span>n<span class="o">]</span>
+</span></span><span class="line"><span class="cl"> coproc <span class="o">[</span>NAME<span class="o">]</span> <span class="nb">command</span> <span class="o">[</span>redirections<span class="o">]</span>                                           <span class="nb">shopt</span> <span class="o">[</span>-pqsu<span class="o">]</span> <span class="o">[</span>-o<span class="o">]</span> <span class="o">[</span>optname ...<span class="o">]</span>
+</span></span><span class="line"><span class="cl"> <span class="nb">declare</span> <span class="o">[</span>-aAfFgiIlnrtux<span class="o">]</span> <span class="o">[</span>-p<span class="o">]</span> <span class="o">[</span>name<span class="o">[=</span>value<span class="o">]</span> ...<span class="o">]</span>                               <span class="nb">source</span> filename <span class="o">[</span>arguments<span class="o">]</span>
+</span></span><span class="line"><span class="cl"> <span class="nb">dirs</span> <span class="o">[</span>-clpv<span class="o">]</span> <span class="o">[</span>+N<span class="o">]</span> <span class="o">[</span>-N<span class="o">]</span>                                                         <span class="nb">suspend</span> <span class="o">[</span>-f<span class="o">]</span>
+</span></span><span class="line"><span class="cl"> <span class="nb">disown</span> <span class="o">[</span>-h<span class="o">]</span> <span class="o">[</span>-ar<span class="o">]</span> <span class="o">[</span>jobspec ... <span class="p">|</span> pid ...<span class="o">]</span>                                      <span class="nb">test</span> <span class="o">[</span>expr<span class="o">]</span>
+</span></span><span class="line"><span class="cl"> <span class="nb">echo</span> <span class="o">[</span>-neE<span class="o">]</span> <span class="o">[</span>arg ...<span class="o">]</span>                                                          <span class="nb">time</span> <span class="o">[</span>-p<span class="o">]</span> pipeline
+</span></span><span class="line"><span class="cl"> <span class="nb">enable</span> <span class="o">[</span>-a<span class="o">]</span> <span class="o">[</span>-dnps<span class="o">]</span> <span class="o">[</span>-f filename<span class="o">]</span> <span class="o">[</span>name ...<span class="o">]</span>                                   <span class="nb">times</span>
+</span></span><span class="line"><span class="cl"> <span class="nb">eval</span> <span class="o">[</span>arg ...<span class="o">]</span>                                                                 <span class="nb">trap</span> <span class="o">[</span>-lp<span class="o">]</span> <span class="o">[[</span>arg<span class="o">]</span> signal_spec ...<span class="o">]</span>
+</span></span><span class="line"><span class="cl"> <span class="nb">exec</span> <span class="o">[</span>-cl<span class="o">]</span> <span class="o">[</span>-a name<span class="o">]</span> <span class="o">[</span><span class="nb">command</span> <span class="o">[</span>argument ...<span class="o">]]</span> <span class="o">[</span>redirection ...<span class="o">]</span>                <span class="nb">true</span>
+</span></span><span class="line"><span class="cl"> <span class="nb">exit</span> <span class="o">[</span>n<span class="o">]</span>                                                                       <span class="nb">type</span> <span class="o">[</span>-afptP<span class="o">]</span> name <span class="o">[</span>name ...<span class="o">]</span>
+</span></span><span class="line"><span class="cl"> <span class="nb">export</span> <span class="o">[</span>-fn<span class="o">]</span> <span class="o">[</span>name<span class="o">[=</span>value<span class="o">]</span> ...<span class="o">]</span> or <span class="nb">export</span> -p                                   <span class="nb">typeset</span> <span class="o">[</span>-aAfFgiIlnrtux<span class="o">]</span> <span class="o">[</span>-p<span class="o">]</span> name<span class="o">[=</span>value<span class="o">]</span> ...
+</span></span><span class="line"><span class="cl"> <span class="nb">false</span>                                                                          <span class="nb">ulimit</span> <span class="o">[</span>-SHabcdefiklmnpqrstuvxPT<span class="o">]</span> <span class="o">[</span>limit<span class="o">]</span>
+</span></span><span class="line"><span class="cl"> <span class="nb">fc</span> <span class="o">[</span>-e ename<span class="o">]</span> <span class="o">[</span>-lnr<span class="o">]</span> <span class="o">[</span>first<span class="o">]</span> <span class="o">[</span>last<span class="o">]</span> or <span class="nb">fc</span> -s <span class="o">[</span><span class="nv">pat</span><span class="o">=</span>rep<span class="o">]</span> <span class="o">[</span>command<span class="o">]</span>               <span class="nb">umask</span> <span class="o">[</span>-p<span class="o">]</span> <span class="o">[</span>-S<span class="o">]</span> <span class="o">[</span>mode<span class="o">]</span>
+</span></span><span class="line"><span class="cl"> <span class="nb">fg</span> <span class="o">[</span>job_spec<span class="o">]</span>                                                                  <span class="nb">unalias</span> <span class="o">[</span>-a<span class="o">]</span> name <span class="o">[</span>name ...<span class="o">]</span>
+</span></span><span class="line"><span class="cl"> <span class="k">for</span> NAME <span class="o">[</span>in WORDS ... <span class="o">]</span> <span class="p">;</span> <span class="k">do</span> COMMANDS<span class="p">;</span> <span class="k">done</span>                                   <span class="nb">unset</span> <span class="o">[</span>-f<span class="o">]</span> <span class="o">[</span>-v<span class="o">]</span> <span class="o">[</span>-n<span class="o">]</span> <span class="o">[</span>name ...<span class="o">]</span>
+</span></span><span class="line"><span class="cl"> <span class="k">for</span> <span class="o">((</span> exp1<span class="p">;</span> exp2<span class="p">;</span> exp3 <span class="o">))</span><span class="p">;</span> <span class="k">do</span> COMMANDS<span class="p">;</span> <span class="k">done</span>                                  <span class="k">until</span> COMMANDS<span class="p">;</span> <span class="k">do</span> COMMANDS<span class="p">;</span> <span class="k">done</span>
+</span></span><span class="line"><span class="cl"> <span class="k">function</span> name <span class="o">{</span> COMMANDS <span class="p">;</span> <span class="o">}</span> or name <span class="o">()</span> <span class="o">{</span> COMMANDS <span class="p">;</span> <span class="o">}</span>                         variables - Names and meanings of some shell variables
+</span></span><span class="line"><span class="cl"> <span class="nb">getopts</span> optstring name <span class="o">[</span>arg ...<span class="o">]</span>                                               <span class="nb">wait</span> <span class="o">[</span>-fn<span class="o">]</span> <span class="o">[</span>-p var<span class="o">]</span> <span class="o">[</span>id ...<span class="o">]</span>
+</span></span><span class="line"><span class="cl"> <span class="nb">hash</span> <span class="o">[</span>-lr<span class="o">]</span> <span class="o">[</span>-p pathname<span class="o">]</span> <span class="o">[</span>-dt<span class="o">]</span> <span class="o">[</span>name ...<span class="o">]</span>                                      <span class="k">while</span> COMMANDS<span class="p">;</span> <span class="k">do</span> COMMANDS<span class="p">;</span> <span class="k">done</span>
+</span></span><span class="line"><span class="cl"> <span class="nb">help</span> <span class="o">[</span>-dms<span class="o">]</span> <span class="o">[</span>pattern ...<span class="o">]</span>                                                      <span class="o">{</span> COMMANDS <span class="p">;</span> <span class="o">}</span>
+</span></span></code></pre></div></details>
+
+<h2 id="challenge-1---print-the-current-working-directory">Challenge 1 - print the current working directory</h2>
+<details>
+  <summary>
+    
+    
+    <h3>Solution</h3>
+  </summary>
+  <div>
+    
+The `pwd` built-in shows the *p*resent *w*orking *d*irectory
+
+
+  </div>
+</details>
+<h2 id="challenge-2---list-all-files-in-the-current-working-directory">Challenge 2 - List all files in the current working directory</h2>
+<p>We can not use <code>ls</code> as it is gone&hellip; Which built-in can help us?</p>
+
+<details>
+  <summary><h3>Solution</h3></summary>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> *
+</span></span></code></pre></div><p>This works because <code>echo</code> prints all its arguments to stdout. The <code>*</code> character is a wildcard character which makes <code>bash</code> perform <a href="https://www.man7.org/linux/man-pages/man7/glob.7.html">glob expansion</a>. This will expand the <code>*</code> to match all files in the directory.</p>
+</details>
+
+<h2 id="challenge-3---display-contents-of-a-file">Challenge 3 - Display contents of a file</h2>
+<p>No <code>cat</code>! We can still use <code>echo</code> to print stuff to stdout. How do we pass the file contents to <code>echo</code>?</p>
+
+<details>
+  <summary><h3>Solution</h3></summary>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;</span><span class="k">$(</span>&lt;file_name<span class="k">)</span><span class="s2">&#34;</span>
+</span></span></code></pre></div><ul>
+<li><code>&lt;file_name</code> redirects the file contents to stdin.</li>
+<li><code>$(&lt;file_name)</code> is <a href="https://www.gnu.org/software/bash/manual/html_node/Command-Substitution.html">command substitution</a> which means that bash executes the command in a sub-shell and substitutes the command with stdout of the command</li>
+<li><code>&quot;$(&lt;file_name)&quot;</code> - we wrap this in double quotes to prevent bash from expanding newlines and spaces</li>
+<li>Finally, we pass the whole string to <code>echo</code></li>
+</ul>
+</details>
+
+<h2 id="challenge-4---print-the-name-of-the-running-processes">Challenge 4 - Print the name of the running processes</h2>
+<p>We can not use <code>ps</code>. <a href="https://www.man7.org/linux/man-pages/man5/proc.5.html"><code>/proc</code></a> can be used as it is just a file system which can be read similar to how we displayed file contents earlier</p>
+
+<details>
+  <summary><h3>Solution</h3></summary>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="k">for</span> f in /proc/*/cmdline<span class="p">;</span> <span class="k">do</span> <span class="nb">echo</span> <span class="k">$(</span>&lt;<span class="nv">$f</span><span class="k">)</span><span class="p">;</span> <span class="k">done</span>
+</span></span></code></pre></div><ul>
+<li><code>/proc</code> has directories for each <code>pid</code>. In the <code>pid</code> directory for each process, there will be files for:
+<ul>
+<li><code>cmdline</code>: this shows the command line arguments passed by Linux to the process</li>
+<li><code>comm</code>: name of the process</li>
+<li><code>cwd</code>: current working directory of the process i.e where it was started</li>
+<li><code>exe</code>: symlink to the actual location of the binary being executed by the process</li>
+<li><code>status</code>: More details about the process like memory usage, signal handlers, etc</li>
+<li><code>syscall</code>: system call number and argument registers for the system call currently being executed by the process, followed by the values of the stack pointer and program counter registers</li>
+</ul>
+</li>
+<li><code>/proc/*/cmdline</code> will get <code>cmdline</code> file for all running processes</li>
+<li><code>for f in /proc/*/cmdline</code>: run a <code>for</code> loop with loop variable <code>f</code> for all the args in <code>/proc/*/cmdline</code></li>
+<li><code>echo $(&lt;$f)</code>: echo the value in <code>$f</code></li>
+</ul>
+<p>This is a nice combination of a one line for loop, globbing, command substitution and input redirection.</p>
+</details>
+
+<h2 id="challenge-5---kill-the-rogue-process">Challenge 5 - Kill the rogue process!</h2>
+<p>Now that we know which process is causing havoc, it is time to kill it before it does more damage!</p>
+
+<details>
+  <summary><h3>Solution</h3></summary>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">kill</span> -9 PID
+</span></span></code></pre></div><ul>
+<li><code>kill</code> is a bash built-in. It passes a signal to the process. In this case, we need to pass the SIGKILL signal.</li>
+<li>Running <code>kill -l</code> lists all signals with their numbers.</li>
+<li><code>kill -NUM PID</code> or <code>kill -SIGNAME PID</code> will send the signal to the process</li>
+</ul>
+</details>
+
+<h2 id="summary">Summary</h2>
+
+<details>
+  <summary><h3>All answers</h3></summary>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"> <span class="c1"># List bash builtins help</span>
+</span></span><span class="line"><span class="cl"> <span class="nb">help</span>
+</span></span><span class="line"><span class="cl"> <span class="c1"># List current directory</span>
+</span></span><span class="line"><span class="cl"> <span class="nb">pwd</span>
+</span></span><span class="line"><span class="cl"> <span class="c1"># List files in pwd</span>
+</span></span><span class="line"><span class="cl"> <span class="nb">echo</span> *
+</span></span><span class="line"><span class="cl"> <span class="c1"># Read file contents</span>
+</span></span><span class="line"><span class="cl"> <span class="nb">echo</span> <span class="s2">&#34;</span><span class="k">$(</span>&lt;file_name<span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"> <span class="c1"># Read cmdline of all running processes in proc</span>
+</span></span><span class="line"><span class="cl"> <span class="k">for</span> f in /proc/*/cmdline<span class="p">;</span> <span class="k">do</span> <span class="nb">echo</span> <span class="k">$(</span>&lt;<span class="nv">$f</span><span class="k">)</span><span class="p">;</span> <span class="k">done</span>
+</span></span><span class="line"><span class="cl"> <span class="c1"># Kill process</span>
+</span></span><span class="line"><span class="cl"> <span class="nb">kill</span> -9 PID
+</span></span></code></pre></div></details>
+
+]]></content>
+    
+  </entry>
   <entry>
     <title type="html"><![CDATA[HTML toggle headings using Details Summary element and some CSS]]></title>
     <link href="https://rrampage.github.io/2025/03/06/html-toggle-headings-using-details-summary-element-and-some-css/"/>

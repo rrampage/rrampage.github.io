@@ -3,10 +3,22 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://rrampage.github.io/</loc>
-    <lastmod>2025-04-12T17:53:35+05:30</lastmod>
+    <lastmod>2025-05-20T14:44:24+05:30</lastmod>
+  </url><url>
+    <loc>https://rrampage.github.io/tags/bash/</loc>
+    <lastmod>2025-05-20T14:44:24+05:30</lastmod>
+  </url><url>
+    <loc>https://rrampage.github.io/2025/05/20/bash-oops-i-deleted-my-bin-dir-challenge/</loc>
+    <lastmod>2025-05-20T14:44:24+05:30</lastmod>
+  </url><url>
+    <loc>https://rrampage.github.io/tags/linux/</loc>
+    <lastmod>2025-05-20T14:44:24+05:30</lastmod>
   </url><url>
     <loc>https://rrampage.github.io/post/</loc>
-    <lastmod>2025-04-12T17:53:35+05:30</lastmod>
+    <lastmod>2025-05-20T14:44:24+05:30</lastmod>
+  </url><url>
+    <loc>https://rrampage.github.io/tags/</loc>
+    <lastmod>2025-05-20T14:44:24+05:30</lastmod>
   </url><url>
     <loc>https://rrampage.github.io/tags/css/</loc>
     <lastmod>2025-03-06T14:40:15+05:30</lastmod>
@@ -15,9 +27,6 @@
     <lastmod>2025-03-06T14:40:15+05:30</lastmod>
   </url><url>
     <loc>https://rrampage.github.io/2025/03/06/html-toggle-headings-using-details-summary-element-and-some-css/</loc>
-    <lastmod>2025-03-06T14:40:15+05:30</lastmod>
-  </url><url>
-    <loc>https://rrampage.github.io/tags/</loc>
     <lastmod>2025-03-06T14:40:15+05:30</lastmod>
   </url><url>
     <loc>https://rrampage.github.io/2025/02/24/an-apl-a-day-caesar-salad/</loc>
@@ -56,13 +65,7 @@
     <loc>https://rrampage.github.io/tags/security/</loc>
     <lastmod>2020-05-28T10:42:07+00:00</lastmod>
   </url><url>
-    <loc>https://rrampage.github.io/tags/bash/</loc>
-    <lastmod>2020-05-25T17:32:54+00:00</lastmod>
-  </url><url>
     <loc>https://rrampage.github.io/tags/git/</loc>
-    <lastmod>2020-05-25T17:32:54+00:00</lastmod>
-  </url><url>
-    <loc>https://rrampage.github.io/tags/linux/</loc>
     <lastmod>2020-05-25T17:32:54+00:00</lastmod>
   </url><url>
     <loc>https://rrampage.github.io/tags/systemd/</loc>
